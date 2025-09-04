@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-
+      
     public void Awake()
     {
         InstanteHealthBar();
@@ -15,6 +15,7 @@ public class Health : MonoBehaviour
     void InstanteHealthBar()
     {
         GameObject rectHealthBar = new GameObject();
+        rectHealthBar.AddComponent<RectTransform>();
     }
 }
 
@@ -31,7 +32,7 @@ public class Test: Editor
         base.OnInspectorGUI();
         serializedObject.Update();
 
-        centeredStyle = new GUIStyle(centeredStyle)
+        centeredStyle = new GUIStyle(GUI.skin.label)
         {
             alignment = TextAnchor.MiddleCenter,
             fontStyle = FontStyle.Bold,
