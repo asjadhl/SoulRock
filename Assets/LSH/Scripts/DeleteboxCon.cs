@@ -12,19 +12,14 @@ public class DeleteboxCon : MonoBehaviour
 
     void DistCheck()
     {
-        
-
-        // World Corners 가져오기
-        Vector3[] cornersA = new Vector3[4];
-        Vector3[] cornersB = new Vector3[4];
-        rectA.GetWorldCorners(cornersA);
-        rectB.GetWorldCorners(cornersB);
-
-        // 중심 거리
-        Vector3 centerA = (cornersA[0] + cornersA[2]) * 0.5f;
-        Vector3 centerB = (cornersB[0] + cornersB[2]) * 0.5f;
-        float dist = Vector3.Distance(centerA, centerB);
-        Debug.Log(dist);
+        float dist = Vector2.Distance(rectA.position, rectB.position);
+        Debug.Log($"Distance: {dist}");
+        if (dist < 10f) // 임계값(겹침 판단 거리)
+        {
+            DotBoxGeneratorL.Instance.ReturnDot(rectA.gameObject); //비활성화
+            DotBoxGeneratorR.Instance.ReturnDot(rectB.gameObject); //비활성화
+            Debug.Log("히트박스 겹침 → 비활성화");
+        }
     }
 
 }

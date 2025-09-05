@@ -57,6 +57,7 @@ public class DotBoxGeneratorL : MonoBehaviour
         while (true)
         {
            // 도트 생성
+           Debug.Log("도트박스 생성");
             GameObject dotA = GetDotBox();
             dotA.transform.position = transform.position;
             // 2초 대기
