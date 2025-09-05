@@ -6,7 +6,6 @@ public class DotBoxCon : MonoBehaviour
     
     [Header("도트속도")]
     public float moveSpeed = 100f;
-
     RectTransform dotboxImage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,11 +29,13 @@ public class DotBoxCon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Hitbox"))
+        if (col.CompareTag("Deletebox"))
         {
             DotBoxGenerator.Instance.ReturnDot(this.gameObject); //도트박스 비활성화
         }
+        
     }
+   
     void MakeACol()
     {
         RectTransform rectTransform = GetComponent<RectTransform>();
@@ -44,4 +45,6 @@ public class DotBoxCon : MonoBehaviour
         collider.size = rectTransform.rect.size/10;
         collider.offset = rectTransform.rect.center;//중심임.
     }
+
+
 }
