@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class DotBoxCon : MonoBehaviour
+//[RequireComponent(typeof(BoxCollider2D))]
+public class DotBoxConR : MonoBehaviour
 {
     
     [Header("도트속도")]
@@ -10,7 +10,7 @@ public class DotBoxCon : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+         dotboxImage = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -25,5 +25,8 @@ public class DotBoxCon : MonoBehaviour
     {
         dotboxImage.anchoredPosition += new Vector2(-moveSpeed * Time.deltaTime, 0);
     }
-
+    void DeleteDotbox()
+    {
+        DotBoxGeneratorR.Instance.ReturnDot(this.gameObject);
+    }
 }
