@@ -7,7 +7,7 @@ public class DotBoxGeneratorR : MonoBehaviour
     [Header("도트박스 프리팹")]
     [SerializeField] GameObject dotboxPrefabR;
     [Header("생성타이밍")]
-    int dotboxTime = 500;
+    [SerializeField] int dotboxTime = 500;
     public GameObject[] poolR;
     private int pivot = 0;
 
