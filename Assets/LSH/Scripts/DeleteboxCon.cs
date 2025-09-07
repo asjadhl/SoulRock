@@ -44,8 +44,9 @@ public class DeleteboxCon : MonoBehaviour
                     distLeftTarget <= hitThreshold &&
                     distRightTarget <= hitThreshold)
                 {
-                    left.gameObject.SetActive(false);
-                    right.gameObject.SetActive(false);
+                    
+                    DotBoxGeneratorL.Instance.ReturnDot(left.gameObject);
+                    DotBoxGeneratorR.Instance.ReturnDot(right.gameObject);
 
                     Debug.Log("좌/우 도트 충돌 + 중앙 목표 근접 → 비활성화");
 

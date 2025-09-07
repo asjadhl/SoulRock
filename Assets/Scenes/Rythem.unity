@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotboxPrefabR: {fileID: 6043420594518806999, guid: ced05b9e6900cd547b44c9dfa18d082c, type: 3}
-  dotboxTime: 500
+  dotboxTime: 400
   poolR: []
 --- !u!1 &539917658
 GameObject:
@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotboxPrefabL: {fileID: 6043420594518806999, guid: 4416be17024308947ac545ec174af71f, type: 3}
-  dotboxTime: 500
+  dotboxTime: 400
   poolL: []
 --- !u!1 &1186693774
 GameObject:
@@ -603,33 +603,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341030584}
   m_CullTransparentMesh: 1
---- !u!50 &1341030590
-Rigidbody2D:
-  serializedVersion: 5
+--- !u!114 &1341030590
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341030584}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5695ceb6c8acb4a4aa765403fce6ebe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minClick: 100
+  maxClick: 200
+  leftDotBox: {fileID: 1145965523}
+  rightDotBox: {fileID: 515483280}
 --- !u!1 &1570253906
 GameObject:
   m_ObjectHideFlags: 0
