@@ -19,8 +19,8 @@ public enum UISpace
 public class Health: MonoBehaviour, IDamageable
 {
 
-
-
+    [Header("Health(0.4v)")]
+    [Space(5)]
     [Header("Canvas")]
     [SerializeField] private GameObject m_Canvas;
     [SerializeField] private UISpace uiSpace;
@@ -52,14 +52,9 @@ public class Health: MonoBehaviour, IDamageable
 
 
     #region Initialize
-    public void Awake()
+    public void Start()
     {
-
-      
-
-
-       
-
+        
         switch (uiSpace)
         {
             case UISpace.ScreenSpaceUI:
