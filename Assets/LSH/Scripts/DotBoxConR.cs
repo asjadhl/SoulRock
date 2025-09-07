@@ -3,30 +3,31 @@ using UnityEngine;
 //[RequireComponent(typeof(BoxCollider2D))]
 public class DotBoxConR : MonoBehaviour
 {
-    
-    [Header("도트속도")]
-    public float moveSpeed = 100f;
+    [Header("도트 속도")]
+    public float moveSpeed = 400f;
     RectTransform dotboxImage;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    DeleteboxCon deleteboxCon;
+
     void Start()
     {
-         dotboxImage = GetComponent<RectTransform>();
+        dotboxImage = GetComponent<RectTransform>();
+        deleteboxCon = FindAnyObjectByType<DeleteboxCon>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (dotboxImage != null)
-        {
-            MoveToDotbox();
-        }
+        MoveToTarget();
     }
-    void MoveToDotbox()
+
+    void MoveToTarget()
     {
-        dotboxImage.anchoredPosition += new Vector2(-moveSpeed * Time.deltaTime, 0);
-    }
-    void DeleteDotbox()
-    {
-        DotBoxGeneratorR.Instance.ReturnDot(this.gameObject);
+        if (dotboxImage == null || deleteboxCon.targetImage == null) return;
+
+        Vector3 targetPos = deleteboxCon.targetImage.position; // world 기준
+        dotboxImage.position = Vector3.MoveTowards(
+            dotboxImage.position,
+            targetPos,
+            moveSpeed * Time.deltaTime
+        );
     }
 }

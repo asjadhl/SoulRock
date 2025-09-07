@@ -6,6 +6,8 @@ public class DotBoxGeneratorL : MonoBehaviour
 
     [Header("도트박스 프리팹")]
     [SerializeField] GameObject dotboxPrefabL;
+    [Header("생성타이밍")]
+    [SerializeField] int dotboxTime = 500;
     public GameObject[] poolL;
     private int pivot = 0;
 
@@ -24,7 +26,7 @@ public class DotBoxGeneratorL : MonoBehaviour
 
     void Start()
     {
-        poolL = new GameObject[20];
+        poolL = new GameObject[10];
         for(int i = 0; i < poolL.Length; i++)
         {
             GameObject dotA = Instantiate(dotboxPrefabL, transform);
@@ -51,16 +53,18 @@ public class DotBoxGeneratorL : MonoBehaviour
     public void ReturnDot(GameObject dot) //비활성화용도
     {
         dot.SetActive(false);
+        dot.transform.position = transform.position; // 위치 초기화
     }
     private async UniTask DotBoxGen()
     {
         while (true)
         {
            // 도트 생성
+           Debug.Log("도트박스 생성");
             GameObject dotA = GetDotBox();
             dotA.transform.position = transform.position;
             // 2초 대기
-            await UniTask.Delay(2000);
+            await UniTask.Delay(dotboxTime);
         }
     }
 }
