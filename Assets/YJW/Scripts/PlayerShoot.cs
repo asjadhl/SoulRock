@@ -5,7 +5,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] Camera camera;
     private void Update()
     {
-
+        PlayerShoot_();
     }
 
     public void PlayerShoot_()

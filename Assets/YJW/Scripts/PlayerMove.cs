@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    float playerJumpForce = 10f;
+    float playerJumpForce = 13f;
     private Rigidbody playerRb;
     private bool isGrounded = true;
 
