@@ -5,7 +5,7 @@ using UnityEngine;
 public class DeleteboxCon : MonoBehaviour
 {
     [Header("충돌 거리")]
-    public float hitThreshold = 50f;
+    public float hitThreshold = 5f;
 
     [Header("중앙 목표")]
     public RectTransform targetImage;

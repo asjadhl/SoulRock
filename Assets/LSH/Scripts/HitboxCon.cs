@@ -15,10 +15,9 @@ public class HitBoxCon: MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0)) 
-        {
+        
             TryClick();
-        }
+        
     }
 
     private void TryClick() //거리 구해서 
@@ -38,17 +37,14 @@ public class HitBoxCon: MonoBehaviour
 
                 float distLeftRight = Vector2.Distance(left.position, right.position);
 
-                if (distLeftRight >= minClick && distLeftRight <= maxClick)
+                if (Input.GetMouseButtonDown(0)&&distLeftRight >= minClick && distLeftRight <= maxClick)
                 {
                     OnClickSuccess();
                     DotBoxGeneratorL.Instance.ReturnDot(left.gameObject);
                     DotBoxGeneratorR.Instance.ReturnDot(right.gameObject);
                     break;
                 }
-                else
-                {
-                    Debug.Log($"클릭 실패. 현재 거리: {distLeftRight:F1}");
-                }
+
             }
         }
     }
@@ -56,7 +52,8 @@ public class HitBoxCon: MonoBehaviour
     private void OnClickSuccess()
     {
         
-        Debug.Log("클릭 성공!");
+            Debug.Log("클릭 성공!");
+        
         // 클릭 성공 시 처리할 로직
         // 예: 좌/우 도트 비활성화, 점수 증가 등
     }
