@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-interface IDamageable
+interface IDamagable
 {
    public void TakeHit(int _damage);
 }
@@ -16,7 +16,7 @@ public enum UISpace
     WorldSpaceUI     // UI on a World Space Canvas
 }
 
-public class Health: MonoBehaviour, IDamageable
+public class Health: MonoBehaviour, IDamagable
 {
 
     [Header("Health(0.4v)")]
