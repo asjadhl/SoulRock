@@ -163,6 +163,9 @@ public class Health: MonoBehaviour, IDamagable
         if (Input.GetKeyDown(KeyCode.Space))
             TakeHit(dmg);
 
+        if (m_CurrentHealth <= 0)
+            Destroy(gameObject);
+
         HealthBarAnimation();
     }
 }

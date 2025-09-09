@@ -2,7 +2,9 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Loading;
+using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 
 
@@ -18,6 +20,8 @@ public class Wave
 {
     public List<Formation> m_formations;
     public Transform m_ScanningArea;
+    [Range(0,10f)]public float arcHeight = 2f;
+    
 }
 
 public class EnemySpawner : MonoBehaviour
@@ -42,6 +46,15 @@ public class EnemySpawner : MonoBehaviour
 
         if (m_currentPlayer == null)
             gameObject.SetActive(false);
+
+
+        //Get All SpawnPoint Auto
+        SpawnPoint = new List<GameObject>();    
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            SpawnPoint.Add(transform.GetChild(i).gameObject);
+
+        }
     }
     public void Update()
     {
@@ -58,15 +71,11 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnNow(Wave _wave)
     {
 
-        float m_timer = 0f;
+      
 
         for (int i = 0; i < _wave.m_formations.Count; i++)
         {
-            while (true)
-            {
-                m_timer += Time.deltaTime;
-                if (m_timer >= m_SpawnRate)
-                {
+
 
                     for (int index = 0; index < _wave.m_formations[i].m_enemies.Count; index++)
                     {
@@ -76,17 +85,67 @@ public class EnemySpawner : MonoBehaviour
                         {
                             Instantiate(_wave.m_formations[i].m_enemies[index], SpawnPoint[Mathf.Clamp(index, 0, 7)].transform.position, Quaternion.identity);
                         }
-                    }
-                    break;
 
-                }
+                  
+                    }    
+
+            yield return new WaitForSeconds(m_SpawnRate);
+        }
+    }
+}
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(EnemySpawner))]
+public class ShowScanner : Editor
+{
+    void OnSceneGUI()
+    {
+        EnemySpawner t = (EnemySpawner)target;
+        if (t.m_waves == null) return;
+
+        for (int i = 0; i < t.m_waves.Count; i++)
+        {
+            var wave = t.m_waves[i];
+
+            if (wave.m_ScanningArea != null)
+            {
+                Vector3 start = t.transform.position;
+                Vector3 end = wave.m_ScanningArea.position;
+ 
+
+            
+
+          
+
+ 
+                // Midpoint for curved arrow
+                Vector3 mid = (start + end) * 0.5f;
+                mid.y += wave.arcHeight;
+
+                // Determine color based on index
+                Color arrowColor = Color.HSVToRGB(i / (float)t.m_waves.Count, 1f, 1f);
+
+
+
+               
+                Handles.DrawBezier(start, end, mid, mid, arrowColor, null, 1f);
+              
+                // Arrowhead at the end
+                Handles.ArrowHandleCap(
+                    0,
+                    end,
+                    Quaternion.LookRotation(end - mid),
+                    1f,
+                    EventType.Repaint
+                );
+
+                // Optional: label with index
+                Handles.Label(end + Vector3.up * 0.5f, $"Scanning_Area {i}");
             }
-            m_timer = 0;
         }
 
-        yield return null;
+
+
     }
-
-
-
 }
+#endif
