@@ -14,10 +14,21 @@ public class PlayerShoot : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            
             if (Physics.Raycast(ray, out hit, 100f) && hit.collider.gameObject.tag == "Enemy")
             {
                 Destroy(hit.collider.gameObject);
             }
+               
+            // Health.cs
+            //if (Physics.Raycast(ray, out hit, 100f))
+            //{
+            //    IDamagable damagable = hit.collider.GetComponent<IDamagable>();
+            //    if (damagable != null)
+            //    {
+            //        damagable.TakeHit(1);
+            //    }
+            //}
         }
     }
 }

@@ -58,6 +58,8 @@ public class EnemyMonstersss : MonoBehaviour
             idamage.TakeHit(m_damage);
         }
 
+        //Monster Die Animation
+
         Destroy(gameObject);
     }
 }

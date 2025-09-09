@@ -1,11 +1,9 @@
-using JetBrains.Annotations;
+
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Loading;
+using System.Collections.Generic; 
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-
+ 
 
 
 
@@ -31,10 +29,10 @@ public class EnemySpawner : MonoBehaviour
     [Range(0, 10)] public float m_SpawnRate;
     public List<Wave> m_waves;
 
-    int GetRandomIndex(int min, int max)
-    {
-        return Random.Range(min, max);
-    }
+    public float m_radiusTriggered;
+    public List<GameObject> Enemies;
+    Transform prevScanArea;
+
     public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
     {
         return (pos - center).sqrMagnitude <= radius * radius;
@@ -60,18 +58,19 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < m_waves.Count; i++)
         {
-            if (IsInsideCircle(m_currentPlayer.position, m_waves[i].m_ScanningArea.position, 4f))
+            if (IsInsideCircle(m_currentPlayer.position, m_waves[i].m_ScanningArea.position, m_radiusTriggered))
             {
                 StartCoroutine(SpawnNow(m_waves[i]));
                 m_waves.Remove(m_waves[i]);
             }
+         
         }
     }
 
     IEnumerator SpawnNow(Wave _wave)
     {
 
-      
+        prevScanArea = _wave.m_ScanningArea;
 
         for (int i = 0; i < _wave.m_formations.Count; i++)
         {
@@ -90,7 +89,44 @@ public class EnemySpawner : MonoBehaviour
                     }    
 
             yield return new WaitForSeconds(m_SpawnRate);
+
+           
         }
+        CreateRandomEnemy();
+    }
+
+
+    void CreateRandomEnemy()
+    {
+         
+
+       Wave wave = new Wave();
+        wave.m_ScanningArea = prevScanArea;
+       wave.m_formations = new List<Formation>();
+        for(int i=0;i<3;i++) //three formation
+        {
+            Formation newformation = new Formation();
+            newformation.m_enemies = new List<GameObject>();
+            for(int j=0;j<10;j++)
+            {
+                if (Random.value < 0.5f)
+                {
+                    newformation.m_enemies.Add(null);
+
+                }
+                else
+                {
+                    int randomIndex = Random.Range(0, Enemies.Count);
+
+                    newformation.m_enemies.Add(Enemies[randomIndex]);
+                }
+                
+            }
+            wave.m_formations.Add(newformation);
+
+        }
+
+        m_waves.Add(wave);
     }
 }
 
