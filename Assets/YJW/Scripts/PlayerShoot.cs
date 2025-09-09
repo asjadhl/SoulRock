@@ -3,9 +3,15 @@ using UnityEngine;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] Camera camera;
+    private GameObject boss;
+
+    private void Start()
+    {
+        boss = GameObject.FindWithTag("Boss");
+    }
     private void Update()
     {
-        //PlayerShoot_();
+        PlayerShoot_();
     }
 
     public void PlayerShoot_()
@@ -15,10 +21,14 @@ public class PlayerShoot : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             
-            if (Physics.Raycast(ray, out hit, 100f) && hit.collider.gameObject.tag == "Enemy")
+            if (Physics.Raycast(ray, out hit, 100f))
             {
-                Destroy(hit.collider.gameObject);
+                if(hit.collider.gameObject.tag == "Enemy")
+                    Destroy(hit.collider.gameObject);
+                if(hit.collider.gameObject.tag == "Bullet2")
+                    boss.GetComponent<BossAttack>().bullet.GetComponent<BossBullet>().BackToBoss();
             }
+
                
             // Health.cs
             //if (Physics.Raycast(ray, out hit, 100f))

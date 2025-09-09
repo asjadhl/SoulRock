@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4155907943490007828}
   - component: {fileID: 7753889663462076577}
   - component: {fileID: 8452011231023363137}
-  - component: {fileID: 7041483609417942875}
+  - component: {fileID: 6043353057102487435}
   m_Layer: 0
-  m_Name: BossBullet
+  m_Name: BossBullet 2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f87d1414be03ad44b8da2ee0cb0de345, type: 2}
+  - {fileID: 2100000, guid: 10d922ccb38e43549aac3d1407d7c37c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,7 +137,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7041483609417942875
+--- !u!114 &6043353057102487435
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
