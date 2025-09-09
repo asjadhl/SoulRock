@@ -44,7 +44,6 @@ public class HitBoxCon: MonoBehaviour
                     DotBoxGeneratorR.Instance.ReturnDot(right.gameObject);
                     break;
                 }
-
             }
         }
     }

@@ -64,7 +64,7 @@ public class DotBoxGeneratorL : MonoBehaviour
             GameObject dotA = GetDotBox();
             dotA.transform.position = transform.position;
             // 2초 대기
-            await UniTask.Delay(dotboxTime);
+            await UniTask.Delay(dotboxTime); //일반 Delay는 실제시간 기준임.
         }
     }
 }
