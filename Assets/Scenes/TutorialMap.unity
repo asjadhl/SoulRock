@@ -150,7 +150,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pools:
   - tag: Corridor
-    prefab: {fileID: 8789495499795504777, guid: 6a4a9a5f9697bd24ab7faf9e24c45fdb, type: 3}
+    prefab: {fileID: 6511208495608840012, guid: 6a4a9a5f9697bd24ab7faf9e24c45fdb, type: 3}
+    size: 10
+  - tag: Corridor
+    prefab: {fileID: 3652183496715951913, guid: cb084da15d869c74eb969c523cc2823a, type: 3}
     size: 10
 --- !u!4 &790706014
 Transform:
@@ -229,9 +232,10 @@ GameObject:
   - component: {fileID: 1785049485}
   - component: {fileID: 1785049484}
   - component: {fileID: 1785049483}
+  - component: {fileID: 1785049486}
   m_Layer: 0
-  m_Name: Cube
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -245,7 +249,7 @@ Transform:
   m_GameObject: {fileID: 1785049481}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.99, y: -4.38, z: 0}
+  m_LocalPosition: {x: 4.99, y: -8.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -266,7 +270,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -325,6 +329,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785049481}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1785049486
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785049481}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1932013462
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +487,7 @@ Transform:
   m_GameObject: {fileID: 1932013462}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.4, y: -2.74, z: -11.04}
+  m_LocalPosition: {x: 5.01, y: -7.38, z: -11.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
