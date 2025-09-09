@@ -13,6 +13,7 @@ public class HitBoxCon: MonoBehaviour
     public Transform leftDotBox;
     public Transform rightDotBox;
 
+    [SerializeField] GameObject player;
     private void Update()
     {
         
@@ -50,7 +51,7 @@ public class HitBoxCon: MonoBehaviour
 
     private void OnClickSuccess()
     {
-        
+        player.GetComponent<PlayerShoot>().PlayerShoot_();
             Debug.Log("클릭 성공!");
         
         // 클릭 성공 시 처리할 로직
