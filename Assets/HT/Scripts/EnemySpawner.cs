@@ -121,7 +121,7 @@ public class EnemySpawner : MonoBehaviour
                 {
                      
 
-                    newformation.m_enemies.Add(GameManager.instance.GetRandomEnemies);
+                    //newformation.m_enemies.Add(GameManager.instance.GetRandomEnemies);
                 }
                 
             }

@@ -19,11 +19,15 @@ public class EnemyGhost : MonoBehaviour
     [SerializeField]
     int m_damage;
 
-  
+
+    [SerializeField]
+    private Animator m_anim;
+
+
     private void Awake()
     {
-       
-        PlayerPos = GameObject.FindWithTag("Player").transform;
+        
+         PlayerPos = GameObject.FindWithTag("Player").transform;
         if (PlayerPos == null)
             gameObject.SetActive(false);
 
@@ -58,6 +62,7 @@ public class EnemyGhost : MonoBehaviour
     {
 
         transform.position += new Vector3(0, 0, -m_speed) * Time.deltaTime;
+        m_anim.SetFloat("MoveX", -m_speed);
 
         if (CloseToPlayer())
         {
@@ -68,7 +73,7 @@ public class EnemyGhost : MonoBehaviour
 
   public  void DieAnimation()
   {
-     //animator.Play()
+        //m_anim.Play();
   }
 
     public void Attack()

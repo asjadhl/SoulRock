@@ -1,14 +1,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
+
+public enum EntityType
+{
+    Walker,Fly
+}
+
+[System.Serializable]
+public class EnemiesType
+{
+    public  GameObject gameObject;
+    public  EntityType type;
+}
+
 public class GameManager : MonoBehaviour
 { 
 
+
+
     public static GameManager instance;
 
-    public List<GameObject> GhostEnemies;
+    public List<EnemiesType> GhostEnemies;
 
-    public GameObject GetRandomEnemies
+    public EnemiesType GetRandomEnemies
     {
 
         get { return GhostEnemies[Random.Range(0,GhostEnemies.Count)]; }
