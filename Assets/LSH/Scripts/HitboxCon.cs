@@ -1,27 +1,32 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-//일단 해야할 것.
+//일단 해야할 것. 0.밥먹으러가기
 //1. 거리로 제거랑 클릭판정만들기.
 public class HitBoxCon: MonoBehaviour
 {
-    [Header("클릭 가능 거리 범위")]
+    [Header("Click distance")]
     public float minClick = 100f;
     public float maxClick = 200f;
 
-    [Header("좌/우 도트 부모")]
+    [Header("Left Right dot parents")]
     public Transform leftDotBox;
     public Transform rightDotBox;
+    AudioSource a;
+    [SerializeField] AudioClip clip;
+    //[SerializeField] GameObject player;
+    private void Start()
+    {
+        a = GetComponent<AudioSource>();
+    }
 
-    [SerializeField] GameObject player;
     private void Update()
     {
-        
             TryClick();
         
     }
 
-    private void TryClick() //거리 구해서 
+    private void TryClick() //GURI GUHASU 
     {
         RectTransform[] leftDots = leftDotBox.GetComponentsInChildren<RectTransform>();
         RectTransform[] rightDots = rightDotBox.GetComponentsInChildren<RectTransform>();
@@ -38,7 +43,7 @@ public class HitBoxCon: MonoBehaviour
 
                 float distLeftRight = Vector2.Distance(left.position, right.position);
 
-                if (Input.GetMouseButtonDown(0)&&distLeftRight >= minClick && distLeftRight <= maxClick)
+                if (Input.GetKeyDown(KeyCode.Space)&&distLeftRight >= minClick && distLeftRight <= maxClick)
                 {
                     OnClickSuccess();
                     DotBoxGeneratorL.Instance.ReturnDot(left.gameObject);
@@ -51,8 +56,10 @@ public class HitBoxCon: MonoBehaviour
 
     private void OnClickSuccess()
     {
-        player.GetComponent<PlayerShoot>().PlayerShoot_();
-        Debug.Log("클릭 성공!");
+
+        a.PlayOneShot(clip);
+        //player.GetComponent<PlayerShoot>().PlayerShoot_();
+        Debug.Log("CLICK SUNGGONG!");
         
         // 클릭 성공 시 처리할 로직
         // 예: 좌/우 도트 비활성화, 점수 증가 등
