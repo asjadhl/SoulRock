@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    [SerializeField] Camera camera;
+   
     private GameObject boss;
 
     private void Start()

@@ -27,36 +27,33 @@ public class T : MonoBehaviour
     [SerializeField]
     RectTransform rectTransform;
 
-    [SerializeField]
-    private CanvasScaler m_canvasScaler;
+    
 
     [SerializeField]
-    private Vector2 CanvasScalar;
+    private Vector2 DesirableCanvasSize;
 
     private void Awake()
     {   
         if (rectTransform == null)
             gameObject.SetActive(false);
 
-        FindCanvasScalar();
+         
+       SetSize();
 
-        SetSize();
-       
-       
+        BoxCollider2D NewBox = rectTransform.AddComponent<BoxCollider2D>();
+
+        //rectTransform.anchorMin = new Vector2 (0, 0);
+        //rectTransform.anchorMax = new Vector2(0, 0);
+        //rectTransform.position 
+
+
+        NewBox.size = new Vector2(WidthSize, HeightSize);
+
+        rectTransform.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
     }
 
 
-    void FindCanvasScalar()
-    {
-        m_canvasScaler = GameObject.Find("Canvas").GetComponent<CanvasScaler>();
-
-        if (m_canvasScaler != null)
-        {
-             m_canvasScaler.matchWidthOrHeight = 0;
-             m_canvasScaler.referenceResolution = CanvasScalar;
-
-        }
-    }
+    
 
     private void Update()
     {
@@ -85,8 +82,8 @@ public class T : MonoBehaviour
 
         Vector2 half = new Vector2(WidthSize / 2f, HeightSize / 2f);
 
-        rectTransform.anchorMin = new Vector2((Position.x- half.x) / m_canvasScaler.referenceResolution.x, ( Position.y-half.y) / m_canvasScaler.referenceResolution.y);
-        rectTransform.anchorMax = new Vector2((Position.x+half.x) / m_canvasScaler.referenceResolution.x, (Position.y+half.y)/ m_canvasScaler.referenceResolution.y);
+        rectTransform.anchorMin = new Vector2((Position.x- half.x) / DesirableCanvasSize.x, ( Position.y-half.y) / DesirableCanvasSize.y);
+        rectTransform.anchorMax = new Vector2((Position.x+half.x) / DesirableCanvasSize.x, (Position.y+half.y)/ DesirableCanvasSize.y);
 
 
         // pos 2,2

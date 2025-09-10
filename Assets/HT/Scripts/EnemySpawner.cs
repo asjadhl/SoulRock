@@ -1,6 +1,7 @@
 
 using System.Collections;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEditor;
 using UnityEngine;
  
@@ -30,7 +31,6 @@ public class EnemySpawner : MonoBehaviour
     public List<Wave> m_waves;
 
     public float m_radiusTriggered;
-    public List<GameObject> Enemies;
     Transform prevScanArea;
 
     public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
@@ -40,6 +40,9 @@ public class EnemySpawner : MonoBehaviour
 
     public void Awake()
     {
+
+        gameObject.SetActive(true);
+
         m_currentPlayer = GameObject.FindWithTag("Player").transform;
 
         if (m_currentPlayer == null)
@@ -116,9 +119,9 @@ public class EnemySpawner : MonoBehaviour
                 }
                 else
                 {
-                    int randomIndex = Random.Range(0, Enemies.Count);
+                     
 
-                    newformation.m_enemies.Add(Enemies[randomIndex]);
+                    newformation.m_enemies.Add(GameManager.instance.GetRandomEnemies);
                 }
                 
             }
@@ -161,7 +164,7 @@ public class ShowScanner : Editor
                 // Determine color based on index
                 Color arrowColor = Color.HSVToRGB(i / (float)t.m_waves.Count, 1f, 1f);
 
-
+               
 
                
                 Handles.DrawBezier(start, end, mid, mid, arrowColor, null, 1f);
@@ -177,6 +180,12 @@ public class ShowScanner : Editor
 
                 // Optional: label with index
                 Handles.Label(end + Vector3.up * 0.5f, $"Scanning_Area {i}");
+
+                Handles.color = Color.cyan;
+
+                Handles.DrawWireDisc(end, Vector3.up, t.m_radiusTriggered);
+
+
             }
         }
 

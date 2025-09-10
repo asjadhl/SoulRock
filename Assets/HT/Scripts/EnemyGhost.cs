@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyMonstersss : MonoBehaviour
+public class EnemyGhost : MonoBehaviour
 {
 
 
@@ -18,14 +18,23 @@ public class EnemyMonstersss : MonoBehaviour
     [Range(0f, 10f)] float m_speed;
     [SerializeField]
     int m_damage;
+
+  
     private void Awake()
     {
+       
         PlayerPos = GameObject.FindWithTag("Player").transform;
         if (PlayerPos == null)
             gameObject.SetActive(false);
 
 
-        m_speed += MapScrollSpeed;
+      var va = FindAnyObjectByType<CorridorSpawner>();
+
+        if (va != null)
+        {
+         MapScrollSpeed = va.moveSpeed;
+            m_speed += MapScrollSpeed;
+        }
     }
 
     public bool CloseToPlayer()
@@ -36,6 +45,13 @@ public class EnemyMonstersss : MonoBehaviour
         }
         else
             return false;
+
+        //if (Vector3.Distance(transform.position,PlayerPos.position) <= AttackTriggeredRange)
+        //{
+        //    return true;
+        //}
+        //else
+        //    return false;
     }
 
     private void Update()
@@ -50,13 +66,15 @@ public class EnemyMonstersss : MonoBehaviour
     }
 
 
+  public  void DieAnimation()
+  {
+     //animator.Play()
+  }
+
     public void Attack()
     {
         IDamagable idamage = PlayerPos.GetComponent<IDamagable>();
-        if (idamage != null)
-        {
-            idamage.TakeHit(m_damage);
-        }
+        idamage?.TakeHit(m_damage);
 
         //Monster Die Animation
 

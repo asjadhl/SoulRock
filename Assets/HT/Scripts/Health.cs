@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+
+
+
+
 interface IDamagable
 {
    public void TakeHit(int _damage);
@@ -24,6 +28,8 @@ public class Health: MonoBehaviour, IDamagable
     [Header("Canvas")]
     [SerializeField] private GameObject m_Canvas;
     [SerializeField] private UISpace uiSpace;
+    [Header("HIDE")]
+    [SerializeField] private bool IsHide;
     [Header("Prefab")]
     [SerializeField] GameObject m_Prefab;
 
@@ -51,6 +57,15 @@ public class Health: MonoBehaviour, IDamagable
     #endregion
 
 
+    
+
+
+
+
+    
+
+
+
     #region Initialize
     public void Start()
     {
@@ -67,18 +82,20 @@ public class Health: MonoBehaviour, IDamagable
                     if (m_Canvas == null)
                     {
                         m_Canvas = new GameObject("Canvas");
+                        #region CreateCanvas.AddComponent
                         m_Canvas.AddComponent<Canvas>();
                         m_Canvas.AddComponent<CanvasScaler>();
                         m_Canvas.AddComponent<GraphicRaycaster>();
                         m_Canvas.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+                        #endregion
                     }
-                    
+
 
                     m_healthBar = Instantiate(m_Prefab, m_Canvas.transform, false);
                 }
                 break;
             case UISpace.WorldSpaceUI:
-                #region CreateCanvas
+                #region CreateCanvas.AddComponent
 
                 //Basic
                 GameObject m_canvas = new GameObject("Canvas");
@@ -87,16 +104,18 @@ public class Health: MonoBehaviour, IDamagable
                 m_canvas.AddComponent<CanvasScaler>();
                 m_canvas.AddComponent<GraphicRaycaster>();
                 #endregion
-                
+
+                #region ModifyCanvasComponent
                 m_canvas.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
                 RectTransform canvasrectransform = m_canvas.GetComponent<RectTransform>();
                 m_canvas.GetComponent<Canvas>().worldCamera = Camera.main;
                 canvasrectransform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
                 canvasrectransform.localPosition = new Vector3(0, 1,0);
                 canvasrectransform.sizeDelta = new Vector3(847, 475,0);
+                #endregion
 
-                m_healthBar = Instantiate(m_Prefab, m_canvas.transform, false);
                 #region HealthBar On WorldSpace
+                m_healthBar = Instantiate(m_Prefab, m_canvas.transform, false);
                 RectTransform m_healthrect = m_healthBar.GetComponent<RectTransform>();
                 //Set Anchor
                 m_healthrect.anchorMin = new Vector2(0, 0.25f);
@@ -122,6 +141,10 @@ public class Health: MonoBehaviour, IDamagable
         m_fill.anchorMax = new Vector2(m_Animationvalue, m_fill.anchorMax.y);
         m_fill.offsetMin = new Vector2(0, 0);
         m_fill.offsetMax = new Vector2(0, 0);
+
+        if(IsHide)
+            m_healthBar.SetActive(false);
+       
     }
     #endregion
 
