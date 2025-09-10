@@ -7,7 +7,7 @@ public class BossBullet : MonoBehaviour
     private GameObject player;
     private GameObject boss;
 
-    void Start()
+    void Awake()
     {
         bulletRb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player");
@@ -35,5 +35,19 @@ public class BossBullet : MonoBehaviour
         bulletRb.Sleep();
         Vector3 bossPos = new Vector3(boss.transform.position.x, boss.transform.position.y, boss.transform.position.z);
         bulletRb.AddForce(bossPos.normalized * speed, ForceMode.Impulse);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+            player.GetComponent<PlayerHP>().PlayerHPMinus();
+        }
+        if(other.gameObject.CompareTag("Boss"))
+        {
+            Destroy(gameObject);
+            boss.GetComponent<BossHP>().BossHPMinus();
+        }
     }
 }

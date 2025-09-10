@@ -4,9 +4,10 @@ public class BossAttack : MonoBehaviour
 {
     [SerializeField] GameObject[] bulletPrefabs;
     [SerializeField] Transform spawnPoint;
+    [SerializeField] Transform spawnPoint2;
     public GameObject bullet;
-    private float attackTime = 4f;
-    private float attackTimer = 0;
+    private float attackTime = 2.4f;
+    private float attackTimer = 2.4f;
 
     void Start()
     {
@@ -23,7 +24,8 @@ public class BossAttack : MonoBehaviour
         if(attackTimer >= attackTime)
         {
             attackTimer = 0;
-            BossAttack_();
+            //BossAttack_();
+            BossAttack_2();
         }
     }
 
@@ -31,9 +33,11 @@ public class BossAttack : MonoBehaviour
     {
         bullet = Instantiate(bulletPrefabs[Random.Range(0, bulletPrefabs.Length)], spawnPoint.transform.position, Quaternion.identity);
 
-        if(bullet == bulletPrefabs[1])
-        {
-            
-        }
+        
+    }
+
+    private void BossAttack_2()
+    {
+        Instantiate(bulletPrefabs[3], spawnPoint2.transform.position, Quaternion.identity);
     }
 }

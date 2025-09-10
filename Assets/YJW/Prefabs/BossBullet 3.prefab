@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 4155907943490007828}
   - component: {fileID: 7753889663462076577}
   - component: {fileID: 8452011231023363137}
-  - component: {fileID: 7041483609417942875}
+  - component: {fileID: 1359758445628950107}
   m_Layer: 0
-  m_Name: BossBullet
-  m_TagString: Enemy
+  m_Name: BossBullet 3
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.19, z: 17.36}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f87d1414be03ad44b8da2ee0cb0de345, type: 2}
+  - {fileID: 2100000, guid: b7ecbb2ecf5c2444883566ac069a6ba7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,7 +104,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -137,7 +137,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7041483609417942875
+--- !u!114 &1359758445628950107
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,6 +146,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2604589122146628465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59ee432ee97a5734ab9a324d60f8b09e, type: 3}
+  m_Script: {fileID: 11500000, guid: ac528aef980e50d4ca4734de250839ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
