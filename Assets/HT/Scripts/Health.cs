@@ -38,7 +38,9 @@ public class Health: MonoBehaviour, IDamagable
     [Header("HealthBar Inspector")]
     [SerializeField] private int m_MaxHealth = 100;
     [SerializeField] private int m_CurrentHealth = 100;
-  
+
+    [SerializeField] private Transform TargetParent;
+    [SerializeField] private Vector3 CanvasPosition;
     [SerializeField] private GameObject m_healthBar;
     [SerializeField] private RectTransform m_fill;
     [Range(0f, 1f)]
@@ -52,7 +54,7 @@ public class Health: MonoBehaviour, IDamagable
 
     
 
-    [SerializeField] int dmg = 1;
+ 
 
     #endregion
 
@@ -99,7 +101,7 @@ public class Health: MonoBehaviour, IDamagable
 
                 //Basic
                 GameObject m_canvas = new GameObject("Canvas");
-                m_canvas.transform.SetParent(this.transform);
+                m_canvas.transform.SetParent(TargetParent);
                 m_canvas.AddComponent<Canvas>();
                 m_canvas.AddComponent<CanvasScaler>();
                 m_canvas.AddComponent<GraphicRaycaster>();
@@ -110,7 +112,7 @@ public class Health: MonoBehaviour, IDamagable
                 RectTransform canvasrectransform = m_canvas.GetComponent<RectTransform>();
                 m_canvas.GetComponent<Canvas>().worldCamera = Camera.main;
                 canvasrectransform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
-                canvasrectransform.localPosition = new Vector3(0, 1,0);
+                canvasrectransform.localPosition = CanvasPosition;
                 canvasrectransform.sizeDelta = new Vector3(847, 475,0);
                 #endregion
 
@@ -183,8 +185,7 @@ public class Health: MonoBehaviour, IDamagable
     #endregion
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            TakeHit(dmg);
+         
 
         if (m_CurrentHealth <= 0)
             Destroy(gameObject);
