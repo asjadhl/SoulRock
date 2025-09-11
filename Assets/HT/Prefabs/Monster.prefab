@@ -123,10 +123,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPos: {fileID: 0}
-  AttackTriggeredRange: 4
+  AttackTriggeredRange: 2
   MapScrollSpeed: 0
   m_speed: 2
   m_damage: 1
+  m_anim: {fileID: 0}
 --- !u!114 &9190545216720714404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Canvas: {fileID: 0}
   uiSpace: 1
+  IsHide: 0
   m_Prefab: {fileID: 8505767064329269230, guid: 8036b0c647e4d6e40b943b805840f2af, type: 3}
   m_MaxHealth: 1
   m_CurrentHealth: 1
