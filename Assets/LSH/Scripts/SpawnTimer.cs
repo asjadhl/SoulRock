@@ -36,8 +36,8 @@ public class SpawnTimer : MonoBehaviour
     void Update()
     {
         CheckTimer();
-        Debug.LogWarning("i = " + i);
-        Debug.LogError("timer = " + (int)timer);
+        //Debug.LogWarning("i = " + i);
+        //Debug.LogError("timer = " + (int)timer);
     }
 
     void CheckTimer()
