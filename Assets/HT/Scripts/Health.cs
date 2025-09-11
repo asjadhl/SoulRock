@@ -160,6 +160,13 @@ public class Health: MonoBehaviour, IDamagable
         m_LeftValue -= newDamage;
         m_time = 0;
         m_RightValue = m_Animationvalue;
+
+        if (m_CurrentHealth <= 0)
+        {
+            IDying dying = gameObject.GetComponent<IDying>();
+            dying?.PlayDyingAnimation(true);
+
+        }
     }
     #endregion
 
@@ -185,11 +192,16 @@ public class Health: MonoBehaviour, IDamagable
     #endregion
     public void Update()
     {
-         
 
-        if (m_CurrentHealth <= 0)
-            Destroy(gameObject);
-
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("??");
+            IDying dying = gameObject.GetComponent<IDying>();
+            if (dying != null)
+                Debug.Log("A");
+            dying?.PlayDyingAnimation(true);
+        }
+      
         HealthBarAnimation();
     }
 }

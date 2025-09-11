@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 6507851289687678731}
   - component: {fileID: 5716048062139732320}
   - component: {fileID: 2894307473732544985}
-  - component: {fileID: 6794440853099234381}
-  - component: {fileID: 9190545216720714404}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -110,47 +108,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6794440853099234381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8967606614237981729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 993713bac269b92458629e459af5ed90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerPos: {fileID: 0}
-  AttackTriggeredRange: 2
-  MapScrollSpeed: 0
-  m_speed: 2
-  m_damage: 1
-  m_anim: {fileID: 0}
---- !u!114 &9190545216720714404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8967606614237981729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5133c6dc2816bc84b8acaac61a080b6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Canvas: {fileID: 0}
-  uiSpace: 1
-  IsHide: 0
-  m_Prefab: {fileID: 8505767064329269230, guid: 8036b0c647e4d6e40b943b805840f2af, type: 3}
-  m_MaxHealth: 1
-  m_CurrentHealth: 1
-  m_healthBar: {fileID: 0}
-  m_fill: {fileID: 0}
-  m_LeftValue: 0
-  m_RightValue: 0
-  m_Animationvalue: 0
-  m_time: 1
-  m_duration: 1.2
-  dmg: 1
