@@ -14,7 +14,7 @@ public class HitBoxCon: MonoBehaviour
     public Transform rightDotBox;
     AudioSource a;
     [SerializeField] AudioClip clip;
-    //[SerializeField] GameObject player;
+    [SerializeField] GameObject player;
     private void Start()
     {
         a = GetComponent<AudioSource>();
@@ -43,7 +43,7 @@ public class HitBoxCon: MonoBehaviour
 
                 float distLeftRight = Vector2.Distance(left.position, right.position);
 
-                if (Input.GetKeyDown(KeyCode.Space)&&distLeftRight >= minClick && distLeftRight <= maxClick)
+                if (Input.GetMouseButtonDown(0)&&distLeftRight >= minClick && distLeftRight <= maxClick)
                 {
                     OnClickSuccess();
                     DotBoxGeneratorL.Instance.ReturnDot(left.gameObject);
@@ -58,7 +58,7 @@ public class HitBoxCon: MonoBehaviour
     {
 
         a.PlayOneShot(clip);
-        //player.GetComponent<PlayerShoot>().PlayerShoot_();
+        player.GetComponent<PlayerShoot>().PlayerShoot_();
         Debug.Log("CLICK SUNGGONG!");
         
         // 클릭 성공 시 처리할 로직

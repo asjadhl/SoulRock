@@ -7,6 +7,7 @@ public class PlayerHP : MonoBehaviour
     private void FixedUpdate()
     {
         PlayerDie();
+        Debug.Log(playerHP);
     }
 
     public void PlayerHPMinus()
