@@ -1,4 +1,6 @@
 
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
@@ -63,14 +65,15 @@ public class EnemySpawner : MonoBehaviour
         {
             if (IsInsideCircle(m_currentPlayer.position, m_waves[i].m_ScanningArea.position, m_radiusTriggered))
             {
-                StartCoroutine(SpawnNow(m_waves[i]));
+               _ = SpawnNow(m_waves[i]);
                 m_waves.Remove(m_waves[i]);
             }
          
         }
     }
 
-    IEnumerator SpawnNow(Wave _wave)
+    [Obsolete]
+    IEnumerator SpawnNoww(Wave _wave)
     {
 
         prevScanArea = _wave.m_ScanningArea;
@@ -94,6 +97,34 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(m_SpawnRate);
 
            
+        }
+        CreateRandomEnemy();
+    }
+
+
+    private async UniTask SpawnNow(Wave _wave)
+    {
+        prevScanArea = _wave.m_ScanningArea;
+
+        for (int i = 0; i < _wave.m_formations.Count; i++)
+        {
+
+
+            for (int index = 0; index < _wave.m_formations[i].m_enemies.Count; index++)
+            {
+                if (_wave.m_formations[i].m_enemies[index] == null)
+                    continue;
+                else
+                {
+                    Instantiate(_wave.m_formations[i].m_enemies[index], SpawnPoint[Mathf.Clamp(index, 0, 7)].transform.position, Quaternion.identity);
+                }
+
+
+            }
+
+            await UniTask.Delay((int)m_SpawnRate);
+
+
         }
         CreateRandomEnemy();
     }

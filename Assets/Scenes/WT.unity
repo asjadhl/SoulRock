@@ -2592,12 +2592,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7290898127752892686, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
       propertyPath: GhostEnemies.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7290898127752892686, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
       propertyPath: 'GhostEnemies.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7290898127752892686, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
+      propertyPath: GhostEnemies.Array.data[0].type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290898127752892686, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
+      propertyPath: GhostEnemies.Array.data[0].gameObject
+      value: 
+      objectReference: {fileID: 8967606614237981729, guid: a2837eb14f550ba47b48639e570daa57, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
