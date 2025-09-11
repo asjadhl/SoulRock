@@ -143,17 +143,17 @@ public class EnemySpawner : MonoBehaviour
             newformation.m_enemies = new List<GameObject>();
             for(int j=0;j<10;j++)
             {
-                if (Random.value < 0.5f)
-                {
-                    newformation.m_enemies.Add(null);
+                //if (Random.value < 0.5f)
+                //{
+                //    newformation.m_enemies.Add(null);
 
-                }
-                else
-                {
+                //}
+                //else
+                //{
                      
 
-                    //newformation.m_enemies.Add(GameManager.instance.GetRandomEnemies);
-                }
+                //    //newformation.m_enemies.Add(GameManager.instance.GetRandomEnemies);
+                //}
                 
             }
             wave.m_formations.Add(newformation);
