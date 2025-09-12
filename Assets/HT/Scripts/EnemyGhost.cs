@@ -72,7 +72,7 @@ public class EnemyGhost : MonoBehaviour, IDying
     float timer = 0;
     private void Awake()
     {
-
+        transform.eulerAngles = new Vector3(0, 180,  0);
         PlayerPos = GameObject.FindWithTag("Player").transform;
         if (PlayerPos == null)
             gameObject.SetActive(false);
@@ -161,7 +161,7 @@ public class EnemyGhost : MonoBehaviour, IDying
             AnimationManager(State.Fire);
         }
 
-        transform.position +=  MapScrollSpeed * Time.deltaTime * Vector3.back;
+        //transform.position +=  MapScrollSpeed * Time.deltaTime * Vector3.back;
 
     }
      

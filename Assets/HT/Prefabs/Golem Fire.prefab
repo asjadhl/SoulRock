@@ -24931,7 +24931,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4473772703222537841}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -24950,7 +24950,7 @@ Transform:
   - {fileID: 1110348972978721862}
   - {fileID: 3244841177609949719}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &7187169866525613745
 Animator:
   serializedVersion: 7
@@ -24989,8 +24989,8 @@ MonoBehaviour:
   uiSpace: 1
   IsHide: 0
   m_Prefab: {fileID: 8505767064329269230, guid: 8036b0c647e4d6e40b943b805840f2af, type: 3}
-  m_MaxHealth: 100
-  m_CurrentHealth: 100
+  m_MaxHealth: 1
+  m_CurrentHealth: 1
   TargetParent: {fileID: 8820505560179123273}
   CanvasPosition: {x: -1.5, y: 0, z: 0}
   m_healthBar: {fileID: 0}
@@ -25015,8 +25015,8 @@ MonoBehaviour:
   PlayerPos: {fileID: 0}
   StartNoticingRange: 10
   StartAttackingRange: 4
-  MapScrollSpeed: 2
-  m_speed: 1
+  MapScrollSpeed: 3
+  m_speed: 2
   m_damage: 11
   m_anim: {fileID: 7187169866525613745}
   My_State: 0

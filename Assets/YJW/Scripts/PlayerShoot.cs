@@ -16,22 +16,25 @@ public class PlayerShoot : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             
-            if (Physics.Raycast(ray, out hit, 100f))
-            {
-                if (hit.collider.gameObject.tag == "Enemy")
-                    hit.collider.gameObject.GetComponent<BossBullet>().ReturnSpawnPoint();
-                //if(hit.collider.gameObject.tag == "Bullet2")
-                //    boss.GetComponent<BossAttack>().bullet.GetComponent<BossBullet>().BackToBoss();
-            }
+            //if (Physics.Raycast(ray, out hit, 100f))
+            //{
+            //    if (hit.collider.gameObject.tag == "Enemy")
+            //        hit.collider.gameObject.GetComponent<BossBullet>().ReturnSpawnPoint();
+            //    //if(hit.collider.gameObject.tag == "Bullet2")
+            //    //    boss.GetComponent<BossAttack>().bullet.GetComponent<BossBullet>().BackToBoss();
+
+                
+            //}
 
 
             // Health.cs
-            if (Physics.Raycast(ray, out hit, 10f))
+            if (Physics.Raycast(ray, out hit, 60f))
             {
                 IDamagable damagable = hit.collider.GetComponent<IDamagable>();
                 if (damagable != null)
                 {
-                    damagable.TakeHit(1);
+                    Debug.Log("Fire");
+                    damagable.TakeHit(1000);
                 }
             }
         }

@@ -89,14 +89,16 @@ public class EnemySpawner : MonoBehaviour
 
                     if (_wave.m_formations[i].m_enemiesType[index].enemyobject != null)
                     {
-                        if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Walker)
-                        {
-                            Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(4, 7)].transform.position, Quaternion.identity);
-                        }
-                        else if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Fly)
-                        {
-                            Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, 3)].transform.position, Quaternion.identity);
-                        }
+                        //if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Walker)
+                        //{
+                        //    Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(4, 7)].transform.position, Quaternion.identity);
+                        //}
+                        //else if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Fly)
+                        //{
+                        //    Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, 3)].transform.position, Quaternion.identity);
+                        //}
+                        Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, 7)].transform).transform.SetParent(null);
+                        break;
                     }
                 }
             }
@@ -129,7 +131,7 @@ public class EnemySpawner : MonoBehaviour
                 else
                 {
 
-                    
+                   
                     newformation.m_enemiesType.Add(GameManager.instance.GetRandomEnemies);
                 }
 
