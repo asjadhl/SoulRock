@@ -7,18 +7,27 @@ public class BossUnderBullet : MonoBehaviour
     private GameObject player;
     private GameObject boss;
 
+    private bool isAttacked = false;
+    private bool setActiveSelf = false;
+
     void Awake()
     {
         bulletRb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player");
         boss = GameObject.FindWithTag("Boss");
-        UnderAttack(player.transform);
     }
 
     private void FixedUpdate()
     {
+
+        if (gameObject.activeSelf == true && isAttacked == false)
+        {
+            UnderAttack(player.transform);
+            isAttacked = true;
+        }
+
         if (transform.position.z <= -4.2f)
-            Destroy(gameObject);
+            ReturnSpawnPoint();
     }
 
     private void UnderAttack(Transform target)
@@ -31,8 +40,18 @@ public class BossUnderBullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            ReturnSpawnPoint();
             player.GetComponent<PlayerHP>().PlayerHPMinus();
         }
+    }
+
+    private void ReturnSpawnPoint()
+    {
+        gameObject.SetActive(false);
+        bulletRb.linearVelocity = Vector3.zero;
+        bulletRb.angularVelocity = Vector3.zero;
+        bulletRb.Sleep();
+        isAttacked = false;
+        transform.position = ObjectPool.Instance.spawnPoint1.transform.position;
     }
 }
