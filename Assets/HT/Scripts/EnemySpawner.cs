@@ -97,7 +97,7 @@ public class EnemySpawner : MonoBehaviour
                         //{
                         //    Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, 3)].transform.position, Quaternion.identity);
                         //}
-                        Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, 7)].transform).transform.SetParent(null);
+                        Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, SpawnPoint.Count-1)].transform).transform.SetParent(null);
                         break;
                     }
                 }
