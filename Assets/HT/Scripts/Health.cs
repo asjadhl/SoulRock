@@ -195,10 +195,10 @@ public class Health: MonoBehaviour, IDamagable
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("??");
+             
             IDying dying = gameObject.GetComponent<IDying>();
             if (dying != null)
-                Debug.Log("A");
+               
             dying?.PlayDyingAnimation(true);
         }
       

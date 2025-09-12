@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour
         get { return GhostEnemies[Random.Range(0,GhostEnemies.Count)]; }
     }
 
+    public List<GameObject> GetProjectTiles;
+
+   
+
     public void Awake()
     {
         if (instance !=  null)
