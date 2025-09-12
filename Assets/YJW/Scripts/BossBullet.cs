@@ -17,14 +17,18 @@ public class BossBullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        if (transform.position.z <= -4.5f)
+        {
+            Destroy(gameObject);
+            player.GetComponent<PlayerHP>().PlayerHPMinus();
+        }
     }
 
     private void ThrowAttack(Transform target)
     {
-        Vector3[] v0 = { new Vector3(target.transform.position.x - 0.6f, target.transform.position.y, target.transform.position.z), 
-            new Vector3(target.transform.position.x, target.transform.position.y, target.transform.position.z), 
-            new Vector3(target.transform.position.x + 0.6f, target.transform.position.y, target.transform.position.z)};
+        Vector3[] v0 = { new Vector3(target.transform.position.x - 0.6f, 1.5f, target.transform.position.z), 
+            new Vector3(target.transform.position.x, 1.5f, target.transform.position.z), 
+            new Vector3(target.transform.position.x + 0.6f, 1.5f, target.transform.position.z)};
         bulletRb.AddForce(v0[Random.Range(0, v0.Length)].normalized * speed + Vector3.up, ForceMode.Impulse);
     }
 
@@ -39,11 +43,6 @@ public class BossBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Player"))
-        {
-            Destroy(gameObject);
-            player.GetComponent<PlayerHP>().PlayerHPMinus();
-        }
         if(other.gameObject.CompareTag("Boss"))
         {
             Destroy(gameObject);

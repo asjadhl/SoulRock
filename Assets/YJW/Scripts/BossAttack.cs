@@ -6,8 +6,10 @@ public class BossAttack : MonoBehaviour
     [SerializeField] Transform spawnPoint;
     [SerializeField] Transform spawnPoint2;
     public GameObject bullet;
-    private float attackTime = 2.4f;
+    private float attack1Time = 2.4f;
+    private float attack2Time = 8f;
     private float attackTimer = 2.4f;
+    private float attack2Timer = 8f;
 
     void Start()
     {
@@ -15,16 +17,26 @@ public class BossAttack : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        BossAttackTimer();
+        BossAttack1Timer();
+        BossAttack2Timer();
     }
 
-    private void BossAttackTimer()
+    private void BossAttack1Timer()
     {
         attackTimer += Time.deltaTime;
-        if(attackTimer >= attackTime)
+        if(attackTimer >= attack1Time)
         {
             attackTimer = 0;
-            //BossAttack_();
+            BossAttack_();
+        }
+    }
+
+    private void BossAttack2Timer()
+    {
+        attack2Timer += Time.deltaTime;
+        if(attack2Timer >= attack2Time)
+        {
+            attack2Timer = 0;
             BossAttack_2();
         }
     }

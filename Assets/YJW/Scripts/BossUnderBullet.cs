@@ -17,19 +17,19 @@ public class BossUnderBullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        if (transform.position.z <= -4.2f)
+            Destroy(gameObject);
     }
 
     private void UnderAttack(Transform target)
     {
-        Vector3 v0 = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-        bulletRb.AddForce(v0.normalized * speed + Vector3.forward, ForceMode.VelocityChange);
-        bulletRb.AddTorque(v0.normalized * speed + Vector3.forward, ForceMode.VelocityChange);
+        Vector3 v0 = new Vector3(-1, 0, 0);
+        bulletRb.AddTorque(v0.normalized * speed * 30, ForceMode.VelocityChange);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
             player.GetComponent<PlayerHP>().PlayerHPMinus();

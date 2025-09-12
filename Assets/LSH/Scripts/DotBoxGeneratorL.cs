@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UnityEngine.UI;
 public class DotBoxGeneratorL : MonoBehaviour
 {//이 스크립트는 도트박스 풀링용.
     public static DotBoxGeneratorL Instance { get; private set; }
@@ -26,9 +27,11 @@ public class DotBoxGeneratorL : MonoBehaviour
 
     void Start()
     {
+        dotboxPrefabL.GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
         poolL = new GameObject[10];
         for(int i = 0; i < poolL.Length; i++)
         {
+
             GameObject dotA = Instantiate(dotboxPrefabL, transform);
             dotA.SetActive(false);
             poolL[i] = dotA;
@@ -63,8 +66,10 @@ public class DotBoxGeneratorL : MonoBehaviour
            Debug.Log("도트박스 생성");
             GameObject dotA = GetDotBox();
             dotA.transform.position = transform.position;
+            
             // 2초 대기
             await UniTask.Delay(dotboxTime); //일반 Delay는 실제시간 기준임.
         }
     }
+    
 }

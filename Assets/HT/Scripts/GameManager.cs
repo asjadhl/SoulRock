@@ -13,8 +13,9 @@ public enum EntityType
 [System.Serializable]
 public class EnemiesType
 {
-    public  GameObject gameObject;
+    public  GameObject enemyobject;
     public  EntityType type;
+
 }
 
 public class GameManager : MonoBehaviour

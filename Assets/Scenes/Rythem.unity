@@ -466,8 +466,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 37ece6c239a92c240a12e73d58ecb353, type: 3}
+  m_Resource: {fileID: 8300000, guid: 37ece6c239a92c240a12e73d58ecb353, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -798,6 +798,9 @@ MonoBehaviour:
   maxClick: 180
   leftDotBox: {fileID: 1145965523}
   rightDotBox: {fileID: 515483280}
+  dotL: {fileID: -8066678590551068294, guid: 4416be17024308947ac545ec174af71f, type: 3}
+  dotR: {fileID: -8066678590551068294, guid: ced05b9e6900cd547b44c9dfa18d082c, type: 3}
+  test: 0
   clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
 --- !u!82 &1341030591
 AudioSource:
