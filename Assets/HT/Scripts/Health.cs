@@ -160,7 +160,7 @@ public class Health: MonoBehaviour, IDamagable
         m_LeftValue -= newDamage;
         m_time = 0;
         m_RightValue = m_Animationvalue;
-        Debug.Log($"{m_CurrentHealth}");
+        
         if (m_CurrentHealth <= 0)
         {
             IDying dying = gameObject.GetComponent<IDying>();

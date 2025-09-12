@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 
@@ -15,6 +16,7 @@ enum State
 {
     Null, underground, Spawn, Idle, Forward, Fire, Die
 }
+
 [System.Serializable]
 public class AnimationClipEvent
 {
@@ -29,6 +31,8 @@ public class AnimationClipEvent
         return clip;
     }
 }
+
+public delegate void GhostAction();
 public class EnemyGhost : MonoBehaviour, IDying
 {
 
@@ -37,13 +41,18 @@ public class EnemyGhost : MonoBehaviour, IDying
     private Transform PlayerPos;
 
     [SerializeField]
-    private float AttackTriggeredRange;
+    private float StartNoticingRange;
+    [SerializeField] 
+    private float StartAttackingRange;
+    [SerializeField]
+    GhostAction ghostAction;
     [SerializeField]
     [Range(0f, 10f)] float MapScrollSpeed;
     [SerializeField]
     [Range(-10f, 10f)] float m_speed;
     [SerializeField]
     int m_damage;
+   
     public bool IsDying { get; set; }
 
     [Header("Animation")]
@@ -75,10 +84,10 @@ public class EnemyGhost : MonoBehaviour, IDying
             gameObject.SetActive(false);
             Debug.LogError($"GameObject :{this.name}'s Animator is missing");
         }
+
+
+        //Foreign Code
         var va = FindAnyObjectByType<CorridorSpawner>();
-
-
-
         if (va != null)
         {
             MapScrollSpeed = va.moveSpeed;
@@ -96,58 +105,70 @@ public class EnemyGhost : MonoBehaviour, IDying
         activeRoutine = new List<Coroutine>();
         My_State = State.Null;
         AnimationManager(State.underground);
-        StartCoroutine(Wait(0.5f));
+        StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "Underground").GetClip(), 20, () =>
+         {
+             AnimationManager(State.Spawn);
+             StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "Spawn").GetClip(), 25, () =>
+             {
+                 AnimationManager(State.Idle);
+                 ghostAction = NoticingUpdate;
+             }));
 
+              
+
+
+
+         }));
+        
     }
 
-    IEnumerator Wait(float time)
+ 
+
+
+
+      void NoticingUpdate()
     {
-        float temp_speed = m_speed;
-        m_speed = 0;
-        yield return new WaitForSeconds(time);
-        m_speed = temp_speed;
-    }
-
-
-
-    public bool CloseToPlayer()
-    {
-        if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= AttackTriggeredRange)
+        if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartNoticingRange)
         {
+            transform.LookAt(PlayerPos.position);
+           
+            transform.position += (MapScrollSpeed+m_speed) * Time.deltaTime * transform.forward;
+            AnimationManager(State.Forward);
 
-            return true;
+
+              if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
+              {
+                ghostAction = AttackingUpdate;
+                AnimationManager(State.Idle);
+              }
+
         }
         else
-            return false;
-
-
-
+            transform.position += MapScrollSpeed * Time.deltaTime * Vector3.back;
 
     }
-
-    private void Update()
+      
+    void AttackingUpdate()
     {
-
         transform.LookAt(PlayerPos.position);
-
-
-
         timer = Mathf.Clamp(timer + Time.deltaTime, 0f, 10f);
 
-        if (CloseToPlayer())
-        {
-            if (timer >= Attackrate)
-            {
 
-                timer = 0;
-                AnimationManager(State.Fire);
-            }
-        }
-        else
+        if (timer >= Attackrate)
         {
-            transform.position += m_speed * Time.deltaTime * transform.forward;
-            AnimationManager(State.Forward);
+
+            timer = 0;
+            AnimationManager(State.Fire);
         }
+
+        transform.position +=  MapScrollSpeed * Time.deltaTime * Vector3.back;
+
+    }
+     
+   
+    private void Update()
+    {
+        ghostAction?.Invoke();
     }
 
 
@@ -165,7 +186,13 @@ public class EnemyGhost : MonoBehaviour, IDying
 
 
     #region Animation_System 
+    IEnumerator LaterCall(float time, System.Action callback = null)
+    {
+        yield return new WaitForSeconds(time);
 
+        callback?.Invoke();
+
+    }
     void AnimationManager(State _newState)
     {
 
@@ -188,11 +215,13 @@ public class EnemyGhost : MonoBehaviour, IDying
         switch (My_State)
         {
             case State.underground:
-                activeRoutine.Add(StartCoroutine(PlayOneShot("Underground", State.Spawn)));
+                //activeRoutine.Add(StartCoroutine(PlayOneShot("Underground", State.Spawn)));
+                m_anim.Play("Underground");
                 break;
 
             case State.Spawn:
-                activeRoutine.Add(StartCoroutine(PlayOneShot("Spawn", State.Idle)));
+                //activeRoutine.Add(StartCoroutine(PlayOneShot("Spawn", State.Idle)));
+                m_anim.Play("Spawn");
                 break;
 
             case State.Idle:
