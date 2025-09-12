@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 //[RequireComponent(typeof(BoxCollider2D))]
 public class DotBoxConR : MonoBehaviour
@@ -7,11 +9,17 @@ public class DotBoxConR : MonoBehaviour
     public float moveSpeed = 400f;
     RectTransform dotboxImage;
     DeleteboxCon deleteboxCon;
+    RawImage rawImage;
 
-    void Start()
+    bool getDamage = false;
+    float fadeDuration = 0.9f; // 투명화까지 걸리는 시간
+    Color originalColor;
+    void Awake()
     {
         dotboxImage = GetComponent<RectTransform>();
         deleteboxCon = FindAnyObjectByType<DeleteboxCon>();
+        rawImage = GetComponent<RawImage>();
+        originalColor = rawImage.color;
     }
 
     void Update()
@@ -29,5 +37,24 @@ public class DotBoxConR : MonoBehaviour
             targetPos,
             moveSpeed * Time.deltaTime
         );
+    }
+    public async UniTask ChangeColor()
+    {
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+
+            Color newColor = originalColor;
+            newColor.a = alpha;
+            rawImage.color = newColor;
+
+            await UniTask.Yield();
+        }
+    }
+    public void SetColor()
+    {
+        rawImage.color = originalColor;
     }
 }

@@ -10,6 +10,7 @@ public class DotBoxGeneratorR : MonoBehaviour
     [SerializeField] public int dotboxTime = 500;
     public GameObject[] poolR;
     private int pivot = 0;
+    bool getDamage = false;
 
     void Awake()
     {
@@ -37,7 +38,15 @@ public class DotBoxGeneratorR : MonoBehaviour
     }
     void Update() 
     {
-        
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            getDamage = true;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+
+            getDamage = false;
+        }
     }
     public GameObject GetDotBox() //활성화용도
     {
@@ -52,6 +61,7 @@ public class DotBoxGeneratorR : MonoBehaviour
     }
     public void ReturnDot(GameObject dot) //비활성화용도
     {
+        dot.GetComponent<DotBoxConR>().SetColor();
         dot.SetActive(false);
         dot.transform.position = transform.position; // 위치 초기화
     }
@@ -62,6 +72,8 @@ public class DotBoxGeneratorR : MonoBehaviour
            // 도트 생성
             GameObject dotA = GetDotBox();
             dotA.transform.position = transform.position;
+            if(getDamage)
+            _ = dotA.GetComponent<DotBoxConR>().ChangeColor();
             // 2초 대기
             await UniTask.Delay(dotboxTime);
         }

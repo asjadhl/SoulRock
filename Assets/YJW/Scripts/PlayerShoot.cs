@@ -9,11 +9,6 @@ public class PlayerShoot : MonoBehaviour
     {
         boss = GameObject.FindWithTag("Boss");
     }
-    private void Update()
-    {
-        PlayerShoot_();
-    }
-
     public void PlayerShoot_()
     {
         if (Input.GetMouseButtonDown(0))
@@ -23,22 +18,22 @@ public class PlayerShoot : MonoBehaviour
             
             if (Physics.Raycast(ray, out hit, 100f))
             {
-                if(hit.collider.gameObject.tag == "Enemy")
-                    Destroy(hit.collider.gameObject);
-                if(hit.collider.gameObject.tag == "Bullet2")
-                    boss.GetComponent<BossAttack>().bullet.GetComponent<BossBullet>().BackToBoss();
+                if (hit.collider.gameObject.tag == "Enemy")
+                    hit.collider.gameObject.GetComponent<BossBullet>().ReturnSpawnPoint();
+                //if(hit.collider.gameObject.tag == "Bullet2")
+                //    boss.GetComponent<BossAttack>().bullet.GetComponent<BossBullet>().BackToBoss();
             }
 
-               
+
             // Health.cs
-            //if (Physics.Raycast(ray, out hit, 100f))
-            //{
-            //    IDamagable damagable = hit.collider.GetComponent<IDamagable>();
-            //    if (damagable != null)
-            //    {
-            //        damagable.TakeHit(1);
-            //    }
-            //}
+            if (Physics.Raycast(ray, out hit, 10f))
+            {
+                IDamagable damagable = hit.collider.GetComponent<IDamagable>();
+                if (damagable != null)
+                {
+                    damagable.TakeHit(1);
+                }
+            }
         }
     }
 }

@@ -2,19 +2,10 @@ using UnityEngine;
 
 public class BossAttack : MonoBehaviour
 {
-    [SerializeField] GameObject[] bulletPrefabs;
-    [SerializeField] Transform spawnPoint;
-    [SerializeField] Transform spawnPoint2;
-    public GameObject bullet;
-    private float attack1Time = 2.4f;
+    private float attack1Time = 1.5f;
     private float attack2Time = 8f;
-    private float attackTimer = 2.4f;
+    private float attackTimer = 1.5f;
     private float attack2Timer = 8f;
-
-    void Start()
-    {
-        
-    }
     private void FixedUpdate()
     {
         BossAttack1Timer();
@@ -43,13 +34,13 @@ public class BossAttack : MonoBehaviour
 
     public  void BossAttack_()
     {
-        bullet = Instantiate(bulletPrefabs[Random.Range(0, bulletPrefabs.Length)], spawnPoint.transform.position, Quaternion.identity);
-
-        
+        int RanIndex = Random.Range(0, 6);
+        ObjectPool.Instance.bulletAArr[RanIndex].SetActive(true);
     }
 
     private void BossAttack_2()
     {
-        Instantiate(bulletPrefabs[3], spawnPoint2.transform.position, Quaternion.identity);
+        int RanIndex = Random.Range(0, 3);
+        ObjectPool.Instance.bulletBArr[RanIndex].SetActive(true);
     }
 }

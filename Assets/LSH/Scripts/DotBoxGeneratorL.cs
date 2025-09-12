@@ -12,6 +12,7 @@ public class DotBoxGeneratorL : MonoBehaviour
     public GameObject[] poolL;
     private int pivot = 0;
 
+    bool getDamage = false;
     void Awake()
     {
         // 싱글톤 패턴
@@ -27,11 +28,9 @@ public class DotBoxGeneratorL : MonoBehaviour
 
     void Start()
     {
-        dotboxPrefabL.GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
         poolL = new GameObject[10];
-        for(int i = 0; i < poolL.Length; i++)
+        for (int i = 0; i < poolL.Length; i++)
         {
-
             GameObject dotA = Instantiate(dotboxPrefabL, transform);
             dotA.SetActive(false);
             poolL[i] = dotA;
@@ -40,7 +39,14 @@ public class DotBoxGeneratorL : MonoBehaviour
     }
     void Update() 
     {
-        
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            getDamage = true;
+        }
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+
+        getDamage = false; }
     }
     public GameObject GetDotBox() //활성화용도
     {
@@ -55,6 +61,7 @@ public class DotBoxGeneratorL : MonoBehaviour
     }
     public void ReturnDot(GameObject dot) //비활성화용도
     {
+        dot.GetComponent<DotBoxConL>().SetColor();
         dot.SetActive(false);
         dot.transform.position = transform.position; // 위치 초기화
     }
@@ -63,10 +70,12 @@ public class DotBoxGeneratorL : MonoBehaviour
         while (true)
         {
            // 도트 생성
-           Debug.Log("도트박스 생성");
             GameObject dotA = GetDotBox();
             dotA.transform.position = transform.position;
-            
+            if (getDamage)
+            {
+                _ =  dotA.GetComponent<DotBoxConL>().ChangeColor();
+            }
             // 2초 대기
             await UniTask.Delay(dotboxTime); //일반 Delay는 실제시간 기준임.
         }
