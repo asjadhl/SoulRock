@@ -744,8 +744,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: 0}
-  m_SizeDelta: {x: 83, y: 200}
+  m_AnchoredPosition: {x: 71, y: 0}
+  m_SizeDelta: {x: 75, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1341030588
 MonoBehaviour:
@@ -794,14 +794,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5695ceb6c8acb4a4aa765403fce6ebe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minClick: 30
-  maxClick: 180
+  minClick: 8
+  maxClick: 150
   leftDotBox: {fileID: 1145965523}
   rightDotBox: {fileID: 515483280}
   dotL: {fileID: -8066678590551068294, guid: 4416be17024308947ac545ec174af71f, type: 3}
   dotR: {fileID: -8066678590551068294, guid: ced05b9e6900cd547b44c9dfa18d082c, type: 3}
   test: 0
   clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
+  player: {fileID: 0}
 --- !u!82 &1341030591
 AudioSource:
   m_ObjectHideFlags: 0
