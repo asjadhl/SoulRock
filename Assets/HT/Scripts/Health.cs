@@ -154,13 +154,13 @@ public class Health: MonoBehaviour, IDamagable
     #region When_Hit
     public void TakeHit(int _damage)
     {
-        if (m_CurrentHealth - _damage < 0) return;
+        //if (m_CurrentHealth - _damage < 0)  
         m_CurrentHealth -= _damage;
         float newDamage = (float)_damage / (float)m_MaxHealth;
         m_LeftValue -= newDamage;
         m_time = 0;
         m_RightValue = m_Animationvalue;
-
+        Debug.Log($"{m_CurrentHealth}");
         if (m_CurrentHealth <= 0)
         {
             IDying dying = gameObject.GetComponent<IDying>();
