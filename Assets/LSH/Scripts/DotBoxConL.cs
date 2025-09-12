@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,27 +9,23 @@ public class DotBoxConL : MonoBehaviour
     RectTransform dotboxImage;
     DeleteboxCon deleteboxCon;
     RawImage rawImage;
+    
     bool test = false;
-    void Start()
+    bool getDamage = false;
+    float fadeDuration = 0.9f; // 투명화까지 걸리는 시간
+    Color originalColor;
+    void Awake()
     {
         dotboxImage = GetComponent<RectTransform>();
         deleteboxCon = FindAnyObjectByType<DeleteboxCon>();
         rawImage = GetComponent<RawImage>();
+        originalColor = rawImage.color;
     }
-
+   
     void Update()
     {
         MoveToTarget();
         //실험용
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            test = true; Debug.Log("W누름 test True");
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            test = false; Debug.LogError("S누름 test false");
-        }
-        OnInvisible();
     }
 
     void MoveToTarget()
@@ -42,10 +39,28 @@ public class DotBoxConL : MonoBehaviour
             moveSpeed * Time.deltaTime
         );
     }
+    //public void ChangeColor()
+    //{
 
-    public void OnInvisible()
+    //    rawImage.color = new Color(1f, 1f, 1f, 0.5f);
+    //}
+    public async UniTask ChangeColor()
     {
-        if(test)
-        rawImage.color = new Color(255f, 255f, 255f, 0f);
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+
+            Color newColor = originalColor;
+            newColor.a = alpha;
+            rawImage.color = newColor;
+
+            await UniTask.Yield();
+        }
+    }
+    public void SetColor()
+    {
+        rawImage.color = originalColor;
     }
 }
