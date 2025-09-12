@@ -1,26 +1,25 @@
 
-using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEditor;
 using UnityEngine;
- 
+
 
 
 
 [System.Serializable]
 public class Formation
 {
-    public List<EnemiesType> m_enemies;
+    public List<EnemiesType> m_enemiesType;
 }
 
 [System.Serializable]
 public class Wave
 {
     public List<Formation> m_formations;
-    
-    
+    [Range(0, 10f)] public float arcHeight = 2f;
+
 }
 
 public class EnemySpawner : MonoBehaviour
@@ -29,9 +28,9 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> SpawnPoint;
     [Range(0, 10)] public float m_SpawnRate;
     public List<Wave> m_waves;
-    public Transform m_ScanningArea;
+
     public float m_radiusTriggered;
-   
+    public Transform TargetScanner;
 
     public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
     {
@@ -50,89 +49,59 @@ public class EnemySpawner : MonoBehaviour
 
 
         //Get All SpawnPoint Auto
-        SpawnPoint = new List<GameObject>();    
+        SpawnPoint = new List<GameObject>();
         for (int i = 0; i < transform.childCount; i++)
         {
             SpawnPoint.Add(transform.GetChild(i).gameObject);
 
-        }
 
+        }
+        m_waves = new List<Wave>();
         CreateRandomEnemy();
     }
     public void Update()
     {
         for (int i = 0; i < m_waves.Count; i++)
         {
-            if (IsInsideCircle(m_currentPlayer.position,m_ScanningArea.position, m_radiusTriggered))
+            if (IsInsideCircle(m_currentPlayer.position, TargetScanner.position, m_radiusTriggered))
             {
-               _ = SpawnNow(m_waves[i]);
+                StartCoroutine(SpawnNow(m_waves[i]));
                 m_waves.Remove(m_waves[i]);
             }
-         
+
         }
     }
 
-    
-    //IEnumerator SpawnNoww(Wave _wave)
-    //{
-
-    //    prevScanArea = _wave.m_ScanningArea;
-
-    //    for (int i = 0; i < _wave.m_formations.Count; i++)
-    //    {
-
-
-    //                for (int index = 0; index < _wave.m_formations[i].m_enemies.Count; index++)
-    //                {
-    //                    if (_wave.m_formations[i].m_enemies[index] == null)
-    //                        continue;
-    //                    else
-    //                    {
-    //                        Instantiate(_wave.m_formations[i].m_enemies[index], SpawnPoint[Mathf.Clamp(index, 0, 7)].transform.position, Quaternion.identity);
-    //                    }
-
-                  
-    //                }    
-
-    //        yield return new WaitForSeconds(m_SpawnRate);
-
-           
-    //    }
-    //    CreateRandomEnemy();
-    //}
-
-
-    private async UniTask SpawnNow(Wave _wave)
+    IEnumerator SpawnNow(Wave _wave)
     {
-        
+
+      
 
         for (int i = 0; i < _wave.m_formations.Count; i++)
         {
 
 
-            for (int index = 0; index < _wave.m_formations[i].m_enemies.Count; index++)
+            for (int index = 0; index < _wave.m_formations[i].m_enemiesType.Count; index++)
             {
-                if (_wave.m_formations[i].m_enemies[index] == null)
-                    continue;
-                else
+                 
+                if (_wave.m_formations[i].m_enemiesType[index] != null)
                 {
-                    if (_wave.m_formations[i].m_enemies[index].type == EntityType.Fly)
+
+                    if (_wave.m_formations[i].m_enemiesType[index].enemyobject != null)
                     {
-                        Instantiate(_wave.m_formations[i].m_enemies[index].enemyobject, SpawnPoint[Random.Range(0, 3)].transform.position,Quaternion.identity);
-                    }
-                    else if (_wave.m_formations[i].m_enemies[index].type == EntityType.Walker)
-                    {
-                        
-                        //Instantiate(_wave.m_formations[i].m_enemies[index].enemyobject, SpawnPoint[Random.Range(4, 7)].transform.position, Quaternion.identity);
-                      GameObject newobj =  Instantiate(_wave.m_formations[i].m_enemies[index].enemyobject, SpawnPoint[Random.Range(4, 7)].transform);
-                        newobj.transform.SetParent(null);
+                        if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Walker)
+                        {
+                            Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(4, 7)].transform.position, Quaternion.identity);
+                        }
+                        else if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Fly)
+                        {
+                            Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, 3)].transform.position, Quaternion.identity);
+                        }
                     }
                 }
-
-
             }
 
-            await UniTask.Delay(2000);
+            yield return new WaitForSeconds(m_SpawnRate);
 
 
         }
@@ -142,29 +111,28 @@ public class EnemySpawner : MonoBehaviour
 
     void CreateRandomEnemy()
     {
-         
 
-       Wave wave = new Wave();
-       
-       wave.m_formations = new List<Formation>();
-        for(int i=0;i<3;i++) //three formation
+
+        Wave wave = new Wave();
+        wave.m_formations = new List<Formation>();
+        for (int i = 0; i < 3; i++) //three formation
         {
             Formation newformation = new Formation();
-            newformation.m_enemies = new List<EnemiesType>();
-            for(int j=0;j<10;j++)
+            newformation.m_enemiesType = new List<EnemiesType>();
+            for (int j = 0; j < 10; j++)
             {
                 if (Random.value < 0.5f)
                 {
-                    newformation.m_enemies.Add(null);
+                    newformation.m_enemiesType.Add(null);
 
                 }
                 else
                 {
-                     
 
-                 newformation.m_enemies.Add(GameManager.instance.GetRandomEnemies);
+                    
+                    newformation.m_enemiesType.Add(GameManager.instance.GetRandomEnemies);
                 }
-                
+
             }
             wave.m_formations.Add(newformation);
 
@@ -181,34 +149,33 @@ public class ShowScanner : Editor
     void OnSceneGUI()
     {
         EnemySpawner t = (EnemySpawner)target;
-        if (t.m_waves == null) return;
-
         
-           
 
-            if (t.m_ScanningArea != null)
+   
+
+            if (t.TargetScanner != null)
             {
                 Vector3 start = t.transform.position;
-                Vector3 end =   t.m_ScanningArea.position;
- 
+                Vector3 end = t.TargetScanner.position;
 
-            
 
-          
 
- 
+
+
+
+
                 // Midpoint for curved arrow
                 Vector3 mid = (start + end) * 0.5f;
-                 
+                 mid.y += 2.5f;
 
                 // Determine color based on index
-                Color arrowColor = Color.HSVToRGB(1 / (float)t.m_waves.Count, 1f, 1f);
+                Color arrowColor = Color.HSVToRGB(0.6f, 1f, 1f);
 
-               
 
-               
+
+
                 Handles.DrawBezier(start, end, mid, mid, arrowColor, null, 1f);
-              
+
                 // Arrowhead at the end
                 Handles.ArrowHandleCap(
                     0,
@@ -227,10 +194,12 @@ public class ShowScanner : Editor
 
 
             }
-         
+        
 
 
 
     }
 }
 #endif
+
+
