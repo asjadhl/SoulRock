@@ -964,7 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotboxPrefabL: {fileID: 6043420594518806999, guid: 4416be17024308947ac545ec174af71f, type: 3}
-  dotboxTime: 668
+  dotboxTime: 490
   poolL: []
 --- !u!1 &765654837
 GameObject:
@@ -1316,7 +1316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotboxPrefabR: {fileID: 6043420594518806999, guid: ced05b9e6900cd547b44c9dfa18d082c, type: 3}
-  dotboxTime: 668
+  dotboxTime: 490
   poolR: []
 --- !u!224 &1289304022
 RectTransform:
@@ -1682,7 +1682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5695ceb6c8acb4a4aa765403fce6ebe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minClick: 8
+  minClick: 10
   maxClick: 180
   leftDotBox: {fileID: 608698956}
   rightDotBox: {fileID: 1289304022}
@@ -2529,9 +2529,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167b6bc8151110940ba9f6e3083e49bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstTimer: 0a00000019000000
-  lastTimer: 0f0000001e000000
-  dotChageSpeed: 2c010000dc050000
+  firstTimer: 1e00000028000000
+  lastTimer: 320000003c000000
+  dotChageSpeed: d4030000be050000
   DotBoxGeneL: {fileID: 608698955}
   DotBoxGeneR: {fileID: 1289304020}
 --- !u!4 &1966128759
