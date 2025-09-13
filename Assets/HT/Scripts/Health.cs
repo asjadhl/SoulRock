@@ -175,7 +175,7 @@ public class Health: MonoBehaviour, IDamagable
     {
 
 
-        if (m_time >= 1f)
+        if (m_time >= 1f || gameObject == null)
         { return; }
         else
         {
@@ -193,14 +193,10 @@ public class Health: MonoBehaviour, IDamagable
     public void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
+        
              
-            IDying dying = gameObject.GetComponent<IDying>();
-            if (dying != null)
-               
-            dying?.PlayDyingAnimation(true);
-        }
+           
+       
       
         HealthBarAnimation();
     }

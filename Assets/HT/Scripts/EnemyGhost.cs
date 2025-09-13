@@ -70,9 +70,16 @@ public class EnemyGhost : MonoBehaviour, IDying
     float Attackrate = 2f;
     [SerializeField]
     float timer = 0;
+
+   
+
     private void Awake()
-    {
-        transform.eulerAngles = new Vector3(0, 180,  0);
+    { 
+
+       
+
+         transform.eulerAngles = new Vector3(0, 180,  0);
+        //transform.LookAt(Vector3.back);
         PlayerPos = GameObject.FindWithTag("Player").transform;
         if (PlayerPos == null)
             gameObject.SetActive(false);
@@ -167,8 +174,7 @@ public class EnemyGhost : MonoBehaviour, IDying
      
    
     private void Update()
-    {
-        ghostAction?.Invoke();
+    {  ghostAction?.Invoke();
     }
 
 
@@ -232,12 +238,13 @@ public class EnemyGhost : MonoBehaviour, IDying
                 m_anim.Play("Dash Forward In Place");
                 break;
             case State.Fire:
-                activeRoutine.Add(StartCoroutine(PlayOneShot("Power Shoot Attack", State.Idle)));
+                m_anim.Play("Power Shoot Attack");
                 IDamagable idamage = PlayerPos.GetComponent<IDamagable>();
                 idamage?.TakeHit(m_damage);
                 activeRoutine.Add(StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "Power Shoot Attack").GetClip(), 15,
                      () =>
-                     {
+                     {  
+                         //new void
                          GameObject newprojectile = Instantiate(GameManager.instance.GetProjectTiles[FireProjectileIndex], transform.position, Quaternion.identity);
                           
                          IBullet bullet = newprojectile.GetComponent<IBullet>();
@@ -245,6 +252,14 @@ public class EnemyGhost : MonoBehaviour, IDying
                              bullet.Init(PlayerPos.transform);
                          else
                              Destroy(newprojectile);
+
+                         //request
+                         StartCoroutine(LaterCall(1f,()=>
+                         {
+                            
+                             m_anim.Play("SpawnR");
+                             StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "SpawnR").GetClip(), 25,() => Destroy(gameObject)));
+                         }));
                      }
 
                      )));
@@ -255,7 +270,7 @@ public class EnemyGhost : MonoBehaviour, IDying
                 StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "Die").GetClip(), 40,
                     () =>
                     {
-                        Destroy(gameObject);
+                        Destroy(this.gameObject);
                     }
                     ));
 

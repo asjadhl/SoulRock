@@ -22,11 +22,19 @@ public class Wave
 
 }
 
+[SerializeField]
+[System.Serializable]
+public class SpawnPointType
+{
+    public EntityType type;
+    public GameObject SpawnPoint;
+}
+
 public class EnemySpawner : MonoBehaviour
 {
     public Transform m_currentPlayer;
-    public List<GameObject> SpawnPoint;
-    [Range(0, 10)] public float m_SpawnRate;
+    public List<SpawnPointType> ListSpawnPointType;
+    [Range(0, 10)] public float m_SpawnRate =5f;
     public List<Wave> m_waves;
 
     public float m_radiusTriggered;
@@ -45,16 +53,40 @@ public class EnemySpawner : MonoBehaviour
         m_currentPlayer = GameObject.FindWithTag("Player").transform;
 
         if (m_currentPlayer == null)
+        {
             gameObject.SetActive(false);
-
-
+            Debug.LogError("CANT FIND THE PLAYER WITH TAG");
+        }
+        if(TargetScanner == null)
+        {
+           GameObject find = GameObject.Find("Scanner");
+            if(find == null)
+            {
+                Debug.LogError("ADD Scanner");
+                gameObject.SetActive(false);
+            }
+        }
         //Get All SpawnPoint Auto
-        SpawnPoint = new List<GameObject>();
+        ListSpawnPointType = new List<SpawnPointType>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            SpawnPoint.Add(transform.GetChild(i).gameObject);
 
-
+            if ('0' == transform.GetChild(i).gameObject.name[0])
+            {
+                ListSpawnPointType.Add(new SpawnPointType());
+                ListSpawnPointType[ListSpawnPointType.Count - 1].SpawnPoint = transform.GetChild(i).gameObject;
+                ListSpawnPointType[ListSpawnPointType.Count - 1].type = EntityType.Walker;
+            }
+            else if ('1' == transform.GetChild(i).gameObject.name[0])
+            {
+                ListSpawnPointType.Add(new SpawnPointType());
+                ListSpawnPointType[ListSpawnPointType.Count - 1].SpawnPoint = transform.GetChild(i).gameObject;
+                ListSpawnPointType[ListSpawnPointType.Count - 1].type = EntityType.Walker;
+            }
+            else
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
         }
         m_waves = new List<Wave>();
         CreateRandomEnemy();
@@ -74,47 +106,63 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnNow(Wave _wave)
     {
-
-      
-
+        List<GameObject> newob = new List<GameObject>();
         for (int i = 0; i < _wave.m_formations.Count; i++)
         {
-
+           
 
             for (int index = 0; index < _wave.m_formations[i].m_enemiesType.Count; index++)
             {
-                 
-                if (_wave.m_formations[i].m_enemiesType[index] != null)
+
+                if (_wave.m_formations[i].m_enemiesType[index] == null)
+                    continue;
+
+                if (_wave.m_formations[i].m_enemiesType[index].enemyobject != null)
                 {
-
-                    if (_wave.m_formations[i].m_enemiesType[index].enemyobject != null)
+                    if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Walker)
                     {
-                        //if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Walker)
-                        //{
-                        //    Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(4, 7)].transform.position, Quaternion.identity);
-                        //}
-                        //else if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Fly)
-                        //{
-                        //    Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, 3)].transform.position, Quaternion.identity);
-                        //}
-                        Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, SpawnPoint[Random.Range(0, SpawnPoint.Count-1)].transform).transform.SetParent(null);
-                        break;
-                    }
-                }
-            }
 
+                        List<SpawnPointType> cu = ListSpawnPointType.FindAll(p => p.type == EntityType.Walker);
+                        cu = cu.FindAll(p => p.SpawnPoint.transform.childCount <= 0);
+                        if (cu.Count > 0)
+                            newob.Add(Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, cu[cu.Count - 1].SpawnPoint.transform));
+                      
+                           // Debug.LogWarning("ENEMY NOT SPAWNING DUE TO NOT HAVING ENOUGH ROOM TO SPAWN FROM WALKER SPAWN");
+                    }
+                    else if (_wave.m_formations[i].m_enemiesType[index].type == EntityType.Fly)
+                    {
+                        List<SpawnPointType> cu = ListSpawnPointType.FindAll(p => p.type == EntityType.Fly);
+                        cu = cu.FindAll(p => p.SpawnPoint.transform.childCount <= 0);
+                        if (cu.Count > 0)
+                            newob.Add(Instantiate(_wave.m_formations[i].m_enemiesType[index].enemyobject, cu[cu.Count - 1].SpawnPoint.transform));
+                        
+                           // Debug.LogWarning("ENEMY NOT SPAWNING DUE TO NOT HAVING ENOUGH ROOM TO SPAWN FROM FLY SPAWN");
+                    }
+
+
+                }
+
+            }
+            for(int j=0;j<newob.Count;j++)
+            {
+                newob[j].transform.SetParent(null);
+               
+            }    
+            newob.Clear();
             yield return new WaitForSeconds(m_SpawnRate);
 
 
+
+            
         }
+
         CreateRandomEnemy();
+
     }
-
-
     void CreateRandomEnemy()
     {
 
-
+        GameManager e = FindAnyObjectByType<GameManager>();
         Wave wave = new Wave();
         wave.m_formations = new List<Formation>();
         for (int i = 0; i < 3; i++) //three formation
@@ -130,9 +178,15 @@ public class EnemySpawner : MonoBehaviour
                 }
                 else
                 {
+                    if (GameManager.instance == null)
+                        Debug.Log("EE");
 
                    
-                    newformation.m_enemiesType.Add(GameManager.instance.GetRandomEnemies);
+
+                    if (e != null)
+                        newformation.m_enemiesType.Add(e.GetRandomEnemies);
+                    else
+                        Debug.Log("E");
                 }
 
             }
@@ -143,17 +197,16 @@ public class EnemySpawner : MonoBehaviour
         m_waves.Add(wave);
     }
 }
-
 #if UNITY_EDITOR
-[CustomEditor(typeof(EnemySpawner))]
-public class ShowScanner : Editor
-{
-    void OnSceneGUI()
+    [CustomEditor(typeof(EnemySpawner))]
+    public class ShowScanner : Editor
     {
-        EnemySpawner t = (EnemySpawner)target;
-        
+        void OnSceneGUI()
+        {
+            EnemySpawner t = (EnemySpawner)target;
 
-   
+
+
 
             if (t.TargetScanner != null)
             {
@@ -168,7 +221,7 @@ public class ShowScanner : Editor
 
                 // Midpoint for curved arrow
                 Vector3 mid = (start + end) * 0.5f;
-                 mid.y += 2.5f;
+                mid.y += 2.5f;
 
                 // Determine color based on index
                 Color arrowColor = Color.HSVToRGB(0.6f, 1f, 1f);
@@ -196,12 +249,13 @@ public class ShowScanner : Editor
 
 
             }
-        
 
 
 
+
+        }
     }
-}
+ 
 #endif
 
 
