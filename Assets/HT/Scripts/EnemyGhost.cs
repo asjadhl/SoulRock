@@ -1,9 +1,14 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor.Animations;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public interface IDying
@@ -12,25 +17,12 @@ public interface IDying
     public bool IsDying { get; set; }
 }
 
-enum State
+public enum State
 {
-    Null, underground, Spawn, Idle, Forward, Fire, Die
+    Null,Idle, Forward, Attack, Die
 }
 
-[System.Serializable]
-public class AnimationClipEvent
-{
-    public string clip_name;
-    AnimationClip clip;
-    public void SetClip(AnimationClip _clip)
-    {
-        clip = _clip;
-    }
-    public AnimationClip GetClip()
-    {
-        return clip;
-    }
-}
+
 
 public delegate void GhostAction();
 public class EnemyGhost : MonoBehaviour, IDying
@@ -42,7 +34,7 @@ public class EnemyGhost : MonoBehaviour, IDying
 
     [SerializeField]
     private float StartNoticingRange;
-    [SerializeField] 
+    [SerializeField]
     private float StartAttackingRange;
     [SerializeField]
     GhostAction ghostAction;
@@ -52,7 +44,7 @@ public class EnemyGhost : MonoBehaviour, IDying
     [Range(-10f, 10f)] float m_speed;
     [SerializeField]
     int m_damage;
-   
+
     public bool IsDying { get; set; }
 
     [Header("Animation")]
@@ -61,29 +53,36 @@ public class EnemyGhost : MonoBehaviour, IDying
     [SerializeField]
     private State My_State;
     [SerializeField]
-    private int  FireProjectileIndex;
+    private int AttackIndex;
     [Space(2)]
-    public List<AnimationClipEvent> m_events;
+    public List<string> ListClipName;
+    public Dictionary<string, AnimationClip> m_eventDic;
     [SerializeField]
-    private List<Coroutine> activeRoutine;
+    private CancellationTokenSource cts;
+    private CancellationTokenSource master_cts;
+    private int activetask = 0;
     [SerializeField]
     float Attackrate = 2f;
     [SerializeField]
     float timer = 0;
 
-   
+
 
     private void Awake()
-    { 
+    {
 
-       
 
-         transform.eulerAngles = new Vector3(0, 180,  0);
+
+        transform.eulerAngles = new Vector3(0, 180, 0);
         //transform.LookAt(Vector3.back);
         PlayerPos = GameObject.FindWithTag("Player").transform;
         if (PlayerPos == null)
+        {
             gameObject.SetActive(false);
 
+            Destroy(gameObject);
+
+        }
         if (m_anim == null)
             m_anim = GetComponent<Animator>();
         if (m_anim == null)
@@ -101,60 +100,58 @@ public class EnemyGhost : MonoBehaviour, IDying
             m_speed += MapScrollSpeed;
         }
 
-        //Get Clip and Event
-        if (m_events != null)
+        //Prototype
+        m_eventDic = new Dictionary<string, AnimationClip>();
+        if (m_eventDic != null && ListClipName != null)
         {
-            foreach (AnimationClipEvent child in m_events)
+            foreach (var child in ListClipName)
             {
-                child.SetClip(GetClipByName(child.clip_name));
+                m_eventDic.Add(child, GetClipByName(child));
             }
         }
-        activeRoutine = new List<Coroutine>();
-        My_State = State.Null;
-        AnimationManager(State.underground);
-        StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "Underground").GetClip(), 20, () =>
-         {
-             AnimationManager(State.Spawn);
-             StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "Spawn").GetClip(), 25, () =>
-             {
-                 AnimationManager(State.Idle);
-                 ghostAction = NoticingUpdate;
-             }));
 
-              
+        cts = new CancellationTokenSource();
+        master_cts = new CancellationTokenSource();
 
 
+           My_State = State.Null;
 
-         }));
-        
+        AnimationManager(State.Idle, master_cts.Token, () =>
+        {
+            ghostAction = NoticingUpdate;
+
+        }).Forget();
     }
 
- 
 
 
 
-      void NoticingUpdate()
+
+    void NoticingUpdate()
     {
         if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartNoticingRange)
         {
+
+
+
             transform.LookAt(PlayerPos.position);
-           
-            transform.position += (MapScrollSpeed+m_speed) * Time.deltaTime * transform.forward;
-            AnimationManager(State.Forward);
+
+            transform.position += (MapScrollSpeed + m_speed) * Time.deltaTime * transform.forward;
+            AnimationManager(State.Forward,cts.Token).Forget();
 
 
-              if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
-              {
+            if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
+            {
                 ghostAction = AttackingUpdate;
-                AnimationManager(State.Idle);
-              }
+                AnimationManager(State.Idle, cts.Token).Forget();
+            }
 
         }
         else
-            transform.position += MapScrollSpeed * Time.deltaTime * Vector3.back;
+            MoveWithMap();
 
     }
-      
+
     void AttackingUpdate()
     {
         transform.LookAt(PlayerPos.position);
@@ -165,16 +162,36 @@ public class EnemyGhost : MonoBehaviour, IDying
         {
 
             timer = 0;
-            AnimationManager(State.Fire);
+            AnimationManager(State.Attack,master_cts.Token, () => {
+
+                //Attack
+                Attack();
+
+
+            AnimationManager(State.Die, master_cts.Token, () => { }
+            
+            ,60).Forget();
+
+            },10).Forget();
         }
 
         //transform.position +=  MapScrollSpeed * Time.deltaTime * Vector3.back;
 
     }
-     
-   
+
+    void Attack()
+    {
+        IDamagable damagable = PlayerPos.GetComponent<IDamagable>();
+        if (damagable != null)
+        {
+            damagable?.TakeHit(m_damage);
+        }
+    }
     private void Update()
-    {  ghostAction?.Invoke();
+    {
+
+
+         Interact(() => { ghostAction?.Invoke(); });
     }
 
 
@@ -182,16 +199,33 @@ public class EnemyGhost : MonoBehaviour, IDying
     public void PlayDyingAnimation(bool _)
     {
         IsDying = _;
-        AnimationManager(State.Die);
+        AnimationManager(State.Die, master_cts.Token, () => {
+
+
+            Destroy(gameObject);
+        }
+        
+        ,60).Forget();
+    }
+    public void MoveWithMap()
+    {
+        transform.position += MapScrollSpeed * Time.deltaTime * Vector3.back;
     }
 
 
 
+    void Interact(System.Action callback = null)
+    {
+        if (PlayerPos != null)
+            callback?.Invoke();
+        else //플레이어가 없을때 자신 없앤다
+        {
+            Instantiate(GameManager.instance.GetProjectTiles[AttackIndex]);
+        }
+    }
 
-
-
-
-    #region Animation_System 
+    #region Animation_System
+    [Obsolete]
     IEnumerator LaterCall(float time, System.Action callback = null)
     {
         yield return new WaitForSeconds(time);
@@ -199,7 +233,28 @@ public class EnemyGhost : MonoBehaviour, IDying
         callback?.Invoke();
 
     }
-    void AnimationManager(State _newState)
+    public async UniTaskVoid UniLaterCall(float time,CancellationToken token, System.Action callback = null)
+    {
+      
+        bool canceled = false;
+
+        try
+        {
+            await UniTask.WaitForSeconds(time, cancellationToken: token);
+        }
+        catch (OperationCanceledException)
+        {
+            canceled = true; 
+        }
+        finally
+        { 
+           if(!canceled)
+               callback?.Invoke();
+        }
+        
+    }
+
+    public async UniTaskVoid AnimationManager(State _newState,CancellationToken token, System.Action callback = null, float duration = 0)
     {
 
         if (My_State == _newState || My_State == State.Die)
@@ -207,79 +262,35 @@ public class EnemyGhost : MonoBehaviour, IDying
         else
             My_State = _newState;
 
-        if (activeRoutine.Count >= 1)
+
+        if(activetask >= 1)
         {
-            for (int i = 0; i < activeRoutine.Count; i++)
-            {
-                StopCoroutine(activeRoutine[i]);
-                activeRoutine[i] = null;
-            }
-            activeRoutine.Clear();
+          
+            cts.Cancel();
         }
-
-
         switch (My_State)
-        {
-            case State.underground:
-                //activeRoutine.Add(StartCoroutine(PlayOneShot("Underground", State.Spawn)));
-                m_anim.Play("Underground");
-                break;
-
-            case State.Spawn:
-                //activeRoutine.Add(StartCoroutine(PlayOneShot("Spawn", State.Idle)));
-                m_anim.Play("Spawn");
-                break;
-
+        {       
             case State.Idle:
-                m_anim.Play("Idle");
+                m_anim.Play(ListClipName[0]);
                 break;
 
             case State.Forward:
-                m_anim.Play("Dash Forward In Place");
+                m_anim.Play(ListClipName[1]);
                 break;
-            case State.Fire:
-                m_anim.Play("Power Shoot Attack");
-                IDamagable idamage = PlayerPos.GetComponent<IDamagable>();
-                idamage?.TakeHit(m_damage);
-                activeRoutine.Add(StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "Power Shoot Attack").GetClip(), 15,
-                     () =>
-                     {  
-                         //new void
-                         GameObject newprojectile = Instantiate(GameManager.instance.GetProjectTiles[FireProjectileIndex], transform.position, Quaternion.identity);
-                          
-                         IBullet bullet = newprojectile.GetComponent<IBullet>();
-                         if (bullet != null)
-                             bullet.Init(PlayerPos.transform);
-                         else
-                             Destroy(newprojectile);
-
-                         //request
-                         StartCoroutine(LaterCall(1f,()=>
-                         {
-                            
-                             m_anim.Play("SpawnR");
-                             StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "SpawnR").GetClip(), 25,() => Destroy(gameObject)));
-                         }));
-                     }
-
-                     )));
+            case State.Attack:
+                m_anim.Play(ListClipName[2]);
                 break;
             case State.Die:
-
-                m_anim.Play("Die");
-                StartCoroutine(TriggerAtSample(m_events.Find(p => p.clip_name == "Die").GetClip(), 40,
-                    () =>
-                    {
-                        Destroy(this.gameObject);
-                    }
-                    ));
-
+                 m_anim.Play(ListClipName[3]);
                 break;
-
-
-
-
         }
+            
+        if(duration  >= 0)
+        await UniTask.WaitForSeconds(duration, cancellationToken: token);
+        else
+            await UniTask.Yield();
+
+        callback?.Invoke();
     }
     AnimationClip GetClipByName(string clipName)
     {
@@ -290,6 +301,7 @@ public class EnemyGhost : MonoBehaviour, IDying
         return null;
     }
 
+    [Obsolete]
     private System.Collections.IEnumerator PlayOneShot(string clipName, State returnState)
     {
         m_anim.Play(clipName);
@@ -301,9 +313,40 @@ public class EnemyGhost : MonoBehaviour, IDying
         }
 
 
-        AnimationManager(returnState);
+       // AnimationManager(returnState);
 
     }
+
+    public async UniTaskVoid UniPlayOneShot(string clipName, CancellationToken token, State returnState)
+    {
+        bool canceled = false;
+        
+       
+
+        try
+        {
+                m_anim.Play(clipName);
+            if (m_eventDic[clipName])
+            {
+                await UniTask.WaitForSeconds(m_eventDic[clipName].length, cancellationToken: token);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            canceled = true;
+            Debug.Log("UniPlayOneShot-Cancel");
+        }
+        finally
+        {
+            if (!canceled)
+            {
+                AnimationManager(returnState,token).Forget();
+            }
+
+        }
+    }
+
+    [Obsolete]
     private IEnumerator TriggerAtSample(AnimationClip clip, int sample, System.Action callback = null)
     {
 
@@ -315,7 +358,37 @@ public class EnemyGhost : MonoBehaviour, IDying
 
         callback?.Invoke();
     }
+
+    public async UniTaskVoid UniTriggerAtSample(string clipName,int sample, CancellationToken token,bool IsMaster, System.Action callback = null)
+    {
+        float waitTime = sample / m_eventDic[clipName].frameRate;
+
+        bool canceled = false;
+
+        try
+        {
+            if(!IsMaster)
+            activetask++;
+            await UniTask.WaitForSeconds(waitTime, cancellationToken: token);
+        }
+        catch(OperationCanceledException)
+        {
+            canceled = true;
+            Debug.Log("UniTrig-Cancel");
+        }
+        finally
+        {
+            if (!IsMaster)
+                activetask--;
+            if (!canceled) 
+            callback?.Invoke();
+        }
+       
+    }
+
     #endregion
 }
+
+
 
 

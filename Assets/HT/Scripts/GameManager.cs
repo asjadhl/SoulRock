@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
    
 
    
-    public void Start()
+    public void Awake()
     {
         if (instance != null)
             Destroy(this.gameObject);
