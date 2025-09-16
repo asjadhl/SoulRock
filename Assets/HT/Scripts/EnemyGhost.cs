@@ -19,7 +19,7 @@ public interface IDying
 
 public enum State
 {
-    Null,Idle, Forward, Attack, Die
+    Underground,Spawn,Idle, Forward, Attack, Die,SpawnR,Null
 }
 
 
@@ -65,7 +65,7 @@ public class EnemyGhost : MonoBehaviour, IDying
     float timer = 0;
 
 
-
+  
     private void Awake()
     {
 
@@ -91,15 +91,19 @@ public class EnemyGhost : MonoBehaviour, IDying
         }
 
 
-      
+
 
         //Prototype
+        int i = 0;
         m_eventDic = new Dictionary<string, AnimationClip>();
         if (m_eventDic != null && ListClipName != null)
         {
             foreach (var child in ListClipName)
             {
-                m_eventDic.Add(child, GetClipByName(child));
+                if (child != "")
+                    m_eventDic.Add(child, GetClipByName(child));
+                else
+                    m_eventDic.Add(i++.ToString(), null);
             }
         }
 
@@ -114,11 +118,10 @@ public class EnemyGhost : MonoBehaviour, IDying
             ghostAction = AlertUpdate;
 
         }).Forget();
+        
     }
 
-
-
-
+     
     
    private void AlertUpdate()
     {
@@ -134,6 +137,7 @@ public class EnemyGhost : MonoBehaviour, IDying
             {
                 //Stick with Player
                 transform.SetParent(PlayerPos.transform);
+                AnimationManager(State.Idle, cts.Token).Forget();
                 ghostAction = AttackingUpdate;
 
             }
@@ -152,7 +156,11 @@ public class EnemyGhost : MonoBehaviour, IDying
                 timer = 0;
               if(TryGetComponent<Collider>(out var c))
                        c.enabled = false;
-                 
+             else
+             {
+                    GetComponentInChildren<Collider>().enabled = false;          
+             }
+
                 AnimationManager(State.Attack, cts.Token, () =>
                 {
 
@@ -194,13 +202,14 @@ public class EnemyGhost : MonoBehaviour, IDying
         }
         ,80).Forget();
 
-        UniIEnumerator(cts.Token).Forget();
+        UniScaleChangeOverTime(cts.Token).Forget();
     }
 
 
     private void OnDestroy()
     {
         cts.Cancel();
+      //  m.material.color = origin.color;
     }
 
     void Interact(System.Action callback = null)
@@ -214,14 +223,7 @@ public class EnemyGhost : MonoBehaviour, IDying
     }
 
     #region Animation_System
-    [System.Obsolete]
-    IEnumerator LaterCall(float time, System.Action callback = null)
-    {
-        yield return new WaitForSeconds(time);
-
-        callback?.Invoke();
-
-    }
+    
     public async UniTaskVoid UniLaterCall(float time,CancellationToken token, System.Action callback = null)
     {
       
@@ -258,19 +260,29 @@ public class EnemyGhost : MonoBehaviour, IDying
             cts.Cancel();
         }
         switch (My_State)
-        {       
-            case State.Idle:
+        {
+            case State.Underground:
                 m_anim.Play(ListClipName[0]);
+                break;
+            case State.Spawn:
+                m_anim.Play(ListClipName[1]);
+                break;
+
+            case State.Idle:
+                m_anim.Play(ListClipName[2]);
                 break;
 
             case State.Forward:
-                m_anim.Play(ListClipName[1]);
+                m_anim.Play(ListClipName[3]);
                 break;
             case State.Attack:
-                m_anim.Play(ListClipName[2]);
+                m_anim.Play(ListClipName[4]);
                 break;
             case State.Die:
-                 m_anim.Play(ListClipName[3]);
+                 m_anim.Play(ListClipName[5]);
+                break;
+            case State.SpawnR:
+                m_anim.Play(ListClipName[6]);
                 break;
         }
 
@@ -291,22 +303,6 @@ public class EnemyGhost : MonoBehaviour, IDying
             if (clip.name == clipName) return clip;
         }
         return null;
-    }
-
-    [System.Obsolete]
-    private System.Collections.IEnumerator PlayOneShot(string clipName, State returnState)
-    {
-        m_anim.Play(clipName);
-
-        var clip = GetClipByName(clipName);
-        if (clip != null)
-        {
-            yield return new WaitForSeconds(clip.length);
-        }
-
-
-       // AnimationManager(returnState);
-
     }
 
     public async UniTaskVoid UniPlayOneShot(State _newState, CancellationToken token, State returnState)
@@ -336,19 +332,7 @@ public class EnemyGhost : MonoBehaviour, IDying
         }
     }
 
-    [System.Obsolete]
-    private IEnumerator TriggerAtSample(AnimationClip clip, int sample, System.Action callback = null)
-    {
-
-        float waitTime = sample / clip.frameRate;
-
-
-        yield return new WaitForSeconds(waitTime);
-
-
-        callback?.Invoke();
-    }
-
+    
     public async UniTaskVoid UniTriggerAtSample(State _newState,int sample, CancellationToken token,bool IsMaster, System.Action callback = null)
     {
         float waitTime = sample / m_eventDic[ListClipName[(int)_newState]].frameRate;
@@ -376,23 +360,26 @@ public class EnemyGhost : MonoBehaviour, IDying
        
     }
 
-    public async UniTaskVoid UniIEnumerator(CancellationToken token)
+    public async UniTaskVoid UniScaleChangeOverTime(CancellationToken token)  
     {
         float scales = 1;
-
+        Vector3 Origin = transform.localScale;
         while (true)
         {
-
-
             scales -= Time.deltaTime;
             if (scales <= 0)
                 break;
-            transform.localScale = new Vector3(1,1,1) * scales;
-            await UniTask.WaitForSeconds(Time.deltaTime,cancellationToken: token);
+            transform.localScale = Origin * scales;
+            await UniTask.WaitForSeconds(Time.deltaTime,cancellationToken: token);   
         }
+
+
+
+        
     }
    
-     
+  
+
     #endregion
 }
 

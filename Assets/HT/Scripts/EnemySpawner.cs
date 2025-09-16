@@ -171,18 +171,21 @@ public class EnemySpawner : MonoBehaviour
                     {
                         if (_wave.m_formations[formationIndex].m_enemiesType[enemiesIndex].type == EntityType.Walker && Walker.Count >= 1)
                         {
+                            int index = Random.Range(0,Walker.Count-1);
 
 
-
-                            newEnemy.Add(Instantiate(_wave.m_formations[formationIndex].m_enemiesType[enemiesIndex].enemyobject, Walker[Walker.Count-1].transform));
-                             Walker.Remove(Walker[Walker.Count - 1]);
+                            newEnemy.Add(Instantiate(_wave.m_formations[formationIndex].m_enemiesType[enemiesIndex].enemyobject, Walker[index].transform));
+                             Walker.Remove(Walker[index]);
                             // Debug.LogWarning("ENEMY NOT SPAWNING DUE TO NOT HAVING ENOUGH ROOM TO SPAWN FROM WALKER SPAWN");
                         }
                         else if (_wave.m_formations[formationIndex].m_enemiesType[enemiesIndex].type == EntityType.Fly && Fly.Count >= 1)
                         {
+                            int index = Random.Range(0, Fly.Count - 1);
 
-                            newEnemy.Add(Instantiate(_wave.m_formations[formationIndex].m_enemiesType[enemiesIndex].enemyobject, Fly[Fly.Count - 1].transform));
-                            Fly.Remove(Fly[Fly.Count - 1]);
+
+
+                            newEnemy.Add(Instantiate(_wave.m_formations[formationIndex].m_enemiesType[enemiesIndex].enemyobject, Fly[index].transform));
+                            Fly.Remove(Fly[index]);
                             // Debug.LogWarning("ENEMY NOT SPAWNING DUE TO NOT HAVING ENOUGH ROOM TO SPAWN FROM FLY SPAWN");
                         }
 
@@ -196,7 +199,10 @@ public class EnemySpawner : MonoBehaviour
                      newEnemy.Clear();
 
                 await UniTask.WaitForSeconds(m_SpawnRate, cancellationToken: token);
-            }
+            }   
+
+            if(_wave.m_formations.Count == 1)
+                await UniTask.WaitForSeconds(m_SpawnRate, cancellationToken: token);
         }
         catch(System.OperationCanceledException)
         {

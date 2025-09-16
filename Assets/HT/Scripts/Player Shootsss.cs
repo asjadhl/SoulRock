@@ -25,9 +25,18 @@ public class PlayerShootsss : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100f))
             {
                 IDamagable damagable = hit.collider.GetComponent<IDamagable>();
+
                 if (damagable != null)
                 {
                     damagable.TakeHit(8);
+                }
+                else
+                {
+                    damagable = hit.collider.GetComponentInParent<IDamagable>();
+                    if (damagable == null)
+                        Debug.Log("NULL");
+                    damagable?.TakeHit(8);
+
                 }
             }
         }
