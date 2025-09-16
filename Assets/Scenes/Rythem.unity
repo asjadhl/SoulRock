@@ -227,11 +227,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167b6bc8151110940ba9f6e3083e49bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstTimer: 0a00000019000000
-  lastTimer: 0f0000001e000000
-  dotChageSpeed: 2c010000dc050000
+  firstTimerFast: 0a000000
+  lastTimerFast: 0f000000
+  firstTimerSlow: 14000000
+  lastTimerSlow: 1e000000
   DotBoxGeneL: {fileID: 1145965522}
   DotBoxGeneR: {fileID: 515483279}
+  doubleDotSpeed: 0
+  lowDoubleDotSpeed: 0
 --- !u!4 &231771831
 Transform:
   m_ObjectHideFlags: 0
@@ -398,8 +401,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotboxPrefabR: {fileID: 6043420594518806999, guid: ced05b9e6900cd547b44c9dfa18d082c, type: 3}
-  dotboxTime: 668
+  bpm: 120
+  poolSize: 10
+  startDelay: 1
+  spawnTimer: {fileID: 231771830}
   poolR: []
+  delayMs: 0
+  musicStartDspTime: 0
 --- !u!1 &539917658
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,8 +625,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotboxPrefabL: {fileID: 6043420594518806999, guid: 4416be17024308947ac545ec174af71f, type: 3}
-  dotboxTime: 668
+  bpm: 120
+  poolSize: 10
+  startDelay: 1
+  spawnTimer: {fileID: 231771830}
   poolL: []
+  delayMs: 0
+  musicStartDspTime: 0
 --- !u!1 &1186693774
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,14 +808,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minClick: 8
-  maxClick: 150
+  maxClick: 200
   leftDotBox: {fileID: 1145965523}
   rightDotBox: {fileID: 515483280}
   dotL: {fileID: -8066678590551068294, guid: 4416be17024308947ac545ec174af71f, type: 3}
   dotR: {fileID: -8066678590551068294, guid: ced05b9e6900cd547b44c9dfa18d082c, type: 3}
   test: 0
   clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
-  player: {fileID: 0}
 --- !u!82 &1341030591
 AudioSource:
   m_ObjectHideFlags: 0

@@ -24,18 +24,19 @@ public class HitBoxCon: MonoBehaviour
     public bool test = false;
     AudioSource a;
     [SerializeField] AudioClip clip;
-    [SerializeField] GameObject player;
+    //[SerializeField] GameObject player;
+
+
     private void Start()
     {
-        a = GetComponent<AudioSource>();
         int[] colorValue = new int[4];
         //color = new Color(colorValue[0], colorValue[1], colorValue[2], colorValue[3]);
+        a = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         TryClick();
-        
     }
 
     private void TryClick() //GURI GUHASU 
@@ -71,7 +72,7 @@ public class HitBoxCon: MonoBehaviour
     {
 
         a.PlayOneShot(clip);
-        player.GetComponent<PlayerShoot>().PlayerShoot_();
+        //player.GetComponent<PlayerShoot>().PlayerShoot_();
         Debug.Log("클릭성공!");
         
         // 클릭 성공 시 처리할 로직
