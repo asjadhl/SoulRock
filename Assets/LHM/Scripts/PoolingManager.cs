@@ -36,6 +36,17 @@ public class PoolingManager : MonoBehaviour
 
             poolDictionary.Add(pool.tag, objectPool);
         }
+        //프리펩90도 회전
+        foreach (var pool in pools)
+        {
+            if (pool.tag == "Corridor")
+            {
+                foreach (var obj in poolDictionary[pool.tag])
+                {
+                    obj.transform.Rotate(0, 90, 0);
+                }
+            }
+        }
     }
 
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
