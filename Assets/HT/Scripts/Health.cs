@@ -39,7 +39,7 @@ public class Health: MonoBehaviour, IDamagable
     [SerializeField] private int m_MaxHealth = 100;
     [SerializeField] private int m_CurrentHealth = 100;
 
-    [SerializeField] private Transform TargetParent;
+    [SerializeField] private Transform TargetParentHealthBar;
     [SerializeField] private Vector3 CanvasPosition;
     [SerializeField] private GameObject m_healthBar;
     [SerializeField] private RectTransform m_fill;
@@ -101,7 +101,7 @@ public class Health: MonoBehaviour, IDamagable
 
                 //Basic
                 GameObject m_canvas = new GameObject("Canvas");
-                m_canvas.transform.SetParent(TargetParent);
+                m_canvas.transform.SetParent(TargetParentHealthBar);
                 m_canvas.AddComponent<Canvas>();
                 m_canvas.AddComponent<CanvasScaler>();
                 m_canvas.AddComponent<GraphicRaycaster>();
@@ -174,8 +174,8 @@ public class Health: MonoBehaviour, IDamagable
     public void HealthBarAnimation()
     {
 
-
-        if (m_time >= 1f || gameObject == null)
+          
+        if (m_time >= 1f || gameObject == null || IsHide)
         { return; }
         else
         {
@@ -192,12 +192,6 @@ public class Health: MonoBehaviour, IDamagable
     #endregion
     public void Update()
     {
-
-        
-             
-           
-       
-      
         HealthBarAnimation();
     }
 }

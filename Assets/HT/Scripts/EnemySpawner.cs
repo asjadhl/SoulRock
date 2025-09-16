@@ -43,13 +43,18 @@ public class EnemySpawner : MonoBehaviour
     public Transform m_currentPlayer;
     public Dictionary<int,SpawnPointType> DictSpawnPoint;
     [Range(0, 10)] public float m_SpawnRate =5f;
-    [Range(0f, 1f)] public float m_CreateChanceRate;
+    [Range(0, 10)] public int m_maxFormationCount;
+    [Range(0, 10)] public int m_maxEnemiesCount;
+    public float m_maximum_child;
     public List<Wave> m_waves;
 
     public float m_radiusTriggered;
     public Transform TargetScanner;
     private CancellationTokenSource cts;
 
+    [Space(5)]
+    [Header("BetweenPlayer")]
+    public Vector3 offset;
     public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
     {
         return (pos - center).sqrMagnitude <= radius * radius;
@@ -96,13 +101,31 @@ public class EnemySpawner : MonoBehaviour
                 Destroy(transform.GetChild(i).gameObject);
             }
         }
+
+        m_maximum_child = transform.childCount;
         m_waves = new List<Wave>();
         cts = new CancellationTokenSource();
-        CreateRandomEnemy();
+        m_waves.Add(CreateEnemy());
+    }
+
+    void OffsetPlayerPos()
+    {  
+        if(m_currentPlayer != null)
+        transform.position = m_currentPlayer.transform.position + offset;
     }
     public void Update()
     {
-        for (int i = 0; i < m_waves.Count; i++)
+
+        OffsetPlayerPos();
+
+
+        if (m_currentPlayer == null)
+        {
+            cts.Cancel();
+            Debug.Log("Player With Tag is disappear");
+        }
+
+            for (int i = 0; i < m_waves.Count; i++)
         {
             if (IsInsideCircle(m_currentPlayer.position, TargetScanner.position, m_radiusTriggered))
             {
@@ -112,6 +135,9 @@ public class EnemySpawner : MonoBehaviour
             }
 
         }
+
+
+       
     }
     public async UniTaskVoid UniSpawnNow(Wave _wave, CancellationToken token, System.Action callback = null)
     {   
@@ -181,7 +207,6 @@ public class EnemySpawner : MonoBehaviour
         {
             if (!canceled)
             {
-                CreateRandomEnemy();
                 callback?.Invoke();
             }  
 
@@ -190,40 +215,40 @@ public class EnemySpawner : MonoBehaviour
                 foreach (GameObject child in newEnemy)
                     child.transform.SetParent(null);
             }
+            m_waves.Add(CreateEnemy());
         }
     }
    
-    void CreateRandomEnemy()
+
+
+
+    Wave CreateEnemy()
     {
-
-        
-        Wave wave = new Wave();
-        wave.m_formations = new List<Formation>();
-        for (int i = 0; i < 3; i++) //three formation
+        Debug.Log("CreateEnemy");
+        Wave wave = new();
+        Formation NewFormation;
+        wave.m_formations = new();
+        int desiredFormationCount = m_maxFormationCount;
+        int desiredEnemyCount = m_maxEnemiesCount;
+        int x = 0,y=0;
+        for (;x< desiredFormationCount; x++)
         {
-            Formation newformation = new Formation();
-            newformation.m_enemiesType = new List<EnemiesType>();
-            for (int j = 0; j < 10; j++)
+            NewFormation = new();
+            NewFormation.m_enemiesType = new();
+
+            for(;y< desiredEnemyCount; y++)
             {
-                if (Random.value < m_CreateChanceRate)
-                {
-                    newformation.m_enemiesType.Add(null);
-
-                }
-                else
-                {
-                    
-                        newformation.m_enemiesType.Add(GameManager.instance.GetRandomEnemies);
-                    
-                }
-
+                
+                NewFormation.m_enemiesType.Add(GameManager.instance.GetRandomEnemies);
             }
-            wave.m_formations.Add(newformation);
 
+              
+            wave.m_formations.Add(NewFormation);
         }
-
-        m_waves.Add(wave);
+        return wave;
     }
+
+  
 }
 #if UNITY_EDITOR
     [CustomEditor(typeof(EnemySpawner))]

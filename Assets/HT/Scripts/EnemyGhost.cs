@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using System;
+using Cysharp.Threading.Tasks.CompilerServices;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -33,13 +33,11 @@ public class EnemyGhost : MonoBehaviour, IDying
     private Transform PlayerPos;
 
     [SerializeField]
-    private float StartNoticingRange;
+    private float StartAlertingRange;
     [SerializeField]
     private float StartAttackingRange;
     [SerializeField]
     GhostAction ghostAction;
-    [SerializeField]
-    [Range(0f, 10f)] float MapScrollSpeed;
     [SerializeField]
     [Range(-10f, 10f)] float m_speed;
     [SerializeField]
@@ -73,7 +71,7 @@ public class EnemyGhost : MonoBehaviour, IDying
 
 
 
-        transform.eulerAngles = new Vector3(0, 180, 0);
+        transform.eulerAngles = new Vector3(0,  Random.Range(0,180), 0);
         //transform.LookAt(Vector3.back);
         PlayerPos = GameObject.FindWithTag("Player").transform;
         if (PlayerPos == null)
@@ -87,18 +85,13 @@ public class EnemyGhost : MonoBehaviour, IDying
             m_anim = GetComponent<Animator>();
         if (m_anim == null)
         {
-            gameObject.SetActive(false);
             Debug.LogError($"GameObject :{this.name}'s Animator is missing");
+            gameObject.SetActive(false);
+            
         }
 
 
-        //Foreign Code
-        var va = FindAnyObjectByType<CorridorSpawner>();
-        if (va != null)
-        {
-            MapScrollSpeed = va.moveSpeed;
-            m_speed += MapScrollSpeed;
-        }
+      
 
         //Prototype
         m_eventDic = new Dictionary<string, AnimationClip>();
@@ -118,7 +111,7 @@ public class EnemyGhost : MonoBehaviour, IDying
 
         AnimationManager(State.Idle, master_cts.Token, () =>
         {
-            ghostAction = NoticingUpdate;
+            ghostAction = AlertUpdate;
 
         }).Forget();
     }
@@ -126,63 +119,54 @@ public class EnemyGhost : MonoBehaviour, IDying
 
 
 
-
-    void NoticingUpdate()
+    
+   private void AlertUpdate()
     {
-        if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartNoticingRange)
+         
+       // if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartNoticingRange)
+        if(Vector3.Distance(PlayerPos.position,transform.position) <= StartAlertingRange)
         {
-
-
-
             transform.LookAt(PlayerPos.position);
-
-            transform.position += (MapScrollSpeed + m_speed) * Time.deltaTime * transform.forward;
+            transform.position += m_speed * Time.deltaTime * transform.forward;
             AnimationManager(State.Forward,cts.Token).Forget();
-
-
-            if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
+            //if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
+            if (Vector3.Distance(PlayerPos.position, transform.position) <= StartAttackingRange)
             {
+                //Stick with Player
+                transform.SetParent(PlayerPos.transform);
                 ghostAction = AttackingUpdate;
-                AnimationManager(State.Idle, cts.Token).Forget();
-            }
 
+            }
         }
-        else
-            MoveWithMap();
+        
+            
 
     }
 
     void AttackingUpdate()
-    {
-        transform.LookAt(PlayerPos.position);
-        timer = Mathf.Clamp(timer + Time.deltaTime, 0f, 10f);
+    { 
+            timer = Mathf.Clamp(timer + Time.deltaTime, 0f, 10f);
+            if (timer >= Attackrate)
+            {
 
+                timer = 0;
+              if(TryGetComponent<Collider>(out var c))
+                       c.enabled = false;
+                 
+                AnimationManager(State.Attack, cts.Token, () =>
+                {
 
-        if (timer >= Attackrate)
-        {
+                    //Attack
+                    Attack();
+                    PlayDyingAnimation(true);
 
-            timer = 0;
-            AnimationManager(State.Attack,master_cts.Token, () => {
-
-                //Attack
-                Attack();
-
-
-            AnimationManager(State.Die, master_cts.Token, () => { }
-            
-            ,60).Forget();
-
-            },10).Forget();
-        }
-
-        //transform.position +=  MapScrollSpeed * Time.deltaTime * Vector3.back;
-
+                }, 40).Forget();
+            }      
     }
 
     void Attack()
     {
-        IDamagable damagable = PlayerPos.GetComponent<IDamagable>();
-        if (damagable != null)
+        if (PlayerPos.TryGetComponent<IDamagable>(out var damagable))
         {
             damagable?.TakeHit(m_damage);
         }
@@ -199,20 +183,25 @@ public class EnemyGhost : MonoBehaviour, IDying
     public void PlayDyingAnimation(bool _)
     {
         IsDying = _;
+        ghostAction = null;
+        transform.SetParent(null);
+
+        
         AnimationManager(State.Die, master_cts.Token, () => {
 
 
             Destroy(gameObject);
         }
-        
-        ,60).Forget();
+        ,80).Forget();
+
+        UniIEnumerator(cts.Token).Forget();
     }
-    public void MoveWithMap()
+
+
+    private void OnDestroy()
     {
-        transform.position += MapScrollSpeed * Time.deltaTime * Vector3.back;
+        cts.Cancel();
     }
-
-
 
     void Interact(System.Action callback = null)
     {
@@ -220,12 +209,12 @@ public class EnemyGhost : MonoBehaviour, IDying
             callback?.Invoke();
         else //플레이어가 없을때 자신 없앤다
         {
-            Instantiate(GameManager.instance.GetProjectTiles[AttackIndex]);
+            PlayDyingAnimation(false);
         }
     }
 
     #region Animation_System
-    [Obsolete]
+    [System.Obsolete]
     IEnumerator LaterCall(float time, System.Action callback = null)
     {
         yield return new WaitForSeconds(time);
@@ -242,7 +231,7 @@ public class EnemyGhost : MonoBehaviour, IDying
         {
             await UniTask.WaitForSeconds(time, cancellationToken: token);
         }
-        catch (OperationCanceledException)
+        catch (System.OperationCanceledException)
         {
             canceled = true; 
         }
@@ -254,7 +243,7 @@ public class EnemyGhost : MonoBehaviour, IDying
         
     }
 
-    public async UniTaskVoid AnimationManager(State _newState,CancellationToken token, System.Action callback = null, float duration = 0)
+    public async UniTaskVoid AnimationManager(State _newState,CancellationToken token, System.Action callback = null, float sample = 0)
     {
 
         if (My_State == _newState || My_State == State.Die)
@@ -284,9 +273,12 @@ public class EnemyGhost : MonoBehaviour, IDying
                  m_anim.Play(ListClipName[3]);
                 break;
         }
-            
-        if(duration  >= 0)
-        await UniTask.WaitForSeconds(duration, cancellationToken: token);
+
+        if (sample > 0)
+        {
+            float waitTime = sample / m_eventDic[ListClipName[(int)_newState]].frameRate; ;
+            await UniTask.WaitForSeconds(waitTime, cancellationToken: token);
+        }
         else
             await UniTask.Yield();
 
@@ -301,7 +293,7 @@ public class EnemyGhost : MonoBehaviour, IDying
         return null;
     }
 
-    [Obsolete]
+    [System.Obsolete]
     private System.Collections.IEnumerator PlayOneShot(string clipName, State returnState)
     {
         m_anim.Play(clipName);
@@ -317,21 +309,19 @@ public class EnemyGhost : MonoBehaviour, IDying
 
     }
 
-    public async UniTaskVoid UniPlayOneShot(string clipName, CancellationToken token, State returnState)
+    public async UniTaskVoid UniPlayOneShot(State _newState, CancellationToken token, State returnState)
     {
-        bool canceled = false;
-        
-       
+        bool canceled = false;        
 
         try
         {
-                m_anim.Play(clipName);
-            if (m_eventDic[clipName])
+            m_anim.Play(ListClipName[(int)_newState]);
+            if (m_eventDic[ListClipName[(int)_newState]])
             {
-                await UniTask.WaitForSeconds(m_eventDic[clipName].length, cancellationToken: token);
+                await UniTask.WaitForSeconds(m_eventDic[ListClipName[(int)_newState]].length, cancellationToken: token);
             }
         }
-        catch (OperationCanceledException)
+        catch (System.OperationCanceledException)
         {
             canceled = true;
             Debug.Log("UniPlayOneShot-Cancel");
@@ -346,7 +336,7 @@ public class EnemyGhost : MonoBehaviour, IDying
         }
     }
 
-    [Obsolete]
+    [System.Obsolete]
     private IEnumerator TriggerAtSample(AnimationClip clip, int sample, System.Action callback = null)
     {
 
@@ -359,9 +349,9 @@ public class EnemyGhost : MonoBehaviour, IDying
         callback?.Invoke();
     }
 
-    public async UniTaskVoid UniTriggerAtSample(string clipName,int sample, CancellationToken token,bool IsMaster, System.Action callback = null)
+    public async UniTaskVoid UniTriggerAtSample(State _newState,int sample, CancellationToken token,bool IsMaster, System.Action callback = null)
     {
-        float waitTime = sample / m_eventDic[clipName].frameRate;
+        float waitTime = sample / m_eventDic[ListClipName[(int)_newState]].frameRate;
 
         bool canceled = false;
 
@@ -371,7 +361,7 @@ public class EnemyGhost : MonoBehaviour, IDying
             activetask++;
             await UniTask.WaitForSeconds(waitTime, cancellationToken: token);
         }
-        catch(OperationCanceledException)
+        catch(System.OperationCanceledException)
         {
             canceled = true;
             Debug.Log("UniTrig-Cancel");
@@ -386,6 +376,23 @@ public class EnemyGhost : MonoBehaviour, IDying
        
     }
 
+    public async UniTaskVoid UniIEnumerator(CancellationToken token)
+    {
+        float scales = 1;
+
+        while (true)
+        {
+
+
+            scales -= Time.deltaTime;
+            if (scales <= 0)
+                break;
+            transform.localScale = new Vector3(1,1,1) * scales;
+            await UniTask.WaitForSeconds(Time.deltaTime,cancellationToken: token);
+        }
+    }
+   
+     
     #endregion
 }
 
