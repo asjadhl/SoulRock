@@ -3,14 +3,16 @@ using UnityEngine;
 public class PlayerShootsss : MonoBehaviour
 {
 
+    public float m_speed = 2;
     
     private void Update()
     {
+        transform.position += m_speed* Time.deltaTime * transform.forward;
         PlayerShoot_();
     }
 
     public void PlayerShoot_()
-    {
+    {     
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -23,9 +25,18 @@ public class PlayerShootsss : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100f))
             {
                 IDamagable damagable = hit.collider.GetComponent<IDamagable>();
+
                 if (damagable != null)
                 {
                     damagable.TakeHit(8);
+                }
+                else
+                {
+                    damagable = hit.collider.GetComponentInParent<IDamagable>();
+                    if (damagable == null)
+                        Debug.Log("NULL");
+                    damagable?.TakeHit(8);
+
                 }
             }
         }

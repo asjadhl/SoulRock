@@ -64,18 +64,28 @@
 //}
 
 
+
+using System.Collections.Generic;
 using UnityEngine;
 
 public class test : MonoBehaviour
 {
 
 
-    public GameObject game;
-
-    private void Awake()
+    //List<GameObject> listgame = new List<GameObject> ();
+    public GameObject tar;
+    public void Start()
     {
-        Instantiate(gameObject,transform,false);
+       
+
+
     }
+
+    public void Update()
+    {
+        Debug.Log(tar.transform.position);
+    }
+
 }
 
 //public class test : MonoBehaviour

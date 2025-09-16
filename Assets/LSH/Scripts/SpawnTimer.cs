@@ -19,7 +19,7 @@ public class SpawnTimer : MonoBehaviour
     DotBoxGeneratorL dotBoxGenL;
     DotBoxGeneratorR dotBoxGenR;
     int normalSpeed = 0;
-    bool calones =true;
+    bool calones = true;
 
     int i = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,8 +28,8 @@ public class SpawnTimer : MonoBehaviour
         timer = 0;
         dotBoxGenL = DotBoxGeneL.GetComponent<DotBoxGeneratorL>();
         dotBoxGenR = DotBoxGeneR.GetComponent<DotBoxGeneratorR>();
-        normalSpeed = dotBoxGenL.dotboxTime;
-        
+        //normalSpeed = dotBoxGenL.dotboxTime;
+
     }
 
     // Update is called once per frame
@@ -43,25 +43,26 @@ public class SpawnTimer : MonoBehaviour
     void CheckTimer()
     {
         timer += Time.deltaTime;
-        if (i <firstTimer.Length)
+        if (i < firstTimer.Length)
         {
             if ((int)timer == firstTimer[i] && calones)
             {
-                Debug.Log(i);
-                calones = false;
-                dotBoxGenL.dotboxTime = dotChageSpeed[i];
-                dotBoxGenR.dotboxTime = dotChageSpeed[i];
-                Debug.Log(dotBoxGenL.dotboxTime);
+                //    Debug.Log(i);
+                //    calones = false;
+                //    dotBoxGenL.dotboxTime = dotChageSpeed[i];
+                //    dotBoxGenR.dotboxTime = dotChageSpeed[i];
+                //    Debug.Log(dotBoxGenL.dotboxTime);
+                //}
+                //if ((int)timer == lastTimer[i] && !calones)
+                //{
+                //    calones = true;
+                //    i++;
+                //    dotBoxGenL.dotboxTime = normalSpeed;
+                //    dotBoxGenR.dotboxTime = normalSpeed;
+                //    Debug.Log(dotBoxGenL.dotboxTime);
+                //}
             }
-            if ((int)timer == lastTimer[i] && !calones)
-            {
-                calones = true;
-                i++;
-                dotBoxGenL.dotboxTime = normalSpeed;
-                dotBoxGenR.dotboxTime = normalSpeed;
-                Debug.Log(dotBoxGenL.dotboxTime);
-            }
+
         }
-        
     }
 }

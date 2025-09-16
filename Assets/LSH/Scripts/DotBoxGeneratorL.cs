@@ -7,78 +7,98 @@ public class DotBoxGeneratorL : MonoBehaviour
 
     [Header("도트박스 프리팹")]
     [SerializeField] GameObject dotboxPrefabL;
-    [Header("생성타이밍")]
-    [SerializeField] public int dotboxTime = 500;
-    public GameObject[] poolL;
-    private int pivot = 0;
+    [Header("음악 소스")]
+    [SerializeField] AudioSource musicSource;
+    [Header("BPM (박자 속도)")]
+    [SerializeField] double bpm = 120.0;
+    [Header("풀 사이즈")]
+    [SerializeField] int poolSize = 10;
+    [Header("음악 시작 지연 (초)")]
+    [SerializeField] double startDelay = 1.0;
 
-    bool getDamage = false;
+    private GameObject[] poolL;
+    private int pivot = 0;
+    private bool getDamage = false;
+
+    // dspTime 기반 계산용
+    private double musicStartDspTime;
+    private double secondsPerBeat;
+
     void Awake()
     {
         // 싱글톤 패턴
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject); // 중복 방지
-        }
+        if (Instance == null) Instance = this;
+        else if (Instance != this) Destroy(gameObject);
     }
 
     void Start()
     {
-        poolL = new GameObject[10];
+        // 풀 생성
+        poolL = new GameObject[poolSize];
         for (int i = 0; i < poolL.Length; i++)
         {
             GameObject dotA = Instantiate(dotboxPrefabL, transform);
             dotA.SetActive(false);
             poolL[i] = dotA;
         }
-        DotBoxGen().Forget(); //Forget을 사용안하면 Await을 기다리기 전에 Start가 종료됨.지우지말것.
-    }
-    void Update() 
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            getDamage = true;
-        }
-        if(Input.GetKeyDown(KeyCode.S))
-        {
 
-        getDamage = false; }
+        // 이거는 한 박자가 몇초인지. 120bpm 이면 0.5초정도?
+        secondsPerBeat = 60.0 / bpm;
+        // BPM/60 하면 1초당 박자 수
+
+        // 음악을 dspTime 기준으로 예약 재생
+        musicStartDspTime = AudioSettings.dspTime + startDelay;
+        musicSource.PlayScheduled(musicStartDspTime);
+
+        // 도트 생성 루프 시작
+        DotBoxGen().Forget();
     }
-    public GameObject GetDotBox() //활성화용도
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K)) getDamage = true;
+        if (Input.GetKeyDown(KeyCode.S)) getDamage = false;
+    }
+
+    public GameObject GetDotBox()
     {
         GameObject dotA = poolL[pivot];
         dotA.SetActive(true);
-        pivot++;
-        if (pivot >= poolL.Length)
-        {
-            pivot = 0;
-        }
+        pivot = (pivot + 1) % poolL.Length;
         return dotA;
     }
-    public void ReturnDot(GameObject dot) //비활성화용도
+
+    public void ReturnDot(GameObject dot)
     {
         dot.GetComponent<DotBoxConL>().SetColor();
         dot.SetActive(false);
-        dot.transform.position = transform.position; // 위치 초기화
+        dot.transform.position = transform.position;
     }
+
     private async UniTask DotBoxGen()
     {
+        int beatIndex = 0;
+
         while (true)
         {
-           // 도트 생성
+            // 이번 박자의 dspTime 계산
+            double nextBeatDsp = musicStartDspTime + secondsPerBeat * beatIndex;
+            double delayMs = (nextBeatDsp - AudioSettings.dspTime) * 1000.0; // 현재 시간과 초기 시간을빼고 밀리초로 변환
+
+            if (delayMs > 0)
+                await UniTask.Delay((int)delayMs);
+
+            // 도트 생성
             GameObject dotA = GetDotBox();
             dotA.transform.position = transform.position;
+
             if (getDamage)
             {
-                _ =  dotA.GetComponent<DotBoxConL>().ChangeColor();
+                _ = dotA.GetComponent<DotBoxConL>().ChangeColor();
             }
-            // 2초 대기
-            await UniTask.Delay(dotboxTime); //일반 Delay는 실제시간 기준임.
+
+            beatIndex++;
         }
     }
-    
+
 }
