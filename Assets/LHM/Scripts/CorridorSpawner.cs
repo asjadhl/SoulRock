@@ -5,10 +5,9 @@ public class CorridorSpawner : MonoBehaviour
 {
     [Header("Corridor Settings")]
     public string corridorTag = "Corridor"; // PoolingManager 태그
-    public int corridorCount = 3;           // 유지할 복도 개수
-    public float corridorLength = 62f;      // 복도 길이(Z축)
+    public int corridorCount = 5;           // 유지할 복도 개수
+    public float corridorLength = 89f;      // 복도 길이(Z축)
     public float corridorWidth = 10f;       // 복도 폭(X축)
-    public float moveSpeed = 10f;           // 맵 이동 속도
 
     [Header("Player Reference")]
     public Transform player; // 플레이어 (고정)
@@ -34,18 +33,10 @@ public class CorridorSpawner : MonoBehaviour
 
     void Update()
     {
-        MoveCorridors();
         ManageCorridors();
     }
 
-    // 복도들을 뒤로 이동
-    void MoveCorridors()
-    {
-        foreach (var corridor in corridors)
-        {
-            corridor.transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
-        }
-    }
+
 
     // 플레이어 뒤로 넘어간 복도는 재사용
     void ManageCorridors()
