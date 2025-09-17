@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    float playerJumpForce = 13f;
     private Rigidbody playerRb;
-    private bool isGrounded = true;
     private float moveSpeed = 1f;
+
+    float playerJumpForce = 13f;
+
+    bool isGrounded = true;
+
+    [SerializeField] GameObject jumpPanel;
 
     private void Start()
     {
@@ -14,8 +18,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        PlayerJump();
         PlayerRun();
+        if (isGrounded && Input.GetMouseButtonDown(1))
+            PlayerJump();
     }
 
     private void PlayerRun()
@@ -23,22 +28,25 @@ public class PlayerMove : MonoBehaviour
         transform.Translate(new Vector3(0,0,1) * moveSpeed * Time.fixedDeltaTime);
     }
 
-    private void PlayerJump()
+    
+    private void PlayerJumpButtonClick()
     {
-        if(isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
-            playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, 0f, playerRb.linearVelocity.z);
-            playerRb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
-            isGrounded = false;
-        }
+
+    }
+    
+    public void PlayerJump()
+    {
+        isGrounded = false;
+        playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, 0f, playerRb.linearVelocity.z);
+        playerRb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("round"))
         {
             isGrounded = true;
-            Debug.Log("Player is grounded.");
         }
     }
+
 }
