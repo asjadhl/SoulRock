@@ -24,7 +24,7 @@ public class BossBullet : MonoBehaviour
             
         }
 
-        if (transform.position.z <= -4.5f)
+        if (transform.position.z <= player.transform.position.z)
         {
             ReturnSpawnPoint();
             player.GetComponent<PlayerHP>().PlayerHPMinus();

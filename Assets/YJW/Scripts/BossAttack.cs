@@ -6,6 +6,13 @@ public class BossAttack : MonoBehaviour
     private float attack2Time = 8f;
     private float attackTimer = 1.5f;
     private float attack2Timer = 8f;
+
+    private Animator bossAnim;
+
+    private void Start()
+    {
+        bossAnim = GetComponent<Animator>();
+    }
     private void FixedUpdate()
     {
         BossAttack1Timer();
@@ -35,6 +42,7 @@ public class BossAttack : MonoBehaviour
     public  void BossAttack_()
     {
         int RanIndex = Random.Range(0, 6);
+        bossAnim.SetTrigger("Attack");
         ObjectPool.Instance.bulletAArr[RanIndex].SetActive(true);
     }
 

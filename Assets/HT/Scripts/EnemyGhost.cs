@@ -64,14 +64,16 @@ public class EnemyGhost : MonoBehaviour, IDying
     [SerializeField]
     float timer = 0;
 
+     
 
-  
+   
+
     private void Awake()
     {
 
 
 
-        transform.eulerAngles = new Vector3(0,  Random.Range(0,180), 0);
+        transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
         //transform.LookAt(Vector3.back);
         PlayerPos = GameObject.FindWithTag("Player").transform;
         if (PlayerPos == null)
@@ -87,7 +89,7 @@ public class EnemyGhost : MonoBehaviour, IDying
         {
             Debug.LogError($"GameObject :{this.name}'s Animator is missing");
             gameObject.SetActive(false);
-            
+
         }
 
 
@@ -111,19 +113,28 @@ public class EnemyGhost : MonoBehaviour, IDying
         master_cts = new CancellationTokenSource();
 
 
-           My_State = State.Null;
+        My_State = State.Null;
 
         AnimationManager(State.Idle, master_cts.Token, () =>
         {
             ghostAction = AlertUpdate;
 
         }).Forget();
-        
+        RandomColor();
     }
 
-     
-    
-   private void AlertUpdate()
+
+
+    void RandomColor()
+    {
+
+        var mat = GetComponentInChildren<SkinnedMeshRenderer>();
+
+
+        mat.material.SetColor("_MainColor", new Color(Random.Range(0f,1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
+    }
+
+    private void AlertUpdate()
     {
          
        // if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartNoticingRange)
