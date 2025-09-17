@@ -4,7 +4,7 @@ public class CheckRealTime : MonoBehaviour
 {
     public static CheckRealTime Instance { get; private set; }
 
-    double inGamerealTime = 0;
+    public double inGamerealTime = 0;
     void Awake()
     {
         // ΩÃ±€≈Ê
