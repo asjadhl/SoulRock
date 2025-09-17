@@ -19,9 +19,8 @@ public class SpawnTimer : MonoBehaviour
     [SerializeField] GameObject DotBoxGeneR;
     DotBoxGeneratorL dotBoxGenL;
     DotBoxGeneratorR dotBoxGenR;
-    
+    int normalSpeed = 0;
     bool calones =true;
-    private double realTimer;
 
     //이거는 각 스피드 Bool
     public bool doubleDotSpeed = false; //2배속용 bool값(DotBoxGenerator에 사용할꺼임)
@@ -35,6 +34,8 @@ public class SpawnTimer : MonoBehaviour
     {
         dotBoxGenL = DotBoxGeneL.GetComponent<DotBoxGeneratorL>();
         dotBoxGenR = DotBoxGeneR.GetComponent<DotBoxGeneratorR>();
+        normalSpeed = dotBoxGenL.dotboxTime;
+        
     }
 
     // Update is called once per frame
@@ -47,34 +48,26 @@ public class SpawnTimer : MonoBehaviour
     
     void CheckTimer()
     {
-        if (i < firstTimerFast.Length)
+        timer += Time.deltaTime;
+        if (i <firstTimer.Length)
         {
             if (((int)realTimer == firstTimerFast[i] && calones))
             {
+                Debug.Log(i);
                 calones = false;
-                doubleDotSpeed = true;
+                dotBoxGenL.dotboxTime = dotChageSpeed[i];
+                dotBoxGenR.dotboxTime = dotChageSpeed[i];
+                Debug.Log(dotBoxGenL.dotboxTime);
             }
-            if ((int)realTimer == lastTimerFast[i] && !calones)
+            if ((int)timer == lastTimer[i] && !calones)
             {
                 calones = true;
                 i++;
-                doubleDotSpeed = false;
+                dotBoxGenL.dotboxTime = normalSpeed;
+                dotBoxGenR.dotboxTime = normalSpeed;
+                Debug.Log(dotBoxGenL.dotboxTime);
             }
         }
-        if (j < firstTimerSlow.Length)
-        {
-            if ((int)realTimer == firstTimerSlow[j] && calones)
-            {
-                Debug.Log("j= " + j);
-                calones=false;
-                lowDoubleDotSpeed = true;
-            }
-            if((int)realTimer == lastTimerSlow[j] && !calones)
-            {
-                calones=true;
-                j++;
-                lowDoubleDotSpeed = false;
-            }
-        }
+        
     }
 }
