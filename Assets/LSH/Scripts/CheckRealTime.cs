@@ -5,6 +5,8 @@ public class CheckRealTime : MonoBehaviour
     public static CheckRealTime Instance { get; private set; }
 
     public double inGamerealTime = 0;
+
+    int plusTime = 0;
     void Awake()
     {
         // ΩÃ±€≈Ê
@@ -15,6 +17,11 @@ public class CheckRealTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        inGamerealTime = AudioSettings.dspTime - DotBoxGeneratorL.Instance.musicStartDspTime;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            plusTime += 10;
+        }
+        inGamerealTime = AudioSettings.dspTime - DotBoxGeneratorL.Instance.musicStartDspTime + plusTime;
+        Debug.Log(inGamerealTime);
     }
 }

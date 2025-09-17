@@ -8,11 +8,9 @@ public class DotBoxGeneratorR: MonoBehaviour
     [Header("도트박스 프리팹")]
     [SerializeField] GameObject dotboxPrefabR;
     [Header("BPM (박자 속도)")]
-    [SerializeField] double bpm = 120.0;
+    public double bpm = 120.0;
     [Header("풀 사이즈")]
     [SerializeField] int poolSize = 10;
-    [Header("음악 시작 지연 (초)")]
-    [SerializeField] double startDelay = 0;
 
     [SerializeField] SpawnTimer spawnTimer;
     public GameObject[] poolR;
@@ -21,17 +19,13 @@ public class DotBoxGeneratorR: MonoBehaviour
 
     public double delayMs; // 디버깅용
     double secondsPerBeat;
-    public double musicStartDspTime;
 
     void Awake()
     {
         // 싱글톤
         if (Instance == null) Instance = this;
         else if (Instance != this) Destroy(gameObject);
-    }
 
-    void Start()
-    {
         // 풀 생성
         poolR = new GameObject[poolSize];
         for (int i = 0; i < poolR.Length; i++)
@@ -42,7 +36,21 @@ public class DotBoxGeneratorR: MonoBehaviour
         }
 
         secondsPerBeat = 60.0 / bpm;
-        musicStartDspTime = AudioSettings.dspTime + startDelay;
+
+    }
+
+    void Start()
+    {
+        //    // 풀 생성
+        //    poolR = new GameObject[poolSize];
+        //    for (int i = 0; i < poolR.Length; i++)
+        //    {
+        //        GameObject dot = Instantiate(dotboxPrefabR, transform);
+        //        dot.SetActive(false);
+        //        poolR[i] = dot;
+        //    }
+
+        //    secondsPerBeat = 60.0 / bpm;
 
         // DotBox 생성 시작
         DotBoxGen().Forget();

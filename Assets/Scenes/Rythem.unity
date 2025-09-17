@@ -208,6 +208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 231771831}
   - component: {fileID: 231771830}
+  - component: {fileID: 231771832}
   m_Layer: 0
   m_Name: Timer
   m_TagString: Untagged
@@ -227,10 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167b6bc8151110940ba9f6e3083e49bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstTimerFast: 0a000000
-  lastTimerFast: 0f000000
-  firstTimerSlow: 14000000
-  lastTimerSlow: 1e000000
+  firstTimerFast: 24000000
+  lastTimerFast: 39000000
+  firstTimerSlow: 00000000
+  lastTimerSlow: 0e000000
   DotBoxGeneL: {fileID: 1145965522}
   DotBoxGeneR: {fileID: 515483279}
   doubleDotSpeed: 0
@@ -250,6 +251,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &231771832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231771829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1816524523d9b844893f134c0eb0811e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inGamerealTime: 0
 --- !u!1 &237070503
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +341,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -401,13 +415,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotboxPrefabR: {fileID: 6043420594518806999, guid: ced05b9e6900cd547b44c9dfa18d082c, type: 3}
-  bpm: 120
+  bpm: 91
   poolSize: 10
-  startDelay: 1
   spawnTimer: {fileID: 231771830}
   poolR: []
   delayMs: 0
-  musicStartDspTime: 0
 --- !u!1 &539917658
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +469,7 @@ GameObject:
   m_Component:
   - component: {fileID: 901610985}
   - component: {fileID: 901610984}
+  - component: {fileID: 901610986}
   m_Layer: 0
   m_Name: MusicBox
   m_TagString: Untagged
@@ -474,8 +487,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 37ece6c239a92c240a12e73d58ecb353, type: 3}
-  m_Resource: {fileID: 8300000, guid: 37ece6c239a92c240a12e73d58ecb353, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -576,6 +589,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &901610986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901610983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03eedc0bcf55f594caead2da8e8f5753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSource: {fileID: 901610984}
+  music:
+  - {fileID: 8300000, guid: b7bd179eb5b71534898166877034aa79, type: 3}
+  - {fileID: 8300000, guid: 1503c0627c16c754aa294ac2de8a1f28, type: 3}
 --- !u!1 &1145965522
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,9 +654,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotboxPrefabL: {fileID: 6043420594518806999, guid: 4416be17024308947ac545ec174af71f, type: 3}
-  bpm: 120
+  bpm: 91
   poolSize: 10
-  startDelay: 1
+  startDelay: 5
   spawnTimer: {fileID: 231771830}
   poolL: []
   delayMs: 0
@@ -717,7 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09aa278614740be41867564a92875456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitThreshold: 5
+  hitThreshold: 1
   targetImage: {fileID: 1186693775}
   leftParent: {fileID: 1145965523}
   rightParent: {fileID: 515483280}
@@ -757,7 +786,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 71, y: 0}
+  m_AnchoredPosition: {x: 89, y: 0}
   m_SizeDelta: {x: 75, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1341030588
@@ -807,8 +836,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5695ceb6c8acb4a4aa765403fce6ebe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minClick: 8
-  maxClick: 200
+  minClick: 2
+  maxClick: 100
   leftDotBox: {fileID: 1145965523}
   rightDotBox: {fileID: 515483280}
   dotL: {fileID: -8066678590551068294, guid: 4416be17024308947ac545ec174af71f, type: 3}
@@ -923,6 +952,7 @@ GameObject:
   - component: {fileID: 1570253909}
   - component: {fileID: 1570253908}
   - component: {fileID: 1570253907}
+  - component: {fileID: 1570253910}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1004,6 +1034,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1570253910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570253906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &2131338892
 GameObject:
   m_ObjectHideFlags: 0

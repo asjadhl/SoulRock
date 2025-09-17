@@ -6,16 +6,50 @@ public class MusicBox : MonoBehaviour
     [SerializeField] AudioSource musicSource;
     [Header("Musics")]
     [SerializeField] AudioClip[] music;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    int i = 0;
+    double nextStartTime;
+
     void Start()
     {
-        musicSource.clip = music[0];
-        musicSource.PlayScheduled(DotBoxGeneratorL.Instance.musicStartDspTime);
+
+        // 첫 곡 예약
+        musicSource.clip = music[i];
+        musicSource.PlayScheduled(nextStartTime + DotBoxGeneratorL.Instance.startDelay);
+
+        // 다음 시작 시간 예약
+        nextStartTime += musicSource.clip.length;
+        
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        Debug.LogError(CheckRealTime.Instance.inGamerealTime);
+        Debug.LogWarning(nextStartTime);
+        if (CheckRealTime.Instance.inGamerealTime + 0.1 >= nextStartTime && i < music.Length -1)
+        {
+            i++;
+            musicSource.clip = music[i];
+            musicSource.PlayScheduled(nextStartTime);
+
+            switch(musicSource.clip.name)
+            {
+                case "Stage1":
+                    DotBoxGeneratorL.Instance.bpm = 92;
+                    DotBoxGeneratorR.Instance.bpm = 92;
+                    break;
+                case "Stage2":
+                    DotBoxGeneratorL.Instance.bpm = 83;
+                    DotBoxGeneratorR.Instance.bpm = 83;
+                    break;
+                default:
+                    DotBoxGeneratorL.Instance.bpm = 117;
+                    DotBoxGeneratorR.Instance.bpm = 117;
+                    break;
+            }
+
+            // 다음 곡 끝나는 시점 갱신
+            nextStartTime += musicSource.clip.length;
+        }
     }
 }
