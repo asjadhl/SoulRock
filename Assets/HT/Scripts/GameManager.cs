@@ -7,7 +7,7 @@ using UnityEngine;
 
 public enum EntityType
 {
-    Walker,Fly
+    Walker = 0,Fly =1
 }
 
 [System.Serializable]
@@ -33,11 +33,13 @@ public class GameManager : MonoBehaviour
         get { return GhostEnemies[Random.Range(0,GhostEnemies.Count)]; }
     }
 
+    
+
     public List<GameObject> GetProjectTiles;
 
-   
 
-   
+
+    
     public void Awake()
     {
         if (instance != null)

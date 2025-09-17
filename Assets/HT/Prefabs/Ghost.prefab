@@ -424,8 +424,8 @@ GameObject:
   - component: {fileID: 6485638160340656217}
   - component: {fileID: 7716351625418722740}
   - component: {fileID: 5596978833070348060}
-  - component: {fileID: 3599546879724615556}
   - component: {fileID: 1287949958900666621}
+  - component: {fileID: 4234273570993325775}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -502,28 +502,6 @@ MonoBehaviour:
   - ghost_dissolve
   Attackrate: 0.5
   timer: 0
---- !u!64 &3599546879724615556
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5091808336580822755}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3772797090071207700, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
 --- !u!114 &1287949958900666621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +529,29 @@ MonoBehaviour:
   m_Animationvalue: 0
   m_time: 1
   m_duration: 1.2
+--- !u!136 &4234273570993325775
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091808336580822755}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.26
+  m_Height: 0.87
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.56, z: 0}
 --- !u!1 &5545298399379527242
 GameObject:
   m_ObjectHideFlags: 0

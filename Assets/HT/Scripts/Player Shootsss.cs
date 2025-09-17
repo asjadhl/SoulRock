@@ -24,20 +24,18 @@ public class PlayerShootsss : MonoBehaviour
             // Health.cs
             if (Physics.Raycast(ray, out hit, 100f))
             {
-                IDamagable damagable = hit.collider.GetComponent<IDamagable>();
-
-                if (damagable != null)
+                 
+               if(hit.collider.TryGetComponent<IDamagable>(out IDamagable c))
+               {
+                    c?.TakeHit(8);
+               }
+               else
                 {
-                    damagable.TakeHit(8);
+                    hit.collider.GetComponentInChildren<IDamagable>()?.TakeHit(8);
                 }
-                else
-                {
-                    damagable = hit.collider.GetComponentInParent<IDamagable>();
-                    if (damagable == null)
-                        Debug.Log("NULL");
-                    damagable?.TakeHit(8);
 
-                }
+               
+               
             }
         }
     }

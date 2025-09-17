@@ -33,15 +33,22 @@ public class PlayerShoot : MonoBehaviour
             }
 
 
+            
             // Health.cs
-            if (Physics.Raycast(ray, out hit, 10f))
+            if (Physics.Raycast(ray, out hit, 100f))
             {
-                IDamagable damagable = hit.collider.GetComponent<IDamagable>();
-                if (damagable != null)
+
+                if (hit.collider.TryGetComponent<IDamagable>(out IDamagable c))
                 {
-                    Debug.Log("Fire");
-                    damagable.TakeHit(1000);
+                    c?.TakeHit(8);
                 }
+                else
+                {
+                    hit.collider.GetComponentInChildren<IDamagable>()?.TakeHit(8);
+                }
+
+
+
             }
         }
     }

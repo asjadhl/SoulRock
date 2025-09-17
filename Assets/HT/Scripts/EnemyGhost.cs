@@ -1,12 +1,6 @@
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.CompilerServices;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime;
-using UnityEditor.Animations;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -129,9 +123,8 @@ public class EnemyGhost : MonoBehaviour, IDying
     {
 
         var mat = GetComponentInChildren<SkinnedMeshRenderer>();
-
-
         mat.material.SetColor("_MainColor", new Color(Random.Range(0f,1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
+
     }
 
     private void AlertUpdate()
@@ -209,8 +202,17 @@ public class EnemyGhost : MonoBehaviour, IDying
         AnimationManager(State.Die, master_cts.Token, () => {
 
 
-            Destroy(gameObject);
+             gameObject.SetActive(false);
+
+            if (gameObject.TryGetComponent(out Health c))
+            {
+                c.m_CurrentHealth = c.m_MaxHealth;
+            }
+            else
+                Debug.Log("No Health.cs");
+           
         }
+            
         ,80).Forget();
 
         UniScaleChangeOverTime(cts.Token).Forget();
@@ -220,7 +222,6 @@ public class EnemyGhost : MonoBehaviour, IDying
     private void OnDestroy()
     {
         cts.Cancel();
-      //  m.material.color = origin.color;
     }
 
     void Interact(System.Action callback = null)
@@ -382,11 +383,7 @@ public class EnemyGhost : MonoBehaviour, IDying
                 break;
             transform.localScale = Origin * scales;
             await UniTask.WaitForSeconds(Time.deltaTime,cancellationToken: token);   
-        }
-
-
-
-        
+        }       
     }
    
   

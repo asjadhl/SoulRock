@@ -1,6 +1,4 @@
 using System;
- 
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,8 +34,8 @@ public class Health: MonoBehaviour, IDamagable
     #region Health-Properties
     [Space(5f)]
     [Header("HealthBar Inspector")]
-    [SerializeField] private int m_MaxHealth = 100;
-    [SerializeField] private int m_CurrentHealth = 100;
+    public int m_MaxHealth = 100;
+    public int m_CurrentHealth = 100;
 
     [SerializeField] private Transform TargetParentHealthBar;
     [SerializeField] private Vector3 CanvasPosition;
@@ -80,7 +78,7 @@ public class Health: MonoBehaviour, IDamagable
                 m_healthBar = Instantiate(m_Prefab, m_Canvas.transform, false);
                 else
                 {
-                    m_Canvas = GameObject.Find("Canvas");
+                    m_Canvas = GameObject.FindWithTag("Canvas");
                     if (m_Canvas == null)
                     {
                         m_Canvas = new GameObject("Canvas");
@@ -164,6 +162,10 @@ public class Health: MonoBehaviour, IDamagable
         if (m_CurrentHealth <= 0)
         {
             IDying dying = gameObject.GetComponent<IDying>();
+
+            if (dying == null)
+                Debug.LogError($"IDying Component Don't Exist ON {gameObject.name}");
+
             dying?.PlayDyingAnimation(true);
 
         }
