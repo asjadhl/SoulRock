@@ -17,15 +17,22 @@ public class CorridorSpawner : MonoBehaviour
     public string mosterSpawnerTag = "Spawner";
 
     private Queue<GameObject> corridors = new Queue<GameObject>();
-
+    string GetRandomCorridorTag()
+    {
+        int rand = Random.Range(0, 100);
+        if (rand < 10) return "Trap1";   // 10%
+        return "Corridor";               // 90%
+    }
     void Start()
     {
         // 초기 복도 배치
         float startZ = 0f;
         for (int i = 0; i < corridorCount; i++)
         {
+            string tag = GetRandomCorridorTag();
+
             GameObject corridor = PoolingManager.Instance.SpawnFromPool(
-                corridorTag[Random.Range(0,2)],
+                tag,
                 new Vector3(corridorWidth / 2f, 0, startZ),
                 Quaternion.identity
             );
@@ -33,6 +40,7 @@ public class CorridorSpawner : MonoBehaviour
             corridors.Enqueue(corridor);
             startZ += corridorLength;
         }
+
 
         doorTrap = GameObject.FindObjectOfType<DoorTrap>();
     }
@@ -50,34 +58,31 @@ public class CorridorSpawner : MonoBehaviour
     {
         GameObject first = corridors.Peek();
 
-        // 복도의 끝이 플레이어 기준 충분히 뒤로 갔으면 재배치
         if (first.transform.position.z < player.position.z - corridorLength)
         {
             GameObject old = corridors.Dequeue();
             old.SetActive(false);
 
-            // 마지막 복도 위치 기준으로 새 복도 붙이기
             GameObject last = null;
-            foreach (var c in corridors) last = c; // 마지막 큐 아이템 찾기
-
-
+            foreach (var c in corridors) last = c;
 
             Vector3 newPos = last.transform.position + new Vector3(0, 0, corridorLength);
+            string tag = GetRandomCorridorTag();
+
             GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(
-                corridorTag[Random.Range(0, 2)],
+                tag,
                 newPos,
                 Quaternion.identity
             );
+
             GameObject mosterSpawner = PoolingManager.Instance.SpawnFromPool(
                 mosterSpawnerTag,
                 newPos,
                 Quaternion.identity
             );
 
-           
-
             corridors.Enqueue(newCorridor);
-
         }
     }
+
 }
