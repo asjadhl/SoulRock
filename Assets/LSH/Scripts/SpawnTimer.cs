@@ -21,6 +21,7 @@ public class SpawnTimer : MonoBehaviour
     DotBoxGeneratorR dotBoxGenR;
     int normalSpeed = 0;
     bool calones =true;
+    double realTimer = 0;
 
     //이거는 각 스피드 Bool
     public bool doubleDotSpeed = false; //2배속용 bool값(DotBoxGenerator에 사용할꺼임)
@@ -34,38 +35,49 @@ public class SpawnTimer : MonoBehaviour
     {
         dotBoxGenL = DotBoxGeneL.GetComponent<DotBoxGeneratorL>();
         dotBoxGenR = DotBoxGeneR.GetComponent<DotBoxGeneratorR>();
-        normalSpeed = dotBoxGenL.dotboxTime;
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.LogError((int)realTimer);
         realTimer =  AudioSettings.dspTime - dotBoxGenL.musicStartDspTime;
         CheckTimer();
     }
     
     void CheckTimer()
     {
-        timer += Time.deltaTime;
-        if (i <firstTimer.Length)
+        if (i < firstTimerFast.Length)
         {
             if (((int)realTimer == firstTimerFast[i] && calones))
             {
-                Debug.Log(i);
                 calones = false;
-                dotBoxGenL.dotboxTime = dotChageSpeed[i];
-                dotBoxGenR.dotboxTime = dotChageSpeed[i];
-                Debug.Log(dotBoxGenL.dotboxTime);
+                doubleDotSpeed = true;
             }
-            if ((int)timer == lastTimer[i] && !calones)
+            if ((int)realTimer == lastTimerFast[i] && !calones)
             {
                 calones = true;
+                doubleDotSpeed = false;
                 i++;
-                dotBoxGenL.dotboxTime = normalSpeed;
-                dotBoxGenR.dotboxTime = normalSpeed;
-                Debug.Log(dotBoxGenL.dotboxTime);
+                //dotBoxGenL.dotboxTime = normalSpeed;
+                //dotBoxGenR.dotboxTime = normalSpeed;
+                //Debug.Log(dotBoxGenL.dotboxTime);
+            }
+        }
+        if(j < lastTimerFast.Length)
+        {
+            if (((int)realTimer == firstTimerSlow[j] && calones))
+            {
+                calones = false;
+                lowDoubleDotSpeed = true;
+            }
+            if ((int)realTimer == lastTimerSlow[j] && !calones)
+            {
+                calones = true;
+                lowDoubleDotSpeed = false;
+                j++;
+                //dotBoxGenL.dotboxTime = normalSpeed;
+                //dotBoxGenR.dotboxTime = normalSpeed;
+                //Debug.Log(dotBoxGenL.dotboxTime);
             }
         }
         
