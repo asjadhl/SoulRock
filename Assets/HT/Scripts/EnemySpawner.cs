@@ -16,6 +16,10 @@ using static UnityEngine.InputManagerEntry;
 public class Wave
 {
     public List<string> formations;
+    public Wave()
+    {
+        formations = new List<string>();
+    }
 }
  
 public class EnemyStore
@@ -23,7 +27,8 @@ public class EnemyStore
     List<GameObject> ListOfGameObject;
 
     public void AddGhost(GameObject go)
-    {
+    {  
+        go.SetActive(false);
         ListOfGameObject.Add(go);
     }
     public EnemyStore()
@@ -103,7 +108,7 @@ public class EnemySpawner : MonoBehaviour
     public void Start()
     {
 
-
+         
         StartCreate();
         //gameObject.SetActive(true);
 
@@ -162,6 +167,7 @@ public class EnemySpawner : MonoBehaviour
             m_current_childCount = transform.childCount;
        
         cts = new CancellationTokenSource();
+        waves = new List<Wave>();
         waves.Add(CreateWave());
     }
 
@@ -216,7 +222,7 @@ public class EnemySpawner : MonoBehaviour
           
             List<GameObject> setallfalse = new List<GameObject>();
             List<string> listformation = _wave.formations;
-            int x = 0, y = 0, z = 0;
+            int x = 0, y = 0;
             for(;x<listformation.Count; x++)
             {
                 
@@ -227,7 +233,11 @@ public class EnemySpawner : MonoBehaviour
                     if (listformation[x][y] == '0')
                     {  //Find Avaible SpawnPoint With No people on room
                      GameObject ob =   m_enemyStore.GetEnemies();
+                        Debug.Log($"ob.setactive{ob.activeSelf}");
                         ob.SetActive(true);
+                        ob.SetActive(true); ob.GetComponent<EnemyGhost>().Restart();
+
+                        Debug.Log($"ob.setactive{ob.activeSelf}");
                         setallfalse.Add(ob);
                       GameObject spawnpoint = m_spawnPointManager.GetSpawnPoint(0, true);
                         ob.transform.position = spawnpoint.transform.position;
@@ -239,6 +249,7 @@ public class EnemySpawner : MonoBehaviour
                         // Find Avaible SpawnPoint With No people on room
                         GameObject ob = m_enemyStore.GetEnemies();
                         ob.SetActive(true);
+                        ob.GetComponent<EnemyGhost>().Restart();
                         setallfalse.Add(ob);
                         GameObject spawnpoint = m_spawnPointManager.GetSpawnPoint(1, true);
                         ob.transform.position = spawnpoint.transform.position;
@@ -250,7 +261,7 @@ public class EnemySpawner : MonoBehaviour
                 //set all setparent null
                 foreach(var child in setallfalse)
                 {
-                    child.SetActive(false);
+                    child.transform.SetParent(null);
                 }
                 await UniTask.WaitForSeconds(m_SpawnRate, cancellationToken: token);
             }
@@ -298,7 +309,7 @@ public class EnemySpawner : MonoBehaviour
     void StartCreate()
     {
         int tempCount = m_ReuseableEnemyObject;
-        string front = "";
+       
         m_enemyStore = new();
         // j= 0 = EntityType.Walker
         // j= 1 = EntityType.Fly

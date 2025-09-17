@@ -57,10 +57,11 @@ public class EnemyGhost : MonoBehaviour, IDying
     float Attackrate = 2f;
     [SerializeField]
     float timer = 0;
+    Vector3 Origin;
 
-     
 
-   
+
+
 
     private void Awake()
     {
@@ -191,7 +192,28 @@ public class EnemyGhost : MonoBehaviour, IDying
     }
 
 
+    
+  public  void Restart()
+    {
+        transform.localScale = new Vector3(1, 1, 1);
+        if (gameObject.TryGetComponent(out Health c))
+        {
+            c.m_CurrentHealth = c.m_MaxHealth;
 
+        }
+        else
+            Debug.Log("No Health.cs");
+        RandomColor();
+
+        if (TryGetComponent<Collider>(out var f))
+            f.enabled = true;
+        else
+        {
+            GetComponentInChildren<Collider>().enabled = false;
+        }
+        My_State = State.Idle;
+        ghostAction = AlertUpdate;
+    }
     public void PlayDyingAnimation(bool _)
     {
         IsDying = _;
@@ -204,12 +226,7 @@ public class EnemyGhost : MonoBehaviour, IDying
 
              gameObject.SetActive(false);
 
-            if (gameObject.TryGetComponent(out Health c))
-            {
-                c.m_CurrentHealth = c.m_MaxHealth;
-            }
-            else
-                Debug.Log("No Health.cs");
+           
            
         }
             
@@ -375,7 +392,7 @@ public class EnemyGhost : MonoBehaviour, IDying
     public async UniTaskVoid UniScaleChangeOverTime(CancellationToken token)  
     {
         float scales = 1;
-        Vector3 Origin = transform.localScale;
+         Origin = transform.localScale;
         while (true)
         {
             scales -= Time.deltaTime;
