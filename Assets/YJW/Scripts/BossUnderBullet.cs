@@ -26,7 +26,7 @@ public class BossUnderBullet : MonoBehaviour
             isAttacked = true;
         }
 
-        if (transform.position.z <= -4.2f)
+        if (transform.position.z <= player.transform.position.z)
             ReturnSpawnPoint();
     }
 
@@ -45,7 +45,7 @@ public class BossUnderBullet : MonoBehaviour
         }
     }
 
-    private void ReturnSpawnPoint()
+    public void ReturnSpawnPoint()
     {
         gameObject.SetActive(false);
         bulletRb.linearVelocity = Vector3.zero;

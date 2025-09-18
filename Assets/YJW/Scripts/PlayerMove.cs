@@ -9,8 +9,6 @@ public class PlayerMove : MonoBehaviour
 
     bool isGrounded = true;
 
-    [SerializeField] GameObject jumpPanel;
-
     private void Start()
     {
         playerRb = GetComponent<Rigidbody>();

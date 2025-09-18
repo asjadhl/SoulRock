@@ -26,7 +26,9 @@ public class PlayerShoot : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Enemy")
                     hit.collider.gameObject.GetComponent<BossBullet>().ReturnSpawnPoint();
-                //if(hit.collider.gameObject.tag == "Bullet2")
+                if(hit.collider.gameObject.tag == "Bullet3")
+                    hit.collider.gameObject.GetComponent<BossUnderBullet>().ReturnSpawnPoint();
+                //if (hit.collider.gameObject.tag == "Bullet2")
                 //    boss.GetComponent<BossAttack>().bullet.GetComponent<BossBullet>().BackToBoss();
 
 

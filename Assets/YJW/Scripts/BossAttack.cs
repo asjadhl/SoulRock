@@ -2,16 +2,24 @@ using UnityEngine;
 
 public class BossAttack : MonoBehaviour
 {
-    private float attack1Time = 1.5f;
-    private float attack2Time = 8f;
-    private float attackTimer = 1.5f;
-    private float attack2Timer = 8f;
+    public float attack1Time;
+    public float attack2Time;
+    [SerializeField] float[] attack1Times;   // 3, 7, 9
+    [SerializeField] float[] attack2Times;   // 8, 11, 16
+    private float attackTimer = 0;
+    private float attack2Timer = 0;
+
+    [SerializeField] int[] GreenBallTime; // 53, 108, 170
+    private int index = 0;
 
     private Animator bossAnim;
 
     private void Start()
     {
         bossAnim = GetComponent<Animator>();
+        attack1Time = attack1Times[Random.Range(0, attack1Times.Length)];
+        attack2Time = attack2Times[Random.Range(0, attack2Times.Length)];
+
     }
     private void FixedUpdate()
     {
@@ -26,6 +34,7 @@ public class BossAttack : MonoBehaviour
         {
             attackTimer = 0;
             BossAttack_();
+            attack1Time = attack1Times[Random.Range(0, attack1Times.Length)];
         }
     }
 
@@ -36,6 +45,15 @@ public class BossAttack : MonoBehaviour
         {
             attack2Timer = 0;
             BossAttack_2();
+            attack2Time = attack2Times[Random.Range(0, attack2Times.Length)];
+        }
+    }
+
+    private void GreenBallTimer()
+    {
+        if((int)CheckRealTime.Instance.inGamerealTime == GreenBallTime[index])
+        {
+
         }
     }
 
