@@ -13,6 +13,10 @@ public class PlayerShoot : MonoBehaviour
         boss = GameObject.FindWithTag("Boss");
     }
 
+    private void Update()
+    {
+        PlayerShoot_();
+    }
     public void PlayerShoot_()
     {
         if (Input.GetMouseButtonDown(0))

@@ -42,8 +42,8 @@ public class MusicBox : MonoBehaviour
             switch (musicSource.clip.name)
             {
                 case "Stage1":
-                    DotBoxGeneratorL.Instance.bpm = 92;
-                    DotBoxGeneratorR.Instance.bpm = 92;
+                    DotBoxGeneratorL.Instance.bpm = 82;
+                    DotBoxGeneratorR.Instance.bpm = 82;
                     break;
                 case "Stage2":
                     DotBoxGeneratorL.Instance.bpm = 83;
