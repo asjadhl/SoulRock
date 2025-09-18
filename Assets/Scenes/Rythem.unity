@@ -228,10 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167b6bc8151110940ba9f6e3083e49bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstTimerFast: 24000000
-  lastTimerFast: 39000000
-  firstTimerSlow: 00000000
-  lastTimerSlow: 0e000000
+  firstTimerFast: 210000005800000099000000
+  lastTimerFast: 360000006d000000a4000000
+  firstTimerSlow: 000000004300000084000000
+  lastTimerSlow: 0b000000570000008e000000
   DotBoxGeneL: {fileID: 1145965522}
   DotBoxGeneR: {fileID: 515483279}
   doubleDotSpeed: 0
@@ -605,6 +605,7 @@ MonoBehaviour:
   music:
   - {fileID: 8300000, guid: b7bd179eb5b71534898166877034aa79, type: 3}
   - {fileID: 8300000, guid: 1503c0627c16c754aa294ac2de8a1f28, type: 3}
+  - {fileID: 8300000, guid: 3f7e2993d2a030944b56ba3616a14bf3, type: 3}
 --- !u!1 &1145965522
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09aa278614740be41867564a92875456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitThreshold: 1
+  hitThreshold: 0
   targetImage: {fileID: 1186693775}
   leftParent: {fileID: 1145965523}
   rightParent: {fileID: 515483280}
@@ -786,8 +787,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 89, y: 0}
-  m_SizeDelta: {x: 75, y: 200}
+  m_AnchoredPosition: {x: 48, y: 0}
+  m_SizeDelta: {x: 100, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1341030588
 MonoBehaviour:
@@ -836,7 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5695ceb6c8acb4a4aa765403fce6ebe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minClick: 2
+  minClick: 0.01
   maxClick: 100
   leftDotBox: {fileID: 1145965523}
   rightDotBox: {fileID: 515483280}
