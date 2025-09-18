@@ -3,11 +3,9 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
 using System.Xml;
-using Unity.Collections;
-using Unity.Loading;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
+
 
 
 
@@ -21,27 +19,75 @@ public class Wave
         formations = new List<string>();
     }
 }
- 
+
 public class EnemyStore
 {
     List<GameObject> ListOfGameObject;
 
+    //Prototype
+    Dictionary<int, List<GameObject>> ListOfGameObj;
+
     public void AddGhost(GameObject go)
-    {  
+    {
         go.SetActive(false);
         ListOfGameObject.Add(go);
+    }
+
+    public void AddGhostPrototype(EntityType type, GameObject go)
+    {
+        go.SetActive(false);
+        if (ListOfGameObj.ContainsKey((int)type))
+        {
+            ListOfGameObj[(int)type].Add(go);
+        }
+        else
+        {
+            ListOfGameObj.Add((int)type, new List<GameObject>());
+            ListOfGameObj[(int)type].Add(go);
+        }
+        go.name += $"[{ListOfGameObj[(int)type].Count-1}]";
     }
     public EnemyStore()
     {
         ListOfGameObject = new List<GameObject>();
+
+        //Prototype
+        ListOfGameObj = new Dictionary<int, List<GameObject>>();
     }
     public GameObject GetEnemies()
     {
         var a = ListOfGameObject.Find(p => p.activeSelf == false);
+
         return a;
     }
-}
 
+    public GameObject GetEnemiesPrototype(EntityType type)
+    {
+        if (ListOfGameObj.ContainsKey((int)type))
+        {
+            var a = ListOfGameObj[(int)type].Find(p => p.activeSelf == false);
+
+            if (a != null)
+                return a;
+            else
+            {
+                AddGhostPrototype(type, GameManager.instance.CreateGameObject(type));
+                return ListOfGameObj[(int)type].Find(p => p.activeSelf == false);
+            }
+        }
+        else
+        {
+            var newobj = GameManager.instance.CreateGameObject(type);
+            if (newobj != null)
+            {
+                AddGhostPrototype(type, newobj);
+                return ListOfGameObj[(int)type].Find(p => p.activeSelf == false);
+            }
+            else return null;
+             
+        }
+    }
+}
 public class SpawnPointManager
 {
     Dictionary<int, List<GameObject>> ListofSpawnPoint;
@@ -52,9 +98,9 @@ public class SpawnPointManager
        
     }
 
-    public GameObject GetSpawnPoint(int ID,bool IsRandom)
+    public GameObject GetSpawnPoint(EntityType type,bool IsRandom)
     {
-       var a =  ListofSpawnPoint[ID].FindAll(p=>p.transform.childCount <= 0);
+       var a =  ListofSpawnPoint[(int)type].FindAll(p=>p.transform.childCount <= 0);
 
         if (IsRandom)
             return a[Random.Range(0, a.Count - 1)];
@@ -62,16 +108,16 @@ public class SpawnPointManager
             return a[0];
     }
 
-    public void AddSpawnPoint(int ID,GameObject ob)
+    public void AddSpawnPoint(EntityType type,GameObject ob)
     {
-        if(ListofSpawnPoint.ContainsKey(ID))
+        if(ListofSpawnPoint.ContainsKey((int)type))
         {
-            ListofSpawnPoint[ID].Add(ob);
+            ListofSpawnPoint[(int)type].Add(ob);
         }
         else
         {
-            ListofSpawnPoint.Add(ID,new List<GameObject>());
-            ListofSpawnPoint[ID].Add(ob);
+            ListofSpawnPoint.Add((int)type, new List<GameObject>());
+            ListofSpawnPoint[(int)type].Add(ob);
         }
     }
 }
@@ -83,14 +129,11 @@ public class EnemySpawner : MonoBehaviour
     [Range(0, 10)] public int m_maxFormationCount;
     [Range(0, 10)] public int m_maxEnemiesCount;
     public float m_current_childCount;
-    public int m_ReuseableEnemyObject;
+    public int m_ReuseableEnemyObject; //<--- Obselete
     //Holding Obj
-    public Dictionary<int, List<GameObject>> ObjOfflineHolder;
     public List<Wave> waves;
     public EnemyStore m_enemyStore;
     public SpawnPointManager m_spawnPointManager;
-    public string walk = "";
-    public string fly = "";
     public int indexStore = 0;
 
     public float m_radiusTriggered;
@@ -134,35 +177,13 @@ public class EnemySpawner : MonoBehaviour
         {
             if (transform.GetChild(i).name[0] == '0')
             {
-                m_spawnPointManager.AddSpawnPoint(0, transform.GetChild(i).gameObject);
+                m_spawnPointManager.AddSpawnPoint(EntityType.Walker, transform.GetChild(i).gameObject);
             }
             else if (transform.GetChild(i).name[0] == '1')
             {
-                m_spawnPointManager.AddSpawnPoint(1, transform.GetChild(i).gameObject);
+                m_spawnPointManager.AddSpawnPoint(EntityType.Fly, transform.GetChild(i).gameObject);
             }
         }
-
-
-
-
-        for (int i = 0; i < transform.childCount; i++)
-            {
-
-            if ('0' == transform.GetChild(i).gameObject.name[0])
-            {
-                walk += i;
-
-            }
-            else if ('1' == transform.GetChild(i).gameObject.name[0])
-            {
-                fly += i;
-            }
-            else
-            {
-                Destroy(transform.GetChild(i).gameObject);
-            }
-            }
-
 
             m_current_childCount = transform.childCount;
        
@@ -232,14 +253,25 @@ public class EnemySpawner : MonoBehaviour
 
                     if (listformation[x][y] == '0')
                     {  //Find Avaible SpawnPoint With No people on room
-                     GameObject ob =   m_enemyStore.GetEnemies();
-                        Debug.Log($"ob.setactive{ob.activeSelf}");
-                        ob.SetActive(true);
-                        ob.SetActive(true); ob.GetComponent<EnemyGhost>().Restart();
 
-                        Debug.Log($"ob.setactive{ob.activeSelf}");
+
+                        // Original  GameObject ob =   m_enemyStore.GetEnemies();
+                        GameObject ob = m_enemyStore.GetEnemiesPrototype(EntityType.Walker);
+
+
+                        if (ob == null)
+                            continue;
+                        ob.SetActive(true);
+                         //ob.GetComponent<EnemyGhost>().Restart();
+                        
+                        IResetable ir = ob.GetComponent<IResetable>();
+
+                        ir?.Resetable();
+
+
+                       
                         setallfalse.Add(ob);
-                      GameObject spawnpoint = m_spawnPointManager.GetSpawnPoint(0, true);
+                      GameObject spawnpoint = m_spawnPointManager.GetSpawnPoint(EntityType.Walker, true);
                         ob.transform.position = spawnpoint.transform.position;
                         ob.transform.SetParent(spawnpoint.transform);
 
@@ -247,11 +279,20 @@ public class EnemySpawner : MonoBehaviour
                     else if (listformation[x][y] == '1')
                     {
                         // Find Avaible SpawnPoint With No people on room
-                        GameObject ob = m_enemyStore.GetEnemies();
+                        // Original  GameObject ob =   m_enemyStore.GetEnemies();
+                        GameObject ob = m_enemyStore.GetEnemiesPrototype(EntityType.Fly);
+                        if (ob == null)
+                            continue;
+
                         ob.SetActive(true);
-                        ob.GetComponent<EnemyGhost>().Restart();
+
+                        //ob.GetComponent<EnemyGhost>().Restart();
+                        IResetable ir = ob.GetComponent<IResetable>();
+
+                        ir?.Resetable();
+
                         setallfalse.Add(ob);
-                        GameObject spawnpoint = m_spawnPointManager.GetSpawnPoint(1, true);
+                        GameObject spawnpoint = m_spawnPointManager.GetSpawnPoint(EntityType.Fly, true);
                         ob.transform.position = spawnpoint.transform.position;
                         ob.transform.SetParent(spawnpoint.transform);
                     }
@@ -298,7 +339,7 @@ public class EnemySpawner : MonoBehaviour
         {
             for(;y<desiredEnemyCount;y++)
             {
-                formation += State[Random.Range(0, State.Length - 1)];
+                formation += State[Random.Range(0, State.Length)];
             }
             wave.formations.Add(formation);
             formation = "";
@@ -306,18 +347,25 @@ public class EnemySpawner : MonoBehaviour
        
         return wave;
     }
+
     void StartCreate()
     {
+        m_enemyStore = new();
+        return;
+
         int tempCount = m_ReuseableEnemyObject;
        
-        m_enemyStore = new();
+        
         // j= 0 = EntityType.Walker
         // j= 1 = EntityType.Fly
+        GameObject newGame;
         for (int j = 0; j < GameManager.instance.GhostEnemies.Count; j++)
         {    
             for (int i = 0; i < tempCount; i++)
-            {
-                m_enemyStore.AddGhost(Instantiate(GameManager.instance.GhostEnemies[j].enemyobject,transform.position,Quaternion.identity));
+            {  
+                newGame =  Instantiate(GameManager.instance.GhostEnemies[j].enemyobject,transform.position,Quaternion.identity);
+                newGame.name = newGame.name + $"[{i}]";
+                m_enemyStore.AddGhost(newGame);
             }
         }
     }

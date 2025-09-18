@@ -128,11 +128,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_currentPlayer: {fileID: 0}
-  m_SpawnRate: 4
+  m_SpawnRate: 2
   m_maxFormationCount: 1
   m_maxEnemiesCount: 3
-  m_maximum_child: 0
-  m_waves: []
+  m_current_childCount: 0
+  m_ReuseableEnemyObject: 0
+  waves: []
+  walk: 
+  fly: 
+  indexStore: 0
   m_radiusTriggered: 2.15
   TargetScanner: {fileID: 0}
   offset: {x: 0, y: 0, z: 33}
