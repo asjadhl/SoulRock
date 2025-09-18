@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class MusicBox : MonoBehaviour
 {
+    //첫번째 노래 딜레이 5초  (5초)
+    //두번째 노래 딜레이 +5초 (10초)
+    //세번째 동일
     [Header("AudioSource")]
     [SerializeField] AudioSource musicSource;
     [Header("Musics")]
@@ -24,15 +27,19 @@ public class MusicBox : MonoBehaviour
 
     void Update()
     {
-        Debug.LogError(CheckRealTime.Instance.inGamerealTime);
-        Debug.LogWarning(nextStartTime);
-        if (CheckRealTime.Instance.inGamerealTime + 0.1 >= nextStartTime && i < music.Length -1)
+        ChangeSong();
+    }
+    void ChangeSong()
+    {
+        Debug.LogError((int)CheckRealTime.Instance.inGamerealTime);
+        Debug.LogWarning($"다음곡 시작 {nextStartTime+DotBoxGeneratorL.Instance.startDelay}");
+        if (CheckRealTime.Instance.inGamerealTime + 0.1 >= nextStartTime && i < music.Length - 1)
         {
             i++;
             musicSource.clip = music[i];
-            musicSource.PlayScheduled(nextStartTime);
+            musicSource.PlayScheduled(nextStartTime + DotBoxGeneratorL.Instance.startDelay);
 
-            switch(musicSource.clip.name)
+            switch (musicSource.clip.name)
             {
                 case "Stage1":
                     DotBoxGeneratorL.Instance.bpm = 92;
@@ -42,9 +49,12 @@ public class MusicBox : MonoBehaviour
                     DotBoxGeneratorL.Instance.bpm = 83;
                     DotBoxGeneratorR.Instance.bpm = 83;
                     break;
-                default:
+                case "Stage3":
                     DotBoxGeneratorL.Instance.bpm = 117;
                     DotBoxGeneratorR.Instance.bpm = 117;
+                    break;
+                default:
+                    Debug.Log("No Song");
                     break;
             }
 

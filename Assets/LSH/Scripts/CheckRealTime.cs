@@ -22,6 +22,6 @@ public class CheckRealTime : MonoBehaviour
             plusTime += 10;
         }
         inGamerealTime = AudioSettings.dspTime - DotBoxGeneratorL.Instance.musicStartDspTime + plusTime;
-        Debug.Log(inGamerealTime);
+        Debug.Log((int)inGamerealTime);
     }
 }
