@@ -11,15 +11,18 @@ public interface IDying
     public bool IsDying { get; set; }
 }
 
+public interface IResetable
+{
+    public void Resetable();
+    
+}
+
 public enum State
 {
     Underground,Spawn,Idle, Forward, Attack, Die,SpawnR,Null
 }
-
-
-
 public delegate void GhostAction();
-public class EnemyGhost : MonoBehaviour, IDying
+public class EnemyGhost : MonoBehaviour, IDying, IResetable
 {
 
 
@@ -38,7 +41,6 @@ public class EnemyGhost : MonoBehaviour, IDying
     int m_damage;
 
     public bool IsDying { get; set; }
-
     [Header("Animation")]
     [SerializeField]
     private Animator m_anim;
@@ -195,6 +197,29 @@ public class EnemyGhost : MonoBehaviour, IDying
     
   public  void Restart()
     {
+        transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
+        transform.localScale = new Vector3(1, 1, 1);
+        if (gameObject.TryGetComponent(out Health c))
+        {
+            c.m_CurrentHealth = c.m_MaxHealth;
+
+        }
+        else
+            Debug.Log("No Health.cs");
+        RandomColor();
+
+        if (TryGetComponent<Collider>(out var f))
+            f.enabled = true;
+        else
+        {
+            GetComponentInChildren<Collider>().enabled = false;
+        }
+        My_State = State.Idle;
+        ghostAction = AlertUpdate;
+    }
+    public void  Resetable()
+    {
+        transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
         transform.localScale = new Vector3(1, 1, 1);
         if (gameObject.TryGetComponent(out Health c))
         {
@@ -224,12 +249,8 @@ public class EnemyGhost : MonoBehaviour, IDying
         AnimationManager(State.Die, master_cts.Token, () => {
 
 
-             gameObject.SetActive(false);
-
-           
-           
-        }
-            
+             gameObject.SetActive(false);  
+        }     
         ,80).Forget();
 
         UniScaleChangeOverTime(cts.Token).Forget();
