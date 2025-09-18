@@ -41,7 +41,7 @@ public class CorridorSpawner : MonoBehaviour
             startZ += corridorLength;
         }
 
-
+           
         doorTrap = GameObject.FindObjectOfType<DoorTrap>();
     }
 
