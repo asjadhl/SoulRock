@@ -166,7 +166,7 @@ public class Health: MonoBehaviour, IDamagable
             if (dying == null)
                 Debug.LogError($"IDying Component Don't Exist ON {gameObject.name}");
 
-            dying?.PlayDyingAnimation(true);
+            dying?.Die(true);
 
         }
     }

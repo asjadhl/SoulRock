@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
 
 public class LockOnDodgeEnemy : MonoBehaviour
 {
@@ -41,7 +41,7 @@ public class LockOnDodgeEnemy : MonoBehaviour
                                   new Vector2(targetPosition.x, targetPosition.y)) < 0.1f)
             {
                 dodging = false;
-                StartCoroutine(RestCoroutine());
+                Rest().Forget();
             }
         }
 
@@ -73,9 +73,12 @@ public class LockOnDodgeEnemy : MonoBehaviour
         canDodge = false;
     }
 
-    IEnumerator RestCoroutine()
+   
+
+    public async UniTaskVoid Rest()
     {
-        yield return new WaitForSeconds(restTime);
+
+        await UniTask.WaitForSeconds(restTime);
         canDodge = true;
     }
 }
