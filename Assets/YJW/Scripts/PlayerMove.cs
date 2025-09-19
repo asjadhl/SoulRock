@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("round"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
         }
