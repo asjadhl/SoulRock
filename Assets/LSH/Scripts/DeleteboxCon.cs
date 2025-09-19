@@ -13,7 +13,7 @@ public class DeleteboxCon : MonoBehaviour
     [Header("좌/우 도트 부모")]
     public Transform leftParent;
     public Transform rightParent;
-
+    [SerializeField] HitBoxCon hitBoxCon;
     private void Update()
     {
         if (targetImage == null) return;
@@ -44,12 +44,18 @@ public class DeleteboxCon : MonoBehaviour
                     distLeftTarget <= hitThreshold &&
                     distRightTarget <= hitThreshold)
                 {
-                    
                     DotBoxGeneratorL.Instance.ReturnDot(left.gameObject);
                     DotBoxGeneratorR.Instance.ReturnDot(right.gameObject);
 
                     Debug.Log("좌/우 도트 충돌 + 중앙 목표 근접 → 비활성화");
-
+                    hitBoxCon.combo = 0;
+                    if(hitBoxCon.combo == 0)
+                    {
+                        for(int k = 0; k < hitBoxCon.comboImage.Length; k++)
+                        {
+                            hitBoxCon.comboImage[k].SetActive(false);
+                        }
+                    }
                     break;
                 }
             }

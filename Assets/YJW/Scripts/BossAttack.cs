@@ -51,7 +51,7 @@ public class BossAttack : MonoBehaviour
 
     private void GreenBallTimer()
     {
-        if((int)CheckRealTime.Instance.inGamerealTime == GreenBallTime[index])
+        if((int)CheckRealTime.inGamerealTime == GreenBallTime[index])
         {
 
         }

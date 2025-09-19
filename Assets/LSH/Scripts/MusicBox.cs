@@ -31,9 +31,9 @@ public class MusicBox : MonoBehaviour
     }
     void ChangeSong()
     {
-        Debug.LogError((int)CheckRealTime.Instance.inGamerealTime);
-        Debug.LogWarning($"´ÙÀ½°î ½ÃÀÛ {nextStartTime+DotBoxGeneratorL.Instance.startDelay}");
-        if (CheckRealTime.Instance.inGamerealTime + 0.1 >= nextStartTime && i < music.Length - 1)
+        //Debug.LogError((int)CheckRealTime.Instance.inGamerealTime);
+        //Debug.LogWarning($"´ÙÀ½°î ½ÃÀÛ {nextStartTime+DotBoxGeneratorL.Instance.startDelay}");
+        if (CheckRealTime.inGamerealTime + 0.1 >= nextStartTime && i < music.Length - 1)
         {
             i++;
             musicSource.clip = music[i];

@@ -15,7 +15,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
-        PlayerShoot_();
+        //    PlayerShoot_();
     }
     public void PlayerShoot_()
     {
@@ -29,7 +29,14 @@ public class PlayerShoot : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 10f))
             {
                 if (hit.collider.gameObject.tag == "Enemy")
+                {
                     hit.collider.gameObject.GetComponent<BossBullet>().ReturnSpawnPoint();
+                }
+                if(hit.collider.gameObject.tag == "Dummy") //요것만 주석처리하면댐
+                {
+                    hit.collider.gameObject.GetComponent<DummySpawner>().getDummyHit = true;
+                    hit.collider.gameObject.GetComponent<DummySpawner>().getDummyDamage();
+                }
                 if(hit.collider.gameObject.tag == "Bullet3")
                     hit.collider.gameObject.GetComponent<BossUnderBullet>().ReturnSpawnPoint();
                 //if (hit.collider.gameObject.tag == "Bullet2")
@@ -37,7 +44,6 @@ public class PlayerShoot : MonoBehaviour
 
 
             }
-
 
             
             // Health.cs

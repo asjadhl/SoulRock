@@ -44,12 +44,12 @@ public class SpawnTimer : MonoBehaviour
     {
         if (i < firstTimerFast.Length)
         {
-            if (((int)CheckRealTime.Instance.inGamerealTime == firstTimerFast[i] && calones))
+            if (((int)CheckRealTime.inGamerealTime == firstTimerFast[i] && calones))
             {
                 calones = false;
                 doubleDotSpeed = true;
             }
-            if ((int)CheckRealTime.Instance.inGamerealTime == lastTimerFast[i] && !calones)
+            if ((int)CheckRealTime.inGamerealTime == lastTimerFast[i] && !calones)
             {
                 calones = true;
                 doubleDotSpeed = false;
@@ -61,12 +61,12 @@ public class SpawnTimer : MonoBehaviour
         }
         if(j < lastTimerFast.Length)
         {
-            if (((int)CheckRealTime.Instance.inGamerealTime == firstTimerSlow[j] && calones))
+            if (((int)CheckRealTime.inGamerealTime == firstTimerSlow[j] && calones))
             {
                 calones = false;
                 lowDoubleDotSpeed = true;
             }
-            if ((int)CheckRealTime.Instance.inGamerealTime == lastTimerSlow[j] && !calones)
+            if ((int)CheckRealTime.inGamerealTime == lastTimerSlow[j] && !calones)
             {
                 calones = true;
                 lowDoubleDotSpeed = false;
