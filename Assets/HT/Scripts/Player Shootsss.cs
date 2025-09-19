@@ -12,11 +12,12 @@ public class PlayerShootsss : MonoBehaviour
     }
 
     public void PlayerShoot_()
-    {     
+    {
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
 
             
@@ -37,6 +38,18 @@ public class PlayerShootsss : MonoBehaviour
                
                
             }
+        }
+
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+
+            var a = hit.collider.GetComponent<LockOnDodgeEnemy>();
+            if (a != null)
+            {
+                a.TriggerDodge();
+            }
+
+
         }
     }
 }
