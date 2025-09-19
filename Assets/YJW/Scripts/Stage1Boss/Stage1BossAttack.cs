@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BossAttack : MonoBehaviour
+public class Stage1BossAttack : MonoBehaviour
 {
     public float attack1Time;
     public float attack2Time;
