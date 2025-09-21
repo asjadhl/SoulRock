@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPos: {fileID: 0}
-  StartAlertingRange: 9
+  StartAlertingRange: 12
   StartAttackingRange: 1.5
   m_speed: 3
   m_damage: 2
@@ -510,7 +510,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_anim: {fileID: 7716351625418722740}
   My_State: 0
-  AttackIndex: 0
   ListClipName:
   - 
   - 
@@ -583,7 +582,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  forwardSpeed: 0
   dodgeDistance: 5
   dodgeSpeed: 5
   restTime: 1

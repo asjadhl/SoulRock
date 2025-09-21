@@ -52,7 +52,7 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
     [SerializeField]
     float timer = 0;
     Vector3 Origin;
-
+    LockOnDodgeEnemy lockOnDodgeEnemy;
 
 
 
@@ -72,20 +72,13 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
             Destroy(gameObject);
 
         }
-
-
-
-
-
-     
-
-
-        m_enemygraphics.AnimationManager(State.Idle, 1, () =>
+        m_enemygraphics.AnimationManager(State.Idle, Cts.master, () =>
         {
+            GetComponent<LockOnDodgeEnemy>().StopDodging(); // Stop Dodging If Ghost is not aware of Player Existance
             ghostAction = AlertUpdate;
 
         }).Forget();
-        
+        lockOnDodgeEnemy = GetComponent<LockOnDodgeEnemy>();
     }
 
 
@@ -96,15 +89,21 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
        // if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartNoticingRange)
         if(Vector3.Distance(PlayerPos.position,transform.position) <= StartAlertingRange)
         {
+            lockOnDodgeEnemy.StartDodging();
+
+            if (!lockOnDodgeEnemy.IsDodging())
             transform.LookAt(PlayerPos.position);
+
+
             transform.position += m_speed * Time.deltaTime * transform.forward;
-            m_enemygraphics.AnimationManager(State.Forward,0).Forget();
+            m_enemygraphics.AnimationManager(State.Forward, Cts.normal).Forget();
             //if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
             if (Vector3.Distance(PlayerPos.position, transform.position) <= StartAttackingRange)
             {
                 //Stick with Player
                 transform.SetParent(PlayerPos.transform);
-                m_enemygraphics.AnimationManager(State.Idle, 0).Forget();
+                m_enemygraphics.AnimationManager(State.Idle, Cts.normal).Forget();
+                lockOnDodgeEnemy.StopDodging();
                 ghostAction = AttackingUpdate;
 
             }
@@ -118,8 +117,7 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
     { 
             timer = Mathf.Clamp(timer + Time.deltaTime, 0f, 10f);
             if (timer >= Attackrate)
-            {
-
+            { 
                 timer = 0;
               if(TryGetComponent<Collider>(out var c))
                        c.enabled = false;
@@ -128,7 +126,7 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
                     GetComponentInChildren<Collider>().enabled = false;          
              }
 
-            m_enemygraphics.AnimationManager(State.Attack, 0, () =>
+            m_enemygraphics.AnimationManager(State.Attack, Cts.normal, () =>
                 {
 
                     //Attack
@@ -206,7 +204,7 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
         transform.SetParent(null);
 
 
-        m_enemygraphics.AnimationManager(State.Die, 1, () => {
+        m_enemygraphics.AnimationManager(State.Die, Cts.master, () => {
 
 
              gameObject.SetActive(false);  

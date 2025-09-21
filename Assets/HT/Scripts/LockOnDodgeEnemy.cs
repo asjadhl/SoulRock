@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 public class LockOnDodgeEnemy : MonoBehaviour
 {
     public Transform player;
-    public float forwardSpeed = 3f;  
+    
     public float dodgeDistance = 5f;  
     public float dodgeSpeed = 5f; 
     public float restTime = 5f; 
@@ -13,21 +13,30 @@ public class LockOnDodgeEnemy : MonoBehaviour
     private bool canDodge = true;
     private Vector3 targetPosition;
     private bool dodging = false;
+    private bool isAllowedToDodge = true;
+    private float dir;
+    private void OnEnable()
+    {
+        isAllowedToDodge = true;
+        this.enabled = true;
+    }
 
     private void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
     }
-
+    public bool IsDodging()
+    {
+        return dodging;
+    }
     void Update()
     {
-        
-        Vector3 forwardDir = (player.position - transform.position).normalized;
-        transform.position += forwardDir * forwardSpeed * Time.deltaTime;
+          
 
        
-        if (dodging)
+        if (dodging && isAllowedToDodge)
         {
+            
             Vector3 newPos = Vector3.MoveTowards(
                 new Vector3(transform.position.x, transform.position.y, 0),   
                 new Vector3(targetPosition.x, targetPosition.y, 0),  
@@ -46,18 +55,29 @@ public class LockOnDodgeEnemy : MonoBehaviour
         }
 
         
-        transform.LookAt(player);
+        //transform.LookAt(player);
     }
 
+    public void StopDodging()
+    {
+        isAllowedToDodge = false;
+        this.enabled = false;
+    }
+    public void StartDodging()
+    {
+        isAllowedToDodge = true;
+        this.enabled = true;
+    }
    
     public void TriggerDodge()
     {
-        if (!canDodge) return;
+        if (!canDodge ||!isAllowedToDodge) return;
 
         
         float directionSign = Random.value < 0.5f ? -1f : 1f;
+        dir = directionSign;
 
-        
+
         float angle = Random.Range(0f, maxDodgeAngle) * directionSign;
 
        

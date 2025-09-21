@@ -6,6 +6,10 @@ public enum States
 {
     Underground, Spawn, Idle, Forward, Attack, Die, SpawnR, Null
 }
+public enum Cts
+{
+    normal,master
+}
 public class EnemyGhostGraphics : MonoBehaviour
 {
     [Header("Animation")]
@@ -13,8 +17,6 @@ public class EnemyGhostGraphics : MonoBehaviour
     private Animator m_anim;
     [SerializeField]
     public State My_State;
-    [SerializeField]
-    private int AttackIndex;
     [Space(2)]
     public List<string> ListClipName;
     public Dictionary<string, AnimationClip> m_eventDic;
@@ -67,18 +69,6 @@ public class EnemyGhostGraphics : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     public  void SetRandomColor()
     {
 
@@ -88,7 +78,7 @@ public class EnemyGhostGraphics : MonoBehaviour
     }
     private void OnDestroy()
     {
-        listcts[0].Cancel();
+        listcts[(int)Cts.normal].Cancel();
     }
     #region Animation_System
 
@@ -113,7 +103,7 @@ public class EnemyGhostGraphics : MonoBehaviour
 
     }
 
-    public async UniTaskVoid AnimationManager(State _newState, int tokenIndex, System.Action callback = null, float sample = 0)
+    public async UniTaskVoid AnimationManager(State _newState, Cts cts, System.Action callback = null, float sample = 0)
     {
 
         if (My_State == _newState || My_State == State.Die)
@@ -157,7 +147,7 @@ public class EnemyGhostGraphics : MonoBehaviour
         if (sample > 0)
         {
             float waitTime = sample / m_eventDic[ListClipName[(int)_newState]].frameRate; ;
-            await UniTask.WaitForSeconds(waitTime, cancellationToken: listcts[0].Token);
+            await UniTask.WaitForSeconds(waitTime, cancellationToken: listcts[(int)cts].Token);
         }
         else
             await UniTask.Yield();
@@ -173,7 +163,7 @@ public class EnemyGhostGraphics : MonoBehaviour
         return null;
     }
 
-    public async UniTaskVoid UniPlayOneShot(State _newState,int tokenIndex, State returnState)
+    public async UniTaskVoid UniPlayOneShot(State _newState, Cts cts, State returnState)
     {
         bool canceled = false;
 
@@ -194,7 +184,7 @@ public class EnemyGhostGraphics : MonoBehaviour
         {
             if (!canceled)
             {
-                AnimationManager(returnState, tokenIndex).Forget();
+                AnimationManager(returnState, cts).Forget();
             }
 
         }
