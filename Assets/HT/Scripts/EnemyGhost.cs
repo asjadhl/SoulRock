@@ -1,8 +1,5 @@
-using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
+ 
 
 
 public interface IDying
@@ -17,10 +14,12 @@ public interface IResetable
     
 }
 
-public enum State
+public enum AnimationState
 {
     Underground,Spawn,Idle, Forward, Attack, Die,SpawnR,Null
 }
+
+
 public delegate void GhostAction();
 public class EnemyGhost : MonoBehaviour, IDying, IResetable
 {
@@ -53,38 +52,67 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
     float timer = 0;
     Vector3 Origin;
     LockOnDodgeEnemy lockOnDodgeEnemy;
-
-
-
-
-    private void Awake()
+    [SerializeField]
+    Behavior   MyBehavior;
+    EntityType MyEntityType;
+    EntityI    MyEntityI;
+    private bool CanDie = true;
+    public void Init(EntityType _entityType,EntityI _entityI,Behavior _behavior = Behavior.Wondering)
     {
-
-
         m_enemygraphics = GetComponent<EnemyGhostGraphics>();
-        transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
-        //transform.LookAt(Vector3.back);
+        lockOnDodgeEnemy = GetComponent<LockOnDodgeEnemy>();
         PlayerPos = GameObject.FindWithTag("Player").transform;
         if (PlayerPos == null)
         {
-            gameObject.SetActive(false);
+            Debug.LogError("No Player Found");
+            gameObject.SetActive(false); Destroy(gameObject);}
 
-            Destroy(gameObject);
-
-        }
-        m_enemygraphics.AnimationManager(State.Idle, Cts.master, () =>
+        MyEntityType = _entityType;
+        MyEntityI = _entityI;
+        MyBehavior = _behavior;
+        
+        Debug.Log("Init");
+        switch (MyEntityI)
         {
-            GetComponent<LockOnDodgeEnemy>().StopDodging(); // Stop Dodging If Ghost is not aware of Player Existance
-            ghostAction = AlertUpdate;
 
-        }).Forget();
-        lockOnDodgeEnemy = GetComponent<LockOnDodgeEnemy>();
+
+            case EntityI.chonglib:
+                {
+                    StartAlertingRange = 100;
+                    CanDie = false;
+                    lockOnDodgeEnemy.StopDodging();
+                    m_enemygraphics.AnimationManager(AnimationState.Idle, Cts.master, () =>
+                    { 
+                        
+                    }).Forget();
+                   
+                }
+                break;  
+
+            case EntityI.Hostile:
+                {
+                    lockOnDodgeEnemy.StopDodging();
+                    ghostAction = AlertUpdate;
+                    CanDie = true;
+                    m_enemygraphics.AnimationManager(AnimationState.Idle, Cts.master, () =>
+                    {
+
+                        
+
+                    }).Forget();
+                }break;
+                
+        }
+       
     }
 
 
- 
+      
+
+   
     private void AlertUpdate()
     {
+  
          
        // if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartNoticingRange)
         if(Vector3.Distance(PlayerPos.position,transform.position) <= StartAlertingRange)
@@ -96,21 +124,19 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
 
 
             transform.position += m_speed * Time.deltaTime * transform.forward;
-            m_enemygraphics.AnimationManager(State.Forward, Cts.normal).Forget();
+            m_enemygraphics.AnimationManager(AnimationState.Forward, Cts.normal).Forget();
             //if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
             if (Vector3.Distance(PlayerPos.position, transform.position) <= StartAttackingRange)
             {
                 //Stick with Player
                 transform.SetParent(PlayerPos.transform);
-                m_enemygraphics.AnimationManager(State.Idle, Cts.normal).Forget();
+                m_enemygraphics.AnimationManager(AnimationState.Idle, Cts.normal).Forget();
                 lockOnDodgeEnemy.StopDodging();
+                transform.LookAt(PlayerPos.position);
                 ghostAction = AttackingUpdate;
 
             }
         }
-        
-            
-
     }
 
     void AttackingUpdate()
@@ -126,9 +152,8 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
                     GetComponentInChildren<Collider>().enabled = false;          
              }
 
-            m_enemygraphics.AnimationManager(State.Attack, Cts.normal, () =>
+            m_enemygraphics.AnimationManager(AnimationState.Attack, Cts.normal, () =>
                 {
-
                     //Attack
                     Attack();
                     Die(true);
@@ -146,35 +171,12 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
     }
     private void Update()
     {
-
-
-         Interact(() => { ghostAction?.Invoke(); });
+         Interact(()=>{ghostAction?.Invoke();});
     }
 
 
     
-  public  void Restart()
-    {
-        transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
-        transform.localScale = new Vector3(1, 1, 1);
-        if (gameObject.TryGetComponent(out Health c))
-        {
-            c.m_CurrentHealth = c.m_MaxHealth;
-
-        }
-        else
-            Debug.Log("No Health.cs");
-        m_enemygraphics.SetRandomColor();
-
-        if (TryGetComponent<Collider>(out var f))
-            f.enabled = true;
-        else
-        {
-            GetComponentInChildren<Collider>().enabled = false;
-        }
-        m_enemygraphics.My_State = State.Idle;
-        ghostAction = AlertUpdate;
-    }
+   
     public void  Resetable()
     {
         transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
@@ -182,11 +184,16 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
         if (gameObject.TryGetComponent(out Health c))
         {
             c.m_CurrentHealth = c.m_MaxHealth;
-
         }
         else
             Debug.Log("No Health.cs");
+        if(MyEntityI == EntityI.Hostile)
         m_enemygraphics.SetRandomColor();
+        else
+        {
+            var mat = GetComponentInChildren<SkinnedMeshRenderer>();
+            mat.material.SetColor("_MainColor", Color.black);
+        }
 
         if (TryGetComponent<Collider>(out var f))
             f.enabled = true;
@@ -194,17 +201,27 @@ public class EnemyGhost : MonoBehaviour, IDying, IResetable
         {
             GetComponentInChildren<Collider>().enabled = false;
         }
-        m_enemygraphics.My_State = State.Idle;
-        ghostAction = AlertUpdate;
+        m_enemygraphics.My_State = AnimationState.Idle;
+        
     }
     public void Die(bool _)
     {
+
+        if (!CanDie)
+        {
+            CanDie  = true;
+            ghostAction = AlertUpdate;
+            Debug.Log("2nd");
+            return;
+
+        }
+        lockOnDodgeEnemy.StopDodging();
         IsDying = _;
         ghostAction = null;
         transform.SetParent(null);
 
 
-        m_enemygraphics.AnimationManager(State.Die, Cts.master, () => {
+        m_enemygraphics.AnimationManager(AnimationState.Die, Cts.master, () => {
 
 
              gameObject.SetActive(false);  

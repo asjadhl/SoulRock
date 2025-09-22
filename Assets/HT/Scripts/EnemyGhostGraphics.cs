@@ -16,7 +16,7 @@ public class EnemyGhostGraphics : MonoBehaviour
     [SerializeField]
     private Animator m_anim;
     [SerializeField]
-    public State My_State;
+    public AnimationState My_State;
     [Space(2)]
     public List<string> ListClipName;
     public Dictionary<string, AnimationClip> m_eventDic;
@@ -61,7 +61,7 @@ public class EnemyGhostGraphics : MonoBehaviour
 
 
 
-        My_State = State.Null;
+        My_State = AnimationState.Null;
 
         SetRandomColor();
     }
@@ -103,10 +103,10 @@ public class EnemyGhostGraphics : MonoBehaviour
 
     }
 
-    public async UniTaskVoid AnimationManager(State _newState, Cts cts, System.Action callback = null, float sample = 0)
+    public async UniTaskVoid AnimationManager(AnimationState _newState, Cts cts, System.Action callback = null, float sample = 0)
     {
 
-        if (My_State == _newState || My_State == State.Die)
+        if (My_State == _newState || My_State == AnimationState.Die)
             return;
         else
             My_State = _newState;
@@ -119,27 +119,27 @@ public class EnemyGhostGraphics : MonoBehaviour
         }
         switch (My_State)
         {
-            case State.Underground:
+            case AnimationState.Underground:
                 m_anim.Play(ListClipName[0]);
                 break;
-            case State.Spawn:
+            case AnimationState.Spawn:
                 m_anim.Play(ListClipName[1]);
                 break;
 
-            case State.Idle:
+            case AnimationState.Idle:
                 m_anim.Play(ListClipName[2]);
                 break;
 
-            case State.Forward:
+            case AnimationState.Forward:
                 m_anim.Play(ListClipName[3]);
                 break;
-            case State.Attack:
+            case AnimationState.Attack:
                 m_anim.Play(ListClipName[4]);
                 break;
-            case State.Die:
+            case AnimationState.Die:
                 m_anim.Play(ListClipName[5]);
                 break;
-            case State.SpawnR:
+            case AnimationState.SpawnR:
                 m_anim.Play(ListClipName[6]);
                 break;
         }
@@ -163,7 +163,7 @@ public class EnemyGhostGraphics : MonoBehaviour
         return null;
     }
 
-    public async UniTaskVoid UniPlayOneShot(State _newState, Cts cts, State returnState)
+    public async UniTaskVoid UniPlayOneShot(AnimationState _newState, Cts cts, AnimationState returnState)
     {
         bool canceled = false;
 
@@ -191,7 +191,7 @@ public class EnemyGhostGraphics : MonoBehaviour
     }
 
 
-    public async UniTaskVoid UniTriggerAtSample(State _newState, int sample, CancellationToken token, bool IsMaster, System.Action callback = null)
+    public async UniTaskVoid UniTriggerAtSample(AnimationState _newState, int sample, CancellationToken token, bool IsMaster, System.Action callback = null)
     {
         float waitTime = sample / m_eventDic[ListClipName[(int)_newState]].frameRate;
 

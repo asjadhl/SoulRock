@@ -1481,8 +1481,20 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 4260278308741789538, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
+      propertyPath: LenghtOfStringData
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260278308741789538, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
       propertyPath: GhostEnemies.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260278308741789538, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
+      propertyPath: GhostEnemies.Array.data[0].entityI
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260278308741789538, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
+      propertyPath: GhostEnemies.Array.data[1].entityI
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4260278308741789538, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
       propertyPath: GhostEnemies.Array.data[0].enemyobject

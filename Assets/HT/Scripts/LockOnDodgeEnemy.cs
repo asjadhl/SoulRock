@@ -7,7 +7,8 @@ public class LockOnDodgeEnemy : MonoBehaviour
     
     public float dodgeDistance = 5f;  
     public float dodgeSpeed = 5f; 
-    public float restTime = 5f; 
+    public float restTime = 5f;
+    public float minDodgeAngle = 0;
     public float maxDodgeAngle = 45f;  
 
     private bool canDodge = true;
@@ -15,11 +16,7 @@ public class LockOnDodgeEnemy : MonoBehaviour
     private bool dodging = false;
     private bool isAllowedToDodge = true;
     private float dir;
-    private void OnEnable()
-    {
-        isAllowedToDodge = true;
-        this.enabled = true;
-    }
+    
 
     private void Start()
     {
@@ -36,6 +33,9 @@ public class LockOnDodgeEnemy : MonoBehaviour
        
         if (dodging && isAllowedToDodge)
         {
+            transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x,
+                                                         dir*90f,
+                                                         transform.rotation.eulerAngles.z);
             
             Vector3 newPos = Vector3.MoveTowards(
                 new Vector3(transform.position.x, transform.position.y, 0),   
@@ -78,7 +78,7 @@ public class LockOnDodgeEnemy : MonoBehaviour
         dir = directionSign;
 
 
-        float angle = Random.Range(0f, maxDodgeAngle) * directionSign;
+        float angle = Random.Range(minDodgeAngle, maxDodgeAngle) * directionSign;
 
        
         float theta = angle * Mathf.Deg2Rad;
