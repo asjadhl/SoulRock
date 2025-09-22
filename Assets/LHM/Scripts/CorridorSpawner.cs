@@ -1,35 +1,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class StageInfo
+{
+    public string normalTag;        // 일반 맵 태그
+    public List<string> trapTags;   // 트랩 맵 태그들
+    [Range(0f, 1f)]
+    public float trapChance;        // 트랩 나올 확률 (0~1)
+}
+
 public class CorridorSpawner : MonoBehaviour
 {
-    public string[] corridorTag = { "Corridor", "Trap1" }; // PoolingManager 태그
-    public int corridorCount = 5;           // 유지할 복도 개수
-    public float corridorLength = 61f;      // 복도 길이(Z축)
-    public float corridorWidth = 10f;       // 복도 폭(X축)
+    [Header("Stage 설정")]
+    public int currentStage = 1;           // 현재 스테이지 번호 (1부터 시작)
+    public List<StageInfo> stages;         // Stage별 정보 (인스펙터에서 설정)
 
-    DoorTrap doorTrap;
+    [Header("Corridor 설정")]
+    public int corridorCount = 5;          // 유지할 복도 개수
+    public float corridorLength = 61f;     // 복도 길이(Z축)
+    public float corridorWidth = 10f;      // 복도 폭(X축)
 
     [Header("Player Reference")]
-    public Transform player; // 플레이어 (고정)
+    public Transform player;               // 플레이어 (고정)
 
-    [Header("Moster Spawner prefab")]
+    [Header("Monster Spawner prefab")]
     public string mosterSpawnerTag = "Spawner";
 
     private Queue<GameObject> corridors = new Queue<GameObject>();
-    string GetRandomCorridorTag()
-    {
-        int rand = Random.Range(0, 100);
-        if (rand < 10) return "Trap1";   // 10%
-        return "Corridor";               // 90%
-    }
+
     void Start()
     {
         // 초기 복도 배치
         float startZ = 0f;
         for (int i = 0; i < corridorCount; i++)
         {
-            string tag = GetRandomCorridorTag();
+            string tag = GetStageCorridorTag();
 
             GameObject corridor = PoolingManager.Instance.SpawnFromPool(
                 tag,
@@ -40,18 +46,12 @@ public class CorridorSpawner : MonoBehaviour
             corridors.Enqueue(corridor);
             startZ += corridorLength;
         }
-
-           
-        doorTrap = GameObject.FindObjectOfType<DoorTrap>();
     }
 
     void Update()
     {
         ManageCorridors();
-  
     }
-
-
 
     // 플레이어 뒤로 넘어간 복도는 재사용
     void ManageCorridors()
@@ -67,7 +67,7 @@ public class CorridorSpawner : MonoBehaviour
             foreach (var c in corridors) last = c;
 
             Vector3 newPos = last.transform.position + new Vector3(0, 0, corridorLength);
-            string tag = GetRandomCorridorTag();
+            string tag = GetStageCorridorTag();
 
             GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(
                 tag,
@@ -85,4 +85,24 @@ public class CorridorSpawner : MonoBehaviour
         }
     }
 
+    // 현재 스테이지에 맞는 프리펩 태그 선택
+    string GetStageCorridorTag()
+    {
+        if (currentStage < 1 || currentStage > stages.Count)
+            return "Corridor"; // 예외 시 기본값
+
+        StageInfo stage = stages[currentStage - 1];
+
+        // 확률 체크
+        if (Random.value < stage.trapChance && stage.trapTags.Count > 0)
+        {
+            // 트랩맵 중 하나 랜덤 선택
+            int randIndex = Random.Range(0, stage.trapTags.Count);
+            return stage.trapTags[randIndex];
+        }
+        else
+        {
+            return stage.normalTag;
+        }
+    }
 }
