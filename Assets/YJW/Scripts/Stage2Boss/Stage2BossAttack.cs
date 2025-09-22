@@ -1,79 +1,155 @@
 using Cysharp.Threading.Tasks;
+using System;
+using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Stage2BossAttack : MonoBehaviour
 {
     /*
-    문양 맞추기 패턴
-    보스가 트럼프 모양을 보여준뒤 갑자기 연기속으로 사라진후 4마리의 각 문양을 가진 미니 보스가 등장
-    이때 플레이어는 보스가 사라지기전 보여준 트럼프 모양을 가진 미니 보스를 처치해야 패턴 상쇄
+    보스 머리 위 4개의 트럼프 문양에 따라 달라지는 패턴
+    
+    하트 : 패턴 발동시 떠다니는 쪼만한 하트들이 생김.
+    그 하트들을 죽이지 못한만큼 보스는 그대로 흡수해 피회복.
+    쪼만한 하트들 갯수는 default 4개 + 클럽 스택 수만큼
 
-    플레이어 총 앞에 하트,클로버,스페이드,클럽 모양중 하나가 뜨고 보스의 머리위 모양이 2초마다 바뀌는데 
-    플레이어는 해당 문양이 뜰때 맞춰야함 총 2번 진행되며 보스를 타격 못한 횟수만큼 플레이어 데미지
+    스페이드 : 골카, 빨카로 빠른 공격
+    빨카는 걍 데미지, 골카 맞으면 3초동안 도트 투명해짐.
+    이미 맞은 상태에서 골카 또 맞을 시 시간만 3초로 초기화.
 
-    순간이동 패턴
-    랜덤으로 순간이동해서 플레이어를 혼란시킴
-    거리가 되면 플레이어가 직접 타격 가능
-    일반 기믹
-    빨간 카드 = 일반 공격 / 골드 카드 = 스턴
-    플레이어는 맞춰야함
-    스턴 효과는 도트를 투명하게 처리
+    다이아 : 뿅뿅보스
+    보스 랜덤위치로 순간이동. 3번정도 연속으로 놓치면 돌진 후 공격.
+    돌진 패턴 끝난 후에는 다시 뿅뿅
 
-
+    클럽 : 빨강색 구슬과 검정색 구슬을 던짐.
+    빨간색 구슬은 쏘지 않고 맞아야 하고, 검정색 구슬은 쏴야함.
+    빨간색을 잘못 쏘거나 검정색을 쏘지 않으면 아래에 스택이 쌓임
+    스택은 7개 모으면 즉사
     */
 
-    [SerializeField] Card[] Cards;
-    [SerializeField] GameObject card;
-    public Card currentCard;
+    [SerializeField] Card[] cards;
+    Card currentCard;
 
-    [SerializeField] ParticleSystem hideEffect;
+    [SerializeField] Image bossCardImage;
+    public Shape curShape;
 
-    [SerializeField] GameObject[] miniBoss;
-    bool miniBossSpawned = false;
+    GameObject player;
+
+    private float teleportTimer = 0;
+    private int teleportCount = 0;
+    public int playerHitCount = 0;
 
     private void Start()
     {
-
+        //ChangeNextRanCard();
+        curShape = Shape.D;
+        player = GameObject.FindWithTag("Player");
     }
 
     private void FixedUpdate()
     {
-
+        switch (curShape)
+        {
+            case Shape.H:
+                HAttack();
+                break;
+            case Shape.S:
+                SAttack();
+                break;
+            case Shape.D:
+                teleportTimer += Time.fixedDeltaTime;
+                DAttack();
+                break;
+            case Shape.C:
+                CAttack();
+                break;
+        }
     }
 
-    public async UniTask BossAttack1()
+    private void SetCardData()
     {
-        card.SetActive(true);
-        currentCard = Cards[Random.Range(0, Cards.Length)];
-        card.GetComponent<SpriteRenderer>().sprite = currentCard.icon;
-        int cardNum = currentCard.num;
-        int cardShpae = currentCard.shpae;
-        await UniTask.Delay(1000);
-        card.SetActive(false);
-
-        hideEffect.Play();
-
-        for(int i = 0; i < miniBoss.Length; i++)
-            miniBoss[i].SetActive(true);
-        miniBossSpawned = true;
-
-        gameObject.SetActive(false);
-
-
-        int case1CoolTime = Random.Range(7, 23);
-        await UniTask.Delay(case1CoolTime * 1000);
+        bossCardImage.sprite = currentCard.icon;
+        curShape = currentCard.shape;
     }
 
-    private void BossAttack2()
+    private async void ChangeNextRanCard()
     {
-
+        currentCard = cards[Random.Range(0, cards.Length)];
+        SetCardData();
+        await UniTask.Delay(15000);
+        ChangeNextRanCard();
     }
 
+    private void HAttack()
+    {
+        Debug.Log("하트");
+    }
+    
+    private void SAttack()
+    {
+        Debug.Log("스페이드");
+    }
+
+    private void DAttack()
+    {
+        Debug.Log("다이아");
+        if(teleportCount < 5)
+        {
+            if (teleportTimer >= 2)
+            {
+                MoveToRanPos();
+                teleportTimer = 0;
+            }
+        }
+        else
+        {
+            if(playerHitCount < 8)
+            {
+                BossRush();
+            }
+            else
+            {
+                transform.position = new Vector3(0, transform.position.y, player.transform.position.z + 17);
+                ChangeNextRanCard();
+            }
+        }
+    }
+
+    private void CAttack()
+    {
+        Debug.Log("클로버");
+    }
+
+    // 다이이 패턴
     private void MoveToRanPos()
     {
+        int x = Random.Range(-11, 12);
+        int z = (int)player.transform.position.z + Random.Range(10, 20);
 
+        transform.position = new Vector3(x, transform.position.y , z);
+
+        teleportCount++;
     }
 
+    private void BossRush()
+    {
+        transform.LookAt(player.transform);
+        transform.Translate(Vector3.forward * 15 * Time.fixedDeltaTime);
+    }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            player.GetComponent<PlayerHP>().PlayerHPMinus();
+            transform.rotation = Quaternion.Euler(0,180,0);
+            transform.position = new Vector3(0, 2, player.transform.position.z + 17);
+            ChangeNextRanCard();
+            teleportCount = 0;
+            playerHitCount = 0;
+        }
+    }
+
+    
 }

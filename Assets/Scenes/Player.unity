@@ -148,8 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee0addc5196cbb49852eed698aa5cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1426960174}
-  slider: {fileID: 0}
 --- !u!4 &35358490
 Transform:
   m_ObjectHideFlags: 0
@@ -1188,7 +1186,7 @@ GameObject:
   - component: {fileID: 939236338}
   - component: {fileID: 939236337}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image_Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1517,6 +1515,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1367754028}
+  - component: {fileID: 1367754029}
   m_Layer: 5
   m_Name: Middle
   m_TagString: Untagged
@@ -1547,6 +1546,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 6}
   m_SizeDelta: {x: 0, y: -880}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &1367754029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367754027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9962c2bdd8c31d48afb35800e3c0774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1414070470
 GameObject:
   m_ObjectHideFlags: 0
@@ -2591,11 +2602,11 @@ GameObject:
   - component: {fileID: 1827195402}
   - component: {fileID: 1827195401}
   - component: {fileID: 1827195400}
-  - component: {fileID: 1827195399}
   - component: {fileID: 1827195398}
+  - component: {fileID: 1827195405}
   m_Layer: 0
   m_Name: Boss(Stage2
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2612,23 +2623,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93877616a55f8044888fff1148f77fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cards: []
-  card: {fileID: 0}
-  currentCard: {fileID: 0}
-  hideEffect: {fileID: 0}
-  miniBoss: []
---- !u!114 &1827195399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1827195397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e34f469aa3548649932070181e9e248, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  cards:
+  - {fileID: 11400000, guid: d32d6b5a307d36a47aa390d05dd23227, type: 2}
+  - {fileID: 11400000, guid: 9e006b6dc159cef4f9e3a9643120a4a5, type: 2}
+  - {fileID: 11400000, guid: 8928e9ffbd96e894cb839b18c7c2efae, type: 2}
+  - {fileID: 11400000, guid: cd9ed9172af575546a770bcd7bcbb6f7, type: 2}
+  bossCardImage: {fileID: 939236337}
+  curShape: 0
+  playerHitCount: 0
 --- !u!114 &1827195400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2687,7 +2689,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 148c2b6f8f7979f4085bc51e33a83987, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2725,14 +2727,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1827195397}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 13.62}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 13}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 464917925}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1827195405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827195397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e34f469aa3548649932070181e9e248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1904417760
 GameObject:
   m_ObjectHideFlags: 0

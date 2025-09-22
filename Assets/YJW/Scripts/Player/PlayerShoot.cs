@@ -26,7 +26,7 @@ public class PlayerShoot : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 10f))
+            if (Physics.Raycast(ray, out hit, 100f))
             {
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
@@ -39,10 +39,10 @@ public class PlayerShoot : MonoBehaviour
                 }
                 if(hit.collider.gameObject.tag == "Bullet3")
                     hit.collider.gameObject.GetComponent<BossUnderBullet>().ReturnSpawnPoint();
-                //if (hit.collider.gameObject.tag == "Bullet2")
-                //    boss.GetComponent<BossAttack>().bullet.GetComponent<BossBullet>().BackToBoss();
-
-
+                if (hit.collider.gameObject.tag == "Boss" && boss.GetComponent<Stage2BossAttack>().curShape == Shape.D)
+                {
+                    boss.GetComponent<Stage2BossAttack>().playerHitCount++;
+                }
             }
 
             
