@@ -14,7 +14,7 @@ public class DotBoxConR : MonoBehaviour
     float fadeDuration = 0.9f; // 투명화까지 걸리는 시간
     Color originalColor;
     void Awake()
-    {
+    { 
         dotboxImage = GetComponent<RectTransform>();
         deleteboxCon = FindAnyObjectByType<DeleteboxCon>();
         rawImage = GetComponent<RawImage>();

@@ -44,7 +44,7 @@ public class HitBoxCon: MonoBehaviour
         TryClick();
     }
 
-    private void TryClick() //GURI GUHASU 
+    private void TryClick() 
     {
         RectTransform[] leftDots = leftDotBox.GetComponentsInChildren<RectTransform>();
         RectTransform[] rightDots = rightDotBox.GetComponentsInChildren<RectTransform>();

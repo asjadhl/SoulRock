@@ -67,7 +67,6 @@ public class DotBoxGeneratorL : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K)) getDamage = true;
         if (Input.GetKeyDown(KeyCode.S)) getDamage = false;
-        Debug.Log(delayMs);
     }
 
     public GameObject GetDotBox()
