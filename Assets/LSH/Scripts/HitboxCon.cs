@@ -28,7 +28,7 @@ public class HitBoxCon: MonoBehaviour
     public bool test = false;
     AudioSource a;
     [SerializeField] AudioClip clip;
-    [SerializeField] GameObject player;
+    //[SerializeField] GameObject player;
 
 
 
@@ -44,7 +44,7 @@ public class HitBoxCon: MonoBehaviour
         TryClick();
     }
 
-    private void TryClick() //GURI GUHASU 
+    private void TryClick() 
     {
         RectTransform[] leftDots = leftDotBox.GetComponentsInChildren<RectTransform>();
         RectTransform[] rightDots = rightDotBox.GetComponentsInChildren<RectTransform>();
@@ -77,7 +77,7 @@ public class HitBoxCon: MonoBehaviour
     {
         combo++;
         a.PlayOneShot(clip);
-        player.GetComponent<PlayerShoot>().PlayerShoot_();
+        //player.GetComponent<PlayerShoot>().PlayerShoot_();
         Debug.Log("클릭성공!");
         // 클릭 성공 시 처리할 로직
         // 예: 좌/우 도트 비활성화, 점수 증가 등
