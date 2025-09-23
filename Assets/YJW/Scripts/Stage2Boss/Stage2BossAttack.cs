@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Net;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -28,6 +29,9 @@ public class Stage2BossAttack : MonoBehaviour
     스택은 7개 모으면 즉사
     */
 
+    static int clubStack = 0;
+
+
     [SerializeField] Card[] cards;
     Card currentCard;
 
@@ -40,10 +44,13 @@ public class Stage2BossAttack : MonoBehaviour
     private int teleportCount = 0;
     public int playerHitCount = 0;
 
+
+    [SerializeField] GameObject[] miniBoss;
+    [SerializeField] Transform[] spawnPos;
+
     private void Start()
     {
-        //ChangeNextRanCard();
-        curShape = Shape.D;
+        ChangeNextRanCard();
         player = GameObject.FindWithTag("Player");
     }
 
@@ -73,22 +80,28 @@ public class Stage2BossAttack : MonoBehaviour
         curShape = currentCard.shape;
     }
 
-    private async void ChangeNextRanCard()
+    private void ChangeNextRanCard()
     {
         currentCard = cards[Random.Range(0, cards.Length)];
         SetCardData();
-        await UniTask.Delay(15000);
-        ChangeNextRanCard();
     }
 
-    private void HAttack()
+    private async void HAttack()
     {
-        Debug.Log("하트");
+        for(int i = 0; i < clubStack + 4; i++)
+        {
+            miniBoss[i].SetActive(true);
+        }
+        await UniTask.Delay(10000);
+        ChangeNextRanCard();
+        for(int i = 0; i <= clubStack + 4; i++)
+            miniBoss[i].SetActive(false);
     }
     
     private void SAttack()
     {
         Debug.Log("스페이드");
+        ChangeNextRanCard();
     }
 
     private void DAttack()
@@ -119,6 +132,7 @@ public class Stage2BossAttack : MonoBehaviour
     private void CAttack()
     {
         Debug.Log("클로버");
+        ChangeNextRanCard();
     }
 
     // 다이이 패턴
@@ -151,5 +165,11 @@ public class Stage2BossAttack : MonoBehaviour
         }
     }
 
-    
+    // 하트 패턴
+    public Vector3 SetMiniBossRanPos()
+    {
+        Vector3 ranPos = spawnPos[Random.Range(0,spawnPos.Length)].position;
+        return ranPos;
+    }
+
 }
