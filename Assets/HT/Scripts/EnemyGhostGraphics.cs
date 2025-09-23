@@ -10,6 +10,10 @@ public enum Cts
 {
     normal,master
 }
+public enum AnimationState
+{
+    Underground, Spawn, Idle, Forward, Attack, Die, SpawnR, Null
+}
 public class EnemyGhostGraphics : MonoBehaviour
 {
     [Header("Animation")]
@@ -23,10 +27,8 @@ public class EnemyGhostGraphics : MonoBehaviour
     [SerializeField]
     List<CancellationTokenSource> listcts;
     private int activetask = 0;
-    [SerializeField]
-    float Attackrate = 2f;
-    [SerializeField]
-    float timer = 0;
+    
+   
     Vector3 Origin;
 
 
@@ -55,9 +57,11 @@ public class EnemyGhostGraphics : MonoBehaviour
                     m_eventDic.Add(i++.ToString(), null);
             }
         }
-        listcts = new();
-        listcts.Add(new CancellationTokenSource());
-        listcts.Add(new CancellationTokenSource());
+        listcts = new()
+        {
+            new CancellationTokenSource(),
+            new CancellationTokenSource()
+        };
 
 
 
@@ -68,7 +72,10 @@ public class EnemyGhostGraphics : MonoBehaviour
 
 
 
-
+    public void ResetNow()
+    {
+        My_State = AnimationState.Null;
+    }
     public  void SetRandomColor()
     {
 
@@ -142,6 +149,7 @@ public class EnemyGhostGraphics : MonoBehaviour
             case AnimationState.SpawnR:
                 m_anim.Play(ListClipName[6]);
                 break;
+               
         }
 
         if (sample > 0)
@@ -218,7 +226,7 @@ public class EnemyGhostGraphics : MonoBehaviour
 
     }
 
-    public async UniTaskVoid UniScaleChangeOverTime( int tokenIndex)
+    public async UniTaskVoid UniScaleChangeOverTime()
     {
         float scales = 1;
         Origin = transform.localScale;

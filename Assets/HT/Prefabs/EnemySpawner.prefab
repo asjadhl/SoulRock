@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2757699618903159634}
   - component: {fileID: 6606413247988945614}
   - component: {fileID: 5264953825833503887}
+  - component: {fileID: 4515872465050833052}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3211061242016097411}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc194d105b291a24399cb39540ae20cf, type: 3}
   m_Name: 
@@ -134,12 +135,22 @@ MonoBehaviour:
   m_current_childCount: 0
   m_ReuseableEnemyObject: 0
   waves: []
-  walk: 
-  fly: 
   indexStore: 0
   m_radiusTriggered: 2.15
   TargetScanner: {fileID: 0}
   offset: {x: 0, y: 0, z: 33}
+--- !u!114 &4515872465050833052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211061242016097411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8b5223fc72c5a4f83a9ede80564157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3546153079223834330
 GameObject:
   m_ObjectHideFlags: 0

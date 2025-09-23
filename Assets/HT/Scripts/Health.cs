@@ -161,16 +161,23 @@ public class Health: MonoBehaviour, IDamagable
         
         if (m_CurrentHealth <= 0)
         {
-            IDying dying = gameObject.GetComponent<IDying>();
+            var enemy = gameObject.GetComponent<Enemy>();
 
-            if (dying == null)
-                Debug.LogError($"IDying Component Don't Exist ON {gameObject.name}");
-
-            dying?.Die(true);
+            if (enemy == null)
+            {
+                Debug.Log($"IDying Component Don't Exist ON {gameObject.name}");
+                return;
+            }
+               enemy.Die();
 
         }
     }
     #endregion
+
+    public void SetFullHealth()
+    {
+         m_CurrentHealth =  m_MaxHealth;
+    }    
 
     #region Fill-Animation
     public void HealthBarAnimation()
