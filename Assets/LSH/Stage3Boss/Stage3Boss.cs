@@ -153,12 +153,6 @@ public class Stage3Boss : MonoBehaviour
             }
         }
         await UniTask.Delay(5000);
-        _ = secondPatternAttack();
         isAttacking = false;
     }
-    private async UniTask secondPatternAttack()
-    {
-        await UniTask.Delay(5000);
-    }
-
 }
