@@ -47,7 +47,7 @@ public class DeleteboxCon : MonoBehaviour
                     DotBoxGeneratorL.Instance.ReturnDot(left.gameObject);
                     DotBoxGeneratorR.Instance.ReturnDot(right.gameObject);
 
-                    Debug.Log("좌/우 도트 충돌 + 중앙 목표 근접 → 비활성화");
+                    //Debug.Log("좌/우 도트 충돌 + 중앙 목표 근접 → 비활성화");
                     hitBoxCon.combo = 0;
                     if(hitBoxCon.combo == 0)
                     {

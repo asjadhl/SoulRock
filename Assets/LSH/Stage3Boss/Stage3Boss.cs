@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,16 +11,19 @@ public class Stage3Boss : MonoBehaviour
     [SerializeField] GameObject lazer;
     [Header("LazerBallOB")]
     [SerializeField] GameObject lazerBall;
-    
+    [Header("BigChargeLazerOB")]
+    [SerializeField] GameObject bigChargeLazer;
+    [Header("BigLazerOB")]
+    [SerializeField] GameObject bigLazer;
     [Header("Pooling")]
     [SerializeField] GameObject[] lazerPool;
     [SerializeField] GameObject[] lazerBallPool;
     [Header("공격 coolTime")]
-    [SerializeField] int coolTime = 3000;
+    [SerializeField] int coolTime = 8000;
     [SerializeField] float firstOfLazerSize = 0.02f;
     Vector3[] thisPos;
    
-    int ranIndex;
+    int ranIndex = 0;
     int ranPos;
     //lazer 전용 풀 인덱스
     int poolIndex = 0;
@@ -31,13 +35,14 @@ public class Stage3Boss : MonoBehaviour
     {
         ReadyforLazerAttack();
         ReadyforLazerBallAttack();
+        chargeLazer.SetActive(false);
+        bigChargeLazer.SetActive(false);
     }
 
 
 
     void ReadyforLazerAttack()
     {
-        ranIndex = Random.Range(0, 4);
         lazerPool = new GameObject[3];
         for (int i = 0; i < lazerPool.Length; i++)
         {
@@ -71,31 +76,32 @@ public class Stage3Boss : MonoBehaviour
     {
         if (!isAttacking)  
         {
-            Boss3Pattern();
+            _ = Boss3Pattern();
         }
     }
 
-    void Boss3Pattern()
+    private async UniTask Boss3Pattern()
     {
+        ranIndex = Random.Range(0, 4);
         switch (ranIndex)
         {
             case 0:
+                Debug.Log("레이저");
                 _ = ChargeLazerAttack();
-                ranIndex = Random.Range(0, 4);
+                ranIndex = Random.Range(0, 3);
                 break;
             case 1:
+                Debug.Log("레이저볼");
                 _ = secondPattern();
-                ranIndex = Random.Range(0, 4);
+                ranIndex = Random.Range(0, 3);
                 break;
             case 2:
-                Debug.LogWarning("세번째 패턴");
-                ranIndex = Random.Range(0, 4);
-                break;
-            case 3:
-                Debug.LogWarning("네번째 패턴");
-                ranIndex = Random.Range(0, 4);
+                Debug.Log("빅레이저");
+                _ = ThirdPattern();
+                ranIndex = Random.Range(0, 3);
                 break;
         }
+        await UniTask.Delay(coolTime);
     }
     private async UniTask ChargeLazerAttack()
     {
@@ -110,8 +116,6 @@ public class Stage3Boss : MonoBehaviour
 
         _ = LazerAttack();
 
-        await UniTask.Delay(coolTime);
-        ranIndex = Random.Range(0, 4);
         isAttacking = false;
     }
 
@@ -135,24 +139,78 @@ public class Stage3Boss : MonoBehaviour
         lazer.transform.position = transform.position;
     }
 
+    
     private async UniTask secondPattern()
     {
-        
         isAttacking = true;
+        Debug.Log("레이져볼 공격중");
+        
         for (int i = 0; i < lazerBallPool.Length; i++)
         {
-            if(!lazerBallPool[i].activeSelf)
+            lazerBallPool[i].transform.position = transform.position + thisPos[i]; 
+            lazerBallPool[i].SetActive(true);
+            
+            if (!lazerBallPool[i].activeSelf)
             {
-                lazerBallPool[i].SetActive(true);
+                break;
             }
-           
             for (int j = 1; j < 40; j++)
             {
                 lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);
             }
+            await UniTask.Delay(1000);
         }
-        await UniTask.Delay(5000);
         isAttacking = false;
+    }
+
+    //private async UniTask secondPattern()
+    //{
+    //    isAttacking = true;
+    //    Debug.Log("레이저볼 공격중");
+
+    //    var tasks = new UniTask[lazerBallPool.Length];
+    //    for (int i = 0; i < lazerBallPool.Length; i++)
+    //    {
+    //        tasks[i] = ActivateLazerBall(lazerBallPool[i]);
+    //        await UniTask.Delay(1000);
+    //    }
+
+    //    await UniTask.WhenAll(tasks); // 모든 작업이 완료될 때까지 대기
+    //    await UniTask.Delay(3000);
+    //    isAttacking = false;
+    //}
+
+    //private async UniTask ActivateLazerBall(GameObject lazerBall)
+    //{
+    //    lazerBall.SetActive(true);
+
+    //    // 크기 조정
+    //    for (int j = 1; j < 40; j++)
+    //    {
+    //        lazerBall.transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
+    //        await UniTask.Delay(2);
+    //    }
+
+    //}
+
+    private async UniTask ThirdPattern()
+    {
+        isAttacking = true;
+        bigChargeLazer.SetActive(true);
+        for (int i = 1; i < 200; i++)
+        {
+            bigChargeLazer.transform.localScale =
+                new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
+            await UniTask.Delay(20);
+        }
+        _ = BigLazerAttack();
+        isAttacking = false;
+    }
+    private async UniTask BigLazerAttack()
+    {
+        bigChargeLazer.SetActive(false);
+        GameObject biglazerAttack = Instantiate(bigLazer, bigChargeLazer.transform.position, Quaternion.identity);
+        await UniTask.Delay(3000);
     }
 }

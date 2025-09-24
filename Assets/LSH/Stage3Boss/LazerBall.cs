@@ -5,12 +5,12 @@ using UnityEngine;
 public class LazerBall : MonoBehaviour
 {
     [Header("LazerBallSpeed")]
-    [SerializeField] float lazerBallspeed = 5f;
+    [SerializeField] float lazerBallspeed = 4f;
 
     private Transform player;
     private Transform boss;
 
-    Vector3 oriPos;
+    //Vector3 oriPos;
     float x;
     float y;
 
@@ -20,10 +20,10 @@ public class LazerBall : MonoBehaviour
         y = transform.position.y;
     }
 
-    private void FixedUpdate()
-    {
-        oriPos = new Vector3(x, y, boss.position.z);
-    }
+    //private void FixedUpdate()
+    //{
+    //oriPos = new Vector3(x, y, boss.position.z);
+    //}
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,7 +39,7 @@ public class LazerBall : MonoBehaviour
         {
             lazerMove();
         }
-        
+
     }
 
     public async void lazerMove()
@@ -49,17 +49,16 @@ public class LazerBall : MonoBehaviour
         //lazerBallPool[j].transform.position, targetPos, lazerBallspeed * Time.deltaTime);
         //await UniTask.Delay(100);
 
-        await UniTask.Delay(5000);
+        await UniTask.Delay(3000);
 
         transform.LookAt(player.position);
-        transform.Translate(Vector3.forward * 10 * Time.fixedDeltaTime);
+        transform.Translate(Vector3.forward * lazerBallspeed * Time.fixedDeltaTime);
     }
 
     private void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Player"))
         {
-            transform.position = oriPos;
             gameObject.SetActive(false);
         }
     }
