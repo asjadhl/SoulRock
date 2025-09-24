@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -46,11 +48,13 @@ public class Stage2BossAttack : MonoBehaviour
 
 
     [SerializeField] GameObject[] miniBoss;
-    [SerializeField] Transform[] spawnPos;
+    public Transform[] spawnPos;
+    public List<int> usedPos;
 
     private void Start()
     {
-        ChangeNextRanCard();
+        //ChangeNextRanCard();
+        curShape = Shape.H;
         player = GameObject.FindWithTag("Player");
     }
 
@@ -93,6 +97,7 @@ public class Stage2BossAttack : MonoBehaviour
             miniBoss[i].SetActive(true);
         }
         await UniTask.Delay(10000);
+        usedPos.Clear();
         ChangeNextRanCard();
         for(int i = 0; i <= clubStack + 4; i++)
             miniBoss[i].SetActive(false);
@@ -166,10 +171,15 @@ public class Stage2BossAttack : MonoBehaviour
     }
 
     // 하트 패턴
-    public Vector3 SetMiniBossRanPos()
+    public int SetMiniBossRanPos()
     {
-        Vector3 ranPos = spawnPos[Random.Range(0,spawnPos.Length)].position;
-        return ranPos;
+        int index = Random.Range(0, spawnPos.Length);
+        return index;
+    }
+
+    public void AddList(int a)
+    {
+        usedPos.Add(a);
     }
 
 }
