@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class FastPressTrap : MonoBehaviour
+public class PressTrap : MonoBehaviour
 {
     [Header("속도 설정")]
     public float downSpeed = 10f;   // 내려가는 속도
@@ -11,10 +11,14 @@ public class FastPressTrap : MonoBehaviour
     public float firstSpeed = 10f;
     public float firstdownDistace = 5f;
 
+    public int maxhp = 2;
+    public int currenthp;
 
     private Vector3 startPos;
     private Vector3 downPos;
     private Vector3 firstdownPos;
+
+    RaycastHit hit;
 
     void Start()
     {
@@ -22,6 +26,7 @@ public class FastPressTrap : MonoBehaviour
         downPos = startPos + Vector3.down * downDistance;
         firstdownPos = startPos + Vector3.down * firstdownDistace;
         StartCoroutine(PressCycle());
+        currenthp = maxhp;
     }
 
     IEnumerator PressCycle()
@@ -53,5 +58,19 @@ public class FastPressTrap : MonoBehaviour
   
             yield return new WaitForSeconds(waitTime);
         }
+    }
+    public void OnHit()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 100f))
+        {
+            currenthp--;
+            if (currenthp <= 0)
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
+
+
+        
     }
 }

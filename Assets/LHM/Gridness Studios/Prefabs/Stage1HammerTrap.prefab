@@ -4043,7 +4043,6 @@ Transform:
   m_Children:
   - {fileID: 6973260452959142707}
   - {fileID: 1617020223501072373}
-  - {fileID: 1514198390455441123}
   m_Father: {fileID: 6366296900207633582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1069869582836683559
@@ -17000,6 +16999,7 @@ Transform:
   - {fileID: 8095148263591695460}
   - {fileID: 5647661252708816203}
   - {fileID: 6421465128266229923}
+  - {fileID: 1514198390455441123}
   - {fileID: 3828460336743515401}
   m_Father: {fileID: 6749424733800362826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21050,9 +21050,11 @@ GameObject:
   - component: {fileID: 1514198390455441123}
   - component: {fileID: 4445601529161131471}
   - component: {fileID: 9152713844722322994}
+  - component: {fileID: 4291477996061973977}
+  - component: {fileID: 7040605862085880220}
   m_Layer: 0
   m_Name: SM_Env_Trap_Wallslab_Spikes_01
-  m_TagString: Untagged
+  m_TagString: CloseTrap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21070,7 +21072,7 @@ Transform:
   m_LocalScale: {x: 0.13333334, y: 0.09039549, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3828460336743515401}
+  m_Father: {fileID: 6366296900207633582}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &4445601529161131471
 MeshFilter:
@@ -21125,6 +21127,47 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4291477996061973977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6279878823397412558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb25c77cfdccfa4b8e7b4ca3d4cfd5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  downSpeed: 100
+  upSpeed: 60
+  waitTime: 2
+  downDistance: 30
+  firstSpeed: 10
+  firstdownDistace: 5
+  maxhp: 2
+  currenthp: 2
+--- !u!65 &7040605862085880220
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6279878823397412558}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.427044, y: 4.5159254, z: 6.8}
+  m_Center: {x: -0.0000019073486, y: 2.257963, z: -2.9499474}
 --- !u!1 &6300315147660890873
 GameObject:
   m_ObjectHideFlags: 0

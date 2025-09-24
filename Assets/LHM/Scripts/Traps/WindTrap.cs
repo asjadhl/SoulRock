@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WindTrap : MonoBehaviour
 {
@@ -7,21 +9,39 @@ public class WindTrap : MonoBehaviour
     public GameObject closewind;
     public GameObject trap;
 
-    public int maxHealth = 5;
+    public int maxHealth = 2;
     public int currentHealth;
     public float rollSpeed = 10f;
 
-    public void Awake()
+    public bool isRotating = true;
+
+    public void Start()
     {
-        
+        currentHealth = maxHealth;
+
     }
     private void FixedUpdate()
     {
-        trap.transform.Rotate(Vector3.forward * rollSpeed * Time.deltaTime);
+        if(isRotating)
+        TrapRotate();
     }
-    void StopBox()
+    void TrapRotate()
     {
-       
+        trap.transform.Rotate(Vector3.right * rollSpeed * Time.deltaTime);
+    }
+    public void closeWindOnHit()
+    {
+       currentHealth--;
+        if(currentHealth < 0)
+        {
+            closewind.SetActive(false);
+        }
+    }
+ 
+    public void StopBox()
+    {
+        isRotating = !isRotating;
+
     }
     
 }

@@ -37,7 +37,30 @@ public class PlayerShoot : MonoBehaviour
                     hit.collider.gameObject.GetComponent<DummySpawner>().getDummyHit = true;
                     hit.collider.gameObject.GetComponent<DummySpawner>().getDummyDamage();
                 }
-                if(hit.collider.gameObject.tag == "Bullet3")
+                if (hit.collider.CompareTag("CloseTrap") || hit.collider.transform.root.CompareTag("CloseTrap"))
+                {
+                    var pressTrap = hit.collider.GetComponentInParent<PressTrap>();
+                    if (pressTrap != null)
+                    {
+                        pressTrap.OnHit();
+                    }
+                    hit.collider.GetComponentInParent<WindTrap>()?.closeWindOnHit();
+                    hit.collider.GetComponentInParent<LazerTrap>();
+                    hit.collider.GetComponentInParent<DoorTrap>();
+                    hit.collider.GetComponentInParent<RollTrap>();
+                    hit.collider.GetComponentInParent<AxTrap>();
+                    hit.collider.GetComponentInParent<CogwheelTrap>();
+                }
+                if (hit.collider.gameObject.tag == "OpenTrap")
+                {
+                    hit.collider.gameObject.GetComponent<WindTrap>();
+                    hit.collider.gameObject.GetComponent<LazerTrap>();
+                }
+                if (hit.collider.gameObject.tag == "TriggerTrap")
+                {
+                    hit.collider.gameObject.GetComponent<WindHitBox>().OnHit();
+                }
+                if (hit.collider.gameObject.tag == "Bullet3")
                     hit.collider.gameObject.GetComponent<BossUnderBullet>().ReturnSpawnPoint();
                 if (hit.collider.gameObject.tag == "Boss" && boss.GetComponent<Stage2BossAttack>().curShape == Shape.D)
                 {
