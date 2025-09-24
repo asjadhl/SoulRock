@@ -10,6 +10,7 @@ public class Stage3Boss : MonoBehaviour
     [SerializeField] GameObject lazer;
     [Header("LazerBallOB")]
     [SerializeField] GameObject lazerBall;
+    
     [Header("Pooling")]
     [SerializeField] GameObject[] lazerPool;
     [SerializeField] GameObject[] lazerBallPool;
@@ -17,6 +18,7 @@ public class Stage3Boss : MonoBehaviour
     [SerializeField] int coolTime = 3000;
     [SerializeField] float firstOfLazerSize = 0.02f;
     Vector3[] thisPos;
+   
     int ranIndex;
     int ranPos;
     //lazer 전용 풀 인덱스
@@ -135,10 +137,15 @@ public class Stage3Boss : MonoBehaviour
 
     private async UniTask secondPattern()
     {
+        
         isAttacking = true;
         for (int i = 0; i < lazerBallPool.Length; i++)
         {
-            lazerBallPool[i].SetActive(true);
+            if(!lazerBallPool[i].activeSelf)
+            {
+                lazerBallPool[i].SetActive(true);
+            }
+           
             for (int j = 1; j < 40; j++)
             {
                 lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
@@ -151,10 +158,7 @@ public class Stage3Boss : MonoBehaviour
     }
     private async UniTask secondPatternAttack()
     {
-        for (int i = 0; i < lazerBallPool.Length; i++)
-        {
-            lazerBallPool[i].SetActive(false);
-        }
-        await UniTask.Delay(3000);
+        await UniTask.Delay(5000);
     }
+
 }

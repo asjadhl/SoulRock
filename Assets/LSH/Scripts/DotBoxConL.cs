@@ -10,6 +10,7 @@ public class DotBoxConL : MonoBehaviour
     DeleteboxCon deleteboxCon;
     RawImage rawImage;
     
+    
     float fadeDuration = 0.9f; // 투명화까지 걸리는 시간
     Color originalColor;
     void Awake()
@@ -31,7 +32,7 @@ public class DotBoxConL : MonoBehaviour
         if (dotboxImage == null || deleteboxCon.targetImage == null) return;
 
         Vector3 targetPos = deleteboxCon.targetImage.position; // world 기준
-        dotboxImage.position = Vector3.MoveTowards(
+            dotboxImage.position = Vector3.MoveTowards(
             dotboxImage.position,
             targetPos,
             moveSpeed * Time.deltaTime

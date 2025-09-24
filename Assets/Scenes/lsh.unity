@@ -626,7 +626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeLazer: {fileID: 821177767420948531}
   lazer: {fileID: 7990710121034226918, guid: 5c7bd86737e50b14e9d4f12ff47c0caa, type: 3}
-  lazerBall: {fileID: 5805856726038436090, guid: 76ed5393492f8eb4da3a086886ebbdab, type: 3}
+  lazerBall: {fileID: 0}
   lazerPool: []
   lazerBallPool: []
   coolTime: 3000
@@ -1860,6 +1860,7 @@ GameObject:
   - component: {fileID: 1426960180}
   - component: {fileID: 1426960181}
   - component: {fileID: 1426960182}
+  - component: {fileID: 1426960183}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2023,6 +2024,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9582c20882b94a74d99591e7e8d8b66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1426960183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426960174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba7bf6c3b0addd4e9115655f72c6b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1482278813
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,7 +2149,7 @@ SpriteRenderer:
   m_Size: {x: 3.375, y: 3.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1482278817
@@ -2784,6 +2797,8 @@ MonoBehaviour:
   bossCardImage: {fileID: 0}
   curShape: 0
   playerHitCount: 0
+  miniBoss: []
+  spawnPos: []
 --- !u!114 &1827195399
 MonoBehaviour:
   m_ObjectHideFlags: 0
