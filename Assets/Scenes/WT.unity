@@ -907,10 +907,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Canvas: {fileID: 0}
   uiSpace: 0
-  IsHide: 1
+  IsHide: 0
   m_Prefab: {fileID: 8505767064329269230, guid: 8036b0c647e4d6e40b943b805840f2af, type: 3}
-  m_MaxHealth: 10000
-  m_CurrentHealth: 10000
+  m_MaxHealth: 10
+  m_CurrentHealth: 10
   TargetParentHealthBar: {fileID: 0}
   CanvasPosition: {x: 0, y: 0, z: 0}
   m_healthBar: {fileID: 0}
@@ -945,6 +945,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 4515872465050833052, guid: 4a659804adefe9a44899ec5a8c0f12d9, type: 3}
+      propertyPath: offset.z
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4515872465050833052, guid: 4a659804adefe9a44899ec5a8c0f12d9, type: 3}
+      propertyPath: TargetScanner
+      value: 
+      objectReference: {fileID: 741228681}
     - target: {fileID: 5264953825833503887, guid: 4a659804adefe9a44899ec5a8c0f12d9, type: 3}
       propertyPath: TargetScanner
       value: 
@@ -1362,6 +1370,57 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &2036579858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2036579860}
+  - component: {fileID: 2036579859}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &2036579859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036579858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f57774e1c7212d46a1766d14b9b85fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSetData: 0
+  Attackrate: 2
+  m_speed: 0
+  m_damage: 0
+  StartAlertingRange: 0
+  StartAttackingRange: 0
+  CanDie: 1
+--- !u!4 &2036579860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036579858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.3794394, y: 2.7478242, z: -3.3833256}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2088451876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1503,7 +1562,7 @@ PrefabInstance:
     - target: {fileID: 4260278308741789538, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
       propertyPath: GhostEnemies.Array.data[1].enemyobject
       value: 
-      objectReference: {fileID: 5091808336580822755, guid: 5d37cb984d3306e4ea5123b4bb25268f, type: 3}
+      objectReference: {fileID: 5091808336580822755, guid: 2ac10d2aae543124aad0281eda734cdb, type: 3}
     - target: {fileID: 7373458126896748120, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1559,3 +1618,4 @@ SceneRoots:
   - {fileID: 5574688633760262267}
   - {fileID: 1882170065}
   - {fileID: 1808680729}
+  - {fileID: 2036579860}

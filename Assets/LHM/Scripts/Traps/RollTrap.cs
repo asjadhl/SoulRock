@@ -29,7 +29,6 @@ public class RollTrap : MonoBehaviour
         {
             roll.SetParent(rollEmpty, worldPositionStays: true);
         }
-        GameObject entity = Instantiate(rollEntity, roll);
     }
     public void FixedUpdate()
     {

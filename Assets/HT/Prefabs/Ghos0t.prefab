@@ -428,8 +428,9 @@ GameObject:
   - component: {fileID: 1287949958900666621}
   - component: {fileID: 4234273570993325775}
   - component: {fileID: 5103192021865186599}
+  - component: {fileID: 4652768596519982824}
   m_Layer: 0
-  m_Name: Ghost
+  m_Name: Ghos0t
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -482,7 +483,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5091808336580822755}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 993713bac269b92458629e459af5ed90, type: 3}
   m_Name: 
@@ -496,6 +497,7 @@ MonoBehaviour:
   AttackIndex: 0
   Attackrate: 0.5
   timer: 0
+  MyBehavior: 0
 --- !u!114 &1480782971229203373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +589,26 @@ MonoBehaviour:
   restTime: 1
   minDodgeAngle: 25
   maxDodgeAngle: 45
+--- !u!114 &4652768596519982824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091808336580822755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f57774e1c7212d46a1766d14b9b85fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSetData: 0
+  CanDie: 1
+  Attackrate: 2
+  m_speed: 2.3
+  m_damage: 0
+  StartAlertingRange: 0
+  StartAttackingRange: 1
+  CanDie: 1
 --- !u!1 &5545298399379527242
 GameObject:
   m_ObjectHideFlags: 0
