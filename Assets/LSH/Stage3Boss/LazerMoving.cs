@@ -14,4 +14,11 @@ public class LazerMoving : MonoBehaviour
     {
         transform.Translate(new Vector3(0, 0, -1) * lazerSpeed * Time.deltaTime);
     }
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+        }
+    }
 }
