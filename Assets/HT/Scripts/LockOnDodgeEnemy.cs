@@ -1,68 +1,79 @@
 ﻿using UnityEngine;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 
 public class LockOnDodgeEnemy : MonoBehaviour
 {
     public Transform player;
-    
-    public float dodgeDistance = 5f;  
-    public float dodgeSpeed = 5f; 
-    public float restTime = 5f;
-    public float minDodgeAngle = 0;
-    public float maxDodgeAngle = 45f;  
 
-    private bool canDodge = true;
+    [Header("Dodge Settings")]
+    public float dodgeDistance = 5f;      // max world-space dodge per step
+    public float dodgeSpeed = 5f;         // world units/sec
+    public float restTime = 2f;           // cooldown between dodges
+    public float minDodgeAngle = 0f;
+    public float maxDodgeAngle = 45f;
+
     private Vector3 targetPosition;
     private bool dodging = false;
+    private bool canDodge = true;
     private bool isAllowedToDodge = true;
-    private float dir;
-    
 
     private void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
-        
     }
+
+    private void Update()
+    {
+        if (!isAllowedToDodge) return;
+
+        if (dodging)
+        {
+            // Smoothly move toward target position
+            //transform.position = Vector3.MoveTowards(transform.position, targetPosition, dodgeSpeed * Time.deltaTime);
+            transform.position = targetPosition;
+            // Check if reached target
+          //  if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+          //  {
+                dodging = false;
+                Rest().Forget(); // start cooldown before next dodge
+           // }
+        }
+    }
+
+    public void TriggerDodge()
+    {
+        if (!canDodge || !isAllowedToDodge) return;
+
+
+        float x = maxDodgeAngle;
+        x *= UnityEngine.Random.Range(0, 2) < 1 ? -1 : 1;
+        targetPosition = new Vector3(player.position.x + x+transform.position.x, player.position.y + transform.position.y, transform.position.z);
+
+        Vector3 screenpoint = Camera.main.WorldToScreenPoint(targetPosition);
+        screenpoint.x = Mathf.Clamp(screenpoint.x, 0, Screen.width);
+
+
+        targetPosition = Camera.main.ScreenToWorldPoint(screenpoint);
+
+
+
+
+
+        dodging = true;
+        canDodge = false;
+
+        transform.LookAt(targetPosition);
+    }
+
+    private async UniTaskVoid Rest()
+    {
+        await UniTask.WaitForSeconds(restTime);
+        canDodge = true;
+    }
+
     public bool IsDodging()
     {
         return dodging;
-    }
-    void Update()
-    {
-
-        
-
-
-        if (dodging && isAllowedToDodge)
-        {
-
-
-            if (Vector2.Distance(new Vector2(transform.position.x, transform.position.y),
-                                  new Vector2(targetPosition.x, targetPosition.y)) < 0.2f)
-            {
-                Debug.Log("a");
-                dodging = false;
-                Rest().Forget();
-            }
-
-
-           
-            
-            Vector3 newPos = Vector3.MoveTowards(
-                new Vector3(transform.position.x, transform.position.y, 0),   
-                new Vector3(targetPosition.x, targetPosition.y, 0),  
-                dodgeSpeed * Time.deltaTime
-            );
-
-                  
-            transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
-
-            
-        }
-
-        
-        //transform.LookAt(player);
     }
 
     public void StopDodging()
@@ -70,68 +81,10 @@ public class LockOnDodgeEnemy : MonoBehaviour
         isAllowedToDodge = false;
         this.enabled = false;
     }
+
     public void StartDodging()
     {
         isAllowedToDodge = true;
         this.enabled = true;
-    }
-
-    float x = 0;
-    float y = 0;
-    public int cou = 0;
-
-    public void TriggerDodge()
-    {
-         if (!canDodge ||!isAllowedToDodge) return;
-
-        // float directionSign = Random.value < 0.5f ? -1f : 1f;
-
-       
- 
-        
-      //  dir = directionSign;
-        
-
-        float angle = Random.Range(minDodgeAngle, maxDodgeAngle); //* directionSign;
-
-       
-        float theta = angle * Mathf.Deg2Rad;
-
-        int[] dir = { -1, 1 };
-        int resultX = dir[Random.Range(0, 2)];
-        int resultY = dir[Random.Range(0, 2)];
-          
-          x += dodgeDistance * Mathf.Sin(theta) * resultX; 
-          y += dodgeDistance * Mathf.Sin(theta) * resultY;  
-
-        targetPosition = new Vector3(player.position.x + x, player.position.y + y, transform.position.z);
-       
-
-
-        
-
-        targetPosition =  Camera.main.WorldToViewportPoint(targetPosition);
-        Debug.Log($"ViewPort: {targetPosition}");
-        targetPosition = new Vector3(Mathf.Clamp(targetPosition.x, 0.1f, 0.9f), Mathf.Clamp(targetPosition.y, 0.1f, 0.9f), targetPosition.z);
-        Debug.Log($"ViewPort-Clamp: {targetPosition}");
-
-
-
-        targetPosition = Camera.main.ViewportToWorldPoint(targetPosition);
-        x = targetPosition.x;
-        y = targetPosition.y;
-        
-        dodging = true;
-        canDodge = false;
-        transform.LookAt(targetPosition);
-    }
-
-   
-
-    public async UniTaskVoid Rest()
-    {
-
-        await UniTask.WaitForSeconds(restTime);
-        canDodge = true;
     }
 }
