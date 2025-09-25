@@ -18,9 +18,14 @@ public class BigLazer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.activeSelf == true)
+        if (gameObject.activeSelf == true && !mirror.successMirror)
         {
             bigLazerMove();
+        }
+        if (gameObject.activeSelf == true && mirror.successMirror)
+        {
+            UnityEngine.Debug.Log("보스를 향해 가는중");
+            reflectMove();
         }
     }
 
@@ -49,11 +54,11 @@ public class BigLazer : MonoBehaviour
         }
         if(col.CompareTag("Mirror") && mirror.successMirror)
         {
-            gameObject.SetActive(false);
             mirror.gameObject.SetActive(false);
         }
         if(col.CompareTag("Boss"))
         {
+            //데미지 입히는거 넣기
             gameObject.SetActive(false);
         }
     }
