@@ -45,7 +45,7 @@ public class FollowMouse : MonoBehaviour
         //    Vector2 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //    followPos.position = MousePos;
         Vector2 mousePos = Input.mousePosition;
-        followPos.localPosition = mousePos;
+        followPos.position = mousePos;
         followPos.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
     void NormalMode()

@@ -15,11 +15,14 @@ public class Stage3Boss : MonoBehaviour
     [SerializeField] GameObject bigChargeLazer;
     [Header("BigLazerOB")]
     [SerializeField] GameObject bigLazer;
+    [Header("MirrorOB")]
+    [SerializeField] GameObject mirror;
     [Header("Pooling")]
     [SerializeField] GameObject[] lazerPool;
     [SerializeField] GameObject[] lazerBallPool;
+    [SerializeField] GameObject[] bigLazerBallPool;
     [Header("공격 coolTime")]
-    [SerializeField] int coolTime = 8000;
+    [SerializeField] int coolTime = 10000;
     [SerializeField] float firstOfLazerSize = 0.02f;
     Vector3[] thisPos;
    
@@ -29,14 +32,17 @@ public class Stage3Boss : MonoBehaviour
     int poolIndex = 0;
     //lazerBall 전용 풀 인덱스
     int poolBall = 0;
+    int poolBigLazer = 0;
     bool isAttacking = false;
 
     void Start()
     {
         ReadyforLazerAttack();
         ReadyforLazerBallAttack();
+        ReadyforBigLazerAttack();
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
+        mirror.SetActive(false);
     }
 
 
@@ -71,16 +77,27 @@ public class Stage3Boss : MonoBehaviour
             lazerBallPool[i] = lazerBallAttack;
         }
     }
+    void ReadyforBigLazerAttack()
+    {
+        bigLazerBallPool = new GameObject[2];
+        for(int i = 0;i<bigLazerBallPool.Length;i++)
+        {
+            GameObject biglazerAttack = Instantiate(bigLazer, bigChargeLazer.transform.position, Quaternion.identity);
+            biglazerAttack.transform.parent = transform;
+            biglazerAttack.SetActive(false);
+            bigLazerBallPool[i] = biglazerAttack;
+        }    
+    }
 
     void Update()
     {
         if (!isAttacking)  
         {
-            _ = Boss3Pattern();
+            Boss3Pattern();
         }
     }
 
-    private async UniTask Boss3Pattern()
+    void Boss3Pattern()
     {
         ranIndex = Random.Range(0, 4);
         switch (ranIndex)
@@ -101,7 +118,6 @@ public class Stage3Boss : MonoBehaviour
                 ranIndex = Random.Range(0, 3);
                 break;
         }
-        await UniTask.Delay(coolTime);
     }
     private async UniTask ChargeLazerAttack()
     {
@@ -115,8 +131,6 @@ public class Stage3Boss : MonoBehaviour
         }
 
         _ = LazerAttack();
-
-        isAttacking = false;
     }
 
     private async UniTask LazerAttack()
@@ -132,6 +146,8 @@ public class Stage3Boss : MonoBehaviour
         }
         else
             poolIndex++;
+        await UniTask.Delay(coolTime);
+        isAttacking = false;
     }
     void ReturnLazer(GameObject lazer)
     {
@@ -159,8 +175,9 @@ public class Stage3Boss : MonoBehaviour
                 lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);
             }
-            await UniTask.Delay(1000);
+            await UniTask.Delay(800);
         }
+        await UniTask.Delay(coolTime);
         isAttacking = false;
     }
 
@@ -198,19 +215,27 @@ public class Stage3Boss : MonoBehaviour
     {
         isAttacking = true;
         bigChargeLazer.SetActive(true);
+        mirror.SetActive(true);
         for (int i = 1; i < 200; i++)
         {
             bigChargeLazer.transform.localScale =
                 new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
             await UniTask.Delay(20);
         }
-        _ = BigLazerAttack();
+        BigLazerAttack();
+        await UniTask.Delay(coolTime);
+        mirror.SetActive(false);
         isAttacking = false;
     }
-    private async UniTask BigLazerAttack()
+    void BigLazerAttack()
     {
         bigChargeLazer.SetActive(false);
-        GameObject biglazerAttack = Instantiate(bigLazer, bigChargeLazer.transform.position, Quaternion.identity);
-        await UniTask.Delay(3000);
+        bigLazerBallPool[poolBigLazer].SetActive(true);
+        if (poolBigLazer >= bigLazerBallPool.Length - 1)
+        {
+            poolBigLazer = 0;
+        }
+        else
+            poolBigLazer++;
     }
 }

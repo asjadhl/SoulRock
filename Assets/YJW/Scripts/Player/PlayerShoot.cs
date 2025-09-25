@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.DualShock.LowLevel;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -36,6 +37,10 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<DummySpawner>().getDummyHit = true;
                     hit.collider.gameObject.GetComponent<DummySpawner>().getDummyDamage();
+                }
+                if(hit.collider.gameObject.tag == "Mirror")
+                {
+                    hit.collider.gameObject.GetComponent<MatarialAlpha>().mirrorRotate();
                 }
                 if (hit.collider.CompareTag("CloseTrap") || hit.collider.transform.root.CompareTag("CloseTrap"))
                 {
