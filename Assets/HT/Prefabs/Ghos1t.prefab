@@ -423,7 +423,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6485638160340656217}
   - component: {fileID: 7716351625418722740}
-  - component: {fileID: 5596978833070348060}
   - component: {fileID: 1480782971229203373}
   - component: {fileID: 1287949958900666621}
   - component: {fileID: 4234273570993325775}
@@ -476,28 +475,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5596978833070348060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5091808336580822755}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 993713bac269b92458629e459af5ed90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerPos: {fileID: 0}
-  StartAlertingRange: 12
-  StartAttackingRange: 1.5
-  m_speed: 3
-  m_damage: 2
-  m_enemygraphics: {fileID: 0}
-  AttackIndex: 0
-  Attackrate: 0.5
-  timer: 0
-  MyBehavior: 0
 --- !u!114 &1480782971229203373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,8 +496,6 @@ MonoBehaviour:
   - ghost_run
   - ghost_attack
   - ghost_dissolve
-  Attackrate: 2
-  timer: 0
 --- !u!114 &1287949958900666621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,6 +564,7 @@ MonoBehaviour:
   restTime: 1
   minDodgeAngle: 25
   maxDodgeAngle: 45
+  cou: 0
 --- !u!114 &3074391620697680658
 MonoBehaviour:
   m_ObjectHideFlags: 0
