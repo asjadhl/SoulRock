@@ -29,7 +29,7 @@ public class PlayerShoot : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100f))
             {
-                if (hit.collider.gameObject.tag == "Enemy")
+                if (hit.collider.gameObject.tag == "EnemyBullet")
                 {
                     hit.collider.gameObject.GetComponent<BossBullet>().ReturnSpawnPoint();
                 }
@@ -70,6 +70,10 @@ public class PlayerShoot : MonoBehaviour
                 if (hit.collider.gameObject.tag == "Boss" && boss.GetComponent<Stage2BossAttack>().curShape == Shape.D)
                 {
                     boss.GetComponent<Stage2BossAttack>().playerHitCount++;
+                }
+                if(hit.collider.gameObject.tag == "SpadeCard")
+                {
+                    hit.collider.gameObject.GetComponent<CardMove>().CardGetDam();
                 }
             }
 
