@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System.Net.Http.Headers;
 using System.Threading;
 using UnityEngine;
 
@@ -51,8 +52,7 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         FactoryReset();
-        cts = new CancellationTokenSource();
-        LifeTime(cts.Token).Forget();
+       
     }
     private void Awake()
     {
@@ -73,8 +73,10 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         if (isSetData)
+        {
             m_Update();
-
+            DestroyWhenBehind();
+        }
          
     }
     public virtual void m_Update()
@@ -90,11 +92,19 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
+    public void DestroyWhenBehind()
     {
-        cts.Cancel();
-        cts.Dispose();
+        var dir = transform.position - PlayerTransform.position;
+                   //Ez= 5  Pz=7 =   dir= Ez-Pz = -2
+        var backward = -PlayerTransform.forward;
+                          // Pf = 1 to -1
+        float distance = Vector3.Dot(dir, backward);
+                                   //0*0+0*0-2*-1// 2 
+        if (distance >= 2f)
+            gameObject.SetActive(false);
     }
+
+    
 }
 
 

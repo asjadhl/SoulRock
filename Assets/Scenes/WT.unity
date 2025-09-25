@@ -907,7 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Canvas: {fileID: 0}
   uiSpace: 0
-  IsHide: 0
+  IsHide: 1
   m_Prefab: {fileID: 8505767064329269230, guid: 8036b0c647e4d6e40b943b805840f2af, type: 3}
   m_MaxHealth: 10
   m_CurrentHealth: 10
@@ -944,6 +944,10 @@ PrefabInstance:
     - target: {fileID: 3211061242016097411, guid: 4a659804adefe9a44899ec5a8c0f12d9, type: 3}
       propertyPath: m_Name
       value: EnemySpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 3211061242016097411, guid: 4a659804adefe9a44899ec5a8c0f12d9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4515872465050833052, guid: 4a659804adefe9a44899ec5a8c0f12d9, type: 3}
       propertyPath: offset.z
@@ -997,7 +1001,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5264953825833503887, guid: 4a659804adefe9a44899ec5a8c0f12d9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1319,13 +1324,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1907029847}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25660253, y: -0, z: -0, w: 0.96651703}
-  m_LocalPosition: {x: 0, y: 1.78, z: -1.61}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1449247461}
-  m_LocalEulerAnglesHint: {x: 29.737, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1907029851
 MonoBehaviour:
   m_ObjectHideFlags: 0
