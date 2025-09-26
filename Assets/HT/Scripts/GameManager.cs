@@ -97,9 +97,6 @@ public class GameManager : MonoBehaviour
                     dict1[newdata].Add(each.enemyobject);
                      
                 }
-
-
-
                
             }
 

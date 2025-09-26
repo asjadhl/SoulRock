@@ -187,7 +187,7 @@ public class Stage2BossAttack : MonoBehaviour
     // 다이이 패턴
     private void MoveToRanPos()
     {
-        int x = Random.Range(-11, 12);
+        int x = Random.Range(-8, 9);
         int z = (int)player.transform.position.z + Random.Range(10, 20);
 
         transform.position = new Vector3(x, transform.position.y , z);
