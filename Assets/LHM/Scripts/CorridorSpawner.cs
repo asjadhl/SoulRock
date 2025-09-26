@@ -40,14 +40,14 @@ public class CorridorSpawner : MonoBehaviour
         for (int i = 0; i < corridorCount; i++)
         {
             string tag = GetStageCorridorTag();
-            
+
             GameObject corridor = PoolingManager.Instance.SpawnFromPool(
                 tag,
                 new Vector3(corridorWidth / 2f, 0, startZ),
                 Quaternion.identity
             );
 
- 
+
             corridors.Enqueue(corridor);
             startZ += corridorLength;
         }
@@ -76,23 +76,25 @@ public class CorridorSpawner : MonoBehaviour
 
             Vector3 newPos1 = last.transform.position + new Vector3(0, 0, corridorLength - 88.5f);
             //스테이지 변경시
-            if (oldstage != currentStage)
+            if (oldstage == 1 && currentStage == 2)
             {
-                GameObject newCorridor1 = PoolingManager.Instance.SpawnFromPool(
+                newPos = last.transform.position + new Vector3(0, 0, corridorLength - 88.5f);
+        
+                 GameObject newCorridor1 = PoolingManager.Instance.SpawnFromPool(
                     tag,
-                    newPos1,
+                    newPos,
                     Quaternion.identity
                 );
                 oldstage = currentStage;
                 corridors.Enqueue(newCorridor1);
             }
-           
+            
             GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(
                 tag,
                 newPos,
                 Quaternion.identity
             );
-
+            
             GameObject mosterSpawner = PoolingManager.Instance.SpawnFromPool(
                 mosterSpawnerTag,
                 newPos,
@@ -110,7 +112,7 @@ public class CorridorSpawner : MonoBehaviour
             return "Corridor"; // 예외 시 기본값
 
         StageInfo stage = stages[currentStage - 1];
-        
+
         // 확률 체크
         if (Random.value < stage.trapChance && stage.trapTags.Count > 0)
         {
