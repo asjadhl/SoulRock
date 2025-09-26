@@ -1,11 +1,5 @@
-using NUnit.Framework.Internal;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Build.Reporting;
-using UnityEngine;
+ using UnityEngine;
 
 
 
@@ -42,7 +36,29 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> GetProjectTiles;
 
+
+      Vector3 Min;
+      Vector3 Max; 
+
+    public Vector3 Clamp(Vector3 current)
+    {
      
+    Vector3 result;
+    float xmin = Min.x;
+   
+    float xmax = Max.x;
+    
+    float ymin = Min.y;
+  
+    float ymax = Max.y;
+    
+    result.x = Mathf.Clamp(current.x, xmin, xmax);
+    
+    result.y = Mathf.Clamp(current.y, ymin, ymax);
+ 
+    result.z = current.z;
+    return result;
+    }
     public GameObject CreateEnemy(string datas)
     {
 
@@ -58,28 +74,7 @@ public class GameManager : MonoBehaviour
         else  
             return null;
     }
-
-    //[Obsolete]
-    //public GameObject CreateGameObject(EntityType type, EntityI entityI = EntityI.Hostile)
-    //{
-    //    if (dictionarys.ContainsKey(type.ToString()+entityI.ToString()))
-    //    {  
-           
-    //        var list = dictionarys[type.ToString() + entityI.ToString()];
-            
-    //        int ran = UnityEngine.Random.Range(0, list.Count);
-    //        var obj  =  Instantiate(list[ran].enemyobject,GameObject.Find("EnemySpawner").transform.position,Quaternion.identity);
-           
-    //             obj.GetComponent<EnemyGhost>().Init(list[ran].type, list[ran].entityI);
-
-    //        return obj;
-    //    }
-    //    else
-    //    {
-    //        //Debug.LogError("Current Entity Type doesnt Exist on Dictionary");
-    //        return null;
-    //    }
-    //}
+   
   
     public void Awake()
     {
@@ -95,7 +90,7 @@ public class GameManager : MonoBehaviour
                 foreach(var each in GhostEnemies)
                 {
                     string newdata = ((int)each.type).ToString() + ((int)each.entityI).ToString();
-                    Debug.Log(newdata);
+                  
                     if (!dict1.ContainsKey(newdata))
                         dict1.Add(newdata, new List<GameObject>());
 
@@ -105,21 +100,20 @@ public class GameManager : MonoBehaviour
 
 
 
-                //foreach (var child in GhostEnemies)
-                //{
-                //    if (dictionarys.ContainsKey(child.type.ToString() + child.entityI.ToString()))
-                //    {
-                //        dictionarys[child.type.ToString() + child.entityI.ToString()].Add(child);
-                //    }
-                //    else
-                //    {
-                //        dictionarys.Add(child.type.ToString() + child.entityI.ToString(), new List<EnemiesType>());
-                //        dictionarys[child.type.ToString() + child.entityI.ToString()].Add(child);
-                //    }
-                //}
+               
             }
 
-            instance = this;
+      //-------------------------//
+      GameObject EnemySpawner = GameObject.Find("EnemySpawner");
+      if (EnemySpawner != null)
+      {
+        int childcount = EnemySpawner.transform.childCount;
+        Max = EnemySpawner.transform.GetChild(childcount - 1).localPosition;
+        Min = EnemySpawner.transform.GetChild(childcount - 2).localPosition;
+      }
+       
+      //-------------------------//
+      instance = this;
 
         }
     }

@@ -74,16 +74,19 @@ public class test : MonoBehaviour
 
     //List<GameObject> listgame = new List<GameObject> ();
     public GameObject tar;
-    public void Start()
+ 
+  
+  public void Start()
     {
        
-
+    Instantiate(tar);
 
     }
 
     public void Update()
     {
-        Debug.Log(tar.transform.position);
+     
+        
     }
 
 }

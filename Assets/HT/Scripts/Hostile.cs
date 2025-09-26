@@ -27,7 +27,7 @@ public class Hostile : Enemy
 
                     lockOnDodgeEnemy.StartDodging();
                     if (!lockOnDodgeEnemy.IsDodging())
-                        transform.LookAt(PlayerTransform.position);
+             LookAt(PlayerTransform.position);
 
 
                     transform.position += m_speed * Time.deltaTime * transform.forward;
@@ -39,7 +39,7 @@ public class Hostile : Enemy
                         transform.SetParent(PlayerTransform.transform);
                         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.normal).Forget();
                         lockOnDodgeEnemy.StopDodging();
-                        transform.LookAt(PlayerTransform.position);
+            LookAt(PlayerTransform.position);
                         MyBehavior = Behavior.Attack;
 
                     }
