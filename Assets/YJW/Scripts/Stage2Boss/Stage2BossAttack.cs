@@ -51,22 +51,41 @@ public class Stage2BossAttack : MonoBehaviour
     public Transform[] spawnPos;
     public List<int> usedPos;
 
+
+    [SerializeField] GameObject[] spadeCards;
+    private float spadeTimer = 0;
+    private bool isCardSpawn = false;
+
+
+    [SerializeField] GameObject[] clubBalls;
+
     private void Start()
     {
         //ChangeNextRanCard();
-        curShape = Shape.H;
+        curShape = Shape.S;
         player = GameObject.FindWithTag("Player");
     }
 
     private void FixedUpdate()
     {
+        Debug.LogError(spadeTimer);
         switch (curShape)
         {
             case Shape.H:
                 HAttack();
                 break;
             case Shape.S:
-                SAttack();
+                spadeTimer += Time.fixedDeltaTime;
+                if(spadeTimer <= 10)
+                {
+                    if(isCardSpawn == false)
+                        _ = SAttack();
+                }
+                else
+                {
+                    ChangeNextRanCard();
+                    spadeTimer = 0;
+                }
                 break;
             case Shape.D:
                 teleportTimer += Time.fixedDeltaTime;
@@ -103,10 +122,14 @@ public class Stage2BossAttack : MonoBehaviour
             miniBoss[i].SetActive(false);
     }
     
-    private void SAttack()
+    private async UniTask SAttack()
     {
         Debug.Log("스페이드");
-        ChangeNextRanCard();
+
+        GoldOrRedCardOn();
+        isCardSpawn = true;
+        await UniTask.Delay(2000);
+        isCardSpawn = false;
     }
 
     private void DAttack()
@@ -134,10 +157,14 @@ public class Stage2BossAttack : MonoBehaviour
         }
     }
 
-    private void CAttack()
+    private async UniTask CAttack()
     {
         Debug.Log("클로버");
-        ChangeNextRanCard();
+
+        RedOrBlackBallOn();
+        isCardSpawn = true;
+        await UniTask.Delay(2000);
+        isCardSpawn = false;
     }
 
     // 다이이 패턴
@@ -182,4 +209,19 @@ public class Stage2BossAttack : MonoBehaviour
         usedPos.Add(a);
     }
 
+    // 스페이드 패턴
+    private void GoldOrRedCardOn()
+    {
+        int ranIndex = Random.Range(0, spadeCards.Length);
+
+        spadeCards[ranIndex].SetActive(true);
+    }
+
+    // 클럽 패턴
+    private void RedOrBlackBallOn()
+    {
+        int ranIndex = Random.Range(0, clubBalls.Length);
+
+        clubBalls[ranIndex].SetActive(true);
+    }
 }

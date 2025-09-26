@@ -1,16 +1,90 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class CardMove : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    float x = 0;
+    float y = 0;
+    private Vector3 oriPos;
+
+    [SerializeField] GameObject boss;
+    [SerializeField] GameObject player;
+
+    private float moveSpeed = 6;
+
+    private bool canMove = true;
+
+    private void Awake()
     {
-        
+        x = transform.position.x;
+        y = transform.position.y;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        if(gameObject.activeSelf == true)
+        {
+            oriPos = new Vector3(x, y, boss.transform.position.z);
+            if(canMove == true)
+            {
+                CardRotate();
+                CardMove_();
+            }
+            else
+            {
+                transform.Translate(0, -1 * Time.fixedDeltaTime * 3, 0);
+            }
+        }
+    }
+
+    private void CardRotate()
+    {
+        transform.Rotate(0, 15, 0);
+    }
+
+    private void CardMove_()
+    {
+        transform.Translate(0, 0, -1 * moveSpeed * Time.fixedDeltaTime, Space.World);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            if (gameObject.tag == "RedCard")
+                player.GetComponent<PlayerHP>().PlayerHPMinus();
+            else if(gameObject.tag == "GoldCard")
+            {
+                _=dotBoxTrans();
+            }
+            ReturnOriPos();
+        }
+
+        if(other.gameObject.CompareTag("Ground"))
+        {
+            ReturnOriPos();
+        }
+    }
+
+    private void ReturnOriPos()
+    {
+        transform.position = oriPos;
+        gameObject.SetActive(false);
+    }
+
+    public void CardGetDam()
+    {
+        canMove = false;
+    }
+
+    private async UniTask dotBoxTrans()
+    {
+        DotBoxGeneratorL.Instance.getDamage = true;
+        DotBoxGeneratorR.Instance.getDamage= true;
+
+        await UniTask.Delay(3000);
+
+        DotBoxGeneratorL.Instance.getDamage = false;
+        DotBoxGeneratorR.Instance.getDamage = false;
     }
 }

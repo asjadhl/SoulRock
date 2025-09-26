@@ -17,7 +17,7 @@ public class DotBoxGeneratorL : MonoBehaviour
     [SerializeField] SpawnTimer spawnTimer;
     public GameObject[] poolL;
     private int pivot = 0;
-    bool getDamage = false;
+    public bool getDamage = false;
 
     public double delayMs; // µð¹ö±ë¿ë
     double secondsPerBeat;

@@ -73,8 +73,8 @@ public class PlayerShoot : MonoBehaviour
                 }
                 if(hit.collider.gameObject.tag == "SpadeCard")
                 {
-                   // hit.collider.gameObject.GetComponent<CardMove>().CardGetDam();
-                   
+                    hit.collider.gameObject.GetComponent<CardMove>().CardGetDam();
+
                 }
             }
 
