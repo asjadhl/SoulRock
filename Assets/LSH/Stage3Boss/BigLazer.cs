@@ -6,6 +6,7 @@ public class BigLazer : MonoBehaviour
 {
     private Transform player;
     private Transform boss;
+    private BossHP bossHp;
     MatarialAlpha mirror;
 
     bool reflect =false;
@@ -14,8 +15,8 @@ public class BigLazer : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         boss = GameObject.FindWithTag("Boss").GetComponent<Transform>();
-        mirror = FindAnyObjectByType<MatarialAlpha>();
-		transform.LookAt(player.position);
+		bossHp = GameObject.FindWithTag("Boss").GetComponent<BossHP>();
+		mirror = FindAnyObjectByType<MatarialAlpha>();
 	}
 
     // Update is called once per frame
@@ -37,8 +38,9 @@ public class BigLazer : MonoBehaviour
         }
         if(col.CompareTag("Boss"))
         {
-            //데미지 입히는거 넣기
-            gameObject.SetActive(false);
+			//데미지 입히는거 넣기
+			bossHp.BossHPMinus();
+			gameObject.SetActive(false);
         }
     }
 }

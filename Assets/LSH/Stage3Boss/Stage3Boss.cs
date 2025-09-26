@@ -25,7 +25,7 @@ public class Stage3Boss : MonoBehaviour
     [SerializeField] int coolTime = 10000;
     [SerializeField] float firstOfLazerSize = 0.02f;
     Vector3[] thisPos;
-   
+    Transform player;
     int ranIndex = 0;
     int ranPos;
     //lazer 전용 풀 인덱스
@@ -37,7 +37,8 @@ public class Stage3Boss : MonoBehaviour
 
     void Start()
     {
-        ReadyforLazerAttack();
+		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+		ReadyforLazerAttack();
         ReadyforLazerBallAttack();
         ReadyforBigLazerAttack();
         chargeLazer.SetActive(false);
@@ -233,8 +234,9 @@ public class Stage3Boss : MonoBehaviour
     void BigLazerAttack()
     {
         bigChargeLazer.SetActive(false);
-        bigLazerBallPool[poolBigLazer].SetActive(true);
+		bigLazerBallPool[poolBigLazer].SetActive(true);
         bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
+		bigLazerBallPool[poolBigLazer].transform.LookAt(player.position);
 
 		if (poolBigLazer >= bigLazerBallPool.Length - 1)
         {
