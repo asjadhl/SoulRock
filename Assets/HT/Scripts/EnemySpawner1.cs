@@ -216,9 +216,12 @@ public class EnemySpawner1 : MonoBehaviour
 
 
     private void OnDisable()
-    {  
+    {
 
-        m_cts.Cancel();
+    if (m_cts != null)
+      m_cts.Cancel();
+    else
+      Debug.Log("m_cts == NULL");
     }
 }
 #if UNITY_EDITOR
