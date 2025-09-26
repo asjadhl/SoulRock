@@ -11,13 +11,24 @@ public class MiniBoss : MonoBehaviour
     [SerializeField] GameObject boss;
     [SerializeField] GameObject player;
 
+    float x;
+    float y;
+    Vector3 oriPos;
+
+    private void Awake()
+    {
+        x = transform.position.x;
+        y = transform.position.y;
+    }
+
     private void FixedUpdate()
     {
         if(gameObject.activeSelf == true)
         {
+            oriPos = new Vector3(x, y, boss.transform.position.z);
             if(isSpawned == false)
             {
-                SetRanPos();
+                _=SetRanPos();
                 isSpawned = true;
             }
             if (Mathf.Abs(transform.position.z - player.transform.position.z) >= 10)
@@ -44,5 +55,11 @@ public class MiniBoss : MonoBehaviour
         boss.GetComponent<Stage2BossAttack>().AddList(spawnPosIndex);
 
         transform.position = boss.GetComponent<Stage2BossAttack>().spawnPos[spawnPosIndex].position;
+    }
+
+    public void ReturnOriPos()
+    {
+        transform.position = oriPos;
+        gameObject.SetActive(false);
     }
 }

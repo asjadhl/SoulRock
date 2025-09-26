@@ -32,6 +32,7 @@ public class Stage2BossAttack : MonoBehaviour
     */
 
     public static int clubStack = 0;
+    int reMiniH;
 
 
     [SerializeField] Card[] cards;
@@ -45,6 +46,7 @@ public class Stage2BossAttack : MonoBehaviour
     private float teleportTimer = 0;
     private int teleportCount = 0;
     public int playerHitCount = 0;
+    private bool miniBossSpawned = false;
 
 
     [SerializeField] GameObject[] miniBoss;
@@ -72,7 +74,8 @@ public class Stage2BossAttack : MonoBehaviour
         switch (curShape)
         {
             case Shape.H:
-                HAttack();
+                if(miniBossSpawned == false) 
+                    HAttack();
                 break;
             case Shape.S:
                 spadeTimer += Time.fixedDeltaTime;
@@ -121,15 +124,19 @@ public class Stage2BossAttack : MonoBehaviour
 
     private async void HAttack()
     {
+        reMiniH = clubStack;
         for(int i = 0; i < clubStack + 4; i++)
         {
             miniBoss[i].SetActive(true);
         }
+        miniBossSpawned = true;
         await UniTask.Delay(10000);
         usedPos.Clear();
         ChangeNextRanCard();
         for(int i = 0; i <= clubStack + 4; i++)
             miniBoss[i].SetActive(false);
+        miniBossSpawned = false;
+        GetComponent<BossHP>().bossHP += reMiniH;
     }
     
     private async UniTask SAttack()
@@ -217,6 +224,11 @@ public class Stage2BossAttack : MonoBehaviour
     public void AddList(int a)
     {
         usedPos.Add(a);
+    }
+
+    public void reMiniHMinus()
+    {
+        reMiniH--;
     }
 
     // 스페이드 패턴

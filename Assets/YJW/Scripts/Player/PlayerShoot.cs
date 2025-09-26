@@ -82,6 +82,11 @@ public class PlayerShoot : MonoBehaviour
                 {
                     boss2.GetComponent<BossHP>().BossHPMinus();
                 }
+                if(hit.collider.gameObject.tag == "miniH")
+                {
+                    boss2.GetComponent<Stage2BossAttack>().reMiniHMinus();
+                    hit.collider.gameObject.GetComponent<MiniBoss>().ReturnOriPos();
+                }
             }
 
             
