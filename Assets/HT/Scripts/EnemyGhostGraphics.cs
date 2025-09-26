@@ -2,17 +2,14 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-public enum States
-{
-    Underground, Spawn, Idle, Forward, Attack, Die, SpawnR, Null
-}
+ 
 public enum Cts
 {
     normal,master
 }
 public enum AnimationState
 {
-    Underground, Spawn, Idle, Forward, Attack, Die, SpawnR, Null
+    Underground, Spawn, Idle, Forward, Attack, Die, DamageDone, Null
 }
 public class EnemyGhostGraphics : MonoBehaviour
 {
@@ -146,7 +143,7 @@ public class EnemyGhostGraphics : MonoBehaviour
             case AnimationState.Die:
                 m_anim.Play(ListClipName[5]);
                 break;
-            case AnimationState.SpawnR:
+            case AnimationState.DamageDone:
                 m_anim.Play(ListClipName[6]);
                 break;
                
@@ -199,7 +196,7 @@ public class EnemyGhostGraphics : MonoBehaviour
     }
 
 
-    public async UniTaskVoid UniTriggerAtSample(AnimationState _newState, int sample, CancellationToken token, bool IsMaster, System.Action callback = null)
+    public async UniTaskVoid UniTriggerAtSample(AnimationState _newState, int sample, Cts cts, bool IsMaster, System.Action callback = null)
     {
         float waitTime = sample / m_eventDic[ListClipName[(int)_newState]].frameRate;
 
@@ -209,7 +206,7 @@ public class EnemyGhostGraphics : MonoBehaviour
         {
             if (!IsMaster)
                 activetask++;
-            await UniTask.WaitForSeconds(waitTime, cancellationToken: token);
+            await UniTask.WaitForSeconds(waitTime, cancellationToken: listcts[(int)cts].Token);
         }
         catch (System.OperationCanceledException)
         {

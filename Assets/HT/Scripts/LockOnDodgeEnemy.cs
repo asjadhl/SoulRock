@@ -9,17 +9,20 @@ public class LockOnDodgeEnemy : MonoBehaviour
     public float dodgeDistance = 5f;      // max world-space dodge per step
     public float dodgeSpeed = 5f;         // world units/sec
     public float restTime = 2f;           // cooldown between dodges
-    public float minDodgeAngle = 0f;
-    public float maxDodgeAngle = 45f;
+    public float minDodgeLenght = 0f;
+    public float maxDodgeLenght;
 
     private Vector3 targetPosition;
     private bool dodging = false;
     private bool canDodge = true;
     private bool isAllowedToDodge = true;
 
+
+  public Enemy enemy;
     private void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
+    enemy = GetComponent<Enemy>();
     }
 
     private void Update()
@@ -28,15 +31,16 @@ public class LockOnDodgeEnemy : MonoBehaviour
 
         if (dodging)
         {
-            // Smoothly move toward target position
-            //transform.position = Vector3.MoveTowards(transform.position, targetPosition, dodgeSpeed * Time.deltaTime);
-            transform.position = targetPosition;
-            // Check if reached target
-          //  if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
-          //  {
-                dodging = false;
-                Rest().Forget(); // start cooldown before next dodge
-           // }
+             //Smoothly move toward target position
+             transform.position = Vector3.MoveTowards(transform.position, targetPosition, dodgeSpeed * Time.deltaTime);
+
+ 
+              if (Vector3.Distance(transform.position, targetPosition) < 0.02f)
+              {
+                    transform.position = targetPosition;
+                    dodging = false;
+                    Rest().Forget();  
+              }
         }
     }
 
@@ -44,25 +48,24 @@ public class LockOnDodgeEnemy : MonoBehaviour
     {
         if (!canDodge || !isAllowedToDodge) return;
 
-
-        float x = maxDodgeAngle;
-        x *= UnityEngine.Random.Range(0, 2) < 1 ? -1 : 1;
-        targetPosition = new Vector3(player.position.x + x+transform.position.x, player.position.y + transform.position.y, transform.position.z);
-
-        Vector3 screenpoint = Camera.main.WorldToScreenPoint(targetPosition);
-        screenpoint.x = Mathf.Clamp(screenpoint.x, 0, Screen.width);
-
-
-        targetPosition = Camera.main.ScreenToWorldPoint(screenpoint);
+        float resultDodgeLenght = UnityEngine.Random.Range(minDodgeLenght, maxDodgeLenght);
+    
+        float x = resultDodgeLenght / 2f; 
+              x *= UnityEngine.Random.Range(0, 2) < 1 ? -1 : 1;
+        float y = resultDodgeLenght / 2f;
+              y *= UnityEngine.Random.Range(0, 2) < 1 ? -1 : 1;
+    targetPosition = new Vector3(x+transform.position.x,y + transform.position.y, transform.position.z);
+ 
 
 
+     targetPosition = GameManager.instance.Clamp(targetPosition);
 
 
-
+    transform.LookAt(targetPosition);
         dodging = true;
         canDodge = false;
 
-        transform.LookAt(targetPosition);
+        
     }
 
     private async UniTaskVoid Rest()

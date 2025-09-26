@@ -15,17 +15,18 @@ public class EnemyStore1
 
     public void AddSpawnPoint(Transform SpawnPointParent)
     {
-        //0 is walk and 1 is fly
-     
-        for (int i = 0; i < SpawnPointParent.childCount; i++)
-        {
+    //0 is walk and 1 is fly
 
+                                             //юс╫ц
+    for (int i = 0; i < SpawnPointParent.childCount-2; i++)
+        {
+                                                                                                     
             if (!SpawnPointStore.ContainsKey(SpawnPointParent.GetChild(i).name[0].ToString()))
             {
                 SpawnPointStore.Add(SpawnPointParent.GetChild(i).name[0].ToString(),
                                      new List<GameObject>());
             }
-            Debug.Log(SpawnPointParent.GetChild(i).name[0]);
+            
             SpawnPointStore[SpawnPointParent.GetChild(i).name[0].ToString()].Add(SpawnPointParent.GetChild(i).gameObject);
         }
     }
@@ -34,7 +35,7 @@ public class EnemyStore1
         
         if (SpawnPointStore.ContainsKey(datas[0].ToString()))
         {
-            Debug.Log("GetSpawnPoint");
+        
             GameObject SpawnObj = SpawnPointStore[datas[0].ToString()].Find(p => p.transform.childCount <= 0);
             if (SpawnObj == null)
                 return null;
@@ -77,8 +78,8 @@ public class EnemyStore1
             return x; }
         else
         {
-            Debug.Log("No Available EnemyObj!");
-            AddEnemies(datas); Debug.Log("Creating New One");
+            
+            AddEnemies(datas); 
 
             //Check if it is Added
 
@@ -120,8 +121,10 @@ public class EnemySpawner1 : MonoBehaviour
 
         m_currentPlayer = GameObject.FindWithTag("Player").transform;
 
-       // TargetScanner = GameObject.Find("Scanner").transform;
-
+    GameObject scanner = new GameObject("Scanner");
+    scanner.transform.SetParent(m_currentPlayer);
+    TargetScanner = scanner.transform;
+    scanner.gameObject.SetActive(false);
     }
     void OffsetPlayerPos()
     {
@@ -213,9 +216,12 @@ public class EnemySpawner1 : MonoBehaviour
 
 
     private void OnDisable()
-    {  
+    {
 
-        m_cts.Cancel();
+    if (m_cts != null)
+      m_cts.Cancel();
+    else
+      Debug.Log("m_cts == NULL");
     }
 }
 #if UNITY_EDITOR
