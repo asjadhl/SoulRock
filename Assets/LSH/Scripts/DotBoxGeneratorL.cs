@@ -11,8 +11,8 @@ public class DotBoxGeneratorL : MonoBehaviour
     public double bpm = 120.0;
     [Header("풀 사이즈")]
     [SerializeField] int poolSize = 10;
-    [Header("음악 시작 지연 (초)")]
-    public double startDelay = 5;
+    //[Header("음악 시작 지연 (초)")]
+    //public double startDelay = 5f;
 
     [SerializeField] SpawnTimer spawnTimer;
     public GameObject[] poolL;
