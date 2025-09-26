@@ -123,6 +123,7 @@ public class EnemySpawner1 : MonoBehaviour
 
     GameObject scanner = new GameObject("Scanner");
     scanner.transform.SetParent(m_currentPlayer);
+    scanner.transform.position = m_currentPlayer.transform.position;
     TargetScanner = scanner.transform;
     scanner.gameObject.SetActive(false);
     }
