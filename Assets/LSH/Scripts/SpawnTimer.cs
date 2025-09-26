@@ -42,7 +42,7 @@ public class SpawnTimer : MonoBehaviour
     
     void CheckTimer()
     {
-        if (i < firstTimerFast.Length)
+        if (i < lastTimerFast.Length)
         {
             if (((int)CheckRealTime.inGamerealTime == firstTimerFast[i] && calones))
             {
@@ -59,7 +59,7 @@ public class SpawnTimer : MonoBehaviour
                 //Debug.Log(dotBoxGenL.dotboxTime);
             }
         }
-        if(j < lastTimerFast.Length)
+        if(j < lastTimerSlow.Length)
         {
             if (((int)CheckRealTime.inGamerealTime == firstTimerSlow[j] && calones))
             {

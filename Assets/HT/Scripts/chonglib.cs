@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class chonglib : Enemy
@@ -30,19 +31,22 @@ public class chonglib : Enemy
                     
 
                     if (!lockOnDodgeEnemy.IsDodging())
-                        transform.LookAt(PlayerTransform.position);
+                        LookAt(PlayerTransform.position);
 
 
                     transform.position += m_speed * Time.deltaTime * transform.forward;
+
+                                            
                     EnemyGhostGraphics.AnimationManager(AnimationState.Forward, Cts.normal).Forget();
                     //if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
                     if (Vector3.Distance(PlayerTransform.position, transform.position) <= StartAttackingRange)
                     {
-                        //Stick with Player
-                        transform.SetParent(PlayerTransform.transform);
-                        EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.normal).Forget();
+            //Stick with Player
+            transform.SetParent(PlayerTransform.transform);
+            EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.normal).Forget();
+
                         lockOnDodgeEnemy.StopDodging();
-                        transform.LookAt(PlayerTransform.position);
+                         LookAt(PlayerTransform.position);
                         MyBehavior = Behavior.Attack;
             
                     }
@@ -81,8 +85,16 @@ public class chonglib : Enemy
         if (!CanDie)
         {
             CanDie = true;
-            MyBehavior = Behavior.Alert;
-            lockOnDodgeEnemy.StartDodging();
+             LookAt(PlayerTransform.position);
+            EnemyGhostGraphics.AnimationManager(AnimationState.DamageDone,Cts.normal).Forget();
+      EnemyGhostGraphics.UniTriggerAtSample(AnimationState.DamageDone, 40, Cts.master, true, () =>
+        {
+        MyBehavior = Behavior.Alert;
+
+        lockOnDodgeEnemy.StartDodging();
+          
+        }).Forget();
+           
             return;
 
         }

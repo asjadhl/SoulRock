@@ -34,8 +34,8 @@ public class Enemy : MonoBehaviour
     protected LockOnDodgeEnemy lockOnDodgeEnemy;
     protected  EnemyGhostGraphics EnemyGhostGraphics;
     private CancellationTokenSource cts;
-
-
+    [Space(10)]
+    public float offsetEyessight;
     public Enemy()
     { }
    public virtual void  FactoryReset()
@@ -92,6 +92,12 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+
+  public void LookAt(Vector3 target)
+  {
+    target.y = offsetEyessight;
+    transform.LookAt(target);
+  }
     public void DestroyWhenBehind()
     {
         var dir = transform.position - PlayerTransform.position;
