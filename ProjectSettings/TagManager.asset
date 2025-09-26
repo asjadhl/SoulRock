@@ -4,32 +4,19 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - RedCard
+  - BlackBall
+  - Boss
+  - GoldCard
   - Hitbox
   - Deletebox
-  - DotboxL
-  - DotboxR
-  - DotboxB
-  - DotboxA
-  - Ground
-  - Enemy
-  - Boss
-  - FxTemporaire
-  - Canvas
-  - Bullet2
-  - Bullet3
-  - Dummy
-  - OpenTrap
-  - CloseTrap
-  - TriggerTrap
-  - LazerBall
-<<<<<<< Updated upstream
-  - Mirror
-=======
-  - RedCard
-  - GoldCard
   - RedBall
-  - BlackBall
->>>>>>> Stashed changes
+  - Ground
+  - DotboxB
+  - Enemy
+  - Bullet3
+  - DotboxA
+  - Stage2Boss
   layers:
   - Default
   - TransparentFX
@@ -69,10 +56,3 @@ TagManager:
     locked: 0
   m_RenderingLayers:
   - Default
-  - Light Layer 1
-  - Light Layer 2
-  - Light Layer 3
-  - Light Layer 4
-  - Light Layer 5
-  - Light Layer 6
-  - Light Layer 7

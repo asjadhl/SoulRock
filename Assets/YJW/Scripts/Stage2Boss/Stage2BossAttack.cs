@@ -31,7 +31,7 @@ public class Stage2BossAttack : MonoBehaviour
     스택은 7개 모으면 즉사
     */
 
-    static int clubStack = 0;
+    public static int clubStack = 0;
 
 
     [SerializeField] Card[] cards;
@@ -58,17 +58,17 @@ public class Stage2BossAttack : MonoBehaviour
 
 
     [SerializeField] GameObject[] clubBalls;
+    private float clubTimer = 0;
+    private bool isBallSpawn = false;
 
     private void Start()
     {
-        //ChangeNextRanCard();
-        curShape = Shape.S;
+        ChangeNextRanCard();
         player = GameObject.FindWithTag("Player");
     }
 
     private void FixedUpdate()
     {
-        Debug.LogError(spadeTimer);
         switch (curShape)
         {
             case Shape.H:
@@ -92,7 +92,17 @@ public class Stage2BossAttack : MonoBehaviour
                 DAttack();
                 break;
             case Shape.C:
-                CAttack();
+                clubTimer += Time.fixedDeltaTime;
+                if (clubTimer <= 10)
+                {
+                    if (isBallSpawn == false)
+                        _ = CAttack();
+                }
+                else
+                {
+                    ChangeNextRanCard();
+                    clubTimer = 0;
+                }
                 break;
         }
     }
@@ -128,7 +138,7 @@ public class Stage2BossAttack : MonoBehaviour
 
         GoldOrRedCardOn();
         isCardSpawn = true;
-        await UniTask.Delay(2000);
+        await UniTask.Delay(1500);
         isCardSpawn = false;
     }
 
@@ -162,9 +172,9 @@ public class Stage2BossAttack : MonoBehaviour
         Debug.Log("클로버");
 
         RedOrBlackBallOn();
-        isCardSpawn = true;
-        await UniTask.Delay(2000);
-        isCardSpawn = false;
+        isBallSpawn = true;
+        await UniTask.Delay(2500);
+        isBallSpawn = false;
     }
 
     // 다이이 패턴

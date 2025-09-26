@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class BossHP : MonoBehaviour
 {
-    [SerializeField] int bossHP = 3;
+    public int bossHP = 3;
 
     private void FixedUpdate()
     {
+        Debug.Log(bossHP);
         BossDie();
     }
 

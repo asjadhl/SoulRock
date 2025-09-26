@@ -6,7 +6,8 @@ public class PlayerHP : MonoBehaviour
 
     private void FixedUpdate()
     {
-        PlayerDie();
+        if(playerHP <=0 || Stage2BossAttack.clubStack == 7)
+            PlayerDie();
         //Debug.Log(playerHP);
     }
 
@@ -17,8 +18,7 @@ public class PlayerHP : MonoBehaviour
 
     private void PlayerDie()
     {
-        //if (playerHP <= 0)
-        //    Debug.Log("Player Die!");
+        Debug.Log("Player Die!");
     }
 
 }

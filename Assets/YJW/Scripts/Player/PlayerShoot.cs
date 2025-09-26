@@ -6,13 +6,9 @@ using UnityEngine.InputSystem.DualShock.LowLevel;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] GameObject gunObject;
-    private GameObject boss;
+    [SerializeField] GameObject boss2;
 
     [SerializeField] ParticleSystem shootParticle;
-    private void Start()
-    {
-        boss = GameObject.FindWithTag("Boss");
-    }
 
     private void Update()
     {
@@ -67,14 +63,24 @@ public class PlayerShoot : MonoBehaviour
                 }
                 if (hit.collider.gameObject.tag == "Bullet3")
                     hit.collider.gameObject.GetComponent<BossUnderBullet>().ReturnSpawnPoint();
-                if (hit.collider.gameObject.tag == "Boss" && boss.GetComponent<Stage2BossAttack>().curShape == Shape.D)
+                if (hit.collider.gameObject.tag == "Boss" && boss2.GetComponent<Stage2BossAttack>().curShape == Shape.D)
                 {
-                    boss.GetComponent<Stage2BossAttack>().playerHitCount++;
+                    boss2.GetComponent<Stage2BossAttack>().playerHitCount++;
                 }
-                if(hit.collider.gameObject.tag == "SpadeCard")
+                if(hit.collider.gameObject.tag == "RedCard" || hit.collider.gameObject.tag == "GoldCard")
                 {
                     hit.collider.gameObject.GetComponent<CardMove>().CardGetDam();
-
+                }
+                if (hit.collider.gameObject.tag == "BlackBall")
+                    hit.collider.gameObject.GetComponent<RedBlackBallMove>().ReturnOriPos();
+                if(hit.collider.gameObject.tag == "RedBall")
+                {
+                    Stage2BossAttack.clubStack++;
+                    hit.collider.gameObject.GetComponent<RedBlackBallMove>().ReturnOriPos();
+                }
+                if(hit.collider.gameObject.tag == "Stage2Boss")
+                {
+                    boss2.GetComponent<BossHP>().BossHPMinus();
                 }
             }
 
