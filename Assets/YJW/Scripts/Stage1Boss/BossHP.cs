@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BossHP : MonoBehaviour
 {
-    private int bossHP = 3;
+    [SerializeField] int bossHP = 3;
 
     private void FixedUpdate()
     {

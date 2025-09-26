@@ -17,8 +17,8 @@ public class PlayerHP : MonoBehaviour
 
     private void PlayerDie()
     {
-        if (playerHP <= 0)
-            Debug.Log("Player Die!");
+        //if (playerHP <= 0)
+        //    Debug.Log("Player Die!");
     }
 
 }

@@ -43,7 +43,9 @@ public class Stage3Boss : MonoBehaviour
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
         mirror.SetActive(false);
-    }
+		//ranIndex = Random.Range(0, 4);
+		ranIndex = 2;
+	}
 
 
 
@@ -99,23 +101,22 @@ public class Stage3Boss : MonoBehaviour
 
     void Boss3Pattern()
     {
-        ranIndex = Random.Range(0, 4);
         switch (ranIndex)
         {
             case 0:
                 Debug.Log("레이저");
                 _ = ChargeLazerAttack();
-                ranIndex = Random.Range(0, 3);
+                //ranIndex = Random.Range(0, 3);
                 break;
             case 1:
                 Debug.Log("레이저볼");
                 _ = secondPattern();
-                ranIndex = Random.Range(0, 3);
+                //ranIndex = Random.Range(0, 3);
                 break;
             case 2:
                 Debug.Log("빅레이저");
                 _ = ThirdPattern();
-                ranIndex = Random.Range(0, 3);
+                //ranIndex = Random.Range(0, 3);
                 break;
         }
     }
@@ -216,7 +217,9 @@ public class Stage3Boss : MonoBehaviour
         isAttacking = true;
         bigChargeLazer.SetActive(true);
         mirror.SetActive(true);
-        for (int i = 1; i < 200; i++)
+        mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+
+		for (int i = 1; i < 200; i++)
         {
             bigChargeLazer.transform.localScale =
                 new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
@@ -231,7 +234,9 @@ public class Stage3Boss : MonoBehaviour
     {
         bigChargeLazer.SetActive(false);
         bigLazerBallPool[poolBigLazer].SetActive(true);
-        if (poolBigLazer >= bigLazerBallPool.Length - 1)
+        bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
+
+		if (poolBigLazer >= bigLazerBallPool.Length - 1)
         {
             poolBigLazer = 0;
         }

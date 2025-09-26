@@ -78,7 +78,7 @@ public class HitBoxCon: MonoBehaviour
         combo++;
         a.PlayOneShot(clip);
         player.GetComponent<PlayerShoot>().PlayerShoot_();
-        Debug.Log("클릭성공!");
+        //Debug.Log("클릭성공!");
         // 클릭 성공 시 처리할 로직
         // 예: 좌/우 도트 비활성화, 점수 증가 등
         switch(combo)
