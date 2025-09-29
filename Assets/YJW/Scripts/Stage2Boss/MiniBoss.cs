@@ -15,7 +15,7 @@ public class MiniBoss : MonoBehaviour
     float y;
     Vector3 oriPos;
 
-    private void Awake()
+    private void Start()
     {
         x = transform.position.x;
         y = transform.position.y;
@@ -60,6 +60,7 @@ public class MiniBoss : MonoBehaviour
     public void ReturnOriPos()
     {
         transform.position = oriPos;
+        isSpawned = false;
         gameObject.SetActive(false);
     }
 }

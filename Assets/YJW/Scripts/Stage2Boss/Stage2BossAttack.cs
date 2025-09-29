@@ -137,7 +137,10 @@ public class Stage2BossAttack : MonoBehaviour
         usedPos.Clear();
         ChangeNextRanCard();
         for(int i = 0; i <= clubStack + 4; i++)
+        {
+            miniBoss[i].GetComponent<MiniBoss>().ReturnOriPos();
             miniBoss[i].SetActive(false);
+        }
         miniBossSpawned = false;
         BossHP.bossHP += reMiniH;
     }
