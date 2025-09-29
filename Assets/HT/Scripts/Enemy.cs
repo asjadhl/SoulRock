@@ -33,50 +33,46 @@ public class Enemy : MonoBehaviour
     protected Transform PlayerTransform;
     protected LockOnDodgeEnemy lockOnDodgeEnemy;
     protected  EnemyGhostGraphics EnemyGhostGraphics;
-    private CancellationTokenSource cts;
+     
     [Space(10)]
     public float offsetEyessight;
     public Enemy()
     { }
    public virtual void  FactoryReset()
     {
-        MyBehavior = Behavior.Wondering; 
+      
     }
-    public void SetData(string data)
-    {
-        this.datas =    data;
-        EntityType =    datas[0].ToString();
-        EntityIS    =    datas[1].ToString();
-        isSetData  =    true;
-    }
+  
     private void OnEnable()
     {
-        FactoryReset();
+    MyBehavior = Behavior.Wondering;
+                 FactoryReset();
        
     }
     private void Awake()
     {
         m_Awake();
+    //optional
+    StartAlertingRange = 200;
     }
 
     public virtual void m_Awake()
     { }
     private void Start()
     {
-        PlayerTransform = GameObject.FindWithTag("Player").transform;
-        lockOnDodgeEnemy = GetComponent<LockOnDodgeEnemy>();
-        EnemyGhostGraphics = GetComponent<EnemyGhostGraphics>();
+        PlayerTransform    =   GameObject.FindWithTag("Player").transform;
+        lockOnDodgeEnemy   =   GetComponent<LockOnDodgeEnemy>();
+        EnemyGhostGraphics =   GetComponent<EnemyGhostGraphics>();
         m_Start();
     }
     public virtual void m_Start()
     { }
     private void Update()
     {
-        if (isSetData)
-        {
+       
             m_Update();
             DestroyWhenBehind();
-        }
+        
          
     }
     public virtual void m_Update()
@@ -86,16 +82,25 @@ public class Enemy : MonoBehaviour
 
         
     }
-    private async UniTaskVoid LifeTime(CancellationToken token)
-    {
-        await UniTask.WaitForSeconds(20f, cancellationToken: token);
-        gameObject.SetActive(false);
-    }
-
+ 
+  public void ActiveParticales(int index,bool Renderer = false)
+  {
+    var mat = GetComponentInChildren<SkinnedMeshRenderer>();
+    mat.enabled = Renderer;
+    Vector3 result  = new Vector3(transform.position.x, transform.position.y+0.5f, transform.position.z);
+          GameManager.instance.GetParticale(index, result);
+  }
+  public GameObject GetActiveParticales(int index, bool Renderer = false)
+  {
+    var mat = GetComponentInChildren<SkinnedMeshRenderer>();
+    mat.enabled = Renderer;
+    Vector3 result = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+    return GameManager.instance.GetParticale(index, result);
+  }
 
   public void LookAt(Vector3 target)
   {
-    target.y = offsetEyessight;
+     target.y += offsetEyessight;
     transform.LookAt(target);
   }
     public void DestroyWhenBehind()

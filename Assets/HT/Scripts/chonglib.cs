@@ -14,7 +14,6 @@ public class chonglib : Enemy
         lockOnDodgeEnemy.StopDodging();
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master, () =>
         {
-
         }).Forget();
     }
 
@@ -71,8 +70,16 @@ public class chonglib : Enemy
                         {
                             damagable?.TakeHit(m_damage);
                         }
-                        CanDie = true;
-                        Die();
+                      //BYEBYE
+
+                      GetActiveParticales(2).transform.SetParent(PlayerTransform);
+                      gameObject.SetActive(false);
+
+
+
+
+
+
 
                     }, 40).Forget();
                 }
@@ -84,10 +91,15 @@ public class chonglib : Enemy
     {
         if (!CanDie)
         {
+      LookAt(PlayerTransform.position);
+             GameObject temp =  GetActiveParticales(3,true);
+            temp.transform.SetParent(transform);
+            temp.transform.localPosition += new Vector3(0, 0, 1);
+            temp.transform.SetParent(null);
             CanDie = true;
-             LookAt(PlayerTransform.position);
+             
             EnemyGhostGraphics.AnimationManager(AnimationState.DamageDone,Cts.normal).Forget();
-      EnemyGhostGraphics.UniTriggerAtSample(AnimationState.DamageDone, 40, Cts.master, true, () =>
+            EnemyGhostGraphics.UniTriggerAtSample(AnimationState.DamageDone, 40, Cts.master, true, () =>
         {
         MyBehavior = Behavior.Alert;
 
@@ -114,35 +126,41 @@ public class chonglib : Enemy
             gameObject.SetActive(false);
         }
         , 80).Forget();
-
-        EnemyGhostGraphics.UniScaleChangeOverTime().Forget();
+     
+    //EnemyGhostGraphics.UniScaleChangeOverTime().Forget();
+     ActiveParticales(0);
     }
 
 
     public override void FactoryReset()
     {
-        base.FactoryReset();
-        
-        transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
+
+    
+    transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
         transform.localScale = new Vector3(1, 1, 1);
         CanDie = false;
-        if (gameObject.TryGetComponent(out Health c))
-        {
-            c.SetFullHealth();
-        }
-        else
-            Debug.Log("No Health.cs");
+      
+
+         var health =  gameObject.GetComponent<Health>();
+          if (health == null)
+      Debug.LogError("Health.cs NULL");
+
+              health.SetFullHealth();
        
             var mat = GetComponentInChildren<SkinnedMeshRenderer>();
+            mat.enabled = true;
+     
             mat.material.SetColor("_MainColor", Color.black);
          
 
-        if (TryGetComponent<Collider>(out var f))
-            f.enabled = true;
-        else
-        {
-            GetComponentInChildren<Collider>().enabled = false;
-        }
+       
+
+        var collider = gameObject.GetComponent<Collider>();
+            if(collider != null)
+                 collider.enabled = true;
+            else
+              GetComponentInChildren<Collider>().enabled = false;
+
         EnemyGhostGraphics = GetComponent<EnemyGhostGraphics>();
         EnemyGhostGraphics.ResetNow();
          

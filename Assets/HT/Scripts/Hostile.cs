@@ -7,9 +7,6 @@ public class Hostile : Enemy
 
     public override void m_Start()
     {
-
-
-        
         lockOnDodgeEnemy.StopDodging();
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master).Forget();
     }
@@ -25,9 +22,9 @@ public class Hostile : Enemy
                 if (Vector3.Distance(PlayerTransform.position, transform.position) <= StartAlertingRange)
                 {
 
-                    lockOnDodgeEnemy.StartDodging();
+                         lockOnDodgeEnemy.StartDodging();
                     if (!lockOnDodgeEnemy.IsDodging())
-             LookAt(PlayerTransform.position);
+                          LookAt(PlayerTransform.position);
 
 
                     transform.position += m_speed * Time.deltaTime * transform.forward;
@@ -64,8 +61,27 @@ public class Hostile : Enemy
                         {
                             damagable?.TakeHit(m_damage);
                         }
-                         
-                        Die();
+
+                      // Die();
+
+                      GetActiveParticales(2).transform.SetParent(PlayerTransform);
+                      gameObject.SetActive(false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     }, 40).Forget();
                 }
@@ -90,8 +106,8 @@ public class Hostile : Enemy
             gameObject.SetActive(false);
         }
         , 80).Forget();
-
-        EnemyGhostGraphics.UniScaleChangeOverTime().Forget();
+         ActiveParticales(0);
+       // EnemyGhostGraphics.UniScaleChangeOverTime().Forget();
     }
 
     public override void FactoryReset()
@@ -100,24 +116,24 @@ public class Hostile : Enemy
         MyBehavior = Behavior.Alert;
         transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
         transform.localScale = new Vector3(1, 1, 1);
-        if (gameObject.TryGetComponent(out Health c))
-        {
-            c.SetFullHealth();
-        }
-        else
-            Debug.Log("No Health.cs");
+    var health = gameObject.GetComponent<Health>();
+    if (health == null)
+      Debug.LogError("Health.cs NULL");
 
-       
-        
+    health.SetFullHealth();
 
-        if (TryGetComponent<Collider>(out var f))
+
+
+    var mat = GetComponentInChildren<SkinnedMeshRenderer>();
+    mat.enabled = true;
+    if (TryGetComponent<Collider>(out var f))
             f.enabled = true;
         else
         {
             GetComponentInChildren<Collider>().enabled = false;
         }
         EnemyGhostGraphics = GetComponent<EnemyGhostGraphics>();
-        EnemyGhostGraphics.SetRandomColor();
+      EnemyGhostGraphics.SetRandomColor();
         EnemyGhostGraphics.ResetNow();
 
     }
