@@ -14,7 +14,7 @@ public class PlayerHP : MonoBehaviour
     public void PlayerHPMinus()
     {
         playerHP--;
-        GetComponent<PlayerHPUI>().PlayerHPUIUpdate(playerHP);
+        //GetComponent<PlayerHPUI>().PlayerHPUIUpdate(playerHP);
     }
 
     private void PlayerDie()

@@ -168,7 +168,7 @@ public class Stage2BossAttack : MonoBehaviour
         }
         else
         {
-            if(playerHitCount < 8)
+            if(playerHitCount < 5)
             {
                 BossRush();
             }
