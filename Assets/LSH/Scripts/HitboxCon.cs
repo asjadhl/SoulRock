@@ -37,6 +37,10 @@ public class HitBoxCon: MonoBehaviour
         int[] colorValue = new int[4];
         //color = new Color(colorValue[0], colorValue[1], colorValue[2], colorValue[3]);
         a = GetComponent<AudioSource>();
+        for(int i = 0; i <comboImage.Length; i++)
+        {
+            comboImage[i].SetActive(false);
+        }
     }
 
     private void Update()
@@ -44,7 +48,7 @@ public class HitBoxCon: MonoBehaviour
         TryClick();
     }
 
-    private void TryClick() 
+    private void TryClick()
     {
         RectTransform[] leftDots = leftDotBox.GetComponentsInChildren<RectTransform>();
         RectTransform[] rightDots = rightDotBox.GetComponentsInChildren<RectTransform>();
@@ -61,7 +65,7 @@ public class HitBoxCon: MonoBehaviour
 
                 float distLeftRight = Vector2.Distance(left.position, right.position);
 
-                if (Input.GetMouseButtonDown(0)&&distLeftRight >= minClick && distLeftRight <= maxClick)
+                if (Input.GetMouseButtonDown(0) && distLeftRight >= minClick && distLeftRight <= maxClick)
                 {
                     OnClickSuccess();
                     DotBoxGeneratorL.Instance.ReturnDot(left.gameObject);
@@ -72,7 +76,7 @@ public class HitBoxCon: MonoBehaviour
         }
     }
 
-  
+
     private void OnClickSuccess()
     {
         combo++;
@@ -83,17 +87,20 @@ public class HitBoxCon: MonoBehaviour
         // 예: 좌/우 도트 비활성화, 점수 증가 등
         switch(combo)
         {
-            case <25:
+            case <10:
                 comboImage[0].SetActive(true);
                 break;
-            case <50:
+            case <20:
                 comboImage[1].SetActive(true);
                 break;
-            case < 75:
+            case <30:
                 comboImage[2].SetActive(true);
                 break;
-            case < 100:
+            case <40:
                 comboImage[3].SetActive(true);
+                break;
+            case < 50:
+                comboImage[4].SetActive(true);
                 break;
         }
     }
