@@ -51,6 +51,7 @@ public class CardMove : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("플레이어한테 닿음");
             if (gameObject.tag == "RedCard")
                 player.GetComponent<PlayerHP>().PlayerHPMinus();
             else if(gameObject.tag == "GoldCard")

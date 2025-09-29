@@ -16,7 +16,7 @@ public class PoolingManager : MonoBehaviour
     public List<Pool> pools;
     private Dictionary<string, Queue<GameObject>> poolDictionary;
 
-    void Awake()
+    void Start()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);

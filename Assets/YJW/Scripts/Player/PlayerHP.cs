@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerHP : MonoBehaviour
 {
-    private int playerHP = 10;
+    public int playerHP = 10;
 
     private void FixedUpdate()
     {
@@ -14,6 +14,7 @@ public class PlayerHP : MonoBehaviour
     public void PlayerHPMinus()
     {
         playerHP--;
+        GetComponent<PlayerHPUI>().PlayerHPUIUpdate(playerHP);
     }
 
     private void PlayerDie()

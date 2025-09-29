@@ -34,7 +34,14 @@ public class GameManager : MonoBehaviour
     
     public List<EnemiesType> GhostEnemies;
 
-    public List<GameObject> GetProjectTiles;
+    public  List<GameObject>  Particales;
+
+  public GameObject GetParticale(int index, Vector3 current)
+  {
+
+   return Instantiate(Particales[index], current, Quaternion.identity);
+  
+  }
 
 
       Vector3 Min;
@@ -67,7 +74,7 @@ public class GameManager : MonoBehaviour
          
             int randomIndex = UnityEngine.Random.Range(0, dict1[datas].Count);
             var obj = Instantiate(dict1[datas][randomIndex], GameObject.Find("EnemySpawner").transform.position, Quaternion.identity);
-            obj.GetComponent<Enemy>().SetData(datas);
+           
             obj.name += $"[{(EntityI)int.Parse(datas[1].ToString())}]";
             return obj;
         }
@@ -85,7 +92,7 @@ public class GameManager : MonoBehaviour
             dictionarys = new();
             if(GhostEnemies != null)
             {
-                // New Prototype
+                 
                 dict1 = new();
                 foreach(var each in GhostEnemies)
                 {
@@ -97,19 +104,15 @@ public class GameManager : MonoBehaviour
                     dict1[newdata].Add(each.enemyobject);
                      
                 }
-
-
-
                
             }
 
       //-------------------------//
-      GameObject EnemySpawner = GameObject.Find("EnemySpawner");
-      if (EnemySpawner != null)
-      {
-        int childcount = EnemySpawner.transform.childCount;
-        Max = EnemySpawner.transform.GetChild(childcount - 1).localPosition;
-        Min = EnemySpawner.transform.GetChild(childcount - 2).localPosition;
+       
+      
+       
+        Max =  transform.GetChild(transform.childCount - 1).localPosition;
+        Min =  transform.GetChild(transform.childCount - 2).localPosition;
       }
        
       //-------------------------//
@@ -119,4 +122,4 @@ public class GameManager : MonoBehaviour
     }
 
 
-}
+ 

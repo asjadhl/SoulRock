@@ -359,6 +359,7 @@ MonoBehaviour:
   poolSize: 10
   spawnTimer: {fileID: 709140806}
   poolR: []
+  getDamage: 0
   delayMs: 0
 --- !u!224 &407572362
 RectTransform:
@@ -1094,6 +1095,15 @@ MonoBehaviour:
   - tag: Stage3WindTrap
     prefab: {fileID: 8500984683118295021, guid: 5a3a6ee8040c6d34db53e77301d4af5b, type: 3}
     size: 10
+  - tag: Stage1Boss
+    prefab: {fileID: 7542521908823177448, guid: 6411294761ac9344496bcc9c395df5f0, type: 3}
+    size: 10
+  - tag: Stage2Boss
+    prefab: {fileID: 9208068875294112038, guid: 5985dfac8b8bf9847a59a22701cdd773, type: 3}
+    size: 10
+  - tag: Stage3Boss
+    prefab: {fileID: 5362138799154282758, guid: 2ae128a5d7984564f8128c9a9f3ec98a, type: 3}
+    size: 10
   - tag: Spawner
     prefab: {fileID: 878997069}
     size: 1
@@ -1214,7 +1224,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunObject: {fileID: 548619440}
+  boss2: {fileID: 0}
   shootParticle: {fileID: 596989520}
+  gunTransform: {fileID: 548619441}
+  kickbackDistance: 0.2
+  kickbackSpeed: 10
 --- !u!136 &829136403
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2258,6 +2272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1721651274}
   - component: {fileID: 1721651273}
+  - component: {fileID: 1721651275}
   m_Layer: 0
   m_Name: CorridorSpawner
   m_TagString: Untagged
@@ -2284,11 +2299,20 @@ MonoBehaviour:
     - Stage1RollTrap
     - Stage1Hammer
     trapChance: 0.301
+  - normalTag: Stage1Boss
+    trapTags: []
+    trapChance: 0
   - normalTag: Stage2Normal
     trapTags:
     - Stage2Empty
     trapChance: 0.425
+  - normalTag: Stage2Boss
+    trapTags: []
+    trapChance: 0
   - normalTag: Stage3Normal
+    trapTags: []
+    trapChance: 0
+  - normalTag: Stage3Boss
     trapTags: []
     trapChance: 0
   corridorCount: 4
@@ -2311,6 +2335,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1721651275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721651272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed6aae93753dfc43963f86261ffd437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 829136398}
+  bossPrefab:
+  - {fileID: 0}
+  bossSpawnerTag: Boss
+  corridorSpawner: {fileID: 0}
 --- !u!1 &1981819231
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,9 +2403,9 @@ MonoBehaviour:
   dotboxPrefabL: {fileID: 6043420594518806999, guid: 4416be17024308947ac545ec174af71f, type: 3}
   bpm: 91
   poolSize: 10
-  startDelay: 5
   spawnTimer: {fileID: 709140806}
   poolL: []
+  getDamage: 0
   delayMs: 0
   musicStartDspTime: 0
 --- !u!1001 &2039303338
@@ -2460,63 +2501,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41a718bdc6905044ebe940f79db20b3b, type: 3}
---- !u!1001 &4308600148535962902
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 13.955399
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.0000038146973
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -16.84053
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2963361968720635114, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000684960007504221, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-      propertyPath: m_Name
-      value: Stage3LazerTrap
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2531,4 +2515,3 @@ SceneRoots:
   - {fileID: 567885781}
   - {fileID: 687285183}
   - {fileID: 1338150852}
-  - {fileID: 4308600148535962902}

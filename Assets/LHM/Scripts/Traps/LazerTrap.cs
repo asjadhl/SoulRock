@@ -53,7 +53,21 @@ public class LazerTrap : MonoBehaviour
     }
     public void FixedUpdate()
     {
-       // Rotate(new Vector3(360, 0, 0) * Time.deltaTime);
+        foreach (GameObject lazer in lazerObject)
+        {
+            if (lazer.activeSelf)
+            {
+                lazer.transform.Rotate(Vector3.up * RotateSpeed * Time.fixedDeltaTime, Space.World);
+                if (lazer.transform.localScale.x < lastScale)
+                {
+                    float newScale = lazer.transform.localScale.x + firstScle;
+                    lazer.transform.localScale = new Vector3(newScale, 1f, newScale);
+                    
+                }
+            }
+
+        }
+
     }
 
 }

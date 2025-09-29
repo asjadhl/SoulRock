@@ -247,11 +247,11 @@ public class ShowScanner : UnityEditor.Editor
 
 
 
-            // Midpoint for curved arrow
+            
             Vector3 mid = (start + end) * 0.5f;
             mid.y += 2.5f;
 
-            // Determine color based on index
+         
             Color arrowColor = Color.HSVToRGB(0.6f, 1f, 1f);
 
 
@@ -259,7 +259,7 @@ public class ShowScanner : UnityEditor.Editor
 
             UnityEditor.Handles.DrawBezier(start, end, mid, mid, arrowColor, null, 1f);
 
-            // Arrowhead at the end
+            
             UnityEditor.Handles.ArrowHandleCap(
                 0,
                 end,
@@ -268,7 +268,7 @@ public class ShowScanner : UnityEditor.Editor
                 EventType.Repaint
             );
 
-            // Optional: label with index
+          
             UnityEditor.Handles.Label(end + Vector3.up * 0.5f, $"Scanning_Area");
 
             UnityEditor.Handles.color = Color.cyan;
