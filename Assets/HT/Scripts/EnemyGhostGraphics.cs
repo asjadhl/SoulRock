@@ -64,7 +64,7 @@ public class EnemyGhostGraphics : MonoBehaviour
 
         My_State = AnimationState.Null;
 
-        SetRandomColor();
+      
     }
 
 
@@ -229,7 +229,7 @@ public class EnemyGhostGraphics : MonoBehaviour
         Origin = transform.localScale;
         while (true)
         {
-            scales -= Time.deltaTime;
+            scales -= Time.deltaTime*2f;
             if (scales <= 0)
                 break;
             transform.localScale = Origin * scales;

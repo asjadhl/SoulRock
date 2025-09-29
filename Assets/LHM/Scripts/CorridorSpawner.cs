@@ -31,9 +31,11 @@ public class CorridorSpawner : MonoBehaviour
     public string mosterSpawnerTag = "Spawner";
 
     private Queue<GameObject> corridors = new Queue<GameObject>();
+    BossSpawner bossSpawner;
 
     void Start()
     {
+        float playerX = player.position.x +5;
         // 초기 복도 배치
         float startZ = 0f;
         float newstartz = -corridorLength;
@@ -43,7 +45,7 @@ public class CorridorSpawner : MonoBehaviour
 
             GameObject corridor = PoolingManager.Instance.SpawnFromPool(
                 tag,
-                new Vector3(corridorWidth / 2f, 0, startZ),
+                new Vector3(playerX, 0, startZ),
                 Quaternion.identity
             );
 
@@ -56,6 +58,8 @@ public class CorridorSpawner : MonoBehaviour
     void Update()
     {
         ManageCorridors();
+
+        
     }
 
     // 플레이어 뒤로 넘어간 복도는 재사용
