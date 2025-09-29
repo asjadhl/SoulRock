@@ -63,10 +63,13 @@ public class Stage2BossAttack : MonoBehaviour
     private float clubTimer = 0;
     private bool isBallSpawn = false;
 
+    private BossHP BossHP;
+
     private void Start()
     {
         ChangeNextRanCard();
         player = GameObject.FindWithTag("Player");
+        BossHP = GetComponent<BossHP>();
     }
 
     private void FixedUpdate()
@@ -136,7 +139,7 @@ public class Stage2BossAttack : MonoBehaviour
         for(int i = 0; i <= clubStack + 4; i++)
             miniBoss[i].SetActive(false);
         miniBossSpawned = false;
-        GetComponent<BossHP>().bossHP += reMiniH;
+        BossHP.bossHP += reMiniH;
     }
     
     private async UniTask SAttack()
@@ -168,7 +171,7 @@ public class Stage2BossAttack : MonoBehaviour
             }
             else
             {
-                transform.position = new Vector3(0, transform.position.y, player.transform.position.z + 17);
+                transform.position = new Vector3(0, 0, player.transform.position.z + 17);
                 ChangeNextRanCard();
             }
         }
@@ -190,7 +193,7 @@ public class Stage2BossAttack : MonoBehaviour
         int x = Random.Range(-8, 9);
         int z = (int)player.transform.position.z + Random.Range(10, 20);
 
-        transform.position = new Vector3(x, transform.position.y , z);
+        transform.position = new Vector3(x, 0 , z);
 
         teleportCount++;
     }
@@ -207,7 +210,7 @@ public class Stage2BossAttack : MonoBehaviour
         {
             player.GetComponent<PlayerHP>().PlayerHPMinus();
             transform.rotation = Quaternion.Euler(0,180,0);
-            transform.position = new Vector3(0, 2, player.transform.position.z + 17);
+            transform.position = new Vector3(0, 0, player.transform.position.z + 17);
             ChangeNextRanCard();
             teleportCount = 0;
             playerHitCount = 0;
