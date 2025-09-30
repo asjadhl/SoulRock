@@ -74,13 +74,7 @@ public class chonglib : Enemy
 
                       GetActiveParticales(2).transform.SetParent(PlayerTransform);
                       gameObject.SetActive(false);
-
-
-
-
-
-
-
+ 
                     }, 40).Forget();
                 }
                 break;

@@ -1,36 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
+[System.Serializable]
+public class A
+{
+  public int age;
+}
 public class Test : MonoBehaviour
 {
 
-  public Transform pp;
-   
-    void Update()
-    {
+  public List<A> list;
+  public List<A> list2;
 
-    if (Input.GetKeyDown(KeyCode.Space))
-      UpdateClamp();
-    }
-
-  void UpdateClamp()
+  public void Start()
   {
-    float width = Screen.width; // 100
-    float height = Screen.height; //100
-    //Clamp ScreenWorld
-    Vector3 newresult = Camera.main.WorldToScreenPoint(pp.transform.position);
-    float xclamp = Mathf.Clamp(newresult.x, width / 100f * 10, width / 100f * 90);
-
-    
-    float yclamp = Mathf.Clamp(newresult.y, height / 100f * 10, height / 100f * 70);
- 
-
-    newresult = new Vector3(xclamp, yclamp, newresult.z);
-
-     
-      pp.transform.position = Camera.main.ScreenToWorldPoint(newresult);
-      Debug.Log($"pp.transform.position: {pp.transform.position}");
-      Debug.Log($"newresult: {newresult}");
-   
+    list2.Add(new A() { age = list[0].age });
   }
+
+
+
 }

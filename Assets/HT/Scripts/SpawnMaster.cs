@@ -1,20 +1,8 @@
-
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor.PackageManager.UI;
+using UnityEngine; 
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using Unity.VisualScripting;
-
-
-
-
-
-
-
-
-
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -43,13 +31,28 @@ public class AreaSpawn
 
 
   [Range(0f, 10f)] public float arcHeight = 2f;
-  public Transform targetTransform;
+  public Transform Scanner;
   [Range(0f, 10f)]
   public float SpawnRate;
   public float radius;
   public GameObject SpawnerPosition;
   public List<Entity> EntityList;
 
+  public static  AreaSpawn operator+ (AreaSpawn a ,AreaSpawn b)
+  {  
+    a.spawnoption = b.spawnoption;
+    a.arcHeight = b.arcHeight;
+    a.Scanner = b.Scanner;
+    a.SpawnRate = b.SpawnRate;
+    a.radius = b.radius;
+    a.SpawnerPosition = b.SpawnerPosition;
+    a.EntityList = new();
+    for (int i = 0; i < b.EntityList.Count; i++)
+    a.EntityList.Add(new Entity() { EntityObj = b.EntityList[i].EntityObj, EntitySpawnCount = b.EntityList[i].EntitySpawnCount });
+
+    
+    return a;
+  }
 
 }
 
@@ -63,9 +66,171 @@ public class SpawnMaster : MonoBehaviour
 
   [Space(5)]
   public List<AreaSpawn> areaSpawns;
+          List<AreaSpawn> Save_areaSpawns;
   [SerializeField, HideInInspector]
   private string selectedTag;
   CancellationTokenSource cts;
+  //optional
+  bool IsSpawning = false;
+
+
+  
+ 
+
+  public Transform FindPlayer()
+  {
+    return GameObject.FindGameObjectWithTag(selectedTag).transform;
+  }
+  
+
+  public   void OnEnable()
+  {
+     
+    if(areaSpawns != null)
+    {
+      if (Save_areaSpawns != null)
+      {
+        for (int i = 0; i < Save_areaSpawns.Count; i++)
+        {
+
+          areaSpawns.Add(new AreaSpawn() + Save_areaSpawns[i]);
+
+        }
+         
+      }
+    }
+    cts = new();
+
+   
+    
+     
+  }
+
+  
+  private void Start()
+  {
+    m_currentPlayerTransform = FindPlayer();
+    Save_areaSpawns = new();
+   
+    if (areaSpawns != null)
+    {
+      if (areaSpawns.Count > 0)
+      {
+        for (int i = 0; i < areaSpawns.Count; i++)
+        {
+          Save_areaSpawns.Add(new AreaSpawn() + areaSpawns[i]);
+        }
+
+      }
+      
+    }
+   
+  }
+  public async UniTaskVoid SpawnNow(AreaSpawn areaspawn, CancellationTokenSource cts)
+  {
+
+    if (areaspawn.EntityList.Count > 0)
+    {
+      int randomindex = 0;
+
+
+
+      switch (areaspawn.spawnoption)
+      {
+        case AreaSpawn.SpawnOption.random:
+
+          Vector3 spawnPos;
+          while (areaspawn.EntityList.Count > 0)
+          {
+            randomindex = Random.Range(0, areaspawn.EntityList.Count);
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            float distance = Mathf.Sqrt(Random.value) * areaspawn.radius;
+            float x = Mathf.Cos(angle) * distance;
+            float z = Mathf.Sin(angle) * distance;
+            spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x,
+                                    areaspawn.SpawnerPosition.transform.position.y,
+                                    areaspawn.SpawnerPosition.transform.position.z + z);
+            Instantiate(areaspawn.EntityList[0].EntityObj, spawnPos, Quaternion.identity);
+
+            areaspawn.EntityList[0].EntitySpawnCount--;
+            if (areaspawn.EntityList[0].EntitySpawnCount <= 0)
+              areaspawn.EntityList.Remove(areaspawn.EntityList[randomindex]);
+
+            await UniTask.WaitForSeconds(areaspawn.SpawnRate, cancellationToken: cts.Token);
+          }
+
+          break;
+
+        case AreaSpawn.SpawnOption.target:
+          {
+            while (areaspawn.EntityList.Count > 0)
+            {
+              randomindex = Random.Range(0, areaspawn.EntityList.Count);
+              Instantiate(areaspawn.EntityList[randomindex].EntityObj, areaspawn.SpawnerPosition.transform.position, Quaternion.identity);
+
+              areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
+
+              if (areaspawn.EntityList[randomindex].EntitySpawnCount <= 0)
+                areaspawn.EntityList.Remove(areaspawn.EntityList[randomindex]);
+
+              await UniTask.WaitForSeconds(areaspawn.SpawnRate, cancellationToken: cts.Token);
+            }
+
+          }
+          break;
+
+      }
+
+    }
+
+
+    IsSpawning = false;
+  }
+  public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
+  {
+    return (pos - center).sqrMagnitude <= radius * radius;
+  }
+  public void PlayerCheckUpdate()
+  {
+
+    if (m_currentPlayerTransform == null)
+      return;
+    if (areaSpawns == null)
+      return;
+    if (IsSpawning)
+      return;
+    if (areaSpawns.Count >= 1)
+    {   
+
+      if (IsInsideCircle(m_currentPlayerTransform.position,
+        areaSpawns[0].spawnoption == AreaSpawn.SpawnOption.random ? areaSpawns[0].SpawnerPosition.transform.position : areaSpawns[0].Scanner.transform.position
+        , areaSpawns[0].radius))
+      {
+        IsSpawning = true;
+        SpawnNow(areaSpawns[0], cts).Forget();
+        areaSpawns.Remove(areaSpawns[0]);
+
+      }
+    }
+  }
+  private void Update()
+  {
+    PlayerCheckUpdate();
+  }
+
+
+  public void OnDisable()
+  {
+    if (cts != null)
+    {
+      cts.Cancel();
+      cts.Dispose();
+    }
+  }
+
+
+ 
+
 
 
 
@@ -80,114 +245,10 @@ public class SpawnMaster : MonoBehaviour
     selectedTag = _tags;
   }
 
-  public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
-  {
-    return (pos - center).sqrMagnitude <= radius * radius;
-  }
-
-  public Transform FindPlayer()
-  {
-    return GameObject.FindGameObjectWithTag(selectedTag).transform;
-  }
-  public void PlayerCheckUpdate()
-  {
-
-    if (m_currentPlayerTransform == null)
-      return;
-
-    for (int i = 0; i < areaSpawns.Count; i++)
-    {
-      if (IsInsideCircle(m_currentPlayerTransform.position, areaSpawns[i].SpawnerPosition.transform.position, areaSpawns[i].radius))
-      {
-         
-        SpawnNow(areaSpawns[i],cts).Forget();
-         areaSpawns.Remove(areaSpawns[i]);
-      }
-    }
-  }
-
-
-  private void Start()
-  {
-    m_currentPlayerTransform = FindPlayer();
-    cts = new();
-  }
-
-  private void Update()
-  {
-    PlayerCheckUpdate();
-  }
-
-
-  public void OnDisable()
-  {
-    if(cts != null)
-       cts.Cancel();
-  }
-
-
-  public async UniTaskVoid SpawnNow(AreaSpawn areaspawn, CancellationTokenSource cts)
-  {
-
-    if (areaspawn.EntityList.Count > 0)
-    {
-      int randomindex = 0;
-
-
-      switch (areaspawn.spawnoption)
-      {
-        case AreaSpawn.SpawnOption.random:
-          {
-           
-            Vector3 spawnPos;
-            while (areaspawn.EntityList.Count > 0)
-            {
-              randomindex = Random.Range(0, areaspawn.EntityList.Count);
-              float angle = Random.Range(0f, Mathf.PI * 2f);
-              float distance = Mathf.Sqrt(Random.value) * areaspawn.radius;
-              float x = Mathf.Cos(angle) * distance;
-              float z = Mathf.Sin(angle) * distance;
-              spawnPos = new Vector3( areaspawn.SpawnerPosition.transform.position.x + x,
-                                      areaspawn.SpawnerPosition.transform.position.y,
-                                      areaspawn.SpawnerPosition.transform.position.z + z);
-
-
-              Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
-
-
-                  areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
-              if (areaspawn.EntityList[randomindex].EntitySpawnCount <= 0)
-                  areaspawn.EntityList.Remove(areaspawn.EntityList[randomindex]);
-
-              await UniTask.WaitForSeconds(areaspawn.SpawnRate, cancellationToken: cts.Token);
-            }
-          }
-          break;
-        case AreaSpawn.SpawnOption.target:
-          {   
-            while (areaspawn.EntityList.Count > 0)
-            {
-              randomindex = Random.Range(0, areaspawn.EntityList.Count);
-              Instantiate(areaspawn.EntityList[randomindex].EntityObj, areaspawn.targetTransform.position, Quaternion.identity);
-
-                  areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
-              if (areaspawn.EntityList[randomindex].EntitySpawnCount <= 0)
-                  areaspawn.EntityList.Remove(areaspawn.EntityList[randomindex]);
-
-                  await UniTask.WaitForSeconds(areaspawn.SpawnRate, cancellationToken: cts.Token);
-            }
-          }
-          break;
-        default:
-          await UniTask.Yield();
-          break;
-      }
-    }
-
-
-
-  }
 }
+
+
+
 #if UNITY_EDITOR
 [CustomEditor(typeof(SpawnMaster))]
 public class ShowTag : Editor
@@ -228,13 +289,22 @@ public class ShowScanners : Editor
     for (int i = 0; i < t.areaSpawns.Count; i++)
     {
       if (t.areaSpawns[i].spawnoption == AreaSpawn.SpawnOption.random)
-        continue;
+      {
 
-      if (t.areaSpawns[i].SpawnerPosition == null || t.areaSpawns[i].targetTransform == null)
-        continue;
+        if (t.areaSpawns[i].SpawnerPosition == null)
+          continue;
+
+        UnityEditor.Handles.color = Color.cyan;
+        UnityEditor.Handles.DrawWireDisc(t.areaSpawns[i].SpawnerPosition.transform.position, Vector3.up, t.areaSpawns[i].radius);
+        UnityEditor.Handles.Label(t.areaSpawns[i].SpawnerPosition.transform.position + Vector3.up * 0.5f, $"SpawnPosition[{i}]");
+      }
+      else
+      {
+        if (t.areaSpawns[i].SpawnerPosition == null || t.areaSpawns[i].Scanner == null)
+          continue;
 
         Vector3 start = t.areaSpawns[i].SpawnerPosition.transform.position;
-        Vector3 end = t.areaSpawns[i].targetTransform.position;
+        Vector3 end = t.areaSpawns[i].Scanner.position;
 
 
 
@@ -242,29 +312,29 @@ public class ShowScanners : Editor
 
 
 
-      // Midpoint for curved arrow
-      Vector3 mid = (start + end) * 0.5f;
-      mid.y += 7f;
+        // Midpoint for curved arrow
+        Vector3 mid = (start + end) * 0.5f;
+        mid.y += 7f;
 
-      // Determine color based on index
-      Color arrowColor = Color.HSVToRGB(0.6f, 1f, 1f);
-
-
+        // Determine color based on index
+        Color arrowColor = Color.HSVToRGB(0.6f, 1f, 1f);
 
 
-      UnityEditor.Handles.DrawBezier(start, end, mid, mid, arrowColor, null, 1f);
-
-      
-
-      // Optional: label with index
-      UnityEditor.Handles.Label(start + Vector3.up * 0.5f, $"Scanner[{i}]");
-
-      UnityEditor.Handles.color = Color.cyan;
-
-      UnityEditor.Handles.DrawWireDisc(start, Vector3.up, t.areaSpawns[i].radius);
-      UnityEditor.Handles.Label(end + Vector3.up * 0.5f, $"SpawnPosition[{i}]");
 
 
+        UnityEditor.Handles.DrawBezier(start, end, mid, mid, arrowColor, null, 1f);
+
+
+
+        // Optional: label with index
+        UnityEditor.Handles.Label(end + Vector3.up * 0.5f, $"Scanner[{i}]");
+
+        UnityEditor.Handles.color = Color.cyan;
+
+        UnityEditor.Handles.DrawWireDisc(end, Vector3.up, t.areaSpawns[i].radius);
+        UnityEditor.Handles.Label(start + Vector3.up * 0.5f, $"SpawnPosition[{i}]");
+
+      }
     }
 
 
@@ -295,10 +365,10 @@ public class AreaSpawnDrawer : PropertyDrawer
     EditorGUI.PropertyField(enumRect, spawnOptionProp);
     y += lineHeight + spacing;
 
-    // Draw targetTransform only if spawnoption == target
+    // Draw Scanner only if spawnoption == target
     if ((AreaSpawn.SpawnOption)spawnOptionProp.enumValueIndex == AreaSpawn.SpawnOption.target)
     {
-      SerializedProperty targetProp = property.FindPropertyRelative("targetTransform");
+      SerializedProperty targetProp = property.FindPropertyRelative("Scanner");
       Rect targetRect = new Rect(position.x, y, position.width, lineHeight);
       EditorGUI.PropertyField(targetRect, targetProp);
       y += lineHeight + spacing;
@@ -335,7 +405,7 @@ public class AreaSpawnDrawer : PropertyDrawer
     SerializedProperty spawnOptionProp = property.FindPropertyRelative("spawnoption");
 
     if ((AreaSpawn.SpawnOption)spawnOptionProp.enumValueIndex == AreaSpawn.SpawnOption.target)
-      height += lineHeight + spacing; // for targetTransform
+      height += lineHeight + spacing; // for Scanner
 
     // Add remaining fields
     string[] otherFields = { "SpawnRate", "radius", "SpawnerPosition", "EntityList" };
