@@ -62,10 +62,10 @@ public class Hostile : Enemy
                             damagable?.TakeHit(m_damage);
                         }
 
-                      // Die();
 
+                      Die();
                       GetActiveParticales(2).transform.SetParent(PlayerTransform);
-                      gameObject.SetActive(false);
+                      
 
 
 
@@ -89,7 +89,7 @@ public class Hostile : Enemy
         }
     }
 
-    public override void Die()
+    public override void DieMethod()
     {
         
         lockOnDodgeEnemy.StopDodging();
@@ -103,7 +103,7 @@ public class Hostile : Enemy
         }
 
         EnemyGhostGraphics.AnimationManager(AnimationState.Die, Cts.master, () => {
-            gameObject.SetActive(false);
+            Die();
         }
         , 80).Forget();
          ActiveParticales(0);

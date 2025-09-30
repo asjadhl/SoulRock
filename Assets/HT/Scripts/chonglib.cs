@@ -73,7 +73,7 @@ public class chonglib : Enemy
                       //BYEBYE
 
                       GetActiveParticales(2).transform.SetParent(PlayerTransform);
-                      gameObject.SetActive(false);
+                      Die();
  
                     }, 40).Forget();
                 }
@@ -81,24 +81,35 @@ public class chonglib : Enemy
         }
     }
 
-    public override void Die()
+    public override void DieMethod()
     {
         if (!CanDie)
         {
       LookAt(PlayerTransform.position);
-             GameObject temp =  GetActiveParticales(3,true);
+            GameObject temp =  GetActiveParticales(3,true);
             temp.transform.SetParent(transform);
             temp.transform.localPosition += new Vector3(0, 0, 1);
             temp.transform.SetParent(null);
             CanDie = true;
-             
-            EnemyGhostGraphics.AnimationManager(AnimationState.DamageDone,Cts.normal).Forget();
+
+
+      var collider = gameObject.GetComponent<Collider>();
+      if (collider != null)
+        collider.enabled = false;
+      else
+        GetComponentInChildren<Collider>().enabled = false;
+
+      EnemyGhostGraphics.AnimationManager(AnimationState.DamageDone,Cts.normal).Forget();
             EnemyGhostGraphics.UniTriggerAtSample(AnimationState.DamageDone, 40, Cts.master, true, () =>
         {
         MyBehavior = Behavior.Alert;
 
         lockOnDodgeEnemy.StartDodging();
-          
+          if (collider != null)
+            collider.enabled = true;
+          else
+            GetComponentInChildren<Collider>().enabled = false;
+
         }).Forget();
            
             return;
@@ -116,8 +127,8 @@ public class chonglib : Enemy
 
         EnemyGhostGraphics.AnimationManager(AnimationState.Die, Cts.master, () => {
 
-            
-            gameObject.SetActive(false);
+
+          Die();
         }
         , 80).Forget();
      

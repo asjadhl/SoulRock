@@ -77,7 +77,7 @@ public class Enemy : MonoBehaviour
     }
     public virtual void m_Update()
     { }
-    public virtual void Die()
+    public virtual void DieMethod()
     {
 
         
@@ -97,7 +97,10 @@ public class Enemy : MonoBehaviour
     Vector3 result = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
     return GameManager.instance.GetParticale(index, result);
   }
-
+  public void Die()
+  {
+    Destroy(gameObject);
+  }
   public void LookAt(Vector3 target)
   {
      target.y += offsetEyessight;
@@ -110,9 +113,9 @@ public class Enemy : MonoBehaviour
         var backward = -PlayerTransform.forward;
                           // Pf = 1 to -1
         float distance = Vector3.Dot(dir, backward);
-                                   //0*0+0*0-2*-1// 2 
-        if (distance >= 2f)
-            gameObject.SetActive(false);
+    //0*0+0*0-2*-1// 2 
+    if (distance >= 2f)
+      Die();
     }
 
     

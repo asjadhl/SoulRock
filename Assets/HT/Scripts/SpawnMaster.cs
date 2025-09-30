@@ -85,9 +85,11 @@ public class SpawnMaster : MonoBehaviour
 
   public   void OnEnable()
   {
-     
+      
+   
     if(areaSpawns != null)
     {
+      
       if (Save_areaSpawns != null)
       {
         for (int i = 0; i < Save_areaSpawns.Count; i++)
@@ -163,10 +165,21 @@ public class SpawnMaster : MonoBehaviour
 
         case AreaSpawn.SpawnOption.target:
           {
+            
             while (areaspawn.EntityList.Count > 0)
             {
               randomindex = Random.Range(0, areaspawn.EntityList.Count);
-              Instantiate(areaspawn.EntityList[randomindex].EntityObj, areaspawn.SpawnerPosition.transform.position, Quaternion.identity);
+              //
+              float angle = Random.Range(0f, Mathf.PI * 2f);
+              float distance = Mathf.Sqrt(Random.value) * areaspawn.radius;
+              float x = Mathf.Cos(angle) * distance;
+              float z = Mathf.Sin(angle) * distance;
+              spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x,
+                                      areaspawn.SpawnerPosition.transform.position.y,
+                                      areaspawn.SpawnerPosition.transform.position.z + z);
+              Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
+              //
+              //Instantiate(areaspawn.EntityList[randomindex].EntityObj, areaspawn.SpawnerPosition.transform.position, Quaternion.identity);
 
               areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
 
@@ -183,7 +196,7 @@ public class SpawnMaster : MonoBehaviour
 
     }
 
-
+    areaSpawns.Remove(areaSpawns[0]);
     IsSpawning = false;
   }
   public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
@@ -208,7 +221,7 @@ public class SpawnMaster : MonoBehaviour
       {
         IsSpawning = true;
         SpawnNow(areaSpawns[0], cts).Forget();
-        areaSpawns.Remove(areaSpawns[0]);
+        //areaSpawns.Remove(areaSpawns[0]);
 
       }
     }
@@ -222,7 +235,9 @@ public class SpawnMaster : MonoBehaviour
   public void OnDisable()
   {
     if (cts != null)
-    {
+    { 
+      areaSpawns.Clear();
+      IsSpawning = false;
       cts.Cancel();
       cts.Dispose();
     }

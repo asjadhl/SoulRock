@@ -168,7 +168,7 @@ public class Health: MonoBehaviour, IDamagable
                 Debug.Log($"IDying Component Don't Exist ON {gameObject.name}");
                 return;
             }
-               enemy.Die();
+               enemy.DieMethod();
 
         }
     }

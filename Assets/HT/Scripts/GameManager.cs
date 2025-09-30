@@ -107,31 +107,27 @@ public class GameManager : MonoBehaviour
                
             }
 
-      //-------------------------//
+     
        
       
        
         
       }
        
-      //-------------------------//
+ 
       instance = this;
 
         }
 
 
-  public void Update()
-  {
-    //Max = transform.GetChild(transform.childCount - 1);
-    //Min = transform.GetChild(transform.childCount - 2);
-  }
+
 
   
 
 
 
 }
-
+#if UNITY_EDITOR
 [UnityEditor.CustomEditor(typeof(GameManager))]
 public class ShowSize : UnityEditor.Editor
 {
@@ -159,3 +155,4 @@ public class ShowSize : UnityEditor.Editor
   }
 
 }
+#endif
