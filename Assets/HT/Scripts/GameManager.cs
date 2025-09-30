@@ -1,5 +1,5 @@
 using System.Collections.Generic;
- using UnityEngine;
+using UnityEngine;
 
 
 
@@ -44,20 +44,20 @@ public class GameManager : MonoBehaviour
   }
 
 
-      Vector3 Min;
-      Vector3 Max; 
+   public   Transform Min;
+   public   Transform Max; 
 
     public Vector3 Clamp(Vector3 current)
     {
      
     Vector3 result;
-    float xmin = Min.x;
+    float xmin = Min.localPosition.x;
    
-    float xmax = Max.x;
+    float xmax = Max.localPosition.x;
     
-    float ymin = Min.y;
+    float ymin = Min.localPosition.y;
   
-    float ymax = Max.y;
+    float ymax = Max.localPosition.y;
     
     result.x = Mathf.Clamp(current.x, xmin, xmax);
     
@@ -111,15 +111,51 @@ public class GameManager : MonoBehaviour
        
       
        
-        Max =  transform.GetChild(transform.childCount - 1).localPosition;
-        Min =  transform.GetChild(transform.childCount - 2).localPosition;
+        
       }
        
       //-------------------------//
       instance = this;
 
         }
+
+
+  public void Update()
+  {
+    //Max = transform.GetChild(transform.childCount - 1);
+    //Min = transform.GetChild(transform.childCount - 2);
+  }
+
+  
+
+
+
+}
+
+[UnityEditor.CustomEditor(typeof(GameManager))]
+public class ShowSize : UnityEditor.Editor
+{
+  void OnSceneGUI()
+  {
+    GameManager t = (GameManager)target;
+    
+    if(t != null)
+    {
+
+      Vector3 start = t.Min.localPosition;
+      Vector3 end = new Vector3(t.Max.localPosition.x, t.Min.localPosition.y, 0);
+
+      UnityEditor.Handles.color = Color.yellow;
+      UnityEditor.Handles.DrawLine(start, end);  
+      end = new Vector3(t.Min.localPosition.x, t.Max.localPosition.y, 0);
+      UnityEditor.Handles.DrawLine(start, end); 
+      start = new Vector3(t.Min.localPosition.x, t.Max.localPosition.y, 0);
+      end = t.Max.localPosition;
+      UnityEditor.Handles.DrawLine(start, end);
+      start = new Vector3(t.Max.localPosition.x, t.Min.localPosition.y, 0);
+      UnityEditor.Handles.DrawLine(start, end);
+
     }
+  }
 
-
- 
+}

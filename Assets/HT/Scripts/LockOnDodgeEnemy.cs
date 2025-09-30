@@ -18,9 +18,7 @@ public class LockOnDodgeEnemy : MonoBehaviour
     private bool isAllowedToDodge = true;
 
 
-   /// <summary>
-       bool IsChange=false;
-   /// </summary>
+    
  
     private void Start()
     {
@@ -55,8 +53,8 @@ public class LockOnDodgeEnemy : MonoBehaviour
              transform.position = Vector3.MoveTowards(transform.position, targetPosition, dodgeSpeed * Time.deltaTime);
 
          UpdateClamp();
-
-        if (Vector3.Distance(transform.position, targetPosition) < 0.02f)
+      transform.LookAt(player);
+      if (Vector3.Distance(transform.position, targetPosition) < 0.02f)
         {
                     transform.position = targetPosition;
                     dodging = false;
@@ -115,7 +113,8 @@ public class LockOnDodgeEnemy : MonoBehaviour
     targetPosition = new Vector3(xclamp, yclamp, targetPosition.z);
 
     targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-    transform.LookAt(targetPosition);
+    //transform.LookAt(targetPosition);
+      
         dodging = true;
         canDodge = false;
 
