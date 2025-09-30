@@ -5,9 +5,8 @@ public class RollTrap : MonoBehaviour
     public Transform roll;
     public Transform rollEmpty; // 문틀(부모)
 
-    public GameObject rollEntity;
     [Header("HP")]
-    public int maxHealth = 10;
+    public int maxHealth = 2;
     int currentHealth;
 
     [Header("Motion (Local)")]
@@ -21,6 +20,7 @@ public class RollTrap : MonoBehaviour
     float upLocalY;                     
     Vector3 rollLocal;                    
     Coroutine closeRoutine;
+    private RaycastHit hit;
 
     void Awake()
     {
@@ -68,7 +68,20 @@ public class RollTrap : MonoBehaviour
         if (closeRoutine != null) StopCoroutine(closeRoutine);
         closeRoutine = StartCoroutine(CloseDoorRoutine());
     }
+    public void OnHit()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 100f))
+        {
 
+            currentHealth--;
+            Debug.Log($"RollTrap hit by bullet! HP: {currentHealth}");
+            if (currentHealth <= 0)
+            {
+                roll.gameObject.SetActive(false);
+            }
+          
+        }
+    }
     System.Collections.IEnumerator CloseDoorRoutine()
     {
         // target: 닫힘 위치의 로컬 Y

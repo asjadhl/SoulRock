@@ -6,7 +6,7 @@ public class DoorTrap : MonoBehaviour
     public Transform door;      // 문(자식) ← 반드시 doorFrame의 자식으로 구성
 
     [Header("HP")]
-    public int maxHealth = 10;
+    public int maxHealth = 3;
     int currentHealth;
 
     [Header("Motion (Local)")]
@@ -81,21 +81,17 @@ public class DoorTrap : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet"))
-        {
-            TakeDamage(1);
-        }
-        else if (other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             currentHealth = 0;
-            TakeDamage(0);
+            OnHit();
             Debug.Log("플레이어가 문에 닿음!");
         }
     }
 
-    void TakeDamage(int amount)
+    public void OnHit()
     {
-        currentHealth -= amount;
+        currentHealth--;
         if (currentHealth <= 0 && door != null)
         {
             door.gameObject.SetActive(false); // 문만 비활성 (풀 재사용 시 OnEnable로 복구)

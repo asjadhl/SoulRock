@@ -21,7 +21,7 @@ public class CogwheelTrap : MonoBehaviour
     
 
 
-    public void OnRayCastHit()
+    public void OnHit()
     {
         currentHealth--;
         if (currentHealth <= 0)

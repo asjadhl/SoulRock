@@ -31,6 +31,10 @@ public class AxTrap : MonoBehaviour
     private float _prevAngle = 0f; // 이전 프레임의 각도 (degrees)
     private float _currentAmplitude; // 현재 감쇠 적용된 진폭
 
+    public int maxHealth = 3;   
+    int currentHealth;
+    RaycastHit hit;
+
     void Start()
     {
         _currentAmplitude = amplitude * initialAmplitudeMultiplier;
@@ -45,7 +49,22 @@ public class AxTrap : MonoBehaviour
             else Invoke(nameof(StartSwing), startDelay);
         }
     }
+    public void OnHit()
+    {
+        if (currentHealth <= 0)
+        {
+            // 문 파괴
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 100f))
+            {
+                currentHealth--;
+                if (currentHealth <= 0)
+                {
+                    this.gameObject.SetActive(false);
+                }
+            }
 
+        }
+    }
     void Update()
     {
         if (!isPlaying || (!Application.isPlaying && !autoStart)) return;

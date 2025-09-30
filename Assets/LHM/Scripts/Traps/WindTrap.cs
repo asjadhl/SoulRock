@@ -29,14 +29,6 @@ public class WindTrap : MonoBehaviour
     {
         trap.transform.Rotate(Vector3.right * rollSpeed * Time.deltaTime);
     }
-    public void closeWindOnHit()
-    {
-       currentHealth--;
-        if(currentHealth < 0)
-        {
-            closewind.SetActive(false);
-        }
-    }
  
     public void StopBox()
     {
