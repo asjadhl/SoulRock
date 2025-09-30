@@ -70,6 +70,7 @@ public class CardMove : MonoBehaviour
     private void ReturnOriPos()
     {
         transform.position = oriPos;
+        canMove = true;
         gameObject.SetActive(false);
     }
 
@@ -87,5 +88,6 @@ public class CardMove : MonoBehaviour
 
         DotBoxGeneratorL.Instance.getDamage = false;
         DotBoxGeneratorR.Instance.getDamage = false;
+
     }
 }

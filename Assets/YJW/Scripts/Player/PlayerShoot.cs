@@ -78,7 +78,7 @@ public class PlayerShoot : MonoBehaviour
                 //}
                 if (hit.collider.gameObject.tag == "Bullet3")
                     hit.collider.gameObject.GetComponent<BossUnderBullet>().ReturnSpawnPoint();
-                if (hit.collider.gameObject.tag == "Boss" && boss2.GetComponent<Stage2BossAttack>().curShape == Shape.D)
+                if (hit.collider.gameObject.tag == "Stage2Boss" && boss2.GetComponent<Stage2BossAttack>().curShape == Shape.D)
                 {
                     boss2.GetComponent<Stage2BossAttack>().playerHitCount++;
                 }

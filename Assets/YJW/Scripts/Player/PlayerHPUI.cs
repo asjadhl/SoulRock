@@ -1,23 +1,23 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHPUI : MonoBehaviour
 {
-    private PlayerHP playerHP;
+    [SerializeField] Image playerHPImage;
+    private PlayerHP playerHp;
 
-    [SerializeField] GameObject[] playerHPImage;
-    int playerCurrentHP;
-
-    void Start()
+    private void Start()
     {
-        playerHP = GetComponent<PlayerHP>();
-        playerCurrentHP = playerHP.playerHP;
+        playerHp = GetComponent<PlayerHP>();
     }
 
-    public void PlayerHPUIUpdate(int hp)
+    private void Update()
     {
-        for(; playerCurrentHP <= hp; playerCurrentHP--)
-        {
-            playerHPImage[playerCurrentHP].SetActive(false);
-        }
+        UpdatePlayerHPUI();
+    }
+
+    private void UpdatePlayerHPUI()
+    {
+        playerHPImage.fillAmount = (float)playerHp.playerHP / 10f;
     }
 }
