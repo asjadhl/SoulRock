@@ -1,19 +1,32 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CheckRealTime : MonoBehaviour
 {
-    static public double inGamerealTime = 0;
+	public static CheckRealTime Instance { get; private set; }
+	static public double inGamerealTime = 0;
 
     int plusTime = 0;
+    public double startTime;
 
-    // Update is called once per frame
-    void Update()
+	void Awake()
+	{
+		// ΩÃ±€≈Ê
+		if (Instance == null) Instance = this;
+		else if (Instance != this) Destroy(gameObject);
+	}
+	private void Start()
+	{
+        startTime = AudioSettings.dspTime;
+	}
+	// Update is called once per frame
+	void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             plusTime += 10;
         }
-        inGamerealTime = AudioSettings.dspTime - DotBoxGeneratorL.Instance.musicStartDspTime + plusTime;
+        inGamerealTime = AudioSettings.dspTime - startTime + plusTime;
         Debug.Log((int)inGamerealTime);
     }
 }

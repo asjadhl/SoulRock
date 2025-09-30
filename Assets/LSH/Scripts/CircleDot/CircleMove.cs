@@ -1,39 +1,36 @@
+using System.Transactions;
 using UnityEngine;
 
 public class CircleMove : MonoBehaviour
 {
-	[Header("스케일 이동 시간")]
+	public Transform hitRect;
 	[SerializeField] float smallDuration = 5f;
+	[SerializeField] Vector3 targetScale = Vector3.zero;
 
-	[Header("풀링용 설정")]
-	[SerializeField] Vector3 targetScale = Vector3.zero;  
-	public bool usePingPong = true;            
-
-	private Vector3 startScale;
+	public Vector3 startScale;
 	private double startTime;
+	private bool returned = false;
+	private CircleHit circleHit;
 
-	void Start()
+	public void Initialize(CircleHit hit)
 	{
-		startTime=CheckRealTime.inGamerealTime;
-		startScale = transform.localScale;
+		circleHit = hit;
+		startTime = CheckRealTime.inGamerealTime;
+		startScale = Vector3.one * hit.circleBig;
+		returned = false;
+		transform.localScale = startScale;
 	}
 
 	void Update()
 	{
-		double elapsed = CheckRealTime.inGamerealTime - startTime;
-		float t = Mathf.Clamp01((float)(elapsed / smallDuration));
-
-		if (usePingPong)
-		{
-			t = Mathf.PingPong(t, 1f);
-		}
-
+		float t = Mathf.Clamp01((float)((CheckRealTime.inGamerealTime - startTime) / smallDuration));
 		transform.localScale = Vector3.Lerp(startScale, targetScale, t);
 
-		if(t >= 1)
+		if (t >= 1f && !returned)
 		{
-			transform.localScale = startScale;
-			startTime = CheckRealTime.inGamerealTime; 
+			circleHit.combo = 0;
+			returned = true;
+			circleHit.ReturnCircle(this.gameObject);
 		}
 	}
 }

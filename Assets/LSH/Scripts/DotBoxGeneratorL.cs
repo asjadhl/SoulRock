@@ -5,7 +5,7 @@ public class DotBoxGeneratorL : MonoBehaviour
 {
     public static DotBoxGeneratorL Instance { get; private set; }
 
-    [Header("도트박스 프리팹")]
+    [Header("도트박스 프리팹 과르디올라")]
     [SerializeField] GameObject dotboxPrefabL;
     [Header("BPM (박자 속도)")]
     public double bpm = 120.0;

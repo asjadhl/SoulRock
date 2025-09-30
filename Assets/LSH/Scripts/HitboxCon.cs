@@ -28,20 +28,21 @@ public class HitBoxCon: MonoBehaviour
     public bool test = false;
     AudioSource a;
     [SerializeField] AudioClip clip;
-    [SerializeField] GameObject player;
+    [SerializeField] PlayerShoot player;
 
 
 
     private void Start()
     {
-        int[] colorValue = new int[4];
         //color = new Color(colorValue[0], colorValue[1], colorValue[2], colorValue[3]);
         a = GetComponent<AudioSource>();
         for(int i = 0; i <comboImage.Length; i++)
         {
             comboImage[i].SetActive(false);
         }
-    }
+        player = FindAnyObjectByType<PlayerShoot>();
+
+	}
 
     private void Update()
     {
@@ -77,11 +78,11 @@ public class HitBoxCon: MonoBehaviour
     }
 
 
-    private void OnClickSuccess()
+    public void OnClickSuccess()
     {
         combo++;
         a.PlayOneShot(clip);
-        player.GetComponent<PlayerShoot>().PlayerShoot_();
+        player.PlayerShoot_();
         //Debug.Log("클릭성공!");
         // 클릭 성공 시 처리할 로직
         // 예: 좌/우 도트 비활성화, 점수 증가 등

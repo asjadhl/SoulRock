@@ -31,7 +31,7 @@ public class Stage3Boss : MonoBehaviour
     //lazer 전용 풀 인덱스
     int poolIndex = 0;
     //lazerBall 전용 풀 인덱스
-    int poolBall = 0;
+    //int poolBall = 0;
     int poolBigLazer = 0;
     bool isAttacking = false;
 
