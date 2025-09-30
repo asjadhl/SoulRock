@@ -1172,6 +1172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9582c20882b94a74d99591e7e8d8b66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHP: 10
 --- !u!114 &829136400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2292,7 +2293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf8adb9c79915147a53fe480095fa76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStage: 1
+  currentStage: 2
   stages:
   - normalTag: Satge1Normal
     trapTags:
