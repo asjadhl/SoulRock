@@ -1063,16 +1063,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pools:
   - tag: Satge1Normal
-    prefab: {fileID: 7542521908823177448, guid: 6411294761ac9344496bcc9c395df5f0, type: 3}
-    size: 10
-  - tag: Stage1Roll
-    prefab: {fileID: 4125431299234610548, guid: d51523035f9a45e4cbdf64bddac5815f, type: 3}
+    prefab: {fileID: 6718177031995156282, guid: 6411294761ac9344496bcc9c395df5f0, type: 3}
     size: 10
   - tag: Stage1RollTrap
-    prefab: {fileID: 4125431299234610548, guid: d51523035f9a45e4cbdf64bddac5815f, type: 3}
+    prefab: {fileID: 5095985224834087289, guid: d51523035f9a45e4cbdf64bddac5815f, type: 3}
     size: 10
   - tag: Stage1Hammer
-    prefab: {fileID: 7351765833074283170, guid: f8c981456b79d26418ef839a05ec4ece, type: 3}
+    prefab: {fileID: 3569237132839760772, guid: f8c981456b79d26418ef839a05ec4ece, type: 3}
     size: 10
   - tag: Stage2Normal
     prefab: {fileID: 9208068875294112038, guid: 5985dfac8b8bf9847a59a22701cdd773, type: 3}
@@ -1096,7 +1093,7 @@ MonoBehaviour:
     prefab: {fileID: 8500984683118295021, guid: 5a3a6ee8040c6d34db53e77301d4af5b, type: 3}
     size: 10
   - tag: Stage1Boss
-    prefab: {fileID: 7542521908823177448, guid: 6411294761ac9344496bcc9c395df5f0, type: 3}
+    prefab: {fileID: 6718177031995156282, guid: 6411294761ac9344496bcc9c395df5f0, type: 3}
     size: 10
   - tag: Stage2Boss
     prefab: {fileID: 9208068875294112038, guid: 5985dfac8b8bf9847a59a22701cdd773, type: 3}
@@ -2293,29 +2290,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf8adb9c79915147a53fe480095fa76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStage: 2
+  currentStage: 1
   stages:
   - normalTag: Satge1Normal
     trapTags:
     - Stage1RollTrap
     - Stage1Hammer
-    trapChance: 0.301
+    trapChance: 1
+    corridorLength: 88.5
   - normalTag: Stage1Boss
     trapTags: []
     trapChance: 0
+    corridorLength: 88.5
   - normalTag: Stage2Normal
     trapTags:
     - Stage2Empty
-    trapChance: 0.425
+    trapChance: 0
+    corridorLength: 88.5
   - normalTag: Stage2Boss
     trapTags: []
     trapChance: 0
+    corridorLength: 88.5
   - normalTag: Stage3Normal
     trapTags: []
     trapChance: 0
+    corridorLength: 88.5
   - normalTag: Stage3Boss
     trapTags: []
     trapChance: 0
+    corridorLength: 88.5
   corridorCount: 4
   corridorLength: 88.5
   corridorWidth: 60
@@ -2352,7 +2355,7 @@ MonoBehaviour:
   bossPrefab:
   - {fileID: 0}
   bossSpawnerTag: Boss
-  corridorSpawner: {fileID: 0}
+  corridorSpawner: {fileID: 1721651273}
 --- !u!1 &1981819231
 GameObject:
   m_ObjectHideFlags: 0

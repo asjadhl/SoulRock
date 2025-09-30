@@ -6121,11 +6121,11 @@ GameObject:
   - component: {fileID: 4390532818346405899}
   - component: {fileID: 2764071900828643144}
   - component: {fileID: 636649327827175177}
-  - component: {fileID: 4514486230320199741}
   - component: {fileID: 7168193406541108101}
+  - component: {fileID: 6924796777602812469}
   m_Layer: 0
   m_Name: SM_Trap_Swing_Blade_01
-  m_TagString: Untagged
+  m_TagString: CloseTrap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6198,28 +6198,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4514486230320199741
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104848881319058271}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43666171727871236, guid: 1f23a948b9701e14f8283dd058acb335, type: 2}
 --- !u!114 &7168193406541108101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6243,6 +6221,28 @@ MonoBehaviour:
   initialAmplitudeMultiplier: 1
   initialPhase: 0
   isPlaying: 0
+  maxHealth: 2
+--- !u!65 &6924796777602812469
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104848881319058271}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.1172173, y: 4.5499015, z: 0.32458997}
+  m_Center: {x: 0, y: -2.132096, z: -0.00000011920929}
 --- !u!1 &2109892354054359890
 GameObject:
   m_ObjectHideFlags: 0

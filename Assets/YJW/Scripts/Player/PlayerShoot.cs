@@ -53,29 +53,47 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<MatarialAlpha>().mirrorRotate();
                 }
-                //if (hit.collider.CompareTag("CloseTrap") || hit.collider.transform.root.CompareTag("CloseTrap"))
-                //{
-                //    var pressTrap = hit.collider.GetComponentInParent<PressTrap>();
-                //    if (pressTrap != null)
-                //    {
-                //        pressTrap.OnHit();
-                //    }
-                //    hit.collider.GetComponentInParent<WindTrap>()?.closeWindOnHit();
-                //    hit.collider.GetComponentInParent<LazerTrap>();
-                //    hit.collider.GetComponentInParent<DoorTrap>();
-                //    hit.collider.GetComponentInParent<RollTrap>();
-                //    hit.collider.GetComponentInParent<AxTrap>();
-                //    hit.collider.GetComponentInParent<CogwheelTrap>();
-                //}
-                //if (hit.collider.gameObject.tag == "OpenTrap")
-                //{
-                //    hit.collider.gameObject.GetComponent<WindTrap>();
-                //    hit.collider.gameObject.GetComponent<LazerTrap>();
-                //}
-                //if (hit.collider.gameObject.tag == "TriggerTrap")
-                //{
-                //    hit.collider.gameObject.GetComponent<WindHitBox>().OnHit();
-                //}
+                if (hit.collider.CompareTag("CloseTrap") || hit.collider.transform.root.CompareTag("CloseTrap"))
+                {
+                    var pressTrap = hit.collider.GetComponentInParent<PressTrap>();
+                    if (pressTrap != null)
+                    {
+                        pressTrap.OnHit();
+                    }
+                    var lazertrap = hit.collider.GetComponentInParent<LazerTrap>();
+                    if (lazertrap != null)
+                    {
+                        lazertrap.OnHit();
+                    }
+                    var rolltrap = hit.collider.GetComponentInParent<RollTrap>();
+                    if (rolltrap != null)
+                    {
+                        rolltrap.OnHit();
+                    }
+                    var axtrap = hit.collider.GetComponentInParent<AxTrap>();
+                    if (axtrap != null)
+                    {
+                        axtrap.OnHit();
+                    }
+                    var cogwheeltrap = hit.collider.GetComponentInParent<CogwheelTrap>();
+                    if (cogwheeltrap != null)
+                    {
+                        cogwheeltrap.OnHit();
+                    }
+                }
+                if (hit.collider.gameObject.tag == "TriggerTrap")
+                {
+                    var windhitbox = hit.collider.gameObject.GetComponent<WindHitBox>();
+                    if (windhitbox != null)
+                    {
+                        windhitbox.OnHit();
+                    }
+                    var doortrap = hit.collider.GetComponentInParent<DoorTrap>();
+                    if (doortrap != null)
+                    {
+                        doortrap.OnHit();
+                    }
+                }
                 if (hit.collider.gameObject.tag == "Bullet3")
                     hit.collider.gameObject.GetComponent<BossUnderBullet>().ReturnSpawnPoint();
                 if (hit.collider.gameObject.tag == "Stage2Boss" && boss2.GetComponent<Stage2BossAttack>().curShape == Shape.D)

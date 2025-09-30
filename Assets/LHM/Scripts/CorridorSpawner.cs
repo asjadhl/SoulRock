@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+
 public class StageInfo
 {
-    public string normalTag;        // 일반 맵 태그
-    public List<string> trapTags;   // 트랩 맵 태그들
-    [Range(0f, 1f)]
-    public float trapChance;        // 트랩 나올 확률 (0~1)
+    public string normalTag;
+    public List<string> trapTags;
+    [Range(0f, 1f)] public float trapChance;
+    public float corridorLength = 88.5f; // 각 스테이지 길이
 }
 
 public class CorridorSpawner : MonoBehaviour
@@ -18,6 +19,7 @@ public class CorridorSpawner : MonoBehaviour
     public List<StageInfo> stages;         // Stage별 정보 (인스펙터에서 설정)
 
     private int oldstage = 1;
+    private int oldstage2 = 2;
     private string oldTag;
     [Header("Corridor 설정")]
     public int corridorCount = 5;          // 유지할 복도 개수
@@ -75,32 +77,21 @@ public class CorridorSpawner : MonoBehaviour
             GameObject last = null;
             foreach (var c in corridors) last = c;
 
-            Vector3 newPos = last.transform.position + new Vector3(0, 0, corridorLength);
+            // 마지막 복도의 실제 길이를 자동 계산
+            float lastLength = GetPrefabLength(last);
+
+            // 새 복도 위치 = 마지막 복도 끝점
+            Vector3 newPos = last.transform.position + new Vector3(0, 0, lastLength);
+
+            // 스테이지 변경 체크
+            if (oldstage != currentStage)
+                oldstage = currentStage;
+
+            // 스테이지별 태그 가져오기
             string tag = GetStageCorridorTag();
 
-            Vector3 newPos1 = last.transform.position + new Vector3(0, 0, corridorLength - 88.5f);
-            //스테이지 변경시
-            if (oldstage == 1 && currentStage == 2)
-            {
-                newPos = last.transform.position + new Vector3(0, 0, corridorLength - 88.5f);
-        
-                 GameObject newCorridor1 = PoolingManager.Instance.SpawnFromPool(
-                    tag,
-                    newPos,
-                    Quaternion.identity
-                );
-                oldstage = currentStage;
-                corridors.Enqueue(newCorridor1);
-            }
-            
             GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(
                 tag,
-                newPos,
-                Quaternion.identity
-            );
-            
-            GameObject mosterSpawner = PoolingManager.Instance.SpawnFromPool(
-                mosterSpawnerTag,
                 newPos,
                 Quaternion.identity
             );
@@ -108,6 +99,17 @@ public class CorridorSpawner : MonoBehaviour
             corridors.Enqueue(newCorridor);
         }
     }
+
+    // 프리팹의 실제 길이 계산
+    float GetPrefabLength(GameObject obj)
+    {
+        Renderer rend = obj.GetComponentInChildren<Renderer>();
+        if (rend != null)
+            return rend.bounds.size.z;
+
+        return corridorLength; // 기본값 fallback
+    }
+
 
     // 현재 스테이지에 맞는 프리펩 태그 선택
     string GetStageCorridorTag()
