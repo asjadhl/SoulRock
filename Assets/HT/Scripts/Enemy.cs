@@ -112,10 +112,7 @@ public class Enemy : MonoBehaviour
     {
       damagable?.TakeHit(m_damage);
     }
-    else
-    {
-      Debug.Log($"PlayerTransform.name: {PlayerTransform.name}");
-    }
+     
   }
   public void LookAt(Vector3 target)
   {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine; 
 using Cysharp.Threading.Tasks;
 using System.Threading;
-using Unity.VisualScripting;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -32,9 +32,11 @@ public class AreaSpawn
 
   [Range(0f, 10f)] public float arcHeight = 2f;
   public Transform Scanner;
+  public float ScannerRadius;
+  public float SpawnRadius;
   [Range(0f, 10f)]
   public float SpawnRate;
-  public float radius;
+ 
   public GameObject SpawnerPosition;
   public List<Entity> EntityList;
 
@@ -44,7 +46,7 @@ public class AreaSpawn
     a.arcHeight = b.arcHeight;
     a.Scanner = b.Scanner;
     a.SpawnRate = b.SpawnRate;
-    a.radius = b.radius;
+    a.ScannerRadius = b.ScannerRadius;
     a.SpawnerPosition = b.SpawnerPosition;
     a.EntityList = new();
     for (int i = 0; i < b.EntityList.Count; i++)
@@ -143,7 +145,7 @@ public class SpawnManager : MonoBehaviour
           {
             randomindex = Random.Range(0, areaspawn.EntityList.Count);
             float angle = Random.Range(0f, Mathf.PI * 2f);
-            float distance = Mathf.Sqrt(Random.value) * areaspawn.radius;
+            float distance = Mathf.Sqrt(Random.value) * areaspawn.SpawnRadius;
             float x = Mathf.Cos(angle) * distance;
             float z = Mathf.Sin(angle) * distance;
             spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x,
@@ -151,8 +153,9 @@ public class SpawnManager : MonoBehaviour
                                     areaspawn.SpawnerPosition.transform.position.z + z);
             Instantiate(areaspawn.EntityList[0].EntityObj, spawnPos, Quaternion.identity);
 
-            areaspawn.EntityList[0].EntitySpawnCount--;
-            if (areaspawn.EntityList[0].EntitySpawnCount <= 0)
+            areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
+
+            if (areaspawn.EntityList[randomindex].EntitySpawnCount <= 0)
               areaspawn.EntityList.Remove(areaspawn.EntityList[randomindex]);
 
             await UniTask.WaitForSeconds(areaspawn.SpawnRate, cancellationToken: cts.Token);
@@ -168,7 +171,7 @@ public class SpawnManager : MonoBehaviour
               randomindex = Random.Range(0, areaspawn.EntityList.Count);
               //
               float angle = Random.Range(0f, Mathf.PI * 2f);
-              float distance = Mathf.Sqrt(Random.value) * areaspawn.radius;
+              float distance = Mathf.Sqrt(Random.value) * areaspawn.SpawnRadius;
               float x = Mathf.Cos(angle) * distance;
               float z = Mathf.Sin(angle) * distance;
               spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x,
@@ -214,7 +217,7 @@ public class SpawnManager : MonoBehaviour
 
       if (IsInsideCircle(m_targetTransform.position,
         areaSpawns[0].spawnoption == AreaSpawn.SpawnOption.random ? areaSpawns[0].SpawnerPosition.transform.position : areaSpawns[0].Scanner.transform.position
-        , areaSpawns[0].radius))
+        , areaSpawns[0].spawnoption == AreaSpawn.SpawnOption.random ? areaSpawns[0].SpawnRadius : areaSpawns[0].ScannerRadius))
       {
         IsSpawning = true;
         SpawnNow(areaSpawns[0], cts).Forget();
@@ -307,8 +310,8 @@ public class ShowScanners : Editor
         if (t.areaSpawns[i].SpawnerPosition == null)
           continue;
 
-        UnityEditor.Handles.color = Color.cyan;
-        UnityEditor.Handles.DrawWireDisc(t.areaSpawns[i].SpawnerPosition.transform.position, Vector3.up, t.areaSpawns[i].radius);
+        UnityEditor.Handles.color = Color.yellow;
+        UnityEditor.Handles.DrawWireDisc(t.areaSpawns[i].SpawnerPosition.transform.position, Vector3.up, t.areaSpawns[i].SpawnRadius);
         UnityEditor.Handles.Label(t.areaSpawns[i].SpawnerPosition.transform.position + Vector3.up * 0.5f, $"SpawnPosition[{i}]");
       }
       else
@@ -330,12 +333,14 @@ public class ShowScanners : Editor
         mid.y += 7f;
 
         // Determine color based on index
-        Color arrowColor = Color.HSVToRGB(0.6f, 1f, 1f);
+         
+
+        UnityEditor.Handles.color = Color.yellow;
+        UnityEditor.Handles.DrawWireDisc(start, Vector3.up, t.areaSpawns[i].SpawnRadius);
 
 
-
-
-        UnityEditor.Handles.DrawBezier(start, end, mid, mid, arrowColor, null, 1f);
+     
+        UnityEditor.Handles.DrawBezier(start, end, mid, mid, Color.green, null, 1f);
 
 
 
@@ -344,7 +349,7 @@ public class ShowScanners : Editor
 
         UnityEditor.Handles.color = Color.cyan;
 
-        UnityEditor.Handles.DrawWireDisc(end, Vector3.up, t.areaSpawns[i].radius);
+        UnityEditor.Handles.DrawWireDisc(end, Vector3.up, t.areaSpawns[i].ScannerRadius);
         UnityEditor.Handles.Label(start + Vector3.up * 0.5f, $"SpawnPosition[{i}]");
 
       }
@@ -385,14 +390,28 @@ public class AreaSpawnDrawer : PropertyDrawer
       Rect targetRect = new Rect(position.x, y, position.width, lineHeight);
       EditorGUI.PropertyField(targetRect, targetProp);
       y += lineHeight + spacing;
+      //Optional
+      targetProp = property.FindPropertyRelative("SpawnRadius");
+      targetRect = new Rect(position.x, y, position.width, lineHeight);
+      EditorGUI.PropertyField(targetRect, targetProp);
+      y += lineHeight + spacing;
 
-
+      targetProp = property.FindPropertyRelative("ScannerRadius");
+      targetRect = new Rect(position.x, y, position.width, lineHeight);
+      EditorGUI.PropertyField(targetRect, targetProp);
+      y += lineHeight + spacing;
+    }
+    else if ((AreaSpawn.SpawnOption)spawnOptionProp.enumValueIndex == AreaSpawn.SpawnOption.random)
+    {
+      SerializedProperty targetProp = property.FindPropertyRelative("SpawnRadius");
+      Rect targetRect = new Rect(position.x, y, position.width, lineHeight);
+      EditorGUI.PropertyField(targetRect, targetProp);
+      y += lineHeight + spacing;
     }
 
+      // Draw remaining fields
 
-
-    // Draw remaining fields
-    string[] otherFields = { "SpawnRate", "radius", "SpawnerPosition", "EntityList" };
+      string[] otherFields = {"SpawnRate", "SpawnerPosition", "EntityList" };
     foreach (string fieldName in otherFields)
     {
       SerializedProperty prop = property.FindPropertyRelative(fieldName);
@@ -412,16 +431,24 @@ public class AreaSpawnDrawer : PropertyDrawer
   public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
   {
     float lineHeight = EditorGUIUtility.singleLineHeight;
-    float spacing = 2f;
-    float height = lineHeight + spacing; // for spawnoption
+    float spacing = 0f;
 
     SerializedProperty spawnOptionProp = property.FindPropertyRelative("spawnoption");
+
+    if ((AreaSpawn.SpawnOption)spawnOptionProp.enumValueIndex == AreaSpawn.SpawnOption.random)
+      spacing = 7f;
+    else if ((AreaSpawn.SpawnOption)spawnOptionProp.enumValueIndex == AreaSpawn.SpawnOption.target)
+      spacing = 10f;
+
+    float height = lineHeight + spacing; // for spawnoption
+
+    
 
     if ((AreaSpawn.SpawnOption)spawnOptionProp.enumValueIndex == AreaSpawn.SpawnOption.target)
       height += lineHeight + spacing; // for Scanner
 
     // Add remaining fields
-    string[] otherFields = { "SpawnRate", "radius", "SpawnerPosition", "EntityList" };
+    string[] otherFields = {"SpawnRate", "SpawnerPosition", "EntityList" };
     foreach (string fieldName in otherFields)
     {
       SerializedProperty prop = property.FindPropertyRelative(fieldName);

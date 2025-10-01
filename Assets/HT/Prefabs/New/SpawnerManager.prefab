@@ -104,23 +104,15 @@ MonoBehaviour:
   - spawnoption: 1
     arcHeight: 0
     Scanner: {fileID: 0}
-    SpawnRate: 2
-    radius: 2
+    ScannerRadius: 6.49
+    SpawnRadius: 13.5
+    SpawnRate: 0.5
     SpawnerPosition: {fileID: 0}
     EntityList:
     - EntityObj: {fileID: 5091808336580822755, guid: 2ac10d2aae543124aad0281eda734cdb, type: 3}
       EntitySpawnCount: 5
-    - EntityObj: {fileID: 5091808336580822755, guid: 5d37cb984d3306e4ea5123b4bb25268f, type: 3}
-      EntitySpawnCount: 5
-  - spawnoption: 1
-    arcHeight: 0
-    Scanner: {fileID: 0}
-    SpawnRate: 2
-    radius: 2
-    SpawnerPosition: {fileID: 0}
-    EntityList:
     - EntityObj: {fileID: 5091808336580822755, guid: 2ac10d2aae543124aad0281eda734cdb, type: 3}
       EntitySpawnCount: 5
-    - EntityObj: {fileID: 5091808336580822755, guid: 5d37cb984d3306e4ea5123b4bb25268f, type: 3}
+    - EntityObj: {fileID: 5091808336580822755, guid: 2ac10d2aae543124aad0281eda734cdb, type: 3}
       EntitySpawnCount: 5
   selectedTag: Player
