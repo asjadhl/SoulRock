@@ -49,21 +49,7 @@ public class Health: MonoBehaviour, IDamagable
 
     [SerializeField] float m_time = 1;
     [SerializeField] float m_duration = 1.2f;
-
-    
-
- 
-
     #endregion
-
-
-    
-
-
-
-
-    
-
 
 
     #region Initialize

@@ -11,7 +11,7 @@ public enum AnimationState
 {
     Underground, Spawn, Idle, Forward, Attack, Die, DamageDone, Null
 }
-public class EnemyGhostGraphics : MonoBehaviour
+public class EnemyGraphics : MonoBehaviour
 {
     [Header("Animation")]
     [SerializeField]

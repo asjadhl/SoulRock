@@ -65,11 +65,9 @@ public class chonglib : Enemy
 
                     EnemyGhostGraphics.AnimationManager(AnimationState.Attack, Cts.normal, () =>
                     {
-                        //Attack
-                        if (PlayerTransform.TryGetComponent<IDamagable>(out var damagable))
-                        {
-                            damagable?.TakeHit(m_damage);
-                        }
+                      //Attack
+                      Attack();
+                        
                       //BYEBYE
 
                       GetActiveParticales(2).transform.SetParent(PlayerTransform);
@@ -83,7 +81,7 @@ public class chonglib : Enemy
 
     public override void DieMethod()
     {
-        if (!CanDie)
+     if (!CanDie)
         {
       LookAt(PlayerTransform.position);
             GameObject temp =  GetActiveParticales(3,true);
@@ -102,6 +100,8 @@ public class chonglib : Enemy
       EnemyGhostGraphics.AnimationManager(AnimationState.DamageDone,Cts.normal).Forget();
             EnemyGhostGraphics.UniTriggerAtSample(AnimationState.DamageDone, 40, Cts.master, true, () =>
         {
+
+          
         MyBehavior = Behavior.Alert;
 
         lockOnDodgeEnemy.StartDodging();
@@ -114,7 +114,7 @@ public class chonglib : Enemy
            
             return;
 
-        }
+     }
         lockOnDodgeEnemy.StopDodging();
         MyBehavior = Behavior.Null;
         transform.SetParent(null);
@@ -162,11 +162,11 @@ public class chonglib : Enemy
 
         var collider = gameObject.GetComponent<Collider>();
             if(collider != null)
-                 collider.enabled = true;
+               collider.enabled = true;
             else
               GetComponentInChildren<Collider>().enabled = false;
 
-        EnemyGhostGraphics = GetComponent<EnemyGhostGraphics>();
+        EnemyGhostGraphics = GetComponent<EnemyGraphics>();
         EnemyGhostGraphics.ResetNow();
          
     }
