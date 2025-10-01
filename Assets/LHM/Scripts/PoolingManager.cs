@@ -16,11 +16,14 @@ public class PoolingManager : MonoBehaviour
     public List<Pool> pools;
     private Dictionary<string, Queue<GameObject>> poolDictionary;
 
-    void Start()
+    private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
 
+    void Start()
+    {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
         foreach (Pool pool in pools)
