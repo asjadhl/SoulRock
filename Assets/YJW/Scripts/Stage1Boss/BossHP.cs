@@ -6,7 +6,6 @@ public class BossHP : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(bossHP);
         BossDie();
     }
 

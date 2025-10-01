@@ -44,9 +44,9 @@ public class Stage3Boss : MonoBehaviour
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
         mirror.SetActive(false);
-		//ranIndex = Random.Range(0, 4);
-		ranIndex = 2;
-	}
+        ranIndex = Random.Range(0, 3);
+        //ranIndex = 2;
+    }
 
 
 
@@ -65,13 +65,13 @@ public class Stage3Boss : MonoBehaviour
     {
         lazerBallPool = new GameObject[7];
         thisPos = new Vector3[7];
-        thisPos[0] =  new Vector3(-5f , 4f, transform.position.z);
-        thisPos[1] = new Vector3(5f, 4f, transform.position.z);
-        thisPos[2] = new Vector3(-4f, 6f, transform.position.z);
-        thisPos[3] = new Vector3(4f, 6f, transform.position.z);
-        thisPos[4] = new Vector3(2f, 8f, transform.position.z);
-        thisPos[5] = new Vector3(-2f, 8f, transform.position.z);
-        thisPos[6] = new Vector3(0, 8.5f, transform.position.z);
+        thisPos[0] =  new Vector3(-5f , 6f, transform.position.z);
+        thisPos[1] = new Vector3(5f, 6f, transform.position.z);
+        thisPos[2] = new Vector3(-4f, 8f, transform.position.z);
+        thisPos[3] = new Vector3(4f, 8f, transform.position.z);
+        thisPos[4] = new Vector3(2f, 10f, transform.position.z);
+        thisPos[5] = new Vector3(-2f, 10f, transform.position.z);
+        thisPos[6] = new Vector3(0, 10.5f, transform.position.z);
         for (int i = 0; i<lazerBallPool.Length; i++)
         {
             GameObject lazerBallAttack = Instantiate(lazerBall, thisPos[i], Quaternion.identity);
@@ -107,17 +107,17 @@ public class Stage3Boss : MonoBehaviour
             case 0:
                 Debug.Log("레이저");
                 _ = ChargeLazerAttack();
-                //ranIndex = Random.Range(0, 3);
+                ranIndex = Random.Range(0, 3);
                 break;
             case 1:
                 Debug.Log("레이저볼");
                 _ = secondPattern();
-                //ranIndex = Random.Range(0, 3);
+                ranIndex = Random.Range(0, 3);
                 break;
             case 2:
                 Debug.Log("빅레이저");
                 _ = ThirdPattern();
-                //ranIndex = Random.Range(0, 3);
+                ranIndex = Random.Range(0, 3);
                 break;
         }
     }
@@ -138,7 +138,7 @@ public class Stage3Boss : MonoBehaviour
     private async UniTask LazerAttack()
     {
         chargeLazer.SetActive(false);
-        lazerPool[poolIndex].transform.position = transform.position;
+        lazerPool[poolIndex].transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
         lazerPool[poolIndex].SetActive(true);
         await UniTask.Delay(3000);
         ReturnLazer(lazerPool[poolIndex]);

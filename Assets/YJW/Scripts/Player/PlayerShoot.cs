@@ -53,7 +53,12 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<MatarialAlpha>().mirrorRotate();
                 }
-                if (hit.collider.CompareTag("CloseTrap") || hit.collider.transform.root.CompareTag("CloseTrap"))
+
+				if (hit.collider.gameObject.tag == "LazerBall")
+				{
+                    hit.collider.gameObject.SetActive(false);
+				}
+				if (hit.collider.CompareTag("CloseTrap") || hit.collider.transform.root.CompareTag("CloseTrap"))
                 {
                     var pressTrap = hit.collider.GetComponentInParent<PressTrap>();
                     if (pressTrap != null)
@@ -120,6 +125,7 @@ public class PlayerShoot : MonoBehaviour
                     boss2.GetComponent<Stage2BossAttack>().reMiniHMinus();
                     hit.collider.gameObject.GetComponent<MiniBoss>().ReturnOriPos();
                 }
+
             }
 
 

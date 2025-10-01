@@ -54,7 +54,6 @@ public class LazerBall : MonoBehaviour
         transform.LookAt(player.position);
         transform.Translate(Vector3.forward * lazerBallspeed * Time.fixedDeltaTime);
     }
-
     private void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Player"))
