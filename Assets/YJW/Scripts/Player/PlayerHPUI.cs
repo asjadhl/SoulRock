@@ -1,8 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHPUI : MonoBehaviour
 {
+
     [SerializeField] Image playerHPImage;
     private PlayerHP playerHp;
 

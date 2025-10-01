@@ -127,6 +127,7 @@ public class Stage2BossAttack : MonoBehaviour
 
     private async void HAttack()
     {
+        await UniTask.Delay(500);
         reMiniH = clubStack;
         for(int i = 0; i < clubStack + 4; i++)
         {

@@ -141,9 +141,6 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.GetComponentInChildren<IDamagable>()?.TakeHit(8);
                 }
-
-
-
             }
         }
     }
