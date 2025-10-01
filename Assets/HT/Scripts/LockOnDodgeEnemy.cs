@@ -64,29 +64,7 @@ public class LockOnDodgeEnemy : MonoBehaviour
      }
         
     }
-  //private void Update() // Old
-  //{
-  //  if (!isAllowedToDodge) return;
-
-  //  if (dodging)
-  //  {
-  //    //Smoothly move toward target position
-  //    transform.position = Vector3.MoveTowards(transform.position, targetPosition, dodgeSpeed * Time.deltaTime);
-  //    float width = Screen.width;
-  //    float height = Screen.height;
-  //    //Clamp ScreenWorld
-  //    Vector3 newresult = Camera.main.WorldToScreenPoint(transform.position);
-  //    float xclamp = Mathf.Clamp(newresult.x, width / 100f * 10, width / 100f * 90);
-  //    float yclamp = Mathf.Clamp(newresult.y, height / 100f * 10, height / 100f * 70);
-  //    transform.position = Camera.main.ScreenToWorldPoint(newresult);
-  //    if (Vector3.Distance(transform.position, targetPosition) < 0.02f)
-  //    {
-  //      transform.position = targetPosition;
-  //      dodging = false;
-  //      Rest().Forget();
-  //    }
-  //  }
-  //}
+     
   public void TriggerDodge()
     {
         if (!canDodge || !isAllowedToDodge) return;

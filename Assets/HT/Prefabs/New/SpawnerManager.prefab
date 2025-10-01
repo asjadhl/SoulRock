@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5088159201429839828}
   - component: {fileID: 3838287493964051684}
   - component: {fileID: 2242788962034659941}
-  - component: {fileID: 818699174963881236}
   - component: {fileID: 4412068144017469505}
   m_Layer: 0
   m_Name: SpawnerManager
@@ -88,27 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &818699174963881236
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8594118327721097176}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4412068144017469505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,8 +99,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59041240637f4e040905346393b967e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_currentPlayerTransform: {fileID: 0}
+  m_targetTransform: {fileID: 0}
   areaSpawns:
+  - spawnoption: 1
+    arcHeight: 0
+    Scanner: {fileID: 0}
+    SpawnRate: 2
+    radius: 2
+    SpawnerPosition: {fileID: 0}
+    EntityList:
+    - EntityObj: {fileID: 5091808336580822755, guid: 2ac10d2aae543124aad0281eda734cdb, type: 3}
+      EntitySpawnCount: 5
+    - EntityObj: {fileID: 5091808336580822755, guid: 5d37cb984d3306e4ea5123b4bb25268f, type: 3}
+      EntitySpawnCount: 5
   - spawnoption: 1
     arcHeight: 0
     Scanner: {fileID: 0}

@@ -1,3 +1,5 @@
+
+
 //using UnityEngine;
 //using UnityEditor;
 //using System.Collections;
@@ -79,15 +81,15 @@ public class test : MonoBehaviour
   public void Start()
     {
        
-    Instantiate(tar);
+     
 
     }
 
     public void Update()
     {
-     
-        
-    }
+    Debug.Log($"Screen.width: {Screen.width}");
+    Debug.Log($"Screen.height: {Screen.height}");
+  }
 
 }
 

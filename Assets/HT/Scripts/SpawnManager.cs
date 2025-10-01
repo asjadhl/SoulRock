@@ -56,12 +56,12 @@ public class AreaSpawn
 
 }
 
-public class SpawnMaster : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
 
-  [Header("SpawnMaster(0.v2)")]
+  [Header("SpawnManager(0.v5)")]
   [SerializeField]
-  Transform m_currentPlayerTransform;
+  Transform m_targetTransform;
 
 
   [Space(5)]
@@ -102,16 +102,13 @@ public class SpawnMaster : MonoBehaviour
       }
     }
     cts = new();
-
-   
-    
-     
   }
 
   
   private void Start()
   {
-    m_currentPlayerTransform = FindPlayer();
+    m_targetTransform = FindPlayer();
+    
     Save_areaSpawns = new();
    
     if (areaSpawns != null)
@@ -206,7 +203,7 @@ public class SpawnMaster : MonoBehaviour
   public void PlayerCheckUpdate()
   {
 
-    if (m_currentPlayerTransform == null)
+    if (m_targetTransform == null)
       return;
     if (areaSpawns == null)
       return;
@@ -215,7 +212,7 @@ public class SpawnMaster : MonoBehaviour
     if (areaSpawns.Count >= 1)
     {   
 
-      if (IsInsideCircle(m_currentPlayerTransform.position,
+      if (IsInsideCircle(m_targetTransform.position,
         areaSpawns[0].spawnoption == AreaSpawn.SpawnOption.random ? areaSpawns[0].SpawnerPosition.transform.position : areaSpawns[0].Scanner.transform.position
         , areaSpawns[0].radius))
       {
@@ -265,17 +262,23 @@ public class SpawnMaster : MonoBehaviour
 
 
 #if UNITY_EDITOR
-[CustomEditor(typeof(SpawnMaster))]
-public class ShowTag : Editor
+ 
+ 
+[CustomEditor(typeof(SpawnManager))]
+public class ShowScanners : Editor
 {
+
+
   public override void OnInspectorGUI()
   {
 
-    SpawnMaster t = (SpawnMaster)target;
+
+
+    SpawnManager t = (SpawnManager)target;
 
 
 
-    t.SetSelectedTag(EditorGUILayout.TagField("Target-Tag", t.GetSelectedTag()));
+    t.SetSelectedTag(EditorGUILayout.TagField("Tag", t.GetSelectedTag()));
 
     if (GUI.changed)
     {
@@ -285,19 +288,14 @@ public class ShowTag : Editor
 
 
 
-    DrawDefaultInspector();
+     DrawDefaultInspector();
+    
 
   }
 
- 
-}
-#if UNITY_EDITOR
-[CustomEditor(typeof(SpawnMaster))]
-public class ShowScanners : Editor
-{
   void OnSceneGUI()
   {
-    SpawnMaster t = (SpawnMaster)target;
+    SpawnManager t = (SpawnManager)target;
 
 
 
@@ -356,9 +354,9 @@ public class ShowScanners : Editor
   }
 
 }
- 
 
-#endif
+
+
 [CustomPropertyDrawer(typeof(AreaSpawn))]
 public class AreaSpawnDrawer : PropertyDrawer
 {
@@ -436,11 +434,19 @@ public class AreaSpawnDrawer : PropertyDrawer
 
     return height;
   }
-
-
-
-
 }
+
+
+
+
+//[CustomPropertyDrawer(typeof(SpawnMaster))]
+//public class SpawnMasterDrawer : PropertyDrawer
+//{
+//  public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+//  {
+//    EditorGUI.BeginProperty(position, label, property);
+//  }
+//}
 #endif
 
 

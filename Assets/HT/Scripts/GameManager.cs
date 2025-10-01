@@ -141,12 +141,13 @@ public class ShowSize : UnityEditor.Editor
       Vector3 start = t.Min.localPosition;
       Vector3 end = new Vector3(t.Max.localPosition.x, t.Min.localPosition.y, 0);
 
-      UnityEditor.Handles.color = Color.yellow;
+      UnityEditor.Handles.color = Color.cyan;
       UnityEditor.Handles.DrawLine(start, end);  
       end = new Vector3(t.Min.localPosition.x, t.Max.localPosition.y, 0);
       UnityEditor.Handles.DrawLine(start, end); 
       start = new Vector3(t.Min.localPosition.x, t.Max.localPosition.y, 0);
       end = t.Max.localPosition;
+      UnityEditor.Handles.color = Color.yellow;
       UnityEditor.Handles.DrawLine(start, end);
       start = new Vector3(t.Max.localPosition.x, t.Min.localPosition.y, 0);
       UnityEditor.Handles.DrawLine(start, end);

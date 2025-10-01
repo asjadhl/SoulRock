@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     string datas;
    protected string EntityType; //Walker = 0, Fly = 1
    protected string EntityIS;  // Friendly, chonglib, Hostile
-    public bool isSetData = false;
+ 
     
     [SerializeField]
     protected float Attackrate = 2f;
@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
     protected Behavior MyBehavior;
     protected Transform PlayerTransform;
     protected LockOnDodgeEnemy lockOnDodgeEnemy;
-    protected  EnemyGhostGraphics EnemyGhostGraphics;
+    protected  EnemyGraphics EnemyGhostGraphics;
      
     [Space(10)]
     public float offsetEyessight;
@@ -52,17 +52,22 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         m_Awake();
-    //optional
-    StartAlertingRange = 200;
+ 
     }
 
     public virtual void m_Awake()
     { }
+
+    private void Init()
+    {
+    PlayerTransform = GameObject.FindWithTag("Player").transform;
+    lockOnDodgeEnemy = GetComponent<LockOnDodgeEnemy>();
+    EnemyGhostGraphics = GetComponent<EnemyGraphics>();
+  }
     private void Start()
     {
-        PlayerTransform    =   GameObject.FindWithTag("Player").transform;
-        lockOnDodgeEnemy   =   GetComponent<LockOnDodgeEnemy>();
-        EnemyGhostGraphics =   GetComponent<EnemyGhostGraphics>();
+        
+        Init();
         m_Start();
     }
     public virtual void m_Start()
@@ -100,6 +105,17 @@ public class Enemy : MonoBehaviour
   public void Die()
   {
     Destroy(gameObject);
+  }
+  public void Attack()
+  {
+    if (PlayerTransform.TryGetComponent<IDamagable>(out var damagable))
+    {
+      damagable?.TakeHit(m_damage);
+    }
+    else
+    {
+      Debug.Log($"PlayerTransform.name: {PlayerTransform.name}");
+    }
   }
   public void LookAt(Vector3 target)
   {

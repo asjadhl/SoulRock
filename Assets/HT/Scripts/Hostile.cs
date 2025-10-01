@@ -56,11 +56,8 @@ public class Hostile : Enemy
 
                     EnemyGhostGraphics.AnimationManager(AnimationState.Attack, Cts.normal, () =>
                     {
-                        //Attack//
-                        if (PlayerTransform.TryGetComponent<IDamagable>(out var damagable))
-                        {
-                            damagable?.TakeHit(m_damage);
-                        }
+                      //Attack//
+                      Attack();
 
 
                       Die();
@@ -107,7 +104,7 @@ public class Hostile : Enemy
         }
         , 80).Forget();
          ActiveParticales(0);
-       // EnemyGhostGraphics.UniScaleChangeOverTime().Forget();
+       
     }
 
     public override void FactoryReset()
@@ -132,7 +129,7 @@ public class Hostile : Enemy
         {
             GetComponentInChildren<Collider>().enabled = false;
         }
-        EnemyGhostGraphics = GetComponent<EnemyGhostGraphics>();
+        EnemyGhostGraphics = GetComponent<EnemyGraphics>();
       EnemyGhostGraphics.SetRandomColor();
         EnemyGhostGraphics.ResetNow();
 
