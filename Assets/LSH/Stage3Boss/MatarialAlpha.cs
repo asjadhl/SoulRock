@@ -5,16 +5,17 @@ public class MatarialAlpha : MonoBehaviour
 {
     private Renderer rend;
     bool changeColor = false;
+    [Tooltip("È¸Àü")]
     float rotate = 30;
-    public bool successMirror = false;
+	public bool successMirror = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rend = GetComponent<Renderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
     {
         if (!changeColor)
         {
