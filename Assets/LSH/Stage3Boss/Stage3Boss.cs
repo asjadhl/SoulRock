@@ -138,7 +138,7 @@ public class Stage3Boss : MonoBehaviour
     private async UniTask LazerAttack()
     {
         chargeLazer.SetActive(false);
-        lazerPool[poolIndex].transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+        lazerPool[poolIndex].transform.position = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
         lazerPool[poolIndex].SetActive(true);
         await UniTask.Delay(3000);
         ReturnLazer(lazerPool[poolIndex]);
@@ -179,7 +179,7 @@ public class Stage3Boss : MonoBehaviour
             }
             await UniTask.Delay(800);
         }
-        await UniTask.Delay(coolTime);
+        await UniTask.Delay(7000);
         isAttacking = false;
     }
 

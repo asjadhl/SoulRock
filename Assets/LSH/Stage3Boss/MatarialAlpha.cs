@@ -48,7 +48,7 @@ public class MatarialAlpha : MonoBehaviour
         }
         else
         {
-            c.a = 0.5f;
+            c.a = 0.3f;
             rend.material.SetColor("_BaseColor", c);
         }
         changeColor = false;
