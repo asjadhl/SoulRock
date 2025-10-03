@@ -65,15 +65,20 @@ public class Stage2BossAttack : MonoBehaviour
 
     private BossHP BossHP;
 
+    private bool isDelay = false;
+
     private void Start()
     {
-        ChangeNextRanCard();
         player = GameObject.FindWithTag("Player");
         BossHP = GetComponent<BossHP>();
+        if (isDelay == false)
+            _ = StartDelay();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        if (!isDelay) return;
+
         switch (curShape)
         {
             case Shape.H:
@@ -252,5 +257,12 @@ public class Stage2BossAttack : MonoBehaviour
         int ranIndex = Random.Range(0, clubBalls.Length);
 
         clubBalls[ranIndex].SetActive(true);
+    }
+
+    private async UniTask StartDelay()
+    {
+        await UniTask.Delay(3000);
+        isDelay = true;
+        ChangeNextRanCard();
     }
 }
