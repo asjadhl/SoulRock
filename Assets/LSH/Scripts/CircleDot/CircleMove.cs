@@ -1,5 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System.Transactions;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CircleMove : MonoBehaviour
 {
@@ -12,7 +14,17 @@ public class CircleMove : MonoBehaviour
 	private bool returned = false;
 	private CircleHit circleHit;
 
-	public void Initialize(CircleHit hit)
+    Image rawImage;
+    Color originalColor;
+    [Tooltip("투명화 걸리는시간")]
+    public float fadeDuration = 0.1f;
+
+    private void Awake()
+    {
+        rawImage = GetComponent<Image>();
+        originalColor = rawImage.color;
+    }
+    public void Initialize(CircleHit hit)
 	{
 		circleHit = hit;
 		startTime = CheckRealTime.inGamerealTime;
@@ -26,11 +38,32 @@ public class CircleMove : MonoBehaviour
 		float t = Mathf.Clamp01((float)((CheckRealTime.inGamerealTime - startTime) / smallDuration));
 		transform.localScale = Vector3.Lerp(startScale, targetScale, t);
 
-		if (t >= 1f && !returned)
-		{
-			circleHit.combo = 0;
-			returned = true;
-			circleHit.ReturnCircle(this.gameObject);
-		}
-	}
+        if (t >= 1f && !returned)
+        {
+            circleHit.combo = 0;
+            returned = true;
+            circleHit.ReturnCircle(this.gameObject);
+        }
+        
+    }
+    public async UniTask ChangeColor()
+    {
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+
+            Color newColor = originalColor;
+            newColor.a = alpha;
+            rawImage.color = newColor;
+
+            await UniTask.Yield();
+        }
+    }
+
+    public void SetColor()
+    {
+        rawImage.color = originalColor;
+    }
 }

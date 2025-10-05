@@ -2,6 +2,8 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.Splines.ExtrusionShapes;
+using UnityEngine.UI;
 
 public class CircleHit : MonoBehaviour
 {
@@ -27,8 +29,8 @@ public class CircleHit : MonoBehaviour
 	[Header("Combo")]
 	public int combo = 0;
 	public GameObject[] comboImage;
-
-	AudioSource a;
+	
+    AudioSource a;
 	[SerializeField] AudioClip clip;
 	[SerializeField] PlayerShoot player;
 	public GameObject[] poolCircle;
@@ -37,7 +39,8 @@ public class CircleHit : MonoBehaviour
 
 	private List<CircleMove> activeCircles = new List<CircleMove>();
 
-	private void Awake()
+	bool getDamage = false;
+    private void Awake()
 	{
 		if (Instance == null) Instance = this;
 		else if (Instance != this) Destroy(gameObject);
@@ -50,11 +53,14 @@ public class CircleHit : MonoBehaviour
 			poolCircle[i] = circleDot;
 		}
 		secondsPerBeat = 60.0 / bpm;
-	}
+        
+    }
 
 	private void Start()
 	{
 		a = GetComponent<AudioSource>();
+
+		
 		for (int i = 0; i < comboImage.Length; i++)
 		{
 			comboImage[i].SetActive(false);
@@ -73,8 +79,11 @@ public class CircleHit : MonoBehaviour
 				comboImage[k].SetActive(false);
 			}
 		}
-		
-	}
+		if(Input.GetKeyDown(KeyCode.K)) getDamage = true;
+        if (Input.GetKeyDown(KeyCode.S)) getDamage = false;
+
+
+    }
 
 	void CheckCol()
 	{
@@ -113,18 +122,20 @@ public class CircleHit : MonoBehaviour
 		circleDot.SetActive(true);
 
 		var circleMove = circleDot.GetComponent<CircleMove>();
-		circleMove.Initialize(this);
-		activeCircles.Add(circleMove);
-
-		pivot = (pivot + 1) % poolCircle.Length;
+        if (getDamage)
+            _ = circleMove.ChangeColor();
+        circleMove.Initialize(this);
+        activeCircles.Add(circleMove);
+        
+        pivot = (pivot + 1) % poolCircle.Length;
 		return circleDot;
 	}
 
 	public void ReturnCircle(GameObject circleDot)
 	{
 		if (!circleDot.activeSelf) return;
-
-		circleDot.SetActive(false);
+        circleDot.GetComponent<CircleMove>().SetColor();
+        circleDot.SetActive(false);
 		circleDot.transform.localScale = Vector3.one * circleBig;
 	}
 
@@ -162,8 +173,10 @@ public class CircleHit : MonoBehaviour
 		{
 			double delayMs = secondsPerBeat * 1000.0;
 			await UniTask.Delay((int)delayMs);
+            GetCircle().transform.position = transform.position;
 
-			GetCircle().transform.position = transform.position;
-		}
+        }
 	}
+
+	
 }
