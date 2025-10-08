@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Canvas: {fileID: 0}
   uiSpace: 1
   IsHide: 1
-  m_Prefab: {fileID: 8505767064329269230, guid: 8036b0c647e4d6e40b943b805840f2af, type: 3}
+  m_HealthBarPrefab: {fileID: 8505767064329269230, guid: 8036b0c647e4d6e40b943b805840f2af, type: 3}
   m_MaxHealth: 1
   m_CurrentHealth: 1
   TargetParentHealthBar: {fileID: 2557053336283345636}
@@ -576,7 +576,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fe7af3a98f2694392127e3cd57e8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSetData: 0
   Attackrate: 1
   m_speed: 2
   m_damage: 1

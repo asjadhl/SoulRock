@@ -31,20 +31,20 @@ public class AreaSpawn
 
 
   [Range(0f, 10f)] public float arcHeight = 2f;
-  public Transform Scanner;
+  public Transform ScannerPosition;
   public float ScannerRadius;
   public float SpawnRadius;
   [Range(0f, 10f)]
   public float SpawnRate;
  
-  public GameObject SpawnerPosition;
+  public Transform SpawnerPosition;
   public List<Entity> EntityList;
 
   public static  AreaSpawn operator+ (AreaSpawn a ,AreaSpawn b)
   {  
     a.spawnoption = b.spawnoption;
     a.arcHeight = b.arcHeight;
-    a.Scanner = b.Scanner;
+    a.ScannerPosition = b.ScannerPosition;
     a.SpawnRate = b.SpawnRate;
     a.ScannerRadius = b.ScannerRadius;
     a.SpawnerPosition = b.SpawnerPosition;
@@ -83,7 +83,10 @@ public class SpawnManager : MonoBehaviour
   {
     return GameObject.FindGameObjectWithTag(selectedTag).transform;
   }
-  
+  public GameObject FindScanner()
+  {
+        return GameObject.FindGameObjectWithTag("Scanner") != null ? GameObject.FindGameObjectWithTag("Scanner") : GameObject.Find("Scanner") != null ? GameObject.Find("Scanner"): null;
+  }
 
   public   void OnEnable()
   {
@@ -110,7 +113,7 @@ public class SpawnManager : MonoBehaviour
   private void Start()
   {
     m_targetTransform = FindPlayer();
-    
+        
     Save_areaSpawns = new();
    
     if (areaSpawns != null)
@@ -119,6 +122,19 @@ public class SpawnManager : MonoBehaviour
       {
         for (int i = 0; i < areaSpawns.Count; i++)
         {
+                  switch(areaSpawns[i].spawnoption)
+                    {
+                        case AreaSpawn.SpawnOption.target:
+                            areaSpawns[i].ScannerPosition = FindScanner().transform;
+                            break;
+                        case AreaSpawn.SpawnOption.random:
+                            areaSpawns[i].SpawnerPosition = FindScanner().transform;
+                        break;
+                    }
+
+
+
+
           Save_areaSpawns.Add(new AreaSpawn() + areaSpawns[i]);
         }
 
@@ -216,8 +232,8 @@ public class SpawnManager : MonoBehaviour
     {   
 
       if (IsInsideCircle(m_targetTransform.position,
-        areaSpawns[0].spawnoption == AreaSpawn.SpawnOption.random ? areaSpawns[0].SpawnerPosition.transform.position : areaSpawns[0].Scanner.transform.position
-        , areaSpawns[0].spawnoption == AreaSpawn.SpawnOption.random ? areaSpawns[0].SpawnRadius : areaSpawns[0].ScannerRadius))
+          areaSpawns[0].spawnoption == AreaSpawn.SpawnOption.random ? areaSpawns[0].SpawnerPosition.transform.position : areaSpawns[0].ScannerPosition.transform.position
+        , areaSpawns[0].spawnoption == AreaSpawn.SpawnOption.random ? areaSpawns[0].ScannerRadius : areaSpawns[0].ScannerRadius))
       {
         IsSpawning = true;
         SpawnNow(areaSpawns[0], cts).Forget();
@@ -311,16 +327,16 @@ public class ShowScanners : Editor
           continue;
 
         UnityEditor.Handles.color = Color.yellow;
-        UnityEditor.Handles.DrawWireDisc(t.areaSpawns[i].SpawnerPosition.transform.position, Vector3.up, t.areaSpawns[i].SpawnRadius);
+        UnityEditor.Handles.DrawWireDisc(t.areaSpawns[i].SpawnerPosition.transform.position, Vector3.up, t.areaSpawns[i].ScannerRadius);
         UnityEditor.Handles.Label(t.areaSpawns[i].SpawnerPosition.transform.position + Vector3.up * 0.5f, $"SpawnPosition[{i}]");
       }
       else
       {
-        if (t.areaSpawns[i].SpawnerPosition == null || t.areaSpawns[i].Scanner == null)
+        if (t.areaSpawns[i].SpawnerPosition == null || t.areaSpawns[i].ScannerPosition == null)
           continue;
 
         Vector3 start = t.areaSpawns[i].SpawnerPosition.transform.position;
-        Vector3 end = t.areaSpawns[i].Scanner.position;
+        Vector3 end = t.areaSpawns[i].ScannerPosition.position;
 
 
 
@@ -345,7 +361,7 @@ public class ShowScanners : Editor
 
 
         // Optional: label with index
-        UnityEditor.Handles.Label(end + Vector3.up * 0.5f, $"Scanner[{i}]");
+        UnityEditor.Handles.Label(end + Vector3.up * 0.5f, $"ScannerPosition[{i}]");
 
         UnityEditor.Handles.color = Color.cyan;
 
@@ -386,7 +402,7 @@ public class AreaSpawnDrawer : PropertyDrawer
     // Draw Scanner only if spawnoption == target
     if ((AreaSpawn.SpawnOption)spawnOptionProp.enumValueIndex == AreaSpawn.SpawnOption.target)
     {
-      SerializedProperty targetProp = property.FindPropertyRelative("Scanner");
+      SerializedProperty targetProp = property.FindPropertyRelative("ScannerPosition");
       Rect targetRect = new Rect(position.x, y, position.width, lineHeight);
       EditorGUI.PropertyField(targetRect, targetProp);
       y += lineHeight + spacing;
@@ -403,7 +419,7 @@ public class AreaSpawnDrawer : PropertyDrawer
     }
     else if ((AreaSpawn.SpawnOption)spawnOptionProp.enumValueIndex == AreaSpawn.SpawnOption.random)
     {
-      SerializedProperty targetProp = property.FindPropertyRelative("SpawnRadius");
+      SerializedProperty targetProp = property.FindPropertyRelative("ScannerRadius");
       Rect targetRect = new Rect(position.x, y, position.width, lineHeight);
       EditorGUI.PropertyField(targetRect, targetProp);
       y += lineHeight + spacing;
@@ -466,14 +482,7 @@ public class AreaSpawnDrawer : PropertyDrawer
 
 
 
-//[CustomPropertyDrawer(typeof(SpawnMaster))]
-//public class SpawnMasterDrawer : PropertyDrawer
-//{
-//  public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-//  {
-//    EditorGUI.BeginProperty(position, label, property);
-//  }
-//}
+ 
 #endif
 
 

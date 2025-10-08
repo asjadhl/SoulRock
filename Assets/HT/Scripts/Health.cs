@@ -28,8 +28,8 @@ public class Health: MonoBehaviour, IDamagable
     [SerializeField] private UISpace uiSpace;
     [Header("HIDE")]
     [SerializeField] private bool IsHide;
-    [Header("Prefab")]
-    [SerializeField] GameObject m_Prefab;
+    [Header("HealthBarPrefab")]
+    [SerializeField] GameObject m_HealthBarPrefab;
 
     #region Health-Properties
     [Space(5f)]
@@ -61,7 +61,7 @@ public class Health: MonoBehaviour, IDamagable
             case UISpace.ScreenSpaceUI:
                 //if Canvas not existing find Canvas
                 if(m_Canvas != null)
-                m_healthBar = Instantiate(m_Prefab, m_Canvas.transform, false);
+                m_healthBar = Instantiate(m_HealthBarPrefab, m_Canvas.transform, false);
                 else
                 {
                     m_Canvas = GameObject.FindWithTag("Canvas");
@@ -77,7 +77,7 @@ public class Health: MonoBehaviour, IDamagable
                     }
 
 
-                    m_healthBar = Instantiate(m_Prefab, m_Canvas.transform, false);
+                    m_healthBar = Instantiate(m_HealthBarPrefab, m_Canvas.transform, false);
                 }
                 break;
             case UISpace.WorldSpaceUI:
@@ -85,23 +85,24 @@ public class Health: MonoBehaviour, IDamagable
 
                 //Basic
                 GameObject m_canvas = new GameObject("Canvas");
-                m_canvas.transform.SetParent(TargetParentHealthBar);
+
                 m_canvas.AddComponent<Canvas>();
                 m_canvas.AddComponent<CanvasScaler>();
                 m_canvas.AddComponent<GraphicRaycaster>();
                 #endregion
-
                 #region ModifyCanvasComponent
                 m_canvas.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
                 RectTransform canvasrectransform = m_canvas.GetComponent<RectTransform>();
                 m_canvas.GetComponent<Canvas>().worldCamera = Camera.main;
                 canvasrectransform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
                 canvasrectransform.localPosition = CanvasPosition;
-                canvasrectransform.sizeDelta = new Vector3(847, 475,0);
+                canvasrectransform.sizeDelta = new Vector3(847, 475, 0);
                 #endregion
 
+
+
                 #region HealthBar On WorldSpace
-                m_healthBar = Instantiate(m_Prefab, m_canvas.transform, false);
+                m_healthBar = Instantiate(m_HealthBarPrefab, m_canvas.transform, false);
                 RectTransform m_healthrect = m_healthBar.GetComponent<RectTransform>();
                 //Set Anchor
                 m_healthrect.anchorMin = new Vector2(0, 0.25f);
@@ -111,6 +112,42 @@ public class Health: MonoBehaviour, IDamagable
                 m_healthrect.offsetMin = new Vector2(0, 0);
                 m_healthrect.offsetMax = new Vector2(0, 0);
                 #endregion
+
+                if (TargetParentHealthBar != null)
+                    m_canvas.transform.SetParent(TargetParentHealthBar);
+                else
+                {
+                    MeshRenderer meshRend = gameObject.GetComponent<MeshRenderer>();
+                    if (meshRend != null)
+                    {
+                        m_canvas.transform.SetParent(transform);
+                        float result = ((meshRend.bounds.size.y / 100f) * 75f);
+                        m_canvas.transform.localPosition += new Vector3(0, result, 0);
+
+                    }
+                    else
+                    {
+                        meshRend = gameObject.GetComponentInChildren<MeshRenderer>();
+                        if (meshRend != null)
+                        {
+                            m_canvas.transform.SetParent(transform);
+                            float result = ((meshRend.bounds.size.y / 100f) * 75f);
+                            m_canvas.transform.localPosition += new Vector3(0, result, 0);
+                        }
+                        else
+                            IsHide = true;
+                    }
+                }
+
+
+
+                Vector3 temp = m_canvas.transform.localPosition;
+                temp.z = 0;
+                m_canvas.transform.localPosition = temp;
+                m_healthBar.transform.SetParent(m_canvas.transform);
+
+
+
 
                 break;
         }
