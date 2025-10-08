@@ -157,37 +157,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4451761360313553553}
   m_LocalEulerAnglesHint: {x: 16.908777, y: 0.0000023755806, z: 0.0000005712588}
---- !u!1 &2454184079730897528
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2557053336283345636}
-  m_Layer: 0
-  m_Name: HealthPos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2557053336283345636
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2454184079730897528}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6485638160340656217}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3154846820896933654
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,7 +419,6 @@ Transform:
   m_Children:
   - {fileID: 8345938799235539791}
   - {fileID: 8260552150459071184}
-  - {fileID: 2557053336283345636}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7716351625418722740
@@ -514,7 +482,7 @@ MonoBehaviour:
   m_HealthBarPrefab: {fileID: 8505767064329269230, guid: 8036b0c647e4d6e40b943b805840f2af, type: 3}
   m_MaxHealth: 1
   m_CurrentHealth: 1
-  TargetParentHealthBar: {fileID: 2557053336283345636}
+  TargetParentHealthBar: {fileID: 0}
   CanvasPosition: {x: 0, y: 0, z: 0}
   m_healthBar: {fileID: 0}
   m_fill: {fileID: 0}
