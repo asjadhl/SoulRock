@@ -31,7 +31,7 @@ public class MusicBox : MonoBehaviour
     BossHP hp;
     private void Awake()
     {
-        hp = GameObject.FindWithTag("Boss").GetComponent<BossHP>();
+        hp = GameObject.FindWithTag("Stage3Boss").GetComponent<BossHP>();
     }
     void Start()
     {

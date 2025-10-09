@@ -29,7 +29,7 @@ public class LazerBall : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        boss = GameObject.FindWithTag("Boss").GetComponent<Transform>();
+        boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
     }
 
     // Update is called once per frame

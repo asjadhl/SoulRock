@@ -7,7 +7,7 @@ public class Boss2HPUI : MonoBehaviour
 
     private void Update()
     {
-        
-        bossHPBar.fillAmount = (float)GetComponent<BossHP>().bossHP / 50;
+        bossHPBar.fillAmount = (float)GetComponent<BossHP>().bossHP/50;
+
     }
 }

@@ -164,7 +164,7 @@ public class Stage3Boss : MonoBehaviour
     {
         anime.SetTrigger("BloodAttack");
         chargeLazer.SetActive(false);
-        lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y, chargeLazer.transform.position.z);
+        lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y+1f, chargeLazer.transform.position.z);
         lazerPool[poolIndex].SetActive(true);
         await UniTask.Delay(3000);
         AngryReturnLazer(lazerPool[poolIndex]);
