@@ -99,53 +99,57 @@ public class SpawnManager : MonoBehaviour
       {
         for (int i = 0; i < Save_areaSpawns.Count; i++)
         {
-
+                    
           areaSpawns.Add(new AreaSpawn() + Save_areaSpawns[i]);
-
+                   
         }
          
       }
     }
-    cts = new();
+    
   }
 
   
   private void Start()
   {
+         
     m_targetTransform = FindPlayer();
         
     Save_areaSpawns = new();
    
     if (areaSpawns != null)
     {
-      if (areaSpawns.Count > 0)
-      {
-        for (int i = 0; i < areaSpawns.Count; i++)
-        {
-                  switch(areaSpawns[i].spawnoption)
+            if (areaSpawns.Count > 0)
+            {
+                
+                for (int i = 0; i < areaSpawns.Count; i++)
+                {
+                    switch (areaSpawns[i].spawnoption)
                     {
                         case AreaSpawn.SpawnOption.target:
                             areaSpawns[i].ScannerPosition = FindScanner().transform;
                             break;
                         case AreaSpawn.SpawnOption.random:
                             areaSpawns[i].SpawnerPosition = FindScanner().transform;
-                        break;
+                            break;
                     }
 
 
 
+                   
+                    Save_areaSpawns.Add(new AreaSpawn() + areaSpawns[i]);
+                }
 
-          Save_areaSpawns.Add(new AreaSpawn() + areaSpawns[i]);
-        }
-
-      }
+            }
+             
+                
       
     }
-   
-  }
+        cts = new(); //New
+    }
   public async UniTaskVoid SpawnNow(AreaSpawn areaspawn, CancellationTokenSource cts)
   {
-
+       
     if (areaspawn.EntityList.Count > 0)
     {
       int randomindex = 0;
@@ -212,6 +216,7 @@ public class SpawnManager : MonoBehaviour
 
     }
 
+        Debug.Log("RemoveAreaSpawn");
     areaSpawns.Remove(areaSpawns[0]);
     IsSpawning = false;
   }
@@ -250,12 +255,14 @@ public class SpawnManager : MonoBehaviour
 
   public void OnDisable()
   {
+        Debug.Log("OnDisable");
     if (cts != null)
     { 
       areaSpawns.Clear();
       IsSpawning = false;
       cts.Cancel();
       cts.Dispose();
+      cts = new();
     }
   }
 

@@ -230,6 +230,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1856890244}
+  - {fileID: 1686336469}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6760339
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0e100bf0eeb5c4caef52dfb480d051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 1
+  m_speed: 0
 --- !u!114 &6760340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,6 +502,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!4 &496762693 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5088159201429839828, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
+  m_PrefabInstance: {fileID: 433533356048538935}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1686336465
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,11 +587,11 @@ Transform:
   m_GameObject: {fileID: 1686336465}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 23.52}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 6760338}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1737356846
 GameObject:
@@ -906,6 +912,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
+      propertyPath: m_targetTransform
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].Scanner
       value: 
       objectReference: {fileID: 1686336469}
@@ -915,12 +925,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].spawnoption
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
+      propertyPath: areaSpawns.Array.data[0].ScannerPosition
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnerPosition
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 496762693}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].EntityList.Array.size
       value: 1
@@ -928,9 +942,13 @@ PrefabInstance:
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].EntityList.Array.data[1].EntityObj
       value: 
-      objectReference: {fileID: 5091808336580822755, guid: 5d37cb984d3306e4ea5123b4bb25268f, type: 3}
+      objectReference: {fileID: 5091808336580822755, guid: 2ac10d2aae543124aad0281eda734cdb, type: 3}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].EntityList.Array.data[0].EntitySpawnCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
+      propertyPath: areaSpawns.Array.data[0].EntityList.Array.data[1].EntitySpawnCount
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5088159201429839828, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
@@ -996,4 +1014,3 @@ SceneRoots:
   - {fileID: 1921183351}
   - {fileID: 377890811}
   - {fileID: 1737356850}
-  - {fileID: 1686336469}
