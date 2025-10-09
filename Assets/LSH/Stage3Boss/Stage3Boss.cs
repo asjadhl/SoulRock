@@ -190,13 +190,14 @@ public class Stage3Boss : MonoBehaviour
         isAttacking = true;
         Debug.Log("레이져볼 공격중");
         //if(isAngry)
-        for (int i = 0; i < lazerBallPool.Length; i++)
+        for (int i = 0; i < 8; i++)
         {
+            int poolIndex = i % lazerBallPool.Length;
             //lazerBallPool[i].transform.position = transform.position + thisPos[i];
             Vector3 randomPos = transform.position + new Vector3(Random.Range(-10f, 10f),Random.Range(5f, 10f),0f);
-
-            lazerBallPool[i].transform.position = randomPos;
-            lazerBallPool[i].SetActive(true);
+            lazerBallPool[poolIndex].transform.position = randomPos;
+            lazerBallPool[poolIndex].transform.localScale = Vector3.zero;
+            lazerBallPool[poolIndex].SetActive(true);
             anime.SetTrigger("SecondPattern");
             if (!lazerBallPool[poolIndex].activeSelf)
             {
@@ -204,12 +205,12 @@ public class Stage3Boss : MonoBehaviour
             }
             for (int j = 1; j < 80; j++)
             {
-                lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
+                lazerBallPool[poolIndex].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);
             }
-            await UniTask.Delay(400);
+            await UniTask.Delay(500);
         }
-        await UniTask.Delay(coolTime);
+        await UniTask.Delay(coolTime+2000);
         isAttacking = false;
     }
 
