@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 1686336468}
   - component: {fileID: 1686336467}
   m_Layer: 0
-  m_Name: Scanner
+  m_Name: Scanne
   m_TagString: Scanner
   m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -930,7 +930,7 @@ PrefabInstance:
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].ScannerPosition
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1686336469}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnerPosition
       value: 
@@ -945,7 +945,7 @@ PrefabInstance:
       objectReference: {fileID: 5091808336580822755, guid: 2ac10d2aae543124aad0281eda734cdb, type: 3}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].EntityList.Array.data[0].EntitySpawnCount
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].EntityList.Array.data[1].EntitySpawnCount

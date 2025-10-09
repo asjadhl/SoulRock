@@ -47,6 +47,7 @@ public class AreaSpawn
     a.ScannerPosition = b.ScannerPosition;
     a.SpawnRate = b.SpawnRate;
     a.ScannerRadius = b.ScannerRadius;
+    a.SpawnRadius = b.SpawnRadius;
     a.SpawnerPosition = b.SpawnerPosition;
     a.EntityList = new();
     for (int i = 0; i < b.EntityList.Count; i++)
@@ -88,6 +89,45 @@ public class SpawnManager : MonoBehaviour
         return GameObject.FindGameObjectWithTag("Scanner") != null ? GameObject.FindGameObjectWithTag("Scanner") : GameObject.Find("Scanner") != null ? GameObject.Find("Scanner"): null;
   }
 
+    public GameObject FindScanners()
+    {  
+
+        GameObject result = GameObject.FindGameObjectWithTag("Scanner") != null ? GameObject.FindGameObjectWithTag("Scanner") : GameObject.Find("Scanner") != null ? GameObject.Find("Scanner") : null;
+
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            Transform ParentObject = FindPlayer();
+            if (ParentObject != null)
+            {
+                result = ParentObject.Find("Scanner").gameObject;
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    for (int i = 0; i < ParentObject.childCount; i++)
+                    {
+                        if (ParentObject.GetChild(i).tag == "Scanner")
+                        {
+                            result = ParentObject.GetChild(i).gameObject;
+                            return result;
+                        }
+                    }
+
+                    
+                }
+            }
+                return null;
+
+        }
+
+    }
+
   public   void OnEnable()
   {
       
@@ -127,10 +167,10 @@ public class SpawnManager : MonoBehaviour
                     switch (areaSpawns[i].spawnoption)
                     {
                         case AreaSpawn.SpawnOption.target:
-                            areaSpawns[i].ScannerPosition = FindScanner().transform;
+                            areaSpawns[i].ScannerPosition = FindScanners().transform;
                             break;
                         case AreaSpawn.SpawnOption.random:
-                            areaSpawns[i].SpawnerPosition = FindScanner().transform;
+                            areaSpawns[i].SpawnerPosition = FindScanners().transform;
                             break;
                     }
 
