@@ -98,9 +98,6 @@ public class MusicBox : MonoBehaviour
             // 새로운 노래로 변경
             i++; // 다음 곡으로 이동
             if (i >= music.Length) i = 0; // 인덱스 초과 방지
-
-            Debug.Log($"보스 HP가 30 이하로 떨어져 새로운 노래 {music[i].name}를 재생합니다.");
-
             // 현재 곡 페이드아웃 (선택 사항)
             await FadeOutCurrentSong();
 
@@ -108,6 +105,21 @@ public class MusicBox : MonoBehaviour
             musicSource.clip = music[i];
             await UniTask.Delay(delayMusic); // 약간의 딜레이 추가
             musicSource.Play();
+        }
+        switch (musicSource.clip.name)
+        {
+            case "Stage1":
+                CircleHit.Instance.bpm = 82;
+                break;
+            case "Stage2":
+                CircleHit.Instance.bpm = 83;
+                break;
+            case "Stage3":
+                CircleHit.Instance.bpm = 117;
+                break;
+            case "BossAngry2":
+                CircleHit.Instance.bpm = 150;
+                break;
         }
     }
 

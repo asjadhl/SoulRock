@@ -36,11 +36,11 @@ public class Stage3Boss : MonoBehaviour
     //lazerBall 전용 풀 인덱스
     //int poolBall = 0;
     int poolBigLazer = 0;
-    bool isAttacking = false;
+    bool isAttacking = true;
     bool isAngry = false;
     bool animeOn = false;
 
-    void Start()
+    private async UniTask Start()
     {
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         anime = GetComponent<Animator>();
@@ -53,6 +53,8 @@ public class Stage3Boss : MonoBehaviour
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
         mirror.SetActive(false);
+        await UniTask.Delay(5000);
+        isAttacking = false;
         ranIndex = Random.Range(0, 3);
         //ranIndex = 2;
     }
@@ -110,12 +112,146 @@ public class Stage3Boss : MonoBehaviour
             animeOn = true;
         }
 			
-		if (!isAttacking)  
+		if (!isAttacking && !isAngry)  
         {
+            Debug.Log("일반보스패턴");
             Boss3Pattern();
+        }
+        if(!isAttacking && isAngry)
+        {
+            Debug.Log("빡친보스패턴");
+            AngryBoss3Pattern();
         }
 	}
 
+    #region("보스빡침")
+    void AngryBoss3Pattern()
+    {
+        switch (ranIndex)
+        {
+            case 0:
+                Debug.Log("레이저");
+                _ = AngryChargeLazerAttack();
+                ranIndex = Random.Range(0, 3);
+                break;
+            case 1:
+                Debug.Log("레이저볼");
+                _ = AngrysecondPattern();
+                ranIndex = Random.Range(0, 3);
+                break;
+            case 2:
+                Debug.Log("빅레이저");
+                _ = AngryThirdPattern();
+                ranIndex = Random.Range(0, 3);
+                break;
+        }
+    }
+    private async UniTask AngryChargeLazerAttack()
+    {
+        isAttacking = true;
+        chargeLazer.SetActive(true);
+        for (int i = 1; i < 100; i++)
+        {
+            chargeLazer.transform.localScale =
+                new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
+            await UniTask.Delay(15);
+        }
+
+        _ = AngryLazerAttack();
+    }
+
+    private async UniTask AngryLazerAttack()
+    {
+        anime.SetTrigger("BloodAttack");
+        chargeLazer.SetActive(false);
+        lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y, chargeLazer.transform.position.z);
+        lazerPool[poolIndex].SetActive(true);
+        await UniTask.Delay(3000);
+        AngryReturnLazer(lazerPool[poolIndex]);
+        if (poolIndex >= lazerPool.Length - 1)
+        {
+            poolIndex = 0;
+        }
+        else
+            poolIndex++;
+        await UniTask.Delay(coolTime);
+        isAttacking = false;
+    }
+    void AngryReturnLazer(GameObject lazer)
+    {
+        lazer.SetActive(false);
+        lazer.transform.position = transform.position;
+    }
+
+
+    private async UniTask AngrysecondPattern()
+    {
+
+        isAttacking = true;
+        Debug.Log("레이져볼 공격중");
+        //if(isAngry)
+        for (int i = 0; i < 10; i++)
+        {
+            int poolIndex = i % lazerBallPool.Length;
+            //lazerBallPool[i].transform.position = transform.position + thisPos[i];
+            Vector3 randomPos = transform.position + new Vector3(Random.Range(-10f, 10f),Random.Range(5f, 10f),0f);
+
+            lazerBallPool[poolIndex].transform.position = randomPos;
+            lazerBallPool[poolIndex].SetActive(true);
+            anime.SetTrigger("SecondPattern");
+            if (!lazerBallPool[poolIndex].activeSelf)
+            {
+                break;
+            }
+            for (int j = 1; j < 80; j++)
+            {
+                lazerBallPool[poolIndex].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
+                await UniTask.Delay(2);
+            }
+            await UniTask.Delay(400);
+        }
+        await UniTask.Delay(coolTime);
+        isAttacking = false;
+    }
+
+
+    private async UniTask AngryThirdPattern()
+    {
+        isAttacking = true;
+        bigChargeLazer.SetActive(true);
+        mirror.SetActive(true);
+        mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+        anime.SetTrigger("BloodAttackReady");
+        for (int i = 1; i < 250; i++)
+        {
+
+            bigChargeLazer.transform.localScale =
+                new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
+            await UniTask.Delay(10);
+        }
+        anime.SetTrigger("BloodAttack");
+        AngryBigLazerAttack();
+        await UniTask.Delay(4000);
+        mirror.SetActive(false);
+        isAttacking = false;
+    }
+    void AngryBigLazerAttack()
+    {
+        bigChargeLazer.SetActive(false);
+        bigLazerBallPool[poolBigLazer].SetActive(true);
+        bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
+        bigLazerBallPool[poolBigLazer].transform.LookAt(player.position);
+
+        if (poolBigLazer >= bigLazerBallPool.Length - 1)
+        {
+            poolBigLazer = 0;
+        }
+        else
+            poolBigLazer++;
+    }
+    #endregion
+
+    #region(일반보스패턴)
     void Boss3Pattern()
     {
         switch (ranIndex)
@@ -179,7 +315,7 @@ public class Stage3Boss : MonoBehaviour
     {
         isAttacking = true;
         Debug.Log("레이져볼 공격중");
-        
+        //if(isAngry)
         for (int i = 0; i < lazerBallPool.Length; i++)
         {
             lazerBallPool[i].transform.position = transform.position + thisPos[i]; 
@@ -266,7 +402,9 @@ public class Stage3Boss : MonoBehaviour
         else
             poolBigLazer++;
 	}
-	void Phase2()
+    #endregion
+
+    void Phase2()
     {
         if (!animeOn)
         {
