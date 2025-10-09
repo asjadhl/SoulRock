@@ -1,29 +1,27 @@
-using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-
 public class StageInfo
 {
-    public string normalTag;
-    public List<string> trapTags;
+    public string normalTag;                // 일반 복도 태그
+    public List<string> trapTags;           // 트랩 복도 태그
     [Range(0f, 1f)] public float trapChance;
-    public float corridorLength = 88; // 각 스테이지 길이
+    public float corridorLength = 88;       // 복도 길이
 }
 
 public class CorridorSpawner : MonoBehaviour
 {
     [Header("Stage 설정")]
-    public int currentStage = 1;           // 현재 스테이지 번호 (1부터 시작)
-    public List<StageInfo> stages;         // Stage별 정보 (인스펙터에서 설정)
+    public int currentStage = 1;
+    public List<StageInfo> stages;
 
     [Header("Stage Timing 설정")]
-    public float bossStageDelay = 60f;     // 1분(60초) 뒤 자동 전환
+    public float emptyDelay = 5f;           // 빈 맵 대기 시간
+    public float normalDelay = 60f;         // 일반 스테이지 → 보스 대기 시간
 
     private bool stageTimerRunning = false;
-    private Queue<GameObject> corridors = new Queue<GameObject>();
 
     [Header("Corridor 설정")]
     public int corridorCount = 5;
@@ -32,6 +30,8 @@ public class CorridorSpawner : MonoBehaviour
 
     [Header("Player Reference")]
     public Transform player;
+
+    private Queue<GameObject> corridors = new Queue<GameObject>();
 
     void Start()
     {
@@ -48,7 +48,6 @@ public class CorridorSpawner : MonoBehaviour
             startZ += corridorLength;
         }
 
-        // 시작 스테이지에서 타이머 실행 여부 확인
         TryStartStageTimer();
     }
 
@@ -57,7 +56,6 @@ public class CorridorSpawner : MonoBehaviour
         ManageCorridors();
     }
 
-    // 복도 재활용
     void ManageCorridors()
     {
         if (corridors.Count == 0) return;
@@ -89,7 +87,7 @@ public class CorridorSpawner : MonoBehaviour
     string GetStageCorridorTag()
     {
         if (currentStage < 1 || currentStage > stages.Count)
-            return "Corridor";
+            return "Corridor"; // 기본값
 
         StageInfo stage = stages[currentStage - 1];
         if (Random.value < stage.trapChance && stage.trapTags.Count > 0)
@@ -100,30 +98,33 @@ public class CorridorSpawner : MonoBehaviour
         return stage.normalTag;
     }
 
-    // 스테이지에 따라 타이머 작동
+    // 스테이지 타이머 시작
     void TryStartStageTimer()
     {
-        if (!stageTimerRunning)
+        if (stageTimerRunning) return;
+
+        // 자동 변경 패턴
+        if (currentStage == 1 || currentStage == 4)
         {
-            // 1, 3일 때만 자동 전환 타이머 작동
-            if (currentStage == 1 || currentStage == 3)
-                StartCoroutine(AutoNextStageAfterDelay());
+            StartCoroutine(AutoNextStage(emptyDelay));   // 빈 맵 → 다음
         }
+        else if (currentStage == 2 || currentStage == 5)
+        {
+            StartCoroutine(AutoNextStage(normalDelay));  // 일반 → 보스
+        }
+        // 3, 6, 7은 자동 변경 없음 (보스 구간)
     }
 
-    // 1분 후 다음 스테이지(보스)로 자동 전환
-    IEnumerator AutoNextStageAfterDelay()
+    IEnumerator AutoNextStage(float delay)
     {
         stageTimerRunning = true;
-        yield return new WaitForSeconds(bossStageDelay);
+        yield return new WaitForSeconds(delay);
 
-        // 스테이지 1→2, 3→4만 자동 전환
-        if (currentStage == 1) currentStage = 2;
-        else if (currentStage == 3) currentStage = 4;
-
+        // 다음 스테이지로 전환
+        currentStage++;
         Debug.Log($"[Auto Stage Change] currentStage = {currentStage}");
 
         stageTimerRunning = false;
-        TryStartStageTimer(); // 4에서 5로는 자동 변경 없음
+        TryStartStageTimer(); // 다음 단계도 자동일 경우 이어서 실행
     }
 }

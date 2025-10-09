@@ -36,17 +36,23 @@ public class BossSpawner : MonoBehaviour
             {
                 SpawnBoss();
                 bossSpawned = true;
-                currentStage = 2;
-                corridorSpawner.currentStage = 2; // 코리도어 스테이지 변경
+
+                // 보스 스폰 후 스테이지 변경은 딱 한 번만 실행
+                if (corridorSpawner.currentStage == 1)
+                    corridorSpawner.currentStage = 2;
             }
         }
+
         if (currentBoss != null && !currentBoss.activeInHierarchy)
         {
-            currentStage = 3;
-            corridorSpawner.currentStage = 3; // 코리도어 스테이지 변경
-            bossSpawned = false; // 보스가 죽었으므로 다시 소환 가능
-            timer = 0f; // 타이머 초기화
+            // 보스 사망 시 다음 스테이지로
+            if (corridorSpawner.currentStage == 2)
+                corridorSpawner.currentStage = 3;
+
+            bossSpawned = false;
+            timer = 0f;
         }
+
     }
     public void SpawnBoss()
     {

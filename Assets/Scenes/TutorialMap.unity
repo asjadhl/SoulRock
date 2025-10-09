@@ -2637,8 +2637,8 @@ MonoBehaviour:
     - Stage1RollTrap
     - Stage1Hammer
     trapChance: 0
-    corridorLength: 88.5
-  - normalTag: Stage1Boss
+    corridorLength: 87
+  - normalTag: Satge1Normal
     trapTags: []
     trapChance: 0
     corridorLength: 87
@@ -2659,8 +2659,9 @@ MonoBehaviour:
     trapTags: []
     trapChance: 0
     corridorLength: 87
-  bossStageDelay: 60
-  corridorCount: 4
+  emptyDelay: 5
+  normalDelay: 60
+  corridorCount: 3
   corridorLength: 87
   corridorWidth: 60
   player: {fileID: 829136398}
@@ -2961,8 +2962,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 1721651274}
   - {fileID: 790706014}
-  - {fileID: 1175850610}
   - {fileID: 878997070}
+  - {fileID: 1175850610}
   - {fileID: 709140808}
   - {fileID: 829136398}
   - {fileID: 1387598036}
