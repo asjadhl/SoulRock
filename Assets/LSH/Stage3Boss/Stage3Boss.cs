@@ -164,7 +164,7 @@ public class Stage3Boss : MonoBehaviour
     {
         anime.SetTrigger("BloodAttack");
         chargeLazer.SetActive(false);
-        lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y+1f, chargeLazer.transform.position.z);
+        lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y, chargeLazer.transform.position.z);
         lazerPool[poolIndex].SetActive(true);
         await UniTask.Delay(3000);
         AngryReturnLazer(lazerPool[poolIndex]);
@@ -190,14 +190,13 @@ public class Stage3Boss : MonoBehaviour
         isAttacking = true;
         Debug.Log("레이져볼 공격중");
         //if(isAngry)
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < lazerBallPool.Length; i++)
         {
-            int poolIndex = i % lazerBallPool.Length;
             //lazerBallPool[i].transform.position = transform.position + thisPos[i];
             Vector3 randomPos = transform.position + new Vector3(Random.Range(-10f, 10f),Random.Range(5f, 10f),0f);
 
-            lazerBallPool[poolIndex].transform.position = randomPos;
-            lazerBallPool[poolIndex].SetActive(true);
+            lazerBallPool[i].transform.position = randomPos;
+            lazerBallPool[i].SetActive(true);
             anime.SetTrigger("SecondPattern");
             if (!lazerBallPool[poolIndex].activeSelf)
             {
@@ -205,7 +204,7 @@ public class Stage3Boss : MonoBehaviour
             }
             for (int j = 1; j < 80; j++)
             {
-                lazerBallPool[poolIndex].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
+                lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);
             }
             await UniTask.Delay(400);
@@ -291,7 +290,7 @@ public class Stage3Boss : MonoBehaviour
     {
 		anime.SetTrigger("BloodAttack");
 		chargeLazer.SetActive(false);
-        lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y - 1f, chargeLazer.transform.position.z);
+        lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y, chargeLazer.transform.position.z);
         lazerPool[poolIndex].SetActive(true);
         await UniTask.Delay(3000);
         ReturnLazer(lazerPool[poolIndex]);

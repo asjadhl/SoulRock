@@ -18,6 +18,8 @@ public class LazerBall : MonoBehaviour
     {
         x = transform.position.x;
         y = transform.position.y;
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
     }
 
     //private void FixedUpdate()
@@ -26,11 +28,11 @@ public class LazerBall : MonoBehaviour
     //}
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
-    }
+    //void Start()
+    //{
+    //    player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+    //    boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
+    //}
 
     // Update is called once per frame
     void Update()
@@ -58,7 +60,7 @@ public class LazerBall : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
             gameObject.SetActive(false);
         }
     }

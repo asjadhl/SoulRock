@@ -11,7 +11,7 @@ public class BigLazer : MonoBehaviour
 
     bool reflect =false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
@@ -28,7 +28,7 @@ public class BigLazer : MonoBehaviour
     {   
         if(col.CompareTag("Player"))
         {
-            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
             gameObject.SetActive(false);
         }
         if(col.CompareTag("Mirror") && mirror.successMirror)
