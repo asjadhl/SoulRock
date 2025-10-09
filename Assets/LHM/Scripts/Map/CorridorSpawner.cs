@@ -1,4 +1,5 @@
 using NUnit.Framework.Constraints;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class StageInfo
     public string normalTag;
     public List<string> trapTags;
     [Range(0f, 1f)] public float trapChance;
-    public float corridorLength = 88.5f; // 각 스테이지 길이
+    public float corridorLength = 88; // 각 스테이지 길이
 }
 
 public class CorridorSpawner : MonoBehaviour
@@ -18,58 +19,50 @@ public class CorridorSpawner : MonoBehaviour
     public int currentStage = 1;           // 현재 스테이지 번호 (1부터 시작)
     public List<StageInfo> stages;         // Stage별 정보 (인스펙터에서 설정)
 
-    private int oldstage = 1;
-    private int oldstage2 = 2;
-    private string oldTag;
+    [Header("Stage Timing 설정")]
+    public float bossStageDelay = 60f;     // 1분(60초) 뒤 자동 전환
+
+    private bool stageTimerRunning = false;
+    private Queue<GameObject> corridors = new Queue<GameObject>();
+
     [Header("Corridor 설정")]
-    public int corridorCount = 5;          // 유지할 복도 개수
-    public float corridorLength = 88.5f;     // 복도 길이(Z축)
-    public float corridorWidth = 60f;      // 복도 폭(X축)
+    public int corridorCount = 5;
+    public float corridorLength = 88.5f;
+    public float corridorWidth = 60f;
 
     [Header("Player Reference")]
-    public Transform player;               // 플레이어 (고정)
-
-    [Header("Monster Spawner prefab")]
-    public string mosterSpawnerTag = "Spawner";
-
-    private Queue<GameObject> corridors = new Queue<GameObject>();
-    BossSpawner bossSpawner;
+    public Transform player;
 
     void Start()
     {
-        float playerX = player.position.x;
-        Debug.Log("Player X Position: " + playerX);
-        // 초기 복도 배치
         float startZ = 0f;
-        float newstartz = -corridorLength;
         for (int i = 0; i < corridorCount; i++)
         {
             string tag = GetStageCorridorTag();
-
             GameObject corridor = PoolingManager.Instance.SpawnFromPool(
                 tag,
-                new Vector3(playerX, 0, startZ),
+                new Vector3(player.position.x, 0, startZ),
                 Quaternion.identity
             );
-
-
             corridors.Enqueue(corridor);
             startZ += corridorLength;
         }
+
+        // 시작 스테이지에서 타이머 실행 여부 확인
+        TryStartStageTimer();
     }
 
     void Update()
     {
         ManageCorridors();
-
-        
     }
 
-    // 플레이어 뒤로 넘어간 복도는 재사용
+    // 복도 재활용
     void ManageCorridors()
     {
-        GameObject first = corridors.Peek();
+        if (corridors.Count == 0) return;
 
+        GameObject first = corridors.Peek();
         if (first.transform.position.z < player.position.z - corridorLength)
         {
             GameObject old = corridors.Dequeue();
@@ -78,58 +71,59 @@ public class CorridorSpawner : MonoBehaviour
             GameObject last = null;
             foreach (var c in corridors) last = c;
 
-            // 마지막 복도의 실제 길이를 자동 계산
             float lastLength = GetPrefabLength(last);
-
-            // 새 복도 위치 = 마지막 복도 끝점
             Vector3 newPos = last.transform.position + new Vector3(0, 0, lastLength);
 
-            // 스테이지 변경 체크
-            if (oldstage != currentStage)
-                oldstage = currentStage;
-
-            // 스테이지별 태그 가져오기
             string tag = GetStageCorridorTag();
-
-            GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(
-                tag,
-                newPos,
-                Quaternion.identity
-            );
-
+            GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(tag, newPos, Quaternion.identity);
             corridors.Enqueue(newCorridor);
         }
     }
 
-    // 프리팹의 실제 길이 계산
     float GetPrefabLength(GameObject obj)
     {
         Renderer rend = obj.GetComponentInChildren<Renderer>();
-        if (rend != null)
-            return rend.bounds.size.z;
-
-        return corridorLength; // 기본값 fallback
+        return rend != null ? rend.bounds.size.z : corridorLength;
     }
 
-
-    // 현재 스테이지에 맞는 프리펩 태그 선택
     string GetStageCorridorTag()
     {
         if (currentStage < 1 || currentStage > stages.Count)
-            return "Corridor"; // 예외 시 기본값
+            return "Corridor";
 
         StageInfo stage = stages[currentStage - 1];
-
-        // 확률 체크
         if (Random.value < stage.trapChance && stage.trapTags.Count > 0)
         {
-            // 트랩맵 중 하나 랜덤 선택
             int randIndex = Random.Range(0, stage.trapTags.Count);
             return stage.trapTags[randIndex];
         }
-        else
+        return stage.normalTag;
+    }
+
+    // 스테이지에 따라 타이머 작동
+    void TryStartStageTimer()
+    {
+        if (!stageTimerRunning)
         {
-            return stage.normalTag;
+            // 1, 3일 때만 자동 전환 타이머 작동
+            if (currentStage == 1 || currentStage == 3)
+                StartCoroutine(AutoNextStageAfterDelay());
         }
+    }
+
+    // 1분 후 다음 스테이지(보스)로 자동 전환
+    IEnumerator AutoNextStageAfterDelay()
+    {
+        stageTimerRunning = true;
+        yield return new WaitForSeconds(bossStageDelay);
+
+        // 스테이지 1→2, 3→4만 자동 전환
+        if (currentStage == 1) currentStage = 2;
+        else if (currentStage == 3) currentStage = 4;
+
+        Debug.Log($"[Auto Stage Change] currentStage = {currentStage}");
+
+        stageTimerRunning = false;
+        TryStartStageTimer(); // 4에서 5로는 자동 변경 없음
     }
 }
