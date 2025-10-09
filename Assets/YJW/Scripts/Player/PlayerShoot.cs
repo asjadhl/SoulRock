@@ -120,6 +120,10 @@ public class PlayerShoot : MonoBehaviour
                 {
                     boss2.GetComponent<BossHP>().BossHPMinus();
                 }
+                if(hit.collider.gameObject.tag == "Stage3Boss")
+                {
+                    hit.collider.gameObject.GetComponent<BossHP>().BossHPMinus();
+                }
                 if (hit.collider.gameObject.tag == "miniH")
                 {
                     boss2.GetComponent<Stage2BossAttack>().reMiniHMinus();
