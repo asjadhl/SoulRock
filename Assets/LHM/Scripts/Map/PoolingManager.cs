@@ -47,17 +47,29 @@ public class PoolingManager : MonoBehaviour
     {
         if (!poolDictionary.ContainsKey(tag))
         {
-            Debug.LogWarning("Pool with tag " + tag + " doesn't exist.");
+            Debug.LogError($"Pool with tag [{tag}] doesn't exist in PoolingManager!");
             return null;
         }
 
-        GameObject obj = poolDictionary[tag].Dequeue();
+        Queue<GameObject> pool = poolDictionary[tag];
+        if (pool.Count == 0)
+        {
+            Debug.LogError($"Pool with tag [{tag}] is empty! (size not enough)");
+            return null;
+        }
+
+        GameObject obj = pool.Dequeue();
+        if (obj == null)
+        {
+            Debug.LogError($"Pooled object with tag [{tag}] is null (Prefab missing?)");
+            return null;
+        }
 
         obj.SetActive(true);
         obj.transform.SetPositionAndRotation(position, rotation);
-
-        poolDictionary[tag].Enqueue(obj);
+        pool.Enqueue(obj);
 
         return obj;
     }
+
 }

@@ -35,6 +35,17 @@ public class CorridorSpawner : MonoBehaviour
 
     void Start()
     {
+        if (player == null)
+        {
+            Debug.LogError("CorridorSpawner: player reference is not assigned");
+            return;
+        }
+
+        if (PoolingManager.Instance == null)
+        {
+            Debug.LogError("CorridorSpawner: PoolingManager instance is missing");
+            return;
+        }
         float startZ = 0f;
         for (int i = 0; i < corridorCount; i++)
         {
@@ -66,6 +77,11 @@ public class CorridorSpawner : MonoBehaviour
             GameObject old = corridors.Dequeue();
             old.SetActive(false);
 
+            if (corridors.Count == 0)
+            {
+                Debug.LogWarning("No corridors left in queue after dequeue");
+                return;
+            }
             GameObject last = null;
             foreach (var c in corridors) last = c;
 
@@ -80,6 +96,12 @@ public class CorridorSpawner : MonoBehaviour
 
     float GetPrefabLength(GameObject obj)
     {
+        if (obj == null)
+        {
+            Debug.LogWarning("GetPrefabLength() called with null object");
+            return corridorLength;
+        }
+
         Renderer rend = obj.GetComponentInChildren<Renderer>();
         return rend != null ? rend.bounds.size.z : corridorLength;
     }
