@@ -53,7 +53,8 @@ public class BossBullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Boss"))
         {
-            ReturnSpawnPoint();
+            //ReturnSpawnPoint();
+            Destroy(gameObject);
             boss.GetComponent<BossHP>().BossHPMinus();
         }
     }
