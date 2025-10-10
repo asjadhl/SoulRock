@@ -12,8 +12,7 @@ public enum Behavior
 public class Enemy : MonoBehaviour
 {
   
-    //datas   
-    string datas;
+    
    protected string EntityType; //Walker = 0, Fly = 1
    protected string EntityIS;  // Friendly, chonglib, Hostile
  
@@ -35,7 +34,7 @@ public class Enemy : MonoBehaviour
     protected  EnemyGraphics EnemyGhostGraphics;
      
     [Space(10)]
-    public float offsetEyessight;
+    public Vector3  offsetLookAt;
     public Enemy()
     { }
    public virtual void  FactoryReset()
@@ -116,7 +115,7 @@ public class Enemy : MonoBehaviour
   }
   public void LookAt(Vector3 target)
   {
-     target.y += offsetEyessight;
+     target += offsetLookAt;
     transform.LookAt(target);
   }
     public void DestroyWhenBehind()
