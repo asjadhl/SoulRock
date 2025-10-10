@@ -19,7 +19,7 @@ public class CorridorSpawner : MonoBehaviour
 
     [Header("Stage Timing 설정")]
     public float emptyDelay = 5f;           // 빈 맵 대기 시간
-    public float normalDelay = 60f;         // 일반 스테이지 → 보스 대기 시간
+    public float normalDelay = 60f;         // 일반 스테이지  보스 대기 시간
 
     private bool stageTimerRunning = false;
 
@@ -70,7 +70,7 @@ public class CorridorSpawner : MonoBehaviour
             foreach (var c in corridors) last = c;
 
             float lastLength = GetPrefabLength(last);
-            Vector3 newPos = last.transform.position + new Vector3(0, 0, lastLength);
+            Vector3 newPos = last.transform.position + new Vector3(0, 0, lastLength+87F);
 
             string tag = GetStageCorridorTag();
             GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(tag, newPos, Quaternion.identity);
@@ -106,11 +106,11 @@ public class CorridorSpawner : MonoBehaviour
         // 자동 변경 패턴
         if (currentStage == 1 || currentStage == 4)
         {
-            StartCoroutine(AutoNextStage(emptyDelay));   // 빈 맵 → 다음
+            StartCoroutine(AutoNextStage(emptyDelay));   // 빈 맵 다음
         }
         else if (currentStage == 2 || currentStage == 5)
         {
-            StartCoroutine(AutoNextStage(normalDelay));  // 일반 → 보스
+            StartCoroutine(AutoNextStage(normalDelay));  // 일반  보스
         }
         // 3, 6, 7은 자동 변경 없음 (보스 구간)
     }
