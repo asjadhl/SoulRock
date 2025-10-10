@@ -39,7 +39,7 @@ public class Stage3Boss : MonoBehaviour
     bool isAttacking = true;
     bool isAngry = false;
     bool animeOn = false;
-
+    [SerializeField] GameObject monsterSpawner;
     private async UniTask Start()
     {
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -53,6 +53,7 @@ public class Stage3Boss : MonoBehaviour
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
         mirror.SetActive(false);
+        monsterSpawner.SetActive(false);
         await UniTask.Delay(5000);
         isAttacking = false;
         ranIndex = Random.Range(0, 3);
@@ -410,7 +411,8 @@ public class Stage3Boss : MonoBehaviour
         {
 			anime.Play("Jump");
 		}
-	    material.color = Color.red;
+        monsterSpawner.SetActive(true);
+        material.color = Color.red;
 		coolTime = 500;
     }
 
