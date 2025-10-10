@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BossMove : MonoBehaviour
 {
-   private float moveSpeed = 1f;
+   private float moveSpeed = 10f;
 
     private void Update()
     {
