@@ -74,8 +74,7 @@ public class Stage2BossAttack : MonoBehaviour
         if (isDelay == false)
             _ = StartDelay();
     }
-
-    private void Update()
+    private void FixedUpdate()
     {
         if (!isDelay) return;
 
@@ -217,7 +216,7 @@ public class Stage2BossAttack : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            player.GetComponent<PlayerHP>().PlayerHPMinus();
+            _=player.GetComponent<PlayerHP>().PlayerHPMinus();
             transform.rotation = Quaternion.Euler(0,180,0);
             transform.position = new Vector3(0, 0, player.transform.position.z + 17);
             ChangeNextRanCard();
