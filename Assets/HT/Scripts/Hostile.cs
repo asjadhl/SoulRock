@@ -69,18 +69,8 @@ public class Hostile : Enemy
 
 
 
-
-
-
-
-
-
-
-
-
-
-
                     }, 40).Forget();
+                    
                 }
                 break;
         }

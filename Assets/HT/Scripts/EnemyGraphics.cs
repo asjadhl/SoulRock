@@ -28,7 +28,7 @@ public class EnemyGraphics : MonoBehaviour
    
     Vector3 Origin;
 
-
+   
     private void Awake()
     {
         if (m_anim == null)
@@ -83,6 +83,7 @@ public class EnemyGraphics : MonoBehaviour
     private void OnDestroy()
     {
         listcts[(int)Cts.normal].Cancel();
+        listcts[(int)Cts.master].Cancel();
     }
     #region Animation_System
 

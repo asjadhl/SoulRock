@@ -1,24 +1,38 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
-
-
-[System.Serializable]
-public class A
-{
-  public int age;
-}
+ 
+ 
 public class Test : MonoBehaviour
 {
+    public GameObject ga;
+    public CancellationTokenSource cts;
+    public void Start()
+    {
 
-  public List<A> list;
-  public List<A> list2;
+        cts = new();
+    }
+    public void Update()
+    {
+        
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Destroy(gameObject);
+            Tes(cts.Token).Forget();
+        }
+    }
 
-  public void Start()
-  {
-    list2.Add(new A() { age = list[0].age });
-  }
+    public async UniTaskVoid Tes(CancellationToken t)
+    {
+        await UniTask.WaitForSeconds(3f, cancellationToken: t);
+        Destroy(gameObject);
+    }
 
-
+    public void OnDestroy()
+    {
+        cts.Cancel();
+    }
 
 }
