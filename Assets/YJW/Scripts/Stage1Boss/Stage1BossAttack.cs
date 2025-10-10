@@ -11,6 +11,8 @@ public class Stage1BossAttack : MonoBehaviour
 
     [SerializeField] int[] GreenBallTime; // 53, 108, 170
     private int index = 0;
+    [SerializeField] GameObject greenBall;
+    [SerializeField] Transform spawnPoint;
 
     private Animator bossAnim;
 
@@ -53,7 +55,7 @@ public class Stage1BossAttack : MonoBehaviour
     {
         if((int)CheckRealTime.inGamerealTime == GreenBallTime[index])
         {
-
+            Instantiate(greenBall, spawnPoint.position, Quaternion.identity);
         }
     }
 

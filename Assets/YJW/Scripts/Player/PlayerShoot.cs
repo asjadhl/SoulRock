@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.DualShock.LowLevel;
+using UnityEngine.SceneManagement;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -129,7 +130,10 @@ public class PlayerShoot : MonoBehaviour
                     boss2.GetComponent<Stage2BossAttack>().reMiniHMinus();
                     hit.collider.gameObject.GetComponent<MiniBoss>().ReturnOriPos();
                 }
-
+                if(hit.collider.gameObject.tag == "BossBullet2")
+                {
+                    hit.collider.gameObject.GetComponent<BossBullet>().BackToBoss();
+                }
             }
 
 
