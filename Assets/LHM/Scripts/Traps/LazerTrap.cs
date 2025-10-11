@@ -81,6 +81,13 @@ public class LazerTrap : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+        }
+    }
     public void FixedUpdate()
     {
         foreach (GameObject lazer in lazerObject)

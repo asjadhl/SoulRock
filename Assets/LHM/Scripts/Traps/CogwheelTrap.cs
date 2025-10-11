@@ -18,8 +18,14 @@ public class CogwheelTrap : MonoBehaviour
     {
         transform.Rotate(Vector3.left * RotationSpeed * Time.fixedDeltaTime);
     }
-    
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+        }
+    }
 
     public void OnHit()
     {

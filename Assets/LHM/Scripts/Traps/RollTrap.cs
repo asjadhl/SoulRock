@@ -82,6 +82,13 @@ public class RollTrap : MonoBehaviour
           
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+        }
+    }
     System.Collections.IEnumerator CloseDoorRoutine()
     {
         // target: ´ÝÈû À§Ä¡ÀÇ ·ÎÄÃ Y

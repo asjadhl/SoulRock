@@ -29,7 +29,13 @@ public class WindTrap : MonoBehaviour
     {
         trap.transform.Rotate(Vector3.right * rollSpeed * Time.deltaTime);
     }
- 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+        }
+    }
     public void StopBox()
     {
         isRotating = !isRotating;

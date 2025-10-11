@@ -20,6 +20,7 @@ public class DoorTrap : MonoBehaviour
     float openLocalY;                     // 계산된 열린 시작 위치
     Vector3 doorLocal;                    // 재사용용 버퍼
     Coroutine closeRoutine;
+    public GameObject player;   
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class DoorTrap : MonoBehaviour
         {
             door.SetParent(doorFrame, worldPositionStays: true);
         }
+        player = GameObject.FindWithTag("Player").GetComponent<GameObject>();
     }
 
     void OnEnable()
@@ -86,8 +88,12 @@ public class DoorTrap : MonoBehaviour
             currentHealth = 0;
             OnHit();
             Debug.Log("플레이어가 문에 닿음!");
-        }
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+        } 
     }
+
+    
+
 
     public void OnHit()
     {

@@ -136,4 +136,12 @@ public class AxTrap : MonoBehaviour
         Vector3 dir = axis.normalized * 0.5f;
         Gizmos.DrawLine(pivot, pivot + dir);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+        }
+    }
 }

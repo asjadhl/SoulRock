@@ -69,8 +69,14 @@ public class PressTrap : MonoBehaviour
                 this.gameObject.SetActive(false);
             }
         }
+    }
 
-
-        
+    // 플레이어와 충돌 시 데미지 처리
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+        }
     }
 }
