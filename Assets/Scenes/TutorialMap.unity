@@ -1353,11 +1353,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - tag: Satge1Normal
+  - tag: Stage1Empty
+    prefab: {fileID: 6718177031995156282, guid: 3a4efc34278697b498a24a6860d9573b, type: 3}
+    size: 10
+  - tag: Stage1lazer
+    prefab: {fileID: 6718177031995156282, guid: e7f1d5b2944248b428cf0ca19a4a1893, type: 3}
+    size: 10
+  - tag: Stage1Normal
     prefab: {fileID: 6718177031995156282, guid: 6dcd2d05c58dfc045bc73474213c091e, type: 3}
     size: 10
+  - tag: Stage1Normal2
+    prefab: {fileID: 6718177031995156282, guid: 35330e07b2c88754699b2cf00d0f9eea, type: 3}
+    size: 10
+  - tag: Stage1Normal3
+    prefab: {fileID: 6718177031995156282, guid: 8507fd32014ea4d4db98184b97e1fa1b, type: 3}
+    size: 10
   - tag: Stage1RollTrap
-    prefab: {fileID: 5095985224834087289, guid: d51523035f9a45e4cbdf64bddac5815f, type: 3}
+    prefab: {fileID: 1408060146893456575, guid: d51523035f9a45e4cbdf64bddac5815f, type: 3}
     size: 10
   - tag: Stage1Hammer
     prefab: {fileID: 3569237132839760772, guid: f8c981456b79d26418ef839a05ec4ece, type: 3}
@@ -1368,26 +1380,26 @@ MonoBehaviour:
   - tag: Stage2Empty
     prefab: {fileID: 9208068875294112038, guid: 5d086bf72c6bf974aad1cb856f75f254, type: 3}
     size: 10
+  - tag: Stage2Normal2
+    prefab: {fileID: 9208068875294112038, guid: d828ec8e5d6beae44bc916ffa15acc91, type: 3}
+    size: 10
   - tag: Stage2Door
     prefab: {fileID: 5965829897865032008, guid: d7ed97fa22a2660408762e967c1f9303, type: 3}
     size: 10
   - tag: Stage2Swing
     prefab: {fileID: 8285250320141596858, guid: c8c831700e574c3498a29d41fc4d0f5d, type: 3}
     size: 10
+  - tag: Stage2Wind
+    prefab: {fileID: 9208068875294112038, guid: 4ab767e0e0c01924a8c7cf512d6bf31e, type: 3}
+    size: 10
   - tag: Stage3Normal
     prefab: {fileID: 5699395363842694187, guid: 8c82cc337ef28cb44a99038e616ac95f, type: 3}
     size: 10
-  - tag: Stage3LazerTrap
-    prefab: {fileID: 4000684960007504221, guid: 9cb6906f2cd7dbd408d75ebfc9448558, type: 3}
-    size: 10
-  - tag: Stage3WindTrap
-    prefab: {fileID: 8500984683118295021, guid: 5a3a6ee8040c6d34db53e77301d4af5b, type: 3}
-    size: 10
   - tag: Stage1Boss
-    prefab: {fileID: 6718177031995156282, guid: 4a6806b29aaba5e42b92aeb287292a1b, type: 3}
+    prefab: {fileID: 6718177031995156282, guid: d56c7dfc4c1c12343bb2765b4fbaffd8, type: 3}
     size: 10
   - tag: Stage2Boss
-    prefab: {fileID: 9208068875294112038, guid: 5985dfac8b8bf9847a59a22701cdd773, type: 3}
+    prefab: {fileID: 9208068875294112038, guid: 5d086bf72c6bf974aad1cb856f75f254, type: 3}
     size: 10
 --- !u!4 &790706014
 Transform:
@@ -1691,7 +1703,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &971686117
@@ -3044,7 +3056,7 @@ Transform:
   m_GameObject: {fileID: 1645631531}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -4}
+  m_LocalPosition: {x: 0, y: 1.5, z: 5.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3220,7 +3232,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1721651274}
   - component: {fileID: 1721651273}
-  - component: {fileID: 1721651275}
   m_Layer: 0
   m_Name: CorridorSpawner
   m_TagString: Untagged
@@ -3242,32 +3253,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStage: 4
   stages:
-  - normalTag: Satge1Normal
+  - normalTag: Stage1Empty
+    trapTags: []
+    trapChance: 0
+    corridorLength: 87
+  - normalTag: Stage1Normal
     trapTags:
     - Stage1RollTrap
     - Stage1Hammer
+    - Stage1Empty
+    - Stage1Normal2
+    - Stage1Normal3
+    - Stage1lazer
+    trapChance: 0.6
+    corridorLength: 87
+  - normalTag: Stage1Boss
+    trapTags: []
     trapChance: 0
     corridorLength: 87
-  - normalTag: Satge1Normal
+  - normalTag: Stage2Empty
     trapTags: []
     trapChance: 0
     corridorLength: 87
   - normalTag: Stage2Normal
     trapTags:
     - Stage2Empty
-    trapChance: 0
+    - Stage2Normal2
+    - Stage2Wind
+    - Stage2Swing
+    - Stage2Door
+    trapChance: 0.6
     corridorLength: 87
   - normalTag: Stage2Boss
     trapTags: []
     trapChance: 0
-    corridorLength: 87
+    corridorLength: 91
   - normalTag: Stage3Normal
     trapTags: []
     trapChance: 0
     corridorLength: 91
   emptyDelay: 5
   normalDelay: 60
-  corridorCount: 4
+  corridorCount: 5
   corridorLength: 87
   corridorWidth: 60
   player: {fileID: 1763589410}
@@ -3286,25 +3313,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1721651275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721651272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ed6aae93753dfc43963f86261ffd437, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1763589410}
-  bossPrefab:
-  - {fileID: 1697233231}
-  - {fileID: 1763505735}
-  - {fileID: 1430581444}
-  bossSpawnerTag: Boss
-  corridorSpawner: {fileID: 1721651273}
 --- !u!4 &1723813849 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4468428759689371540, guid: 41a718bdc6905044ebe940f79db20b3b, type: 3}
@@ -3350,7 +3358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -10.999872, y: 9.000061}
+  m_AnchoredPosition: {x: -10.999878, y: 9}
   m_SizeDelta: {x: 600, y: 260}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1726065990

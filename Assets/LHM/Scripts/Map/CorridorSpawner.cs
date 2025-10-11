@@ -19,9 +19,9 @@ public class CorridorSpawner : MonoBehaviour
 
     [Header("Stage Timing 설정")]
     public float emptyDelay = 5f;           // 빈 맵 대기 시간
-    public float normalDelay = 60f;         // 일반 스테이지  보스 대기 시간
+    public float normalDelay = 60f;         // 일반 스테이지 -> 보스 대기 시간
 
-    private bool stageTimerRunning = false;
+    private bool isTransitionRunning = false;
 
     [Header("Corridor 설정")]
     public int corridorCount = 5;
@@ -32,6 +32,7 @@ public class CorridorSpawner : MonoBehaviour
     public Transform player;
 
     private Queue<GameObject> corridors = new Queue<GameObject>();
+    private Coroutine stageCoroutine; // 현재 진행 중인 코루틴 저장용
 
     void Start()
     {
@@ -46,6 +47,7 @@ public class CorridorSpawner : MonoBehaviour
             Debug.LogError("CorridorSpawner: PoolingManager instance is missing");
             return;
         }
+
         float startZ = 0f;
         for (int i = 0; i < corridorCount; i++)
         {
@@ -59,7 +61,7 @@ public class CorridorSpawner : MonoBehaviour
             startZ += corridorLength;
         }
 
-        TryStartStageTimer();
+        StartStageTimer(); // 첫 스테이지 시작
     }
 
     void Update()
@@ -72,27 +74,50 @@ public class CorridorSpawner : MonoBehaviour
         if (corridors.Count == 0) return;
 
         GameObject first = corridors.Peek();
-        if (first.transform.position.z < player.position.z - corridorLength)
+
+        // 플레이어가 첫 번째 복도를 지나쳤는지 검사
+        if (first.transform.position.z + corridorLength < player.position.z - 5f)
         {
+            // 가장 앞 복도 제거
             GameObject old = corridors.Dequeue();
             old.SetActive(false);
 
-            if (corridors.Count == 0)
-            {
-                Debug.LogWarning("No corridors left in queue after dequeue");
-                return;
-            }
+            // 마지막 복도 찾기
             GameObject last = null;
             foreach (var c in corridors) last = c;
 
-            float lastLength = GetPrefabLength(last);
-            Vector3 newPos = last.transform.position + new Vector3(0, 0, lastLength+87F);
+            if (last == null)
+            {
+                Debug.LogWarning("No last corridor found");
+                return;
+            }
 
+            // 마지막 복도의 실제 끝 Z좌표 계산
+            Renderer[] renderers = last.GetComponentsInChildren<Renderer>();
+            if (renderers.Length == 0)
+            {
+                Debug.LogWarning("Last corridor has no renderer, using fallback length");
+            }
+
+            float endZ = 0f;
+            foreach (Renderer r in renderers)
+            {
+                // bounds.max.z는 오브젝트의 “끝 지점”
+                endZ = Mathf.Max(endZ, r.bounds.max.z);
+            }
+
+            // 다음 복도의 시작 위치를 복도 끝점에 정확히 이어붙임
             string tag = GetStageCorridorTag();
-            GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(tag, newPos, Quaternion.identity);
+            GameObject newCorridor = PoolingManager.Instance.SpawnFromPool(
+                tag,
+                new Vector3(last.transform.position.x, 0, endZ),
+                Quaternion.identity
+            );
             corridors.Enqueue(newCorridor);
         }
     }
+
+
 
     float GetPrefabLength(GameObject obj)
     {
@@ -103,8 +128,13 @@ public class CorridorSpawner : MonoBehaviour
         }
 
         Renderer rend = obj.GetComponentInChildren<Renderer>();
-        return rend != null ? rend.bounds.size.z : corridorLength;
+        if (rend == null)
+            return corridorLength;
+
+        // 실제 월드 스케일까지 반영
+        return rend.bounds.size.z;
     }
+
 
     string GetStageCorridorTag()
     {
@@ -120,33 +150,49 @@ public class CorridorSpawner : MonoBehaviour
         return stage.normalTag;
     }
 
-    // 스테이지 타이머 시작
-    void TryStartStageTimer()
+    // 스테이지 타이머 관리
+    void StartStageTimer()
     {
-        if (stageTimerRunning) return;
+        // 중복 방지
+        if (stageCoroutine != null)
+        {
+            StopCoroutine(stageCoroutine);
+            stageCoroutine = null;
+        }
 
-        // 자동 변경 패턴
-        if (currentStage == 1 || currentStage == 4)
+        // 다음 스테이지로 넘어가는 시간이 정해진 경우에만 시작
+        if (IsAutoStage(currentStage))
         {
-            StartCoroutine(AutoNextStage(emptyDelay));   // 빈 맵 다음
+            float delay = GetStageDelay(currentStage);
+            stageCoroutine = StartCoroutine(StageTimer(delay));
         }
-        else if (currentStage == 2 || currentStage == 5)
-        {
-            StartCoroutine(AutoNextStage(normalDelay));  // 일반  보스
-        }
-        // 3, 6, 7은 자동 변경 없음 (보스 구간)
     }
 
-    IEnumerator AutoNextStage(float delay)
+    IEnumerator StageTimer(float delay)
     {
-        stageTimerRunning = true;
+        isTransitionRunning = true;
         yield return new WaitForSeconds(delay);
 
-        // 다음 스테이지로 전환
         currentStage++;
-        Debug.Log($"[Auto Stage Change] currentStage = {currentStage}");
+        Debug.Log($"[Stage Change] currentStage = {currentStage}");
 
-        stageTimerRunning = false;
-        TryStartStageTimer(); // 다음 단계도 자동일 경우 이어서 실행
+        isTransitionRunning = false;
+        StartStageTimer(); // 다음 단계 자동 실행
+    }
+
+    bool IsAutoStage(int stage)
+    {
+        // 1, 2, 4, 5 단계만 자동 진행
+        return stage == 1 || stage == 2 || stage == 4 || stage == 5;
+    }
+
+    float GetStageDelay(int stage)
+    {
+        // 1,4는 빈맵, 2,5는 일반맵
+        if (stage == 1 || stage == 4)
+            return emptyDelay;
+        else if (stage == 2 || stage == 5)
+            return normalDelay;
+        return 0f;
     }
 }

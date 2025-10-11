@@ -30218,6 +30218,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3749379485326144559}
     m_Modifications:
+    - target: {fileID: 3838287493964051684, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.size
       value: 4
@@ -30312,15 +30316,15 @@ PrefabInstance:
       objectReference: {fileID: 1229946387624904664}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].EntityList.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[2].EntityList.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[3].EntityList.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[4].EntityList.Array.size
@@ -30375,8 +30379,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5091808336580822755, guid: 2ac10d2aae543124aad0281eda734cdb, type: 3}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
+      propertyPath: areaSpawns.Array.data[0].EntityList.Array.data[0].EntitySpawnCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].EntityList.Array.data[0].EntitySpawnCount
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].EntityList.Array.data[1].EntitySpawnCount
@@ -30388,27 +30396,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[2].EntityList.Array.data[0].EntitySpawnCount
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[2].EntityList.Array.data[1].EntitySpawnCount
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[2].EntityList.Array.data[2].EntitySpawnCount
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[3].EntityList.Array.data[0].EntitySpawnCount
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[3].EntityList.Array.data[1].EntitySpawnCount
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[3].EntityList.Array.data[2].EntitySpawnCount
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[4].EntityList.Array.data[0].EntitySpawnCount
