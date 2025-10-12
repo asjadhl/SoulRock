@@ -651,6 +651,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: PoolingManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
+      propertyPath: pools.Array.size
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
+      propertyPath: pools.Array.data[16].tag
+      value: Corridor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
+      propertyPath: pools.Array.data[16].size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
+      propertyPath: pools.Array.data[16].prefab
+      value: 
+      objectReference: {fileID: 5699395363842694187, guid: 8c82cc337ef28cb44a99038e616ac95f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

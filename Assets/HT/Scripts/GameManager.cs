@@ -120,9 +120,25 @@ public class GameManager : MonoBehaviour
         }
 
 
+    public void Update()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+
+            var a = hit.collider.GetComponent<LockOnDodgeEnemy>();
+            if (a != null)
+            {
+                a.TriggerDodge();
+            }
 
 
-  
+        }
+    }
+
+
 
 
 
