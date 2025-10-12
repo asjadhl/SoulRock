@@ -1,16 +1,30 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; // æ¿ ¿Ãµøø° « ø‰
 
-public class MainGhostTraining : MonoBehaviour
+public class GhostTrainingLoader : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Camera mainCam;
+
     void Start()
     {
-        
+        mainCam = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform == transform)
+                {
+                    Debug.Log("¿Ø∑… ≈¨∏Øµ  °Ê ∆Æ∑π¿Ã¥◊ æ¿¿∏∑Œ ¿Ãµø");
+                    SceneManager.LoadScene("TraingRoom");
+                }
+            }
+        }
     }
 }
