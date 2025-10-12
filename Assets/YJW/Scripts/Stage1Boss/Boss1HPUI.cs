@@ -8,6 +8,6 @@ public class Boss1HPUI : MonoBehaviour
 
     private void BossHPUI()
     {
-
+        heartImage[index].SetActive(false);
     }
 }
