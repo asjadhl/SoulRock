@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainGhostClick : MonoBehaviour
 {
@@ -29,8 +30,7 @@ public class MainGhostClick : MonoBehaviour
                 {
                     Debug.Log("Ghost clicked!");
 
-                    if (targetCanvas != null)
-                        targetCanvas.SetActive(true); // Äµ¹ö½º ÄÑ±â
+                    SceneManager.LoadScene("Stage1");
                 }
             }
         }
