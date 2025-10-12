@@ -69,6 +69,9 @@ public class Stage2BossAttack : MonoBehaviour
 
     private bool cardChanged = false;
 
+    private bool isHAttacking = false;
+
+
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -85,24 +88,31 @@ public class Stage2BossAttack : MonoBehaviour
         switch (curShape)
         {
             case Shape.H:
-                if (miniBossSpawned == false)
+                if (!miniBossSpawned && !isHAttacking)
+                {
+                    isHAttacking = true;
                     HAttack();
+                }
                 break;
+
             case Shape.S:
                 spadeTimer += Time.fixedDeltaTime;
                 if (spadeTimer <= 10)
                 {
-                    if (isCardSpawn == false)
+                    if (!isCardSpawn)
                         _ = SAttack();
                 }
                 else
                 {
-                    ChangeNextRanCard();
-                    //currentCard = cards[0];
-                    //SetCardData();
+                    if (!cardChanged)
+                    {
+                        ChangeNextRanCard();
+                        cardChanged = true;
+                    }
                     spadeTimer = 0;
                 }
                 break;
+
             case Shape.D:
                 teleportTimer += Time.fixedDeltaTime;
                 DAttack();
@@ -111,19 +121,22 @@ public class Stage2BossAttack : MonoBehaviour
                 clubTimer += Time.fixedDeltaTime;
                 if (clubTimer <= 10)
                 {
-                    if (isBallSpawn == false)
+                    if (!isBallSpawn)
                         _ = CAttack();
                 }
                 else
                 {
-                    ChangeNextRanCard();
-                    //currentCard = cards[2];
-                    //SetCardData();
+                    if (!cardChanged)
+                    {
+                        ChangeNextRanCard();
+                        cardChanged = true;
+                    }
                     clubTimer = 0;
                 }
                 break;
+
         }
-        
+
     }
 
     private void SetCardData()
@@ -149,7 +162,8 @@ public class Stage2BossAttack : MonoBehaviour
         miniBossSpawned = true;
         await UniTask.Delay(10000);
         usedPos.Clear();
-        ChangeNextRanCard();
+        
+
         //currentCard = cards[1];
         //SetCardData();
         for (int i = 0; i <= clubStack + 4; i++)
@@ -165,8 +179,13 @@ public class Stage2BossAttack : MonoBehaviour
             BossHP.bossHP += reMiniH;
             bossRecover = true;
         }
+
+        ChangeNextRanCard();
+        cardChanged = false;
+        isHAttacking = false;
+
     }
-    
+
     private async UniTask SAttack()
     {
         Debug.Log("스페이드");
@@ -175,6 +194,7 @@ public class Stage2BossAttack : MonoBehaviour
         isCardSpawn = true;
         await UniTask.Delay(1500);
         isCardSpawn = false;
+        cardChanged = false;
     }
 
     private void DAttack()
@@ -197,9 +217,14 @@ public class Stage2BossAttack : MonoBehaviour
             else
             {
                 transform.position = new Vector3(0, 0, player.transform.position.z + 17);
-                ChangeNextRanCard();
+                if (!cardChanged)
+                {
+                    ChangeNextRanCard();
+                    cardChanged = true;
+                }
                 playerHitCount = 0;
             }
+
         }
     }
 
@@ -211,6 +236,8 @@ public class Stage2BossAttack : MonoBehaviour
         isBallSpawn = true;
         await UniTask.Delay(2500);
         isBallSpawn = false;
+        cardChanged = false;
+
     }
 
     // 다이이 패턴
@@ -240,6 +267,8 @@ public class Stage2BossAttack : MonoBehaviour
             ChangeNextRanCard();
             teleportCount = 0;
             playerHitCount = 0;
+            cardChanged = false;
+
         }
     }
 

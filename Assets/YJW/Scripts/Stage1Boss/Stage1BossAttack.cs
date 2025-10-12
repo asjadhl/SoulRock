@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Stage1BossAttack : MonoBehaviour
@@ -13,6 +14,7 @@ public class Stage1BossAttack : MonoBehaviour
     private int index = 0;
     [SerializeField] GameObject greenBall;
     [SerializeField] Transform spawnPoint;
+    public bool isGreenBallSpawned = false;
 
     private Animator bossAnim;
 
@@ -27,6 +29,7 @@ public class Stage1BossAttack : MonoBehaviour
     {
         BossAttack1Timer();
         BossAttack2Timer();
+        GreenBallTimer();
     }
 
     private void BossAttack1Timer()
@@ -51,11 +54,16 @@ public class Stage1BossAttack : MonoBehaviour
         }
     }
 
-    private void GreenBallTimer()
+    private async UniTask GreenBallTimer()
     {
-        if((int)CheckRealTime.inGamerealTime == GreenBallTime[index])
+        if(/*(int)CheckRealTime.inGamerealTime == GreenBallTime[index] || */Input.GetKeyDown(KeyCode.W))
         {
-            Instantiate(greenBall, spawnPoint.position, Quaternion.identity);
+            if(isGreenBallSpawned == false)
+            {
+                Debug.Log("초록공생성");
+                Instantiate(greenBall, spawnPoint.position, Quaternion.identity);
+                isGreenBallSpawned = true;
+            }
         }
     }
 

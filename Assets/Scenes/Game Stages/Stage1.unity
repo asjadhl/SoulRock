@@ -229,9 +229,10 @@ MonoBehaviour:
   - 8
   - 11
   - 16
-  GreenBallTime: 350000006c000000aa000000
+  GreenBallTime: 640000006c000000aa000000
   greenBall: {fileID: 2604589122146628465, guid: 5e18a712fcb92d44ebd8e3233c64c90a, type: 3}
   spawnPoint: {fileID: 921950300}
+  isGreenBallSpawned: 0
 --- !u!95 &11638906
 Animator:
   serializedVersion: 7
@@ -266,7 +267,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25198ee74dbc21346a1cf64c6d248346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartImage: []
+  heartImage:
+  - {fileID: 1520173553}
+  - {fileID: 1580806324}
+  - {fileID: 844784605}
 --- !u!1 &35382620
 GameObject:
   m_ObjectHideFlags: 0
@@ -14888,6 +14892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunObject: {fileID: 1055070453}
+  boss1: {fileID: 11638900}
   boss2: {fileID: 0}
   shootParticle: {fileID: 1842699091}
   gunTransform: {fileID: 1055070454}

@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] GameObject gunObject;
+    [SerializeField] GameObject boss1;
     [SerializeField] GameObject boss2;
 
     [SerializeField] ParticleSystem shootParticle;
@@ -130,9 +131,10 @@ public class PlayerShoot : MonoBehaviour
                     boss2.GetComponent<Stage2BossAttack>().reMiniHMinus();
                     hit.collider.gameObject.GetComponent<MiniBoss>().ReturnOriPos();
                 }
-                if(hit.collider.gameObject.tag == "BossBullet2")
+                if(hit.collider.gameObject.tag == "Bullet2")
                 {
                     hit.collider.gameObject.GetComponent<BossBullet>().BackToBoss();
+                    boss1.GetComponent<Stage1BossAttack>().isGreenBallSpawned = false;
                 }
             }
 

@@ -6,8 +6,9 @@ public class Boss1HPUI : MonoBehaviour
 
     int index = 2;
 
-    private void BossHPUI()
+    public void BossHPUI()
     {
         heartImage[index].SetActive(false);
+        index--;
     }
 }

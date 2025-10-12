@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!135 &3342705
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -519,7 +519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &35811947
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &137387598
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1579,7 +1579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &193494161
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1828,7 +1828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!135 &212352730
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1953,7 +1953,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &229316193
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2230,7 +2230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &339532689
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2386,7 +2386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!135 &357093118
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2715,7 +2715,7 @@ MonoBehaviour:
   - {fileID: 1487163932}
   - {fileID: 2131662040}
   clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
-  player: {fileID: 0}
+  player: {fileID: 867834507}
   poolCircle: []
 --- !u!58 &412345863
 CircleCollider2D:
@@ -2841,7 +2841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &420535322
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3035,7 +3035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!65 &463392574
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3269,7 +3269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!65 &490825723
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4045,7 +4045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!135 &625308600
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4708,7 +4708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!135 &753348917
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5244,7 +5244,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 122
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &867834507
 MonoBehaviour:
@@ -5259,7 +5259,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunObject: {fileID: 618285726}
-  boss2: {fileID: 0}
+  boss1: {fileID: 0}
+  boss2: {fileID: 1795970295}
   shootParticle: {fileID: 1077774187}
   gunTransform: {fileID: 618285727}
   kickbackDistance: 0.1
@@ -5405,7 +5406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &868526486
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6729,7 +6730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &1106257588
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7593,7 +7594,7 @@ Transform:
   m_GameObject: {fileID: 1310444316}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000076023596, y: 0.000000042146844, z: 3.2041548e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 5.76, z: -23.17}
+  m_LocalPosition: {x: 0, y: 6.76, z: -23.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7783,7 +7784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!65 &1311594451
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7906,7 +7907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!65 &1314421683
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8206,7 +8207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!65 &1359212572
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8281,73 +8282,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359212569}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1359760293
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1359760295}
-  - component: {fileID: 1359760294}
-  m_Layer: 0
-  m_Name: ObjectPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1359760294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359760293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b778fcce7053e04e9d8fb0f33862c78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPool:
-  - {fileID: 2604589122146628465, guid: cfdab64997dcc474cbdb60940efc5517, type: 3}
-  - {fileID: 2604589122146628465, guid: cfdab64997dcc474cbdb60940efc5517, type: 3}
-  - {fileID: 2604589122146628465, guid: cfdab64997dcc474cbdb60940efc5517, type: 3}
-  - {fileID: 2604589122146628465, guid: 8205797da14595f4a8b72495077806c1, type: 3}
-  - {fileID: 2604589122146628465, guid: 8205797da14595f4a8b72495077806c1, type: 3}
-  - {fileID: 2604589122146628465, guid: 8205797da14595f4a8b72495077806c1, type: 3}
-  - {fileID: 2604589122146628465, guid: d8b2aac514ca33f4ba46ab9edf9e48f7, type: 3}
-  - {fileID: 2604589122146628465, guid: d8b2aac514ca33f4ba46ab9edf9e48f7, type: 3}
-  - {fileID: 2604589122146628465, guid: d8b2aac514ca33f4ba46ab9edf9e48f7, type: 3}
-  spawnPoint1: {fileID: 0}
-  spawnPoint2: {fileID: 0}
-  bulletAArr:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  bulletBArr:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
---- !u!4 &1359760295
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359760293}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03211665, y: 2.9680512, z: 1.5711615}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1371272088
 GameObject:
   m_ObjectHideFlags: 0
@@ -8541,7 +8475,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 1, z: 0}
+  FollowOffset: {x: 0, y: 2, z: 0}
 --- !u!114 &1435377333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8594,7 +8528,7 @@ Transform:
   m_GameObject: {fileID: 1435377330}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000076023596, y: 0.000000042146844, z: 3.5542256e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 5.76, z: -23.17}
+  m_LocalPosition: {x: 0, y: 6.76, z: -23.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9064,7 +8998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!135 &1550759241
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9598,7 +9532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &1761870256
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9723,7 +9657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!65 &1785673343
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9995,7 +9929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPosIndex: 0
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!136 &1795326995
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10120,7 +10054,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &1795970297
 MonoBehaviour:
@@ -10588,7 +10522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!65 &1884011590
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11347,7 +11281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1795970295}
-  player: {fileID: 0}
+  player: {fileID: 867834502}
 --- !u!65 &2089284209
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11890,5 +11824,4 @@ SceneRoots:
   - {fileID: 1243858989}
   - {fileID: 867834511}
   - {fileID: 1817329878}
-  - {fileID: 1359760295}
   - {fileID: 23385168}
