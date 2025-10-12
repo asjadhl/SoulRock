@@ -33,7 +33,7 @@ public class Stage2BossAttack : MonoBehaviour
 
     public static int clubStack = 0;
     int reMiniH;
-
+    private bool bossRecover = false;
 
     [SerializeField] Card[] cards;
     Card currentCard;
@@ -132,7 +132,7 @@ public class Stage2BossAttack : MonoBehaviour
     private async void HAttack()
     {
         await UniTask.Delay(500);
-        reMiniH = clubStack;
+        reMiniH = clubStack + 4;
         for(int i = 0; i < clubStack + 4; i++)
         {
             miniBoss[i].SetActive(true);
@@ -141,13 +141,19 @@ public class Stage2BossAttack : MonoBehaviour
         await UniTask.Delay(10000);
         usedPos.Clear();
         ChangeNextRanCard();
-        for(int i = 0; i <= clubStack + 4; i++)
+        for (int i = 0; i <= clubStack + 4; i++)
         {
             miniBoss[i].GetComponent<MiniBoss>().ReturnOriPos();
             miniBoss[i].SetActive(false);
         }
         miniBossSpawned = false;
-        BossHP.bossHP += reMiniH;
+        Debug.Log(clubStack + "클럽스택");
+        Debug.Log(reMiniH);
+        if(reMiniH > 0 && bossRecover == false)
+        {
+            BossHP.bossHP += reMiniH;
+            bossRecover = true;
+        }
     }
     
     private async UniTask SAttack()
@@ -181,6 +187,7 @@ public class Stage2BossAttack : MonoBehaviour
             {
                 transform.position = new Vector3(0, 0, player.transform.position.z + 17);
                 ChangeNextRanCard();
+                playerHitCount = 0;
             }
         }
     }
@@ -209,7 +216,7 @@ public class Stage2BossAttack : MonoBehaviour
     private void BossRush()
     {
         transform.LookAt(player.transform);
-        transform.Translate(Vector3.forward * 15 * Time.fixedDeltaTime);
+        transform.Translate(Vector3.forward * 30 * Time.fixedDeltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)

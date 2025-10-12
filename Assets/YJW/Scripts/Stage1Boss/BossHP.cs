@@ -16,7 +16,7 @@ public class BossHP : MonoBehaviour
 
     private void BossDie()
     {
-        if(bossHP <= 0)
-            Destroy(gameObject);
+        if (bossHP <= 0)
+            Debug.Log("º¸½ºÁ×¾úµû.");
     }
 }

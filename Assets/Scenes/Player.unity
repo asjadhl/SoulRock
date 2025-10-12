@@ -9987,9 +9987,10 @@ GameObject:
   - component: {fileID: 1990128254904932487}
   - component: {fileID: 1990128254904932486}
   - component: {fileID: 1990128254904932485}
+  - component: {fileID: 1990128254904932490}
   m_Layer: 0
   m_Name: Boss(Stage2
-  m_TagString: Untagged
+  m_TagString: Stage2Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10059,7 +10060,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8928e9ffbd96e894cb839b18c7c2efae, type: 2}
   - {fileID: 11400000, guid: cd9ed9172af575546a770bcd7bcbb6f7, type: 2}
   bossCardImage: {fileID: 939236337}
-  curShape: 0
+  curShape: 1
   playerHitCount: 0
   miniBoss:
   - {fileID: 1551985506}
@@ -10136,6 +10137,33 @@ CapsuleCollider:
   m_Height: 2.0665185
   m_Direction: 1
   m_Center: {x: -0, y: 1.0068933, z: 0}
+--- !u!54 &1990128254904932490
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990128254904932483}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!4 &2042514593330553439
 Transform:
   m_ObjectHideFlags: 0
@@ -10161,7 +10189,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 13.37}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2590043335522364256}
