@@ -912,15 +912,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5088159201429839828, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.13
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5088159201429839828, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.1
+      value: -1.06
       objectReference: {fileID: 0}
     - target: {fileID: 5088159201429839828, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.1000004
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 5088159201429839828, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   bigLazerBallPool: []
   coolTime: 8000
   firstOfLazerSize: 0.02
-  material: {fileID: 2100000, guid: 6450d1dc80557d24d8c277e48ece512b, type: 2}
+  material: {fileID: 2100000, guid: ffe7c7463e0d1214a9fbe202dd689961, type: 2}
   monsterSpawner: {fileID: 1404630376}
 --- !u!114 &443722756
 MonoBehaviour:
@@ -4428,7 +4428,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6450d1dc80557d24d8c277e48ece512b, type: 2}
+  - {fileID: 2100000, guid: ffe7c7463e0d1214a9fbe202dd689961, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
