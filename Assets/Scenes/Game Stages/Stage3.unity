@@ -462,7 +462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnRate
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].SpawnRate
@@ -470,7 +470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnRadius
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].spawnoption
@@ -3663,7 +3663,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 30
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!95 &1598760852
 Animator:
