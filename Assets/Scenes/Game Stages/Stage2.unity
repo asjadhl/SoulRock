@@ -9742,7 +9742,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1794801878}
   - component: {fileID: 1794801877}
-  - component: {fileID: 1794801876}
+  - component: {fileID: 1794801879}
   m_Layer: 0
   m_Name: MusicBox
   m_TagString: MusicBox
@@ -9750,23 +9750,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1794801876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794801875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03eedc0bcf55f594caead2da8e8f5753, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicSource: {fileID: 1794801877}
-  music:
-  - {fileID: 8300000, guid: 3f7e2993d2a030944b56ba3616a14bf3, type: 3}
-  - {fileID: 8300000, guid: 66a6e5b0e4d92f642bd5f16511d2c38d, type: 3}
-  musicStart: 0
 --- !u!82 &1794801877
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9879,6 +9862,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1794801879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794801875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ab48afc3a4815458775e1b7f2a1b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSource: {fileID: 1794801877}
+  music: {fileID: 8300000, guid: 1503c0627c16c754aa294ac2de8a1f28, type: 3}
 --- !u!1 &1795326992
 GameObject:
   m_ObjectHideFlags: 0

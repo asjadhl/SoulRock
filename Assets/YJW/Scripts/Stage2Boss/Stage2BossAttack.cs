@@ -151,7 +151,7 @@ public class Stage2BossAttack : MonoBehaviour
         SetCardData();
     }
 
-    private async void HAttack()
+    private async UniTask HAttack()
     {
         await UniTask.Delay(500);
         reMiniH = clubStack + 4;
