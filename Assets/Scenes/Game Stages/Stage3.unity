@@ -2404,6 +2404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunObject: {fileID: 2055530382}
+  boss1: {fileID: 0}
   boss2: {fileID: 0}
   shootParticle: {fileID: 1179920125}
   gunTransform: {fileID: 2055530383}
@@ -3709,7 +3710,7 @@ MonoBehaviour:
   bigLazerBallPool: []
   coolTime: 8000
   firstOfLazerSize: 0.02
-  material: {fileID: 2100000, guid: 6450d1dc80557d24d8c277e48ece512b, type: 2}
+  material: {fileID: 2100000, guid: ffe7c7463e0d1214a9fbe202dd689961, type: 2}
   monsterSpawner: {fileID: 147851936}
 --- !u!114 &1598760854
 MonoBehaviour:
@@ -4696,7 +4697,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6450d1dc80557d24d8c277e48ece512b, type: 2}
+  - {fileID: 2100000, guid: ffe7c7463e0d1214a9fbe202dd689961, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
