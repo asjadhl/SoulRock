@@ -326,7 +326,7 @@ public class Stage3Boss : MonoBehaviour
             {
                 break;
             }
-            for (int j = 1; j < 40; j++)
+            for (int j = 1; j < 50; j++)
             {
                 lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);

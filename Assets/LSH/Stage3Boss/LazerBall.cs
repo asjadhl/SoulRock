@@ -5,7 +5,7 @@ using UnityEngine;
 public class LazerBall : MonoBehaviour
 {
     [Header("LazerBallSpeed")]
-    [SerializeField] float lazerBallspeed = 4f;
+    [SerializeField] float lazerBallspeed = 6f;
 
     private Transform player;
     private Transform boss;

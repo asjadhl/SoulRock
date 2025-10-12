@@ -149,20 +149,14 @@ public class CircleHit : MonoBehaviour
 		// 예: 좌/우 도트 비활성화, 점수 증가 등
 		switch (combo)
 		{
-			case < 10:
+			case < 20:
 				comboImage[0].SetActive(true);
 				break;
-			case < 20:
+			case < 40:
 				comboImage[1].SetActive(true);
 				break;
-			case < 30:
-				comboImage[2].SetActive(true);
-				break;
-			case < 40:
-				comboImage[3].SetActive(true);
-				break;
 			case < 50:
-				comboImage[4].SetActive(true);
+				comboImage[2].SetActive(true);
 				break;
 		}
 		
