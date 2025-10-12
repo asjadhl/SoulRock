@@ -235,7 +235,7 @@ public class SpawnManager : MonoBehaviour
               float x = Mathf.Cos(angle) * distance;
               float z = Mathf.Sin(angle) * distance;
               spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x,
-                                      areaspawn.SpawnerPosition.transform.position.y,
+                                      areaspawn.SpawnerPosition.transform.position.y +3f,
                                       areaspawn.SpawnerPosition.transform.position.z + z);
               Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
               //
