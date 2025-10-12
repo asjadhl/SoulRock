@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     private async UniTask PlayerRun()
     {
         StartMove();
-        await UniTask.Delay(2000);
+        await UniTask.Delay(3000);
         transform.Translate(new Vector3(0,0,1) * moveSpeed * Time.fixedDeltaTime);
     }
 

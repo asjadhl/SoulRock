@@ -67,7 +67,7 @@ public class Stage2BossAttack : MonoBehaviour
 
     private bool isDelay = false;
 
-    private bool isAttacking = false;
+    private bool cardChanged = false;
 
     private void Start()
     {
@@ -75,61 +75,53 @@ public class Stage2BossAttack : MonoBehaviour
         BossHP = GetComponent<BossHP>();
         if (isDelay == false)
             _ = StartDelay();
+
     }
     private void FixedUpdate()
     {
         Debug.Log(curShape);
-        if (!isDelay) return;
 
-        if (isAttacking == false)
+        if (!isDelay) return;
+        switch (curShape)
         {
-            switch (curShape)
-            {
-                case Shape.H:
-                    if (miniBossSpawned == false)
-                        HAttack();
-                    isAttacking = true;
-                    break;
-                case Shape.S:
-                    spadeTimer += Time.fixedDeltaTime;
-                    if (spadeTimer <= 10)
-                    {
-                        if (isCardSpawn == false)
-                            _ = SAttack();
-                        isAttacking = true;
-                    }
-                    else
-                    {
-                        //ChangeNextRanCard();
-                        currentCard = cards[0];
-                        SetCardData();
-                        isAttacking = false;
-                        spadeTimer = 0;
-                    }
-                    break;
-                case Shape.D:
-                    teleportTimer += Time.fixedDeltaTime;
-                    DAttack();
-                    isAttacking = true;
-                    break;
-                case Shape.C:
-                    clubTimer += Time.fixedDeltaTime;
-                    if (clubTimer <= 10)
-                    {
-                        if (isBallSpawn == false)
-                            _ = CAttack();
-                        isAttacking = true;
-                    }
-                    else
-                    {
-                        //ChangeNextRanCard();
-                        currentCard = cards[2];
-                        SetCardData();
-                        clubTimer = 0;
-                        isAttacking = false;
-                    }
-                    break;
-            }
+            case Shape.H:
+                if (miniBossSpawned == false)
+                    HAttack();
+                break;
+            case Shape.S:
+                spadeTimer += Time.fixedDeltaTime;
+                if (spadeTimer <= 10)
+                {
+                    if (isCardSpawn == false)
+                        _ = SAttack();
+                }
+                else
+                {
+                    ChangeNextRanCard();
+                    //currentCard = cards[0];
+                    //SetCardData();
+                    spadeTimer = 0;
+                }
+                break;
+            case Shape.D:
+                teleportTimer += Time.fixedDeltaTime;
+                DAttack();
+                break;
+            case Shape.C:
+                clubTimer += Time.fixedDeltaTime;
+                if (clubTimer <= 10)
+                {
+                    if (isBallSpawn == false)
+                        _ = CAttack();
+                }
+                else
+                {
+                    ChangeNextRanCard();
+                    //currentCard = cards[2];
+                    //SetCardData();
+                    clubTimer = 0;
+                }
+                break;
         }
         
     }
@@ -157,10 +149,9 @@ public class Stage2BossAttack : MonoBehaviour
         miniBossSpawned = true;
         await UniTask.Delay(10000);
         usedPos.Clear();
-        //ChangeNextRanCard();
-        currentCard = cards[1];
-        SetCardData();
-        isAttacking = false;
+        ChangeNextRanCard();
+        //currentCard = cards[1];
+        //SetCardData();
         for (int i = 0; i <= clubStack + 4; i++)
         {
             miniBoss[i].GetComponent<MiniBoss>().ReturnOriPos();
@@ -206,7 +197,7 @@ public class Stage2BossAttack : MonoBehaviour
             else
             {
                 transform.position = new Vector3(0, 0, player.transform.position.z + 17);
-                //ChangeNextRanCard();
+                ChangeNextRanCard();
                 playerHitCount = 0;
             }
         }
@@ -246,7 +237,7 @@ public class Stage2BossAttack : MonoBehaviour
             _=player.GetComponent<PlayerHP>().PlayerHPMinus();
             transform.rotation = Quaternion.Euler(0,180,0);
             transform.position = new Vector3(0, 0, player.transform.position.z + 17);
-            //ChangeNextRanCard();
+            ChangeNextRanCard();
             teleportCount = 0;
             playerHitCount = 0;
         }
@@ -287,11 +278,10 @@ public class Stage2BossAttack : MonoBehaviour
 
     private async UniTask StartDelay()
     {
-        await UniTask.Delay(2000);
+        await UniTask.Delay(3000);
         isDelay = true;
-        //ChangeNextRanCard();
-        currentCard = cards[3];
-        SetCardData();
-        isAttacking = false;
+        ChangeNextRanCard();
+        //currentCard = cards[3];
+        //SetCardData();
     }
 }
