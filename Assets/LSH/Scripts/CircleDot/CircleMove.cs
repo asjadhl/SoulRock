@@ -40,7 +40,7 @@ public class CircleMove : MonoBehaviour
 
         if (t >= 1f && !returned)
         {
-            circleHit.combo = 0;
+            //circleHit.combo = 0;
             returned = true;
             circleHit.ReturnCircle(this.gameObject);
         }
