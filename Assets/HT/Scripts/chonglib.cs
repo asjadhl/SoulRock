@@ -97,7 +97,7 @@ public class chonglib : Enemy
       else
         GetComponentInChildren<Collider>().enabled = false;
 
-      EnemyGhostGraphics.AnimationManager(AnimationState.DamageDone,Cts.normal).Forget();
+            EnemyGhostGraphics.AnimationManager(AnimationState.DamageDone,Cts.normal).Forget();
             EnemyGhostGraphics.UniTriggerAtSample(AnimationState.DamageDone, 40, Cts.master, true, () =>
         {
 
