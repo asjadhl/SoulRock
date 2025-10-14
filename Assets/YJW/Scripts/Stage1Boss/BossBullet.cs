@@ -42,8 +42,8 @@ public class BossBullet : MonoBehaviour
         //bulletRb.AddForce(v0[Random.Range(0, v0.Length)].normalized * speed + Vector3.up, ForceMode.Impulse);
         if(backToBoss == false)
             transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime);
-        //else
-        //    transform.Translate(new Vector3(0, 0, -1) * speed * Time.deltaTime);
+        else
+            transform.Translate(new Vector3(0, 0, -1) * speed * Time.deltaTime);
     }
 
     public void BackToBoss()
