@@ -22,6 +22,8 @@ public class LockOnDodgeEnemy : MonoBehaviour
  
     private void Start()
     {
+     
+
         player = GameObject.FindWithTag("Player").transform;
         
     }

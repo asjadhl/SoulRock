@@ -65,7 +65,7 @@ public class SpawnManager : MonoBehaviour
   [Header("SpawnManager(0.v5)")]
   [SerializeField]
   Transform m_targetTransform;
-
+  [SerializeField] Vector3 SpawnAreaOffset;
 
   [Space(5)]
   public List<AreaSpawn> areaSpawns;
@@ -208,9 +208,9 @@ public class SpawnManager : MonoBehaviour
             float distance = Mathf.Sqrt(Random.value) * areaspawn.SpawnRadius;
             float x = Mathf.Cos(angle) * distance;
             float z = Mathf.Sin(angle) * distance;
-            spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x,
-                                    areaspawn.SpawnerPosition.transform.position.y,
-                                    areaspawn.SpawnerPosition.transform.position.z + z);
+            spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x + SpawnAreaOffset.x,
+                                    areaspawn.SpawnerPosition.transform.position.y + SpawnAreaOffset.y,
+                                    areaspawn.SpawnerPosition.transform.position.z + z + SpawnAreaOffset.z);
             Instantiate(areaspawn.EntityList[0].EntityObj, spawnPos, Quaternion.identity);
 
             areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
@@ -234,9 +234,9 @@ public class SpawnManager : MonoBehaviour
               float distance = Mathf.Sqrt(Random.value) * areaspawn.SpawnRadius;
               float x = Mathf.Cos(angle) * distance;
               float z = Mathf.Sin(angle) * distance;
-              spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x,
-                                      areaspawn.SpawnerPosition.transform.position.y +3f,
-                                      areaspawn.SpawnerPosition.transform.position.z + z);
+              spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x + SpawnAreaOffset.x,
+                                      areaspawn.SpawnerPosition.transform.position.y+ SpawnAreaOffset.y,
+                                      areaspawn.SpawnerPosition.transform.position.z + z + SpawnAreaOffset.z);
               Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
               //
               //Instantiate(areaspawn.EntityList[randomindex].EntityObj, areaspawn.SpawnerPosition.transform.position, Quaternion.identity);

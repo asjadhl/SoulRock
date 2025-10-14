@@ -7,7 +7,7 @@ public class Hostile : Enemy
 
     public override void m_Start()
     {
-        lockOnDodgeEnemy.StopDodging();
+        //lockOnDodgeEnemy.StopDodging();
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master).Forget();
     }
 
@@ -22,8 +22,8 @@ public class Hostile : Enemy
                 if (Vector3.Distance(PlayerTransform.position, transform.position) <= StartAlertingRange)
                 {
 
-                         lockOnDodgeEnemy.StartDodging();
-                    if (!lockOnDodgeEnemy.IsDodging())
+                         //lockOnDodgeEnemy.StartDodging();
+                    //if (!lockOnDodgeEnemy.IsDodging())
                           LookAt(PlayerTransform.position);
 
 
@@ -35,8 +35,8 @@ public class Hostile : Enemy
                         //Stick with Player
                         transform.SetParent(PlayerTransform.transform);
                         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.normal).Forget();
-                        lockOnDodgeEnemy.StopDodging();
-            LookAt(PlayerTransform.position);
+                        //lockOnDodgeEnemy.StopDodging();
+                        LookAt(PlayerTransform.position);
                         MyBehavior = Behavior.Attack;
 
                     }
@@ -79,7 +79,7 @@ public class Hostile : Enemy
     public override void DieMethod()
     {
         
-        lockOnDodgeEnemy.StopDodging();
+        //lockOnDodgeEnemy.StopDodging();
         MyBehavior = Behavior.Null;
         transform.SetParent(null);
         if (TryGetComponent<Collider>(out var c))
