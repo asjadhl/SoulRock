@@ -10,10 +10,10 @@ public class DialogManager : MonoBehaviour
     {
         Dialog = new string[]
         {
-            "HEHEH",
-            "BAAAAAAAH",
-            "WELCOME TO JACKSON SHOW",
-            "UUUUUUUUUUUUUUUU"
+            "크하하하핳",
+            "여기까지 오다니 제법이구나!",
+            "시네~!!!",
+            "우효WWWWWWW"
         };
     }
 

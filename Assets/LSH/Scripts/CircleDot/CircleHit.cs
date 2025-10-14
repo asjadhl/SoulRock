@@ -26,9 +26,9 @@ public class CircleHit : MonoBehaviour
 	[Header("풀 사이즈")]
 	[SerializeField] int poolSize = 10;
 
-	[Header("Combo")]
-	public int combo = 0;
-	public GameObject[] comboImage;
+	//[Header("Combo")]
+	//public int combo = 0;
+	//public GameObject[] comboImage;
 	
     AudioSource a;
 	[SerializeField] AudioClip clip;
@@ -61,10 +61,10 @@ public class CircleHit : MonoBehaviour
 		a = GetComponent<AudioSource>();
 
 		
-		for (int i = 0; i < comboImage.Length; i++)
-		{
-			comboImage[i].SetActive(false);
-		}
+		//for (int i = 0; i < comboImage.Length; i++)
+		//{
+		//	comboImage[i].SetActive(false);
+		//}
 		player = FindAnyObjectByType<PlayerShoot>();
 		circleGen().Forget();
 	}
@@ -72,13 +72,13 @@ public class CircleHit : MonoBehaviour
 	private void Update()
 	{
 		CheckCol();
-		if(combo == 0)
-		{
-			for (int k = 0; k < comboImage.Length; k++)
-			{
-				comboImage[k].SetActive(false);
-			}
-		}
+		//if(combo == 0)
+		//{
+		//	for (int k = 0; k < comboImage.Length; k++)
+		//	{
+		//		comboImage[k].SetActive(false);
+		//	}
+		//}
 		if(Input.GetKeyDown(KeyCode.K)) getDamage = true;
         if (Input.GetKeyDown(KeyCode.S)) getDamage = false;
 
@@ -141,24 +141,24 @@ public class CircleHit : MonoBehaviour
 
 	public void OnClickSuccess()
 	{
-		combo++;
+		//combo++;
 		a.PlayOneShot(clip);
 		player.PlayerShoot_();
 		//Debug.Log("클릭성공!");
 		// 클릭 성공 시 처리할 로직
 		// 예: 좌/우 도트 비활성화, 점수 증가 등
-		switch (combo)
-		{
-			case < 20:
-				comboImage[0].SetActive(true);
-				break;
-			case < 40:
-				comboImage[1].SetActive(true);
-				break;
-			case < 50:
-				comboImage[2].SetActive(true);
-				break;
-		}
+		//switch (combo)
+		//{
+		//	case < 20:
+		//		comboImage[0].SetActive(true);
+		//		break;
+		//	case < 40:
+		//		comboImage[1].SetActive(true);
+		//		break;
+		//	case < 50:
+		//		comboImage[2].SetActive(true);
+		//		break;
+		//}
 		
 	}
 	private async UniTask circleGen()

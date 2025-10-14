@@ -29,6 +29,6 @@ public class BossHP : MonoBehaviour
     private void BossDie()
     {
         if (bossHP <= 0)
-            Debug.Log("보스죽었따.");
+            Debug.Log("더러운 파피루스 살인마.");
     }
 }
