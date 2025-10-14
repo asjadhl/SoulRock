@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
     protected float StartAttackingRange;
     protected Behavior MyBehavior;
     protected Transform PlayerTransform;
-    protected LockOnDodgeEnemy lockOnDodgeEnemy;
+    //protected LockOnDodgeEnemy lockOnDodgeEnemy;
     protected  EnemyGraphics EnemyGhostGraphics;
      
     [Space(10)]
@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
     private void Init()
     {
     PlayerTransform = GameObject.FindWithTag("Player").transform;
-    lockOnDodgeEnemy = GetComponent<LockOnDodgeEnemy>();
+    //lockOnDodgeEnemy = GetComponent<LockOnDodgeEnemy>();
     EnemyGhostGraphics = GetComponent<EnemyGraphics>();
   }
     private void Start()

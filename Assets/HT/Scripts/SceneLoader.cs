@@ -1,15 +1,21 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
 
     private string targetScene;
-
-
+  public GameObject Canvas;
+  public RectTransform Fill;
+  public CancellationTokenSource cts;
     public string SceneName;
+  public float m_Animationvalue;
+  public float m_LeftValue;
+  public float m_RightValue;
     private void Awake()
     {
         
@@ -26,40 +32,78 @@ public class SceneLoader : MonoBehaviour
 
 
 
-    private void Start()
+    private async void Start()
     {
-         SceneLoader.Instance.LoadScene(SceneName);
+        await SceneLoader.Instance.LoadScene(SceneName);
          
     }
 
-    public void LoadScene(string sceneName)
+    public  UniTask LoadScene(string sceneName)
     {
         targetScene = sceneName;
-        SceneManager.LoadScene(targetScene);
+       return  UniLoadSceneAsync();
+    }
+
+  public async UniTask RenderingFill(float progress)
+  {
+
+   
+    if(cts != null)
+    {
+      cts.Cancel();
+      cts.Dispose();
+      cts = new();
+    }
+    m_LeftValue = m_Animationvalue;
+    
+    m_RightValue = Mathf.Clamp01((progress/0.9f));
+    float timer = 0f;
+   
+    while (timer <= 1f)
+    {
+       
+      timer += (Time.deltaTime/2f);
+      m_Animationvalue = Mathf.Lerp(m_LeftValue,m_RightValue,timer);
+
+      Fill.anchorMax = new Vector2(m_Animationvalue, Fill.anchorMax.y);
+      Fill.offsetMin = Vector2.zero;
+      Fill.offsetMax = Vector2.zero;
+      await UniTask.Yield(cancellationToken: cts.Token);
+
+       
     }
 
     
-    public void LoadTargetScene()
-    {
-        StartCoroutine(LoadSceneAsync());
+  }
+
+  
+
+  public  async UniTask UniLoadSceneAsync()
+  {
+    await UniTask.Yield();
+    Canvas.SetActive(true);
+    cts = new();
+    AsyncOperation op = SceneManager.LoadSceneAsync(targetScene);
+    op.allowSceneActivation = false;
+
+   
+    while(op.progress < 0.9f)
+     {
+     await  RenderingFill(op.progress);      
     }
+    
+    await RenderingFill(op.progress);
+    
 
-    private IEnumerator LoadSceneAsync()
-    {
-        yield return null;  
-
-        AsyncOperation op = SceneManager.LoadSceneAsync(targetScene);
-        op.allowSceneActivation = false;
-
-        // Wait until scene is 90% loaded
-        while (op.progress < 0.999f)
-        {
-            yield return null;
-        }
-
-        // Small wait before activating (for animation/fade)
-        yield return new WaitForSeconds(0.5f);
-
-        op.allowSceneActivation = true;
+    op.allowSceneActivation = true; 
+    while (!op.isDone)
+    { 
+      await UniTask.Yield();
+ 
     }
+    Canvas.SetActive(false);
+
+  }
+    
+   
 }

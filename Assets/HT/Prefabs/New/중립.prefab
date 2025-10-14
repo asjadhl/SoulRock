@@ -395,7 +395,6 @@ GameObject:
   - component: {fileID: 1480782971229203373}
   - component: {fileID: 1287949958900666621}
   - component: {fileID: 4234273570993325775}
-  - component: {fileID: 5103192021865186599}
   - component: {fileID: 4652768596519982824}
   m_Layer: 0
   m_Name: "\uC911\uB9BD"
@@ -515,24 +514,6 @@ CapsuleCollider:
   m_Height: 0.87
   m_Direction: 1
   m_Center: {x: 0, y: 0.56, z: 0}
---- !u!114 &5103192021865186599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5091808336580822755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8751ab41fe7cc049ad21974791521e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  dodgeDistance: 5
-  dodgeSpeed: 3
-  restTime: 1
-  minDodgeLenght: 1
-  maxDodgeLenght: 2
 --- !u!114 &4652768596519982824
 MonoBehaviour:
   m_ObjectHideFlags: 0

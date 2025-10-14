@@ -209,7 +209,7 @@ public class Stage3Boss : MonoBehaviour
                 lazerBallPool[poolIndex].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);
             }
-            await UniTask.Delay(500);
+            await UniTask.Delay(200);
         }
         await UniTask.Delay(coolTime+2000);
         isAttacking = false;
@@ -326,12 +326,12 @@ public class Stage3Boss : MonoBehaviour
             {
                 break;
             }
-            for (int j = 1; j < 50; j++)
+            for (int j = 1; j < 80; j++)
             {
                 lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);
             }
-			await UniTask.Delay(800);
+			await UniTask.Delay(500);
         }
 		await UniTask.Delay(coolTime);
 		isAttacking = false;

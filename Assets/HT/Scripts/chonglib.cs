@@ -11,7 +11,7 @@ public class chonglib : Enemy
    
         StartAlertingRange = 100;
         CanDie = false;
-        lockOnDodgeEnemy.StopDodging();
+        //lockOnDodgeEnemy.StopDodging();
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master, () =>
         {
         }).Forget();
@@ -29,7 +29,7 @@ public class chonglib : Enemy
                 {
                     
 
-                    if (!lockOnDodgeEnemy.IsDodging())
+                    //if (!lockOnDodgeEnemy.IsDodging())
                         LookAt(PlayerTransform.position);
 
 
@@ -44,7 +44,7 @@ public class chonglib : Enemy
             transform.SetParent(PlayerTransform.transform);
             EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.normal).Forget();
 
-                        lockOnDodgeEnemy.StopDodging();
+                        //lockOnDodgeEnemy.StopDodging();
                          LookAt(PlayerTransform.position);
                         MyBehavior = Behavior.Attack;
             
@@ -104,7 +104,7 @@ public class chonglib : Enemy
           
         MyBehavior = Behavior.Alert;
 
-        lockOnDodgeEnemy.StartDodging();
+        //lockOnDodgeEnemy.StartDodging();
           if (collider != null)
             collider.enabled = true;
           else
@@ -115,7 +115,7 @@ public class chonglib : Enemy
             return;
 
      }
-        lockOnDodgeEnemy.StopDodging();
+        //lockOnDodgeEnemy.StopDodging();
         MyBehavior = Behavior.Null;
         transform.SetParent(null);
         if (TryGetComponent<Collider>(out var c))
