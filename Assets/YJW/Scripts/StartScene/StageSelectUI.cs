@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 public class StageSelectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] string stageName;
+
+    [SerializeField] bool isLocked;
+    [SerializeField] GameObject squareImage;
+
     public void OnPointerClick(PointerEventData eventData)
     {
         SceneManager.LoadScene(stageName);
@@ -12,12 +16,13 @@ public class StageSelectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        if (isLocked == false)
+            squareImage.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        squareImage.SetActive(false);
     }
 
 }
