@@ -13,8 +13,7 @@ public class Enemy : MonoBehaviour
 {
   
     
-   protected string EntityType; //Walker = 0, Fly = 1
-   protected string EntityIS;  // Friendly, chonglib, Hostile
+   
  
     
     [SerializeField]
@@ -32,7 +31,10 @@ public class Enemy : MonoBehaviour
     protected Transform PlayerTransform;
     //protected LockOnDodgeEnemy lockOnDodgeEnemy;
     protected  EnemyGraphics EnemyGhostGraphics;
-     
+
+
+    protected Vector3 Save_Scale;
+    
     [Space(10)]
     public Vector3  offsetLookAt;
     public Enemy()
@@ -44,6 +46,7 @@ public class Enemy : MonoBehaviour
   
     private void OnEnable()
     {
+    Save_Scale = transform.localScale;
     MyBehavior = Behavior.Wondering;
                  FactoryReset();
        

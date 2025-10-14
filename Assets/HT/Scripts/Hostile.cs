@@ -8,6 +8,7 @@ public class Hostile : Enemy
     public override void m_Start()
     {
         //lockOnDodgeEnemy.StopDodging();
+         
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master).Forget();
     }
 
@@ -102,7 +103,7 @@ public class Hostile : Enemy
         base.FactoryReset();
         MyBehavior = Behavior.Alert;
         transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
-        transform.localScale = new Vector3(1, 1, 1);
+    transform.localScale = Save_Scale;
     var health = gameObject.GetComponent<Health>();
     if (health == null)
       Debug.LogError("Health.cs NULL");

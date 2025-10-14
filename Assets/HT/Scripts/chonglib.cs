@@ -7,9 +7,9 @@ public class chonglib : Enemy
     public chonglib()
     { }
     public override void m_Start()
-    {  
-   
-        StartAlertingRange = 100;
+    {
+    Save_Scale = transform.localScale;
+    StartAlertingRange = 100;
         CanDie = false;
         //lockOnDodgeEnemy.StopDodging();
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master, () =>
@@ -141,8 +141,8 @@ public class chonglib : Enemy
     {
 
     
-    transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
-        transform.localScale = new Vector3(1, 1, 1);
+        transform.eulerAngles = new Vector3(0, Random.Range(0, 180), 0);
+        transform.localScale = Save_Scale;
         CanDie = false;
       
 
