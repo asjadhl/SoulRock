@@ -4,7 +4,7 @@ using UnityEngine;
 public class BossBullet : MonoBehaviour
 {
     Rigidbody bulletRb;
-    private float speed = 4f;
+    private float speed = 2f;
     private GameObject player;
     private GameObject boss;
 
@@ -41,9 +41,9 @@ public class BossBullet : MonoBehaviour
         //    new Vector3(target.transform.position.x + 0.6f, 1f, target.transform.position.z)};
         //bulletRb.AddForce(v0[Random.Range(0, v0.Length)].normalized * speed + Vector3.up, ForceMode.Impulse);
         if(backToBoss == false)
-            transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime);
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
         else
-            transform.Translate(new Vector3(0, 0, -1) * speed * Time.deltaTime);
+            transform.Translate(Vector3.forward * speed * 10 * Time.deltaTime);
     }
 
     public void BackToBoss()

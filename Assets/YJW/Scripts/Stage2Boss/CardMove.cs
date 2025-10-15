@@ -81,13 +81,11 @@ public class CardMove : MonoBehaviour
 
     private async UniTask dotBoxTrans()
     {
-        DotBoxGeneratorL.Instance.getDamage = true;
-        DotBoxGeneratorR.Instance.getDamage= true;
+        CircleHit.Instance.getDamage = true;
 
         await UniTask.Delay(3000);
 
-        DotBoxGeneratorL.Instance.getDamage = false;
-        DotBoxGeneratorR.Instance.getDamage = false;
+        CircleHit.Instance.getDamage = true;
 
     }
 }
