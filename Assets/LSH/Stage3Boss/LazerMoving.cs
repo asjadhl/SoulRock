@@ -19,6 +19,7 @@ public class LazerMoving : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+            gameObject.SetActive(false);
         }
     }
 }

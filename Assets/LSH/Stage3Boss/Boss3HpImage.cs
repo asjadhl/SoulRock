@@ -9,7 +9,7 @@ public class Boss3HpImage : MonoBehaviour
 
     private void Update()
     {
-        bossHPBar.fillAmount = Mathf.Abs(((float)GetComponent<BossHP>().bossHP / 100) - 1);
+        bossHPBar.fillAmount = Mathf.Abs(((float)GetComponent<BossHP>().bossHP / 50) - 1);
         if (bossHPBar.fillAmount >= 0.7f)
         {
             bossHPBar.sprite = hpBarAngry;

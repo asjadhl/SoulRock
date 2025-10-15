@@ -16,6 +16,7 @@ public class Generator : MonoBehaviour
 {
   public List<GameObject> Queune;
   public Transform PlayerTransform;
+  public Transform PrevTransform;
   public GameObject g;
   public Vector3 StartGenerate;
   public Vector3 GenerateOffSet;
@@ -32,30 +33,33 @@ public class Generator : MonoBehaviour
     GameObject EmptyGameObject;
 
 
-    if (Queune == null)
-      Queune = new();
+ 
 
     //Left
     if (dex == 0)
     {
-      Vector3 temp = GenerateOffSet;
-      temp.x = -temp.x;
-      EmptyGameObject = Instantiate(g, StartGenerate + temp, Quaternion.identity);
-      EmptyGameObject.transform.eulerAngles = Quaternion.LookRotation(-PlayerTransform.right).eulerAngles;
-      PlayerTransform.eulerAngles = EmptyGameObject.transform.eulerAngles;
+      Debug.Log("LEFT");
+   
+      EmptyGameObject = Instantiate(g,transform.position, Quaternion.identity);
+      EmptyGameObject.transform.position = PrevTransform.position + (PrevTransform.transform.right *GenerateOffSet.x);
+      Debug.Log($"PrevTransform.position: {PrevTransform.position}, PrevTransform.transform.right: {PrevTransform.transform.right},-GenerateOffSet.x: {GenerateOffSet.x},(PrevTransform.transform.right * -GenerateOffSet.x) : {(PrevTransform.transform.right * GenerateOffSet.x)} ");
+      EmptyGameObject.transform.position = PrevTransform.position + (PrevTransform.transform.forward *GenerateOffSet.z);
+      EmptyGameObject.transform.rotation = Quaternion.LookRotation(-PrevTransform.transform.right);
       Queune.Add(EmptyGameObject);
     }
     //Right
     else if(dex == 1)
     {
-      EmptyGameObject = Instantiate(g, StartGenerate + GenerateOffSet, Quaternion.identity);
-      EmptyGameObject.transform.eulerAngles = Quaternion.LookRotation(PlayerTransform.right).eulerAngles;
-      PlayerTransform.eulerAngles = EmptyGameObject.transform.eulerAngles;
+      Debug.Log("RIGHT");
+      EmptyGameObject = Instantiate(g, transform.position, Quaternion.identity);
+      EmptyGameObject.transform.position = PrevTransform.position + (PrevTransform.transform.right * -GenerateOffSet.x);
+      EmptyGameObject.transform.position = PrevTransform.position + (PrevTransform.transform.forward * -GenerateOffSet.z);
+      EmptyGameObject.transform.rotation = Quaternion.LookRotation(PrevTransform.transform.right);
       Queune.Add(EmptyGameObject);
     }
+    
 
-
-    StartGenerate = StartGenerate + GenerateOffSet;
+    
    
 
   }
@@ -80,14 +84,15 @@ public class Generator : MonoBehaviour
     FindPlayer();
     StartGenerate = transform.position;
     GameObject EmptyGameObject;
-    EmptyGameObject = Instantiate(g, StartGenerate, Quaternion.identity);
+    EmptyGameObject = Instantiate(g, PlayerTransform.position+new Vector3(0,0,GenerateOffSet.x), Quaternion.identity);
     EmptyGameObject.transform.eulerAngles = new Vector3 (0, 180, 0);
+    Queune = new();
     Queune.Add(EmptyGameObject);
     //Generate();
   }
+   
 
-  
-  public void Update() 
+public void Update() 
   {
 
     if (Queune != null)
@@ -96,14 +101,15 @@ public class Generator : MonoBehaviour
 
    
 
-    TrueOffset = Queune[0].transform.forward * TriggeredOffset.x;
-    TrueOffset += Queune[0].transform.forward * TriggeredOffset.y;
-    TrueOffset += Queune[0].transform.forward * TriggeredOffset.z;
+      TrueOffset = Queune[0].transform.forward * TriggeredOffset.x;
+      TrueOffset += Queune[0].transform.forward * TriggeredOffset.y;
+      TrueOffset += Queune[0].transform.forward * TriggeredOffset.z;
      if(IsInsideCircle(PlayerTransform.position, Queune[0].transform.position+ TrueOffset, Radius))
      {
 
-        //PlayerTransform.eulerAngles = Queune[0].transform.eulerAngles;
-        Queune.Remove(Queune[0]);
+       
+      PrevTransform = Queune[0].transform;
+      Queune.Remove(Queune[0]); 
         Generate();
      }
   }

@@ -219,8 +219,9 @@ public class SpawnManager : MonoBehaviour
               areaspawn.EntityList.Remove(areaspawn.EntityList[randomindex]);
 
             await UniTask.WaitForSeconds(areaspawn.SpawnRate, cancellationToken: cts.Token);
+            
           }
-
+          Debug.Log("Spawn-Complete");
           break;
 
         case AreaSpawn.SpawnOption.target:
@@ -248,7 +249,7 @@ public class SpawnManager : MonoBehaviour
 
               await UniTask.WaitForSeconds(areaspawn.SpawnRate, cancellationToken: cts.Token);
             }
-
+            Debug.Log("Spawn-Complete");
           }
           break;
 

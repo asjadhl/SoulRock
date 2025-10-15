@@ -37,14 +37,14 @@ public class Stage3Boss : MonoBehaviour
     //int poolBall = 0;
     int poolBigLazer = 0;
     bool isAttacking = true;
-    bool isAngry = false;
+    public bool isAngry = false;
     bool animeOn = false;
     [SerializeField] GameObject monsterSpawner;
     private async UniTask Start()
     {
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         anime = GetComponent<Animator>();
-        hp = GetComponent<BossHP>();
+        //hp = GetComponent<BossHP>();
         musicBox = GameObject.FindWithTag("MusicBox").GetComponent<MusicBox>();
         material.color = Color.white;
 		ReadyforLazerAttack();
@@ -106,7 +106,7 @@ public class Stage3Boss : MonoBehaviour
 
     void Update()
     {
-        if (hp.bossHP == 30)
+        if ((int)CheckRealTime.inGamerealTime == 10)
         {
 			Phase2();
 			isAngry = true;
@@ -149,7 +149,8 @@ public class Stage3Boss : MonoBehaviour
     }
     private async UniTask AngryChargeLazerAttack()
     {
-        isAttacking = true;
+		
+		isAttacking = true;
         chargeLazer.SetActive(true);
         for (int i = 1; i < 100; i++)
         {
@@ -175,8 +176,8 @@ public class Stage3Boss : MonoBehaviour
         }
         else
             poolIndex++;
-        await UniTask.Delay(coolTime);
-        isAttacking = false;
+		await UniTask.Delay(coolTime);
+		isAttacking = false;
     }
     void AngryReturnLazer(GameObject lazer)
     {
@@ -187,8 +188,7 @@ public class Stage3Boss : MonoBehaviour
 
     private async UniTask AngrysecondPattern()
     {
-
-        isAttacking = true;
+		isAttacking = true;
         Debug.Log("레이져볼 공격중");
         //if(isAngry)
         for (int i = 0; i < 8; i++)
@@ -211,14 +211,15 @@ public class Stage3Boss : MonoBehaviour
             }
             await UniTask.Delay(200);
         }
-        await UniTask.Delay(coolTime+2000);
-        isAttacking = false;
+		await UniTask.Delay(coolTime + 2000);
+		isAttacking = false;
     }
 
 
     private async UniTask AngryThirdPattern()
     {
-        isAttacking = true;
+		
+		isAttacking = true;
         bigChargeLazer.SetActive(true);
         mirror.SetActive(true);
         mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
@@ -232,8 +233,8 @@ public class Stage3Boss : MonoBehaviour
         }
         anime.SetTrigger("BloodAttack");
         AngryBigLazerAttack();
-        await UniTask.Delay(4000);
-        mirror.SetActive(false);
+		await UniTask.Delay(4000);
+		mirror.SetActive(false);
         isAttacking = false;
     }
     void AngryBigLazerAttack()
