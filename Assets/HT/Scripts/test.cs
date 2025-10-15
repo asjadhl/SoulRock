@@ -70,38 +70,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class test : MonoBehaviour
 {
- 
 
-  public bool isLeft = false;
-  public GameObject b;
 
+    //List<GameObject> listgame = new List<GameObject> ();
+    public GameObject tar;
  
-  public void Start()
-   {
   
-
-    if (isLeft)
+  public void Start()
     {
-     b.transform.position = transform.position + -transform.right * 95f;
-     b.transform.position += transform.position + transform.forward * 5f;
-     b.transform.rotation = Quaternion.LookRotation(transform.right);
-    }
-  }
+       
+     
 
-  public void Update()
-  {
-    if (isLeft)
+    }
+
+    public void Update()
     {
-      b.transform.position = transform.position + -transform.right * 95f;
-      b.transform.position += transform.position + transform.forward * 5f;
-      b.transform.rotation = Quaternion.LookRotation(transform.right);
-    }
+    Debug.Log($"Screen.width: {Screen.width}");
+    Debug.Log($"Screen.height: {Screen.height}");
   }
-
 
 }
 
@@ -215,7 +203,6 @@ public class test : MonoBehaviour
 
 //    }
 //}
-
 
 
 

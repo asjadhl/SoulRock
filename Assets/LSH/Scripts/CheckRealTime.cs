@@ -6,8 +6,8 @@ public class CheckRealTime : MonoBehaviour
 	public static CheckRealTime Instance { get; private set; }
 	static public double inGamerealTime = 0;
 
-	int plusTime = 0;
-	public double startTime;
+    int plusTime = 0;
+    public double startTime;
 
 	void Awake()
 	{
@@ -17,16 +17,16 @@ public class CheckRealTime : MonoBehaviour
 	}
 	private void Start()
 	{
-		startTime = AudioSettings.dspTime;
+        startTime = AudioSettings.dspTime;
 	}
 	// Update is called once per frame
 	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			plusTime += 10;
-		}
-		inGamerealTime = AudioSettings.dspTime - startTime + plusTime;
-		//Debug.Log((int)inGamerealTime);
-	}
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            plusTime += 10;
+        }
+        inGamerealTime = AudioSettings.dspTime - startTime + plusTime;
+        //Debug.Log((int)inGamerealTime);
+    }
 }

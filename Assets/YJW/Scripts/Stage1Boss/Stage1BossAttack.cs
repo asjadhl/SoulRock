@@ -56,7 +56,7 @@ public class Stage1BossAttack : MonoBehaviour
 
     private async UniTask GreenBallTimer()
     {
-        if((int)CheckRealTime.inGamerealTime == GreenBallTime[index])
+        if(/*(int)CheckRealTime.inGamerealTime == GreenBallTime[index] || */Input.GetKeyDown(KeyCode.W))
         {
             if(isGreenBallSpawned == false)
             {

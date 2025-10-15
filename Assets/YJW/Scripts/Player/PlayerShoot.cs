@@ -19,8 +19,6 @@ public class PlayerShoot : MonoBehaviour
 
     private Vector3 originalPosition;
 
-    [SerializeField] ParticleSystem explosionParticle;
-
     private void Update()
     {
         //    PlayerShoot_();
@@ -125,10 +123,9 @@ public class PlayerShoot : MonoBehaviour
                     Stage2BossAttack.clubStack++;
                     hit.collider.gameObject.GetComponent<RedBlackBallMove>().ReturnOriPos();
                 }
-                if (hit.collider != null)
+                if (hit.collider.gameObject.tag == "Stage2Boss")
                 {
-                    ParticleSystem explosion = Instantiate(explosionParticle, hit.point, Quaternion.LookRotation(hit.normal));
-                    explosion.Play();
+                    boss2.GetComponent<BossHP>().BossHPMinus();
                 }
                 if(hit.collider.gameObject.tag == "Stage3Boss")
                 {

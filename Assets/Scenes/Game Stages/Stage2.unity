@@ -3428,7 +3428,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 890.5897, y: 470}
-  m_SizeDelta: {x: 150, y: 210}
+  m_SizeDelta: {x: 250, y: 350}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &600187862
 MonoBehaviour:
@@ -3443,7 +3443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3808,7 +3808,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 890.5897, y: 470}
-  m_SizeDelta: {x: 150, y: 210}
+  m_SizeDelta: {x: 250, y: 350}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &700572471
 MonoBehaviour:
@@ -3823,7 +3823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4577,7 +4577,6 @@ MonoBehaviour:
   gunTransform: {fileID: 618285727}
   kickbackDistance: 0.1
   kickbackSpeed: 10
-  explosionParticle: {fileID: 2145768218953715492, guid: 12b75bbcd05c0494c8226017dc568696, type: 3}
 --- !u!136 &867834508
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9972,7 +9971,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -10.999817, y: 9.000061}
+  m_AnchoredPosition: {x: -10.999872, y: 9.000061}
   m_SizeDelta: {x: 600, y: 260}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1978293491
@@ -10069,13 +10068,10 @@ PrefabInstance:
       propertyPath: pools.Array.data[10].prefab
       value: 
       objectReference: {fileID: 2842884965378199371, guid: d7ed97fa22a2660408762e967c1f9303, type: 3}
-<<<<<<< Updated upstream
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.data[15].prefab
       value: 
       objectReference: {fileID: 864000115676860118, guid: 8c82cc337ef28cb44a99038e616ac95f, type: 3}
-=======
->>>>>>> Stashed changes
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
