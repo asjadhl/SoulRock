@@ -24,7 +24,7 @@ public class Hostile : Enemy
                 {
 
                          //lockOnDodgeEnemy.StartDodging();
-                    //if (!lockOnDodgeEnemy.IsDodging())
+                         //if (!lockOnDodgeEnemy.IsDodging())
                           LookAt(PlayerTransform.position);
 
 
@@ -63,12 +63,6 @@ public class Hostile : Enemy
 
                       Die();
                       GetActiveParticales(2).transform.SetParent(PlayerTransform);
-                      
-
-
-
-
-
 
                     }, 40).Forget();
                     

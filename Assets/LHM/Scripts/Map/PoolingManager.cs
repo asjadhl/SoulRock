@@ -24,6 +24,9 @@ public class PoolingManager : MonoBehaviour
 
     void Start()
     {
+
+  
+
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
         foreach (Pool pool in pools)
@@ -32,6 +35,8 @@ public class PoolingManager : MonoBehaviour
 
             for (int i = 0; i < pool.size; i++)
             {
+                  
+        
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);

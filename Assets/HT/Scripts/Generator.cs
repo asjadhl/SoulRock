@@ -94,7 +94,7 @@ public class Generator : MonoBehaviour
       if (Queune.Count <= 0)
         return;
 
-    Debug.Log("BB");
+   
 
     TrueOffset = Queune[0].transform.forward * TriggeredOffset.x;
     TrueOffset += Queune[0].transform.forward * TriggeredOffset.y;

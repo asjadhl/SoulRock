@@ -77,9 +77,10 @@ public class LockOnDodgeEnemy : MonoBehaviour
               x *= UnityEngine.Random.Range(0, 2) < 1 ? -1 : 1;
         float y = resultDodgeLenght;
               y *= UnityEngine.Random.Range(0, 2) < 1 ? -1 : 1;
-    targetPosition = new Vector3(x+transform.position.x,y + transform.position.y, transform.position.z);
-     
-    
+    //targetPosition = new Vector3(x+transform.position.x,y + transform.position.y, transform.position.z);
+
+     targetPosition = transform.position + transform.right*x + transform.up*y;
+
     //Clamp SizeOfMap
      if(GameManager.instance != null)
      targetPosition = GameManager.instance.Clamp(targetPosition);
