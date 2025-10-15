@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class CircleMove : MonoBehaviour
 {
-	public static CircleMove Instance { get; private set; }
 	public Transform hitRect;
 	[SerializeField] float smallDuration = 5f;
 	[SerializeField] Vector3 targetScale = Vector3.zero;
@@ -21,9 +20,7 @@ public class CircleMove : MonoBehaviour
     public float fadeDuration = 0.1f;
 
     private void Awake()
-    {
-		if (Instance == null) Instance = this;
-		else if (Instance != this) Destroy(gameObject);
+    { 
 		rawImage = GetComponent<Image>();
         originalColor = rawImage.color;
     }

@@ -79,8 +79,8 @@ public class CircleHit : MonoBehaviour
 		//		comboImage[k].SetActive(false);
 		//	}
 		//}
-		if(Input.GetKeyDown(KeyCode.K)) getDamage = true;
-        if (Input.GetKeyDown(KeyCode.S)) getDamage = false;
+		//if(Input.GetKeyDown(KeyCode.K)) getDamage = true;
+  //      if (Input.GetKeyDown(KeyCode.S)) getDamage = false;
 
 
     }
@@ -123,8 +123,8 @@ public class CircleHit : MonoBehaviour
 
 		var circleMove = circleDot.GetComponent<CircleMove>();
         if (getDamage)
-            _ = circleMove.ChangeColor();
-        circleMove.Initialize(this);
+			circleMove.ChangeColor().Forget();
+		circleMove.Initialize(this);
         activeCircles.Add(circleMove);
         
         pivot = (pivot + 1) % poolCircle.Length;
@@ -133,7 +133,7 @@ public class CircleHit : MonoBehaviour
 
 	public void ReturnCircle(GameObject circleDot)
 	{
-		if (!circleDot.activeSelf) return;
+		if (circleDot == null || !circleDot.activeSelf) return;
         circleDot.GetComponent<CircleMove>().SetColor();
         circleDot.SetActive(false);
 		circleDot.transform.localScale = Vector3.one * circleBig;
