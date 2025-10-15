@@ -30,7 +30,7 @@ public class MainGhostClick : MonoBehaviour
                 {
                     Debug.Log("Ghost clicked!");
 
-                    targetCanvas.SetActive(true); // 캔버스 활성화
+                    SceneManager.LoadScene("Stage1");
                 }
             }
         }
