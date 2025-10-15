@@ -85,7 +85,7 @@ public class CardMove : MonoBehaviour
 
         await UniTask.Delay(3000);
 
-        CircleHit.Instance.getDamage = true;
+        CircleHit.Instance.getDamage = false;
 
     }
 }
