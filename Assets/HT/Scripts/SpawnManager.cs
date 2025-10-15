@@ -295,7 +295,7 @@ public class SpawnManager : MonoBehaviour
 
   public void OnDisable()
   {
-        Debug.Log("OnDisable");
+        //Debug.Log("OnDisable");
     if (cts != null)
     { 
       areaSpawns.Clear();

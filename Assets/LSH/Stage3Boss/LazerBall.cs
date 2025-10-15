@@ -51,7 +51,7 @@ public class LazerBall : MonoBehaviour
         //lazerBallPool[j].transform.position, targetPos, lazerBallspeed * Time.deltaTime);
         //await UniTask.Delay(100);
 
-        await UniTask.Delay(3000);
+        await UniTask.Delay(2000);
 
         transform.LookAt(player.position);
         transform.Translate(Vector3.forward * lazerBallspeed * Time.fixedDeltaTime);

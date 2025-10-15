@@ -43,7 +43,7 @@ public class CircleHit : MonoBehaviour
     private void Awake()
 	{
 		if (Instance == null) Instance = this;
-		else if (Instance != this) Destroy(gameObject);
+		else if (Instance != this) Destroy(gameObject);¤¤
 
 		poolCircle = new GameObject[poolSize];
 		for (int i = 0; i < poolSize; i++)
