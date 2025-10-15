@@ -8,7 +8,7 @@ public class StageInfo
     public string normalTag;                // 일반 복도 태그
     public List<string> trapTags;           // 트랩 복도 태그
     [Range(0f, 1f)] public float trapChance;
-    public float corridorLength = 86;       // 복도 길이
+    public float corridorLength = 88;       // 복도 길이
 }
 
 public class CorridorSpawner : MonoBehaviour
@@ -25,7 +25,7 @@ public class CorridorSpawner : MonoBehaviour
 
     [Header("Corridor 설정")]
     public int corridorCount = 5;
-    public float corridorLength = 86f;
+    public float corridorLength = 88.5f;
     public float corridorWidth = 60f;
 
     [Header("Player Reference")]
@@ -54,7 +54,7 @@ public class CorridorSpawner : MonoBehaviour
             string tag = GetStageCorridorTag();
             GameObject corridor = PoolingManager.Instance.SpawnFromPool(
                 tag,
-                new Vector3(player.position.x, 0, startZ-60f),
+                new Vector3(player.position.x, 0, startZ),
                 Quaternion.identity
             );
             corridors.Enqueue(corridor);

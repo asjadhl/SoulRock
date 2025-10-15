@@ -6375,6 +6375,7 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
   player: {fileID: 1763589409}
   poolCircle: []
+  getDamage: 0
 --- !u!58 &1047452528
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -10015,7 +10016,7 @@ MonoBehaviour:
   - normalTag: Stage1Empty
     trapTags: []
     trapChance: 0
-    corridorLength: 87
+    corridorLength: 85
   - normalTag: Stage1Normal
     trapTags:
     - Stage1RollTrap
@@ -10025,11 +10026,11 @@ MonoBehaviour:
     - Stage1Normal3
     - Stage1lazer
     trapChance: 0.6
-    corridorLength: 87
+    corridorLength: 85
   - normalTag: Stage1Boss
     trapTags: []
     trapChance: 0
-    corridorLength: 87
+    corridorLength: 85
   - normalTag: Stage2Empty
     trapTags: []
     trapChance: 0
@@ -10042,11 +10043,11 @@ MonoBehaviour:
     - Stage2Swing
     - Stage2Door
     trapChance: 0.6
-    corridorLength: 87
+    corridorLength: 86
   - normalTag: Stage2Boss
     trapTags: []
     trapChance: 0
-    corridorLength: 91
+    corridorLength: 86
   - normalTag: Stage3Normal
     trapTags: []
     trapChance: 0
