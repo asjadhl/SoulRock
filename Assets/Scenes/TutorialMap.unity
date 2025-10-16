@@ -4225,9 +4225,6 @@ MonoBehaviour:
   - tag: Stage1Empty
     prefab: {fileID: 6718177031995156282, guid: 3a4efc34278697b498a24a6860d9573b, type: 3}
     size: 10
-  - tag: Stage1lazer
-    prefab: {fileID: 6718177031995156282, guid: e7f1d5b2944248b428cf0ca19a4a1893, type: 3}
-    size: 10
   - tag: Stage1Normal
     prefab: {fileID: 6718177031995156282, guid: 6dcd2d05c58dfc045bc73474213c091e, type: 3}
     size: 10
@@ -4237,12 +4234,6 @@ MonoBehaviour:
   - tag: Stage1Normal3
     prefab: {fileID: 6718177031995156282, guid: 8507fd32014ea4d4db98184b97e1fa1b, type: 3}
     size: 10
-  - tag: Stage1RollTrap
-    prefab: {fileID: 1408060146893456575, guid: d51523035f9a45e4cbdf64bddac5815f, type: 3}
-    size: 10
-  - tag: Stage1Hammer
-    prefab: {fileID: 3569237132839760772, guid: f8c981456b79d26418ef839a05ec4ece, type: 3}
-    size: 10
   - tag: Stage2Normal
     prefab: {fileID: 5594955746311829623, guid: d828ec8e5d6beae44bc916ffa15acc91, type: 3}
     size: 10
@@ -4251,15 +4242,6 @@ MonoBehaviour:
     size: 10
   - tag: Stage2Normal2
     prefab: {fileID: 8921674072561438024, guid: b685f18f6955fa340aa5fedd679cf4c2, type: 3}
-    size: 10
-  - tag: Stage2Door
-    prefab: {fileID: 2842884965378199371, guid: d7ed97fa22a2660408762e967c1f9303, type: 3}
-    size: 10
-  - tag: Stage2Swing
-    prefab: {fileID: 6009339650868188512, guid: c8c831700e574c3498a29d41fc4d0f5d, type: 3}
-    size: 10
-  - tag: Stage2Wind
-    prefab: {fileID: 1246603518508296247, guid: 4ab767e0e0c01924a8c7cf512d6bf31e, type: 3}
     size: 10
   - tag: Stage3Normal
     prefab: {fileID: 864000115676860118, guid: 8c82cc337ef28cb44a99038e616ac95f, type: 3}
@@ -10019,12 +10001,9 @@ MonoBehaviour:
     corridorLength: 85
   - normalTag: Stage1Normal
     trapTags:
-    - Stage1RollTrap
-    - Stage1Hammer
-    - Stage1Empty
     - Stage1Normal2
+    - Stage1Empty
     - Stage1Normal3
-    - Stage1lazer
     trapChance: 0.6
     corridorLength: 85
   - normalTag: Stage1Boss
@@ -10039,9 +10018,6 @@ MonoBehaviour:
     trapTags:
     - Stage2Empty
     - Stage2Normal2
-    - Stage2Wind
-    - Stage2Swing
-    - Stage2Door
     trapChance: 0.6
     corridorLength: 86
   - normalTag: Stage2Boss
