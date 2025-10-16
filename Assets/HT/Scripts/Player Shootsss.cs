@@ -8,10 +8,10 @@ public class PlayerShootsss : MonoBehaviour
     private void Update()
     {
         transform.position += m_speed* Time.deltaTime * transform.forward;
-        PlayerShoot_();
+        PlayerShoot();
     }
 
-    public void PlayerShoot_()
+    public void PlayerShoot()
     {
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

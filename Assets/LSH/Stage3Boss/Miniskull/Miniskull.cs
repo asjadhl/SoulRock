@@ -19,12 +19,11 @@ public class Miniskull : MonoBehaviour
     {
         
     }
-	private void OnTriggerStay(Collider col)
+	private void OnTriggerEnter(Collider col)
 	{
 		if(col.CompareTag("Player"))
         {
 			skull.transform.LookAt(playertransform);
-			skull.transform.Translate(Vector3.forward * 10 * Time.deltaTime);
 		}
 	}
 }

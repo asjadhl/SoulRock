@@ -47,11 +47,11 @@ public class EnemyGraphics : MonoBehaviour
 
     float rad = Mathf.Deg2Rad * Deg;
 
-    float alpha = Mathf.Lerp(0.2f, 1f, (Mathf.Sin(rad) + 1f) * 0.5f);
+    float alpha = Mathf.Lerp(0.2f, 0.8f, (Mathf.Sin(rad) + 1f) * 0.5f);
 
 
     
-    mat.SetFloat("_T",alpha );
+    mat.SetFloat("_SliceAlpha", alpha );
   }
     private void Awake()
     {

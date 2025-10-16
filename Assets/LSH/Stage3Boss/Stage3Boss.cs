@@ -47,8 +47,8 @@ public class Stage3Boss : MonoBehaviour
         hp = GetComponent<BossHP>();
         musicBox = GameObject.FindWithTag("MusicBox").GetComponent<MusicBox>();
         material.color = Color.white;
-		ReadyforLazerAttack();
         ReadyforLazerBallAttack();
+		ReadyforLazerAttack();
         ReadyforBigLazerAttack();
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
@@ -75,18 +75,18 @@ public class Stage3Boss : MonoBehaviour
     }
     void ReadyforLazerBallAttack()
     {
-        lazerBallPool = new GameObject[7];
-        thisPos = new Vector3[7];
-        thisPos[0] =  new Vector3(-5f , 6f, transform.position.z);
-        thisPos[1] = new Vector3(5f, 6f, transform.position.z);
-        thisPos[2] = new Vector3(-4f, 8f, transform.position.z);
-        thisPos[3] = new Vector3(4f, 8f, transform.position.z);
-        thisPos[4] = new Vector3(2f, 10f, transform.position.z);
-        thisPos[5] = new Vector3(-2f, 10f, transform.position.z);
-        thisPos[6] = new Vector3(0, 10.5f, transform.position.z);
+        lazerBallPool = new GameObject[12];
+        //thisPos = new Vector3[7];
+        //thisPos[0] =  new Vector3(-5f , 6f, transform.position.z);
+        //thisPos[1] = new Vector3(5f, 6f, transform.position.z);
+        //thisPos[2] = new Vector3(-4f, 8f, transform.position.z);
+        //thisPos[3] = new Vector3(4f, 8f, transform.position.z);
+        //thisPos[4] = new Vector3(2f, 10f, transform.position.z);
+        //thisPos[5] = new Vector3(-2f, 10f, transform.position.z);
+        //thisPos[6] = new Vector3(0, 10.5f, transform.position.z);
         for (int i = 0; i<lazerBallPool.Length; i++)
         {
-            GameObject lazerBallAttack = Instantiate(lazerBall, thisPos[i], Quaternion.identity);
+            GameObject lazerBallAttack = Instantiate(lazerBall, transform.position, Quaternion.identity);
             lazerBallAttack.transform.parent = transform;
             lazerBallAttack.SetActive(false);   
             lazerBallPool[i] = lazerBallAttack;
@@ -191,11 +191,11 @@ public class Stage3Boss : MonoBehaviour
         isAttacking = true;
         Debug.Log("레이져볼 공격중");
         //if(isAngry)
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 12; i++)
         {
             int poolIndex = i % lazerBallPool.Length;
             //lazerBallPool[i].transform.position = transform.position + thisPos[i];
-            Vector3 randomPos = transform.position + new Vector3(Random.Range(-10f, 10f),Random.Range(5f, 10f),0f);
+            Vector3 randomPos = transform.position + new Vector3(Random.Range(-12f, 12f),Random.Range(5f, 12f),0f);
             lazerBallPool[poolIndex].transform.position = randomPos;
             lazerBallPool[poolIndex].transform.localScale = Vector3.zero;
             lazerBallPool[poolIndex].SetActive(true);
@@ -317,12 +317,16 @@ public class Stage3Boss : MonoBehaviour
         isAttacking = true;
         Debug.Log("레이져볼 공격중");
         //if(isAngry)
-        for (int i = 0; i < lazerBallPool.Length; i++)
+        for (int i = 0; i < 6; i++)
         {
-            lazerBallPool[i].transform.position = transform.position + thisPos[i]; 
-            lazerBallPool[i].SetActive(true);
-			anime.SetTrigger("SecondPattern");
-			if (!lazerBallPool[i].activeSelf)
+            int poolIndex = i % lazerBallPool.Length;
+            //lazerBallPool[i].transform.position = transform.position + thisPos[i];
+            Vector3 randomPos = transform.position + new Vector3(Random.Range(-12f, 12f), Random.Range(5f, 12f), 0f);
+            lazerBallPool[poolIndex].transform.position = randomPos;
+            lazerBallPool[poolIndex].transform.localScale = Vector3.zero;
+            lazerBallPool[poolIndex].SetActive(true);
+            anime.SetTrigger("SecondPattern");
+            if (!lazerBallPool[i].activeSelf)
             {
                 break;
             }
