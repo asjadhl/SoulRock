@@ -70,8 +70,6 @@ public class Stage2BossAttack : MonoBehaviour
     private bool cardChanged = false;
 
     private bool isHAttacking = false;
-
-
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -91,7 +89,7 @@ public class Stage2BossAttack : MonoBehaviour
                 if (!miniBossSpawned && !isHAttacking)
                 {
                     isHAttacking = true;
-                    HAttack();
+                    _=HAttack();
                 }
                 break;
 
@@ -106,7 +104,7 @@ public class Stage2BossAttack : MonoBehaviour
                 {
                     if (!cardChanged)
                     {
-                        ChangeNextRanCard();
+                        _=ChangeNextRanCard();
                         cardChanged = true;
                     }
                     spadeTimer = 0;
@@ -128,7 +126,7 @@ public class Stage2BossAttack : MonoBehaviour
                 {
                     if (!cardChanged)
                     {
-                        ChangeNextRanCard();
+                        _=ChangeNextRanCard();
                         cardChanged = true;
                     }
                     clubTimer = 0;
@@ -141,14 +139,32 @@ public class Stage2BossAttack : MonoBehaviour
 
     private void SetCardData()
     {
-        bossCardImage.sprite = currentCard.icon;
+        //bossCardImage.sprite = currentCard.icon;
         curShape = currentCard.shape;
     }
 
-    private void ChangeNextRanCard()
+    private async UniTask ChangeNextRanCard()
     {
-        currentCard = cards[Random.Range(0, cards.Length)];
+        await RollCardEffect(rollCount: 12, delay: 80);
+
+        //currentCard = cards[Random.Range(0, cards.Length)];
         SetCardData();
+    }
+
+    private async UniTask RollCardEffect(int rollCount = 10, int delay = 100)
+    {
+        for (int i = 0; i < rollCount; i++)
+        {
+            var randomCard = cards[Random.Range(0, cards.Length)];
+            currentCard = randomCard;
+            bossCardImage.sprite = randomCard.icon;
+
+            // 살짝 커졌다 줄어드는 효과
+            bossCardImage.transform.localScale = Vector3.one * 1.2f;
+            await UniTask.Delay(delay / 2);
+            bossCardImage.transform.localScale = Vector3.one;
+            await UniTask.Delay(delay / 2);
+        }
     }
 
     private async UniTask HAttack()
@@ -180,7 +196,7 @@ public class Stage2BossAttack : MonoBehaviour
             bossRecover = true;
         }
 
-        ChangeNextRanCard();
+        await ChangeNextRanCard();
         cardChanged = false;
         isHAttacking = false;
 
@@ -219,7 +235,7 @@ public class Stage2BossAttack : MonoBehaviour
                 transform.position = new Vector3(0, 0, player.transform.position.z + 17);
                 if (!cardChanged)
                 {
-                    ChangeNextRanCard();
+                    _=ChangeNextRanCard();
                     cardChanged = true;
                 }
                 playerHitCount = 0;
@@ -264,7 +280,7 @@ public class Stage2BossAttack : MonoBehaviour
             _=player.GetComponent<PlayerHP>().PlayerHPMinus();
             transform.rotation = Quaternion.Euler(0,180,0);
             transform.position = new Vector3(0, 0, player.transform.position.z + 17);
-            ChangeNextRanCard();
+            _=ChangeNextRanCard();
             teleportCount = 0;
             playerHitCount = 0;
             cardChanged = false;
@@ -309,7 +325,7 @@ public class Stage2BossAttack : MonoBehaviour
     {
         await UniTask.Delay(3000);
         isDelay = true;
-        ChangeNextRanCard();
+         await ChangeNextRanCard();
         //currentCard = cards[3];
         //SetCardData();
     }

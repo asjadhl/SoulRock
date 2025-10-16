@@ -6,7 +6,8 @@ public enum Shape
     S,
     H,
     C,
-    D
+    D,
+    None
 }
 
 [CreateAssetMenu(fileName = "Card Data", menuName = "Scriptable Object/Card Data")]

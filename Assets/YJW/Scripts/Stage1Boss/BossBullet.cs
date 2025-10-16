@@ -30,7 +30,7 @@ public class BossBullet : MonoBehaviour
         if (transform.position.z <= player.transform.position.z)
         {
             ReturnSpawnPoint();
-            player.GetComponent<PlayerHP>().PlayerHPMinus();
+            _=player.GetComponent<PlayerHP>().PlayerHPMinus();
         }
     }
 

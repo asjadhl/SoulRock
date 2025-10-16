@@ -123,14 +123,6 @@ public class PlayerShoot : MonoBehaviour
                     Stage2BossAttack.clubStack++;
                     hit.collider.gameObject.GetComponent<RedBlackBallMove>().ReturnOriPos();
                 }
-                if (hit.collider.gameObject.tag == "Stage2Boss")
-                {
-                    boss2.GetComponent<BossHP>().BossHPMinus();
-                }
-                if(hit.collider.gameObject.tag == "Stage3Boss")
-                {
-                    hit.collider.gameObject.GetComponent<BossHP>().BossHPMinus();
-                }
                 if (hit.collider.gameObject.tag == "miniH")
                 {
                     boss2.GetComponent<Stage2BossAttack>().reMiniHMinus();

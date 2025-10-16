@@ -41,7 +41,7 @@ public class BossUnderBullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             ReturnSpawnPoint();
-            player.GetComponent<PlayerHP>().PlayerHPMinus();
+            _=player.GetComponent<PlayerHP>().PlayerHPMinus();
         }
     }
 
