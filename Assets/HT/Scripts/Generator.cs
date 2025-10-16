@@ -16,6 +16,7 @@ public class Generator : MonoBehaviour
 {
   public List<GameObject> Queune;
   public Transform PlayerTransform;
+  public Transform PrevTransform;
   public GameObject g;
   public Vector3 StartGenerate;
   public Vector3 GenerateOffSet;
@@ -28,35 +29,38 @@ public class Generator : MonoBehaviour
   {
     //GameManager.instance.GetRandomPath
 
-     int dex = UnityEngine.Random.Range(0,2);
+    int dex = UnityEngine.Random.Range(0, 2);
     GameObject EmptyGameObject;
 
 
-    if (Queune == null)
-      Queune = new();
+
 
     //Left
     if (dex == 0)
     {
-      Vector3 temp = GenerateOffSet;
-      temp.x = -temp.x;
-      EmptyGameObject = Instantiate(g, StartGenerate + temp, Quaternion.identity);
-      EmptyGameObject.transform.eulerAngles = Quaternion.LookRotation(-PlayerTransform.right).eulerAngles;
-      PlayerTransform.eulerAngles = EmptyGameObject.transform.eulerAngles;
+      Debug.Log("LEFT");
+
+      EmptyGameObject = Instantiate(g, transform.position, Quaternion.identity);
+      EmptyGameObject.transform.position = PrevTransform.position + (PrevTransform.transform.right * GenerateOffSet.x);
+     // Debug.Log($"PrevTransform.position: {PrevTransform.position}, PrevTransform.transform.right: {PrevTransform.transform.right},-GenerateOffSet.x: {GenerateOffSet.x},(PrevTransform.transform.right * -GenerateOffSet.x) : {(PrevTransform.transform.right * GenerateOffSet.x)} ");
+      EmptyGameObject.transform.position += PrevTransform.position + (PrevTransform.transform.forward * GenerateOffSet.z);
+      EmptyGameObject.transform.rotation = Quaternion.LookRotation(-PrevTransform.transform.right);
       Queune.Add(EmptyGameObject);
     }
     //Right
-    else if(dex == 1)
+    else if (dex == 1)
     {
-      EmptyGameObject = Instantiate(g, StartGenerate + GenerateOffSet, Quaternion.identity);
-      EmptyGameObject.transform.eulerAngles = Quaternion.LookRotation(PlayerTransform.right).eulerAngles;
-      PlayerTransform.eulerAngles = EmptyGameObject.transform.eulerAngles;
+      Debug.Log("RIGHT");
+      EmptyGameObject = Instantiate(g, transform.position, Quaternion.identity);
+      EmptyGameObject.transform.position = PrevTransform.position + (PrevTransform.transform.right * -GenerateOffSet.x);
+      EmptyGameObject.transform.position += PrevTransform.position + (PrevTransform.transform.forward * -GenerateOffSet.z);
+      EmptyGameObject.transform.rotation = Quaternion.LookRotation(PrevTransform.transform.right);
       Queune.Add(EmptyGameObject);
     }
 
 
-    StartGenerate = StartGenerate + GenerateOffSet;
-   
+
+
 
   }
   public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
@@ -80,32 +84,34 @@ public class Generator : MonoBehaviour
     FindPlayer();
     StartGenerate = transform.position;
     GameObject EmptyGameObject;
-    EmptyGameObject = Instantiate(g, StartGenerate, Quaternion.identity);
-    EmptyGameObject.transform.eulerAngles = new Vector3 (0, 180, 0);
+    EmptyGameObject = Instantiate(g, PlayerTransform.position + new Vector3(0, 0, GenerateOffSet.x), Quaternion.identity);
+    EmptyGameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+    Queune = new();
     Queune.Add(EmptyGameObject);
     //Generate();
   }
 
-  
-  public void Update() 
+
+  public void Update()
   {
 
     if (Queune != null)
       if (Queune.Count <= 0)
         return;
 
-   
+
 
     TrueOffset = Queune[0].transform.forward * TriggeredOffset.x;
     TrueOffset += Queune[0].transform.forward * TriggeredOffset.y;
     TrueOffset += Queune[0].transform.forward * TriggeredOffset.z;
-     if(IsInsideCircle(PlayerTransform.position, Queune[0].transform.position+ TrueOffset, Radius))
-     {
+    if (IsInsideCircle(PlayerTransform.position, Queune[0].transform.position + TrueOffset, Radius))
+    {
 
-        //PlayerTransform.eulerAngles = Queune[0].transform.eulerAngles;
-        Queune.Remove(Queune[0]);
-        Generate();
-     }
+
+      PrevTransform = Queune[0].transform;
+      Queune.Remove(Queune[0]);
+      Generate();
+    }
   }
 }
 
@@ -115,7 +121,7 @@ public class ShowTrueOffset : Editor
 {
 
 
- 
+
 
   void OnSceneGUI()
   {
@@ -126,17 +132,17 @@ public class ShowTrueOffset : Editor
         return;
     UnityEditor.Handles.color = Color.yellow;
 
-     
+
 
     Vector3 start = t.Queune[0].transform.position + t.TrueOffset;
 
 
-    UnityEditor.Handles.DrawWireDisc(start, Vector3.up,t.Radius);
+    UnityEditor.Handles.DrawWireDisc(start, Vector3.up, t.Radius);
 
     UnityEditor.Handles.Label(start + Vector3.up * 0.5f, $"TriggeredOffset{start}");
 
-      
-    
+
+
 
 
   }

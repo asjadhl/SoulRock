@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor.Rendering;
 using UnityEngine;
  
 public enum Cts
@@ -28,9 +29,35 @@ public class EnemyGraphics : MonoBehaviour
    
     Vector3 Origin;
 
-   
+
+   Material mat;
+  float Deg = 0;
+  float duration = 3f;
+  void GetTransparent()
+   {
+    Renderer rend = GetComponentInChildren<Renderer>();
+    mat = rend.material;
+  }
+
+  void TransparentAnimationUpdate()
+  {
+    Deg += (360f / duration)*Time.deltaTime;
+    if (Deg > 360f) Deg -= 360f;
+
+
+    float rad = Mathf.Deg2Rad * Deg;
+
+    float alpha = Mathf.Lerp(0.2f, 1f, (Mathf.Sin(rad) + 1f) * 0.5f);
+
+
+    
+    mat.SetFloat("_T",alpha );
+  }
     private void Awake()
     {
+      GetTransparent();
+
+
         if (m_anim == null)
             m_anim = GetComponent<Animator>();
         if (m_anim == null)
@@ -66,10 +93,13 @@ public class EnemyGraphics : MonoBehaviour
 
       
     }
+  public void Update()
+  {
+    TransparentAnimationUpdate();
+  }
 
 
-
-    public void ResetNow()
+  public void ResetNow()
     {
         My_State = AnimationState.Null;
     }
