@@ -106,7 +106,7 @@ public class Stage3Boss : MonoBehaviour
 
     void Update()
     {
-        if (hp.bossHP == 30)
+        if (CheckRealTime.inGamerealTime == 10)
         {
 			Phase2();
 			isAngry = true;

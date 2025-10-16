@@ -91,7 +91,7 @@ public class MusicBox : MonoBehaviour
         if (isChangingSong) return; // 이미 노래가 변경되었으면 실행하지 않음
 
         // 보스 HP가 30 이하인지 확인
-        if (hp.bossHP <= 30)
+        if (CheckRealTime.inGamerealTime == 10)
         {
             isChangingSong = true; // 노래가 변경되었음을 기록
 
@@ -137,4 +137,8 @@ public class MusicBox : MonoBehaviour
         musicSource.Stop(); 
         musicSource.volume = startVolume;
     }
+    //void CheckMusicTime()
+    //{
+    //    Debug.LogWarning(music)
+    //}
 }
