@@ -25,7 +25,7 @@ public class MiniSkullMove : MonoBehaviour
 	[Header("폭발 타이밍 설정")]
 	public float attachDelay = 1.0f;        
 
-	private Animator animator;
+	//private Animator animator;
 	private bool isChasing = false;
 	private bool hasExploded = false;
 	private readonly Vector3 effectOffset = new Vector3(0, 1f, 0); 
@@ -35,7 +35,7 @@ public class MiniSkullMove : MonoBehaviour
 		if (skullScanner == null)
 			skullScanner = GameObject.FindWithTag("Player").transform;
 
-		animator = GetComponent<Animator>();
+		//animator = GetComponent<Animator>();
 	}
 
 	void Update()
@@ -51,18 +51,22 @@ public class MiniSkullMove : MonoBehaviour
 
 		if (!isChasing && distance > chaseStartDistance)
 		{
-			transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime, Space.World);
+			transform.Translate(Vector3.back * forwardSpeed * Time.deltaTime, Space.World);
 			return;
 		}
 
 		if (distance <= chaseStartDistance && distance > disableDistance)
 		{
-			animator.SetBool("Run", true);
+			//animator.SetBool("Run", true);
 			isChasing = true;
-
-			Vector3 targetPos = new Vector3(
+            //transform.LookAt(skullScanner);
+            Vector3 oppositeDir = transform.position - skullScanner.position;
+            oppositeDir.y = 0f;
+            if (oppositeDir != Vector3.zero)
+                transform.rotation = Quaternion.LookRotation(oppositeDir);
+            Vector3 targetPos = new Vector3(
 				skullScanner.position.x,
-				transform.position.y,
+				skullScanner.position.y,
 				skullScanner.position.z
 			);
 
@@ -70,17 +74,14 @@ public class MiniSkullMove : MonoBehaviour
 
 			transform.position += direction * chaseSpeed * Time.deltaTime;
 
-			if (direction != Vector3.zero)
-				transform.rotation = Quaternion.LookRotation(direction);
-
 			return;
 		}
 
 		if (distance <= disableDistance && !hasExploded)
 		{
 			hasExploded = true;
-			animator.SetBool("Run", false);
-			transform.LookAt(skullScanner);
+			//animator.SetBool("Run", false);
+			
 
 			transform.SetParent(skullScanner.transform, true);
 
