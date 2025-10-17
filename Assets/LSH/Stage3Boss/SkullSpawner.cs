@@ -13,7 +13,8 @@ public class SkullSpawner : MonoBehaviour
 		poolCircle = new GameObject[poolSize];
 		for (int i = 0; i < poolSize; i++)
 		{
-			GameObject skull = Instantiate(skullPrefab, transform);
+			GameObject skull = Instantiate(skullPrefab, transform.position, Quaternion.identity);
+			skull.transform.parent = transform;
 			skull.SetActive(false);
 			poolCircle[i] = skull;
 		}
@@ -27,9 +28,13 @@ public class SkullSpawner : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+        
+    }
+
+	void SpawnSkull()
+	{
 
 	}
-
 	//void GetSkull()
 	//{
 	//	GameObject dot = olL[pivot];
