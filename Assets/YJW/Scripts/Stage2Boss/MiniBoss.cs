@@ -31,7 +31,7 @@ public class MiniBoss : MonoBehaviour
                 _=SetRanPos();
                 isSpawned = true;
             }
-            if (Mathf.Abs(transform.position.z - player.transform.position.z) >= 10)
+            if (Mathf.Abs(transform.position.z - player.transform.position.z) >= 11)
                 transform.Translate(Vector3.forward * 3 * Time.fixedDeltaTime);
             //Debug.Log(Mathf.Abs(transform.position.z - player.transform.position.z));
         }
@@ -57,10 +57,26 @@ public class MiniBoss : MonoBehaviour
         transform.position = boss.GetComponent<Stage2BossAttack>().spawnPos[spawnPosIndex].position;
     }
 
-    public void ReturnOriPos()
+    public async UniTask ReturnOriPos()
     {
+        Vector3 InstPos = new Vector3(transform.position.x, transform.position.y + 0.7f, transform.position.z);
+        ParticleSystem exEffect = Instantiate(GameDataManager.Instance.explosionParticle, InstPos, Quaternion.identity);
+        exEffect.Play();
+        await UniTask.Delay(150);
         transform.position = oriPos;
         isSpawned = false;
         gameObject.SetActive(false);
+    }
+
+    public async UniTask miniHTrue()
+    {
+        boss.GetComponent<Stage2BossAttack>().HeartTrue();
+        //Transform cap = transform.GetChild(0);
+        Transform joker = transform.GetChild(1);
+        while(joker.localScale.y < 1.5f)
+        {
+            joker.localScale += new Vector3(0, 0.1f, 0);
+            await UniTask.Delay(30);
+        }
     }
 }

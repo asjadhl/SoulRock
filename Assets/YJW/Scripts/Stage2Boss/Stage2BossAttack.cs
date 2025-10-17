@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -70,6 +71,8 @@ public class Stage2BossAttack : MonoBehaviour
     private bool cardChanged = false;
 
     private bool isHAttacking = false;
+    private bool miniHeartTrue = false;
+
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -188,17 +191,16 @@ public class Stage2BossAttack : MonoBehaviour
             miniBoss[i].SetActive(false);
         }
         miniBossSpawned = false;
-        Debug.Log(clubStack + "클럽스택");
-        Debug.Log(reMiniH);
-        if(reMiniH > 0 && bossRecover == false)
+
+        if (miniHeartTrue == false)
         {
-            BossHP.bossHP += reMiniH;
-            bossRecover = true;
+
         }
 
         await ChangeNextRanCard();
         cardChanged = false;
         isHAttacking = false;
+        miniHeartTrue = false;
 
     }
 
@@ -300,9 +302,9 @@ public class Stage2BossAttack : MonoBehaviour
         usedPos.Add(a);
     }
 
-    public void reMiniHMinus()
+    public void HeartTrue()
     {
-        reMiniH--;
+        miniHeartTrue = true;
     }
 
     // 스페이드 패턴

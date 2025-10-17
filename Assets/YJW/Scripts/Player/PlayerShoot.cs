@@ -125,10 +125,13 @@ public class PlayerShoot : MonoBehaviour
                 }
                 if (hit.collider.gameObject.tag == "miniH")
                 {
-                    boss2.GetComponent<Stage2BossAttack>().reMiniHMinus();
                     hit.collider.gameObject.GetComponent<MiniBoss>().ReturnOriPos();
                 }
-                
+                if (hit.collider.gameObject.tag == "miniHTrue")
+                {
+                    hit.collider.gameObject.GetComponent<MiniBoss>().miniHTrue();
+                }
+
             }
 
 
