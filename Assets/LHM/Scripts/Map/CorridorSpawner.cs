@@ -183,15 +183,15 @@ public class CorridorSpawner : MonoBehaviour
     bool IsAutoStage(int stage)
     {
         // 1, 2, 4, 5 ´Ü°è¸¸ ÀÚµ¿ ÁøÇà
-        return stage == 1 || stage == 2 || stage == 4 || stage == 5;
+        return stage == 1 || stage == 2 /*|| stage == 4 || stage == 5*/;
     }
 
     float GetStageDelay(int stage)
     {
         // 1,4´Â ºó¸Ê, 2,5´Â ÀÏ¹İ¸Ê
-        if (stage == 1 || stage == 4)
+        if (stage == 1 /*|| stage == 4*/)
             return emptyDelay;
-        else if (stage == 2 || stage == 5)
+        else if (stage == 2 /*|| stage == 5*/)
             return normalDelay;
         return 0f;
     }
