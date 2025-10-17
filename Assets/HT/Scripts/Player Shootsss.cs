@@ -43,11 +43,7 @@ public class PlayerShootsss : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 100f))
         {
 
-            var a = hit.collider.GetComponent<LockOnDashEnemy>();
-            if (a != null)
-            {
-                a.TriggerDash();
-            }
+            
       var b = hit.collider.GetComponent<LockOnDodgeEnemy>();
       if (b != null)
       {

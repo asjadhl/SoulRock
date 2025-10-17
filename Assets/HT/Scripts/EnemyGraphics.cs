@@ -32,7 +32,7 @@ public class EnemyGraphics : MonoBehaviour
 
    Material mat;
   float Deg = 0;
-  float duration = 3f;
+  float duration = 2f;
   void GetTransparent()
    {
     Renderer rend = GetComponentInChildren<Renderer>();
@@ -47,11 +47,11 @@ public class EnemyGraphics : MonoBehaviour
 
     float rad = Mathf.Deg2Rad * Deg;
 
-    float alpha = Mathf.Lerp(0.2f, 0.8f, (Mathf.Sin(rad) + 1f) * 0.5f);
+    float alpha = Mathf.Lerp(0.1f, 0.9f, (Mathf.Sin(rad) + 1f) * 0.5f);
 
 
     
-    mat.SetFloat("_SliceAlpha", alpha );
+    mat.SetFloat("_T", alpha);
   }
     private void Awake()
     {
@@ -106,9 +106,12 @@ public class EnemyGraphics : MonoBehaviour
     public  void SetRandomColor()
     {
 
-        var mat = GetComponentInChildren<SkinnedMeshRenderer>();
-        mat.material.SetColor("_MainColor", new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
 
+        var mat = GetComponentInChildren<SkinnedMeshRenderer>();
+    Color baseColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f),1f);
+      mat.material.EnableKeyword("_EMISSION");
+      mat.material.SetColor("_MainColor", baseColor*8f);  
+        
     }
     private void OnDestroy()
     {

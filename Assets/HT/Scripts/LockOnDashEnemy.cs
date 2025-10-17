@@ -15,8 +15,8 @@ public class LockOnDashEnemy : MonoBehaviour
 
   private Vector3 targetPosition;
   private bool Dashing = false;
-  private bool canDash = true;
-  private bool isAllowedToDash = true;
+ 
+   
 
 
 
@@ -24,6 +24,8 @@ public class LockOnDashEnemy : MonoBehaviour
   private void Start()
   {
     player = GameObject.FindWithTag("Player").transform;
+
+    TriggerDash();
   }
 
   void UpdateClamp()
@@ -43,7 +45,7 @@ public class LockOnDashEnemy : MonoBehaviour
   }
   private void Update()
   {
-    if (!isAllowedToDash) return;
+    
 
     if (Dashing)
     {
@@ -56,7 +58,7 @@ public class LockOnDashEnemy : MonoBehaviour
       {
         transform.position = targetPosition;
         Dashing = false;
-        Rest().Forget();
+        //Rest().Forget();
       }
 
     }
@@ -65,12 +67,12 @@ public class LockOnDashEnemy : MonoBehaviour
 
   public void TriggerDash()
   {
-    if (!canDash || !isAllowedToDash) return;
+    
 
     float resultDashLenght = UnityEngine.Random.Range(minDashLenght, maxDashLenght);
 
-    
-    targetPosition = transform.position+transform.forward * resultDashLenght;
+
+    targetPosition = transform.position + transform.forward * resultDashLenght;
 
 
     //Clamp SizeOfMap
@@ -89,7 +91,7 @@ public class LockOnDashEnemy : MonoBehaviour
     //transform.LookAt(targetPosition);
 
     Dashing = true;
-    canDash = false;
+     
 
 
   }
@@ -97,25 +99,10 @@ public class LockOnDashEnemy : MonoBehaviour
   private async UniTaskVoid Rest()
   {
     await UniTask.WaitForSeconds(restTime);
-    canDash = true;
+      
   }
 
-  public bool IsDodging()
-  {
-    return Dashing;
-  }
-
-  public void StopDodging()
-  {
-    isAllowedToDash = false;
-    this.enabled = false;
-  }
-
-  public void StartDodging()
-  {
-    isAllowedToDash = true;
-    this.enabled = true;
-  }
+ 
 }
 
  
