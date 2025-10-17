@@ -51,7 +51,7 @@ public class MiniSkullMove : MonoBehaviour
 
 		if (!isChasing && distance > chaseStartDistance)
 		{
-			transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
+			transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime, Space.World);
 			return;
 		}
 
