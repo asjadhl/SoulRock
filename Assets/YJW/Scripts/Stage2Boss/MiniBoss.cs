@@ -76,7 +76,7 @@ public class MiniBoss : MonoBehaviour
         while(joker.localScale.y < 1.5f)
         {
             joker.localScale += new Vector3(0, 0.1f, 0);
-            await UniTask.Delay(30);
+            await UniTask.Delay(20);
         }
     }
 }

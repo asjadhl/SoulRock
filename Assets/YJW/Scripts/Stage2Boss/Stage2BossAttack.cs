@@ -192,14 +192,15 @@ public class Stage2BossAttack : MonoBehaviour
         }
         miniBossSpawned = false;
 
-        if (miniHeartTrue == false)
-        {
+        isHAttacking = false;
 
+        if (miniHeartTrue == false && isHAttacking == false)
+        {
+            Debug.Log("패턴 실패");
         }
 
         await ChangeNextRanCard();
         cardChanged = false;
-        isHAttacking = false;
         miniHeartTrue = false;
 
     }
