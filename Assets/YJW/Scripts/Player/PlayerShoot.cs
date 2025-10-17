@@ -65,7 +65,9 @@ public class PlayerShoot : MonoBehaviour
 				{
                     hit.collider.gameObject.SetActive(false);
 				}
-				if (hit.collider.CompareTag("CloseTrap") || hit.collider.transform.root.CompareTag("CloseTrap"))
+                if (hit.collider.gameObject.tag == "Skull")
+                    hit.collider.gameObject.GetComponent<MiniSkullMove>().ShootReturnSkull();
+                if (hit.collider.CompareTag("CloseTrap") || hit.collider.transform.root.CompareTag("CloseTrap"))
                 {
                     var pressTrap = hit.collider.GetComponentInParent<PressTrap>();
                     if (pressTrap != null)
@@ -118,6 +120,7 @@ public class PlayerShoot : MonoBehaviour
                 }
                 if (hit.collider.gameObject.tag == "BlackBall")
                     hit.collider.gameObject.GetComponent<RedBlackBallMove>().ReturnOriPos();
+                
                 if (hit.collider.gameObject.tag == "RedBall")
                 {
                     Stage2BossAttack.clubStack++;

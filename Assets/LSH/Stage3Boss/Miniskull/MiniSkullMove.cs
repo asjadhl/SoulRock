@@ -23,8 +23,9 @@ public class MiniSkullMove : MonoBehaviour
 	[SerializeField] private ParticleSystem explosionEffect;
 
 	[Header("폭발 타이밍 설정")]
-	public float attachDelay = 1.0f;        
+	public float attachDelay = 1.0f;
 
+	private SkullSpawner spawner;
 	//private Animator animator;
 	private bool isChasing = false;
 	private bool hasExploded = false;
@@ -32,7 +33,8 @@ public class MiniSkullMove : MonoBehaviour
 
 	void Start()
 	{
-		if (skullScanner == null)
+	    spawner = GameObject.FindWithTag("SkullScaner").GetComponent<SkullSpawner>();
+        if (skullScanner == null)
 			skullScanner = GameObject.FindWithTag("Player").transform;
 
 		//animator = GetComponent<Animator>();
@@ -86,12 +88,29 @@ public class MiniSkullMove : MonoBehaviour
 			transform.SetParent(skullScanner.transform, true);
 
 			await UniTask.Delay((int)(attachDelay * 1000));
-
-			Vector3 effectPos = transform.position + effectOffset;
-			var explosion = Instantiate(explosionEffect, effectPos, Quaternion.identity);
-			explosion.Play();
-
-			gameObject.SetActive(false);
-		}
+            spawner.ReturnSkull(gameObject);
+        }
 	}
+	public void ShootReturnSkull()
+	{
+        spawner.ReturnSkull(gameObject);
+    }
+    private void OnEnable()
+    {
+        ResetState();
+    }
+
+    private void OnDisable()
+    {
+        Vector3 effectPos = transform.position + effectOffset;
+        var explosion = Instantiate(explosionEffect, effectPos, Quaternion.identity);
+        explosion.Play();
+    }
+
+    private void ResetState()
+    {
+        isChasing = false;
+        hasExploded = false;
+        transform.SetParent(null);
+    }
 }
