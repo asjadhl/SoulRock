@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -11,28 +12,53 @@ public class PlayerMove : MonoBehaviour
     //bool isGrounded = true;
 
     [SerializeField] Transform[] StartPos;
-    [SerializeField] float speed = 1.0f;
+  [SerializeField] float QuadraticBezierRate = 0.6f;
     private float t = 0f;
-
+    bool canRun = false;
     private void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        WaitToRun().Forget();
     }
 
     private void Update()
     {
-        _=PlayerRun();
-        //if (isGrounded && Input.GetMouseButtonDown(1))
-        //    PlayerJump();
+    //_=PlayerRun();
+    //if (isGrounded && Input.GetMouseButtonDown(1))
+    //    PlayerJump();
+    if (canRun)
+      UpdatePlayerRun();
+    }
+ 
+    
+    void UpdatePlayerRun()
+    {
+       transform.position +=  moveSpeed * Time.fixedDeltaTime * transform.forward;
     }
 
+  [Obsolete]
     private async UniTask PlayerRun()
     {
-        StartMove();
+        //StartMove();
         await UniTask.Delay(3000);
         transform.Translate(new Vector3(0,0,1) * moveSpeed * Time.fixedDeltaTime);
     }
 
+   private async UniTaskVoid WaitToRun()
+   {
+      while(t <=1f)
+      {
+      StartMove(t+=Time.deltaTime* QuadraticBezierRate);
+      await UniTask.WaitForFixedUpdate();
+      }
+    await UniTask.WaitForSeconds(3f);
+    var temp = GameObject.FindAnyObjectByType<BossMove>();
+    if (temp != null)
+    {
+      canRun = true;
+      temp.canRun = true;
+    }
+   }
     
     private void PlayerJumpButtonClick()
     {
@@ -61,13 +87,11 @@ public class PlayerMove : MonoBehaviour
         return Vector3.Lerp(a, b, t);
     }
 
-    private void StartMove()
-    {
-        if (t < 1f)
-        {
-            t += Time.deltaTime * speed;
+    private void StartMove(float t)
+    {        
+             // if(t<1) t+= Time.deltatime* speed ???
             transform.position = QuadraticBezier(StartPos[0].position, StartPos[1].position, StartPos[2].position, t);
-        }
+            
     }
 
 }
