@@ -9,17 +9,19 @@ public class LazerBall : MonoBehaviour
 
     private Transform player;
     private Transform boss;
-
+    //ParticleSystem explosionEffect;
+    ParticleManager particleManager;
     //Vector3 oriPos;
     float x;
     float y;
-
+    bool isInitialized = false;
     private void Awake()
     {
         x = transform.position.x;
         y = transform.position.y;
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
+        particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
     }
 
     //private void FixedUpdate()
@@ -35,6 +37,11 @@ public class LazerBall : MonoBehaviour
     //}
 
     // Update is called once per frame
+
+    private void Start()
+    {
+        isInitialized = true;
+    }
     void Update()
     {
         if(gameObject.activeSelf == true)
@@ -63,5 +70,18 @@ public class LazerBall : MonoBehaviour
             _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
             gameObject.SetActive(false);
         }
+    }
+
+    //private void OnDisable()
+    //{
+    //    Vector3 effectPos = transform.position;
+    //    var explosion = Instantiate(explosionEffect, effectPos, Quaternion.identity);
+    //    explosion.Play();
+    //}
+    private void OnDisable()
+    {
+        if (!isInitialized) return;
+        Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
+        particleManager.PlayHitEffect(effectPos);
     }
 }

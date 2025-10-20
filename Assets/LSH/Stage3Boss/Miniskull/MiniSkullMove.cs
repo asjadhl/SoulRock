@@ -19,10 +19,11 @@ public class MiniSkullMove : MonoBehaviour
 	public float chaseStartDistance = 10f;  
 	public float disableDistance = 1f;      // ∆¯πﬂ ∞≈∏Æ
 
-	[Header("ªÁ∏¡ ¿Ã∆Â∆Æ")]
-	[SerializeField] private ParticleSystem explosionEffect;
+	//[Header("ªÁ∏¡ ¿Ã∆Â∆Æ")]
+	//ParticleSystem explosionEffect;
+	ParticleManager particleManager;
 
-	[Header("∆¯πﬂ ≈∏¿Ãπ÷ º≥¡§")]
+    [Header("∆¯πﬂ ≈∏¿Ãπ÷ º≥¡§")]
 	public float attachDelay = 1.0f;
 
 	private SkullSpawner spawner;
@@ -30,17 +31,22 @@ public class MiniSkullMove : MonoBehaviour
 	private bool isChasing = false;
 	private bool hasExploded = false;
 	private readonly Vector3 effectOffset = new Vector3(0, 1f, 0); 
+	bool isInitialized = false;
 
-	void Start()
+    void Awake()
 	{
-	    spawner = GameObject.FindWithTag("SkullScaner").GetComponent<SkullSpawner>();
+        spawner = GameObject.FindWithTag("SkullScaner").GetComponent<SkullSpawner>();
         if (skullScanner == null)
 			skullScanner = GameObject.FindWithTag("Player").transform;
+        particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
+        //animator = GetComponent<Animator>();
+    }
 
-		//animator = GetComponent<Animator>();
-	}
-
-	void Update()
+    private void Start()
+    {
+        isInitialized = true;
+    }
+    void Update()
 	{
 		SkullMove().Forget(); 
 	}
@@ -102,9 +108,9 @@ public class MiniSkullMove : MonoBehaviour
 
     private void OnDisable()
     {
-        Vector3 effectPos = transform.position + effectOffset;
-        var explosion = Instantiate(explosionEffect, effectPos, Quaternion.identity);
-        explosion.Play();
+        if (!isInitialized) return; //Ω√¿€ ∆¯πﬂ πÊ¡ˆ¿”§ª§ª
+        Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
+        particleManager.PlaySkullEffect(effectPos);
     }
 
     private void ResetState()

@@ -40,7 +40,7 @@ public class Stage3Boss : MonoBehaviour
     bool isAngry = false;
     bool animeOn = false;
     [SerializeField] GameObject monsterSpawner;
-    private async UniTask Start()
+    private async UniTask Awake()
     {
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         anime = GetComponent<Animator>();

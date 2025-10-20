@@ -1647,6 +1647,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &708348039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 708348041}
+  - component: {fileID: 708348040}
+  m_Layer: 0
+  m_Name: ParticleManager
+  m_TagString: ParticleManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &708348040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708348039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4740f970baa2dd6489af37d66dfde9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skullParticle: {fileID: 3765637054241222527, guid: fd1ac2656c000024dafc6102d9c45ad1, type: 3}
+  hitParticle: {fileID: 5781927832435029353, guid: 07c0962b0a684ec4786893771a09bb2a, type: 3}
+  poolSize: 10
+--- !u!4 &708348041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708348039}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.393026, y: 4.6262646, z: 372.75235}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &801416979
 GameObject:
   m_ObjectHideFlags: 0
@@ -3587,11 +3634,6 @@ Transform:
   - {fileID: 288335417}
   m_Father: {fileID: 1509030392}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &1403799191 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3765637054241222527, guid: fd1ac2656c000024dafc6102d9c45ad1, type: 3}
-  m_PrefabInstance: {fileID: 995724806}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1403799194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3765637054241222526, guid: fd1ac2656c000024dafc6102d9c45ad1, type: 3}
@@ -4152,8 +4194,6 @@ GameObject:
   - component: {fileID: 1598760850}
   - component: {fileID: 1598760857}
   - component: {fileID: 1598760856}
-  - component: {fileID: 1598760855}
-  - component: {fileID: 1598760854}
   - component: {fileID: 1598760853}
   - component: {fileID: 1598760852}
   - component: {fileID: 1598760851}
@@ -4261,34 +4301,6 @@ MonoBehaviour:
   firstOfLazerSize: 0.02
   material: {fileID: 2100000, guid: 80e2cbc6a1c71c0468a57f0b4f88be0f, type: 2}
   monsterSpawner: {fileID: 525860837}
---- !u!114 &1598760854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598760849}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649cf1240f6ecea43a5689a6cb0129cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bossHP: 50
---- !u!114 &1598760855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598760849}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f0282b1b80b4ac4faa646d0f511889f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bossHPBar: {fileID: 437645672}
-  bossHPBarBack: {fileID: 801416981}
-  hpBarAngry: {fileID: 21300000, guid: 4ee3c17318ca17141b679e67022c3e1a, type: 3}
 --- !u!136 &1598760856
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7977,7 +7989,6 @@ MonoBehaviour:
   chaseSpeed: 12
   chaseStartDistance: 10
   disableDistance: 5
-  explosionEffect: {fileID: 1403799191}
   attachDelay: 1
 --- !u!4 &7589462273293288031
 Transform:
@@ -8297,7 +8308,8 @@ SceneRoots:
   - {fileID: 819278139}
   - {fileID: 1242192930}
   - {fileID: 700148927}
-  - {fileID: 1033083101}
   - {fileID: 1519853200}
   - {fileID: 167601208}
   - {fileID: 7171436436030620775}
+  - {fileID: 1033083101}
+  - {fileID: 708348041}

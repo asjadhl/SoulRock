@@ -3,10 +3,15 @@ using UnityEngine;
 public class LazerMoving : MonoBehaviour
 {
     [SerializeField] float lazerSpeed = 10f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    bool isInitialized = false;
+    ParticleManager particleManager;
+    private void Awake()
+    {
+        particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
+    }
     void Start()
     {
-        
+        isInitialized = true;
     }
 
     // Update is called once per frame
@@ -21,5 +26,11 @@ public class LazerMoving : MonoBehaviour
             _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
             gameObject.SetActive(false);
         }
+    }
+    private void OnDisable()
+    {
+        if (!isInitialized) return;
+        Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
+        particleManager.PlayHitEffect(effectPos);
     }
 }

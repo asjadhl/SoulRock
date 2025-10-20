@@ -12,7 +12,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] GameObject boss2;
 
     [SerializeField] ParticleSystem shootParticle;
-
+    //[SerializeField] ParticleSystem hitParticle; // 임시적으로 잠시 만든거임 -도라지-
     public Transform gunTransform;
     public float kickbackDistance = 0.1f;
     public float kickbackSpeed = 10f;

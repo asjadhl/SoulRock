@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class BigLazer : MonoBehaviour
 {
@@ -8,7 +9,9 @@ public class BigLazer : MonoBehaviour
     private Transform boss;
     private BossHP bossHp;
     MatarialAlpha mirror;
-
+    //ParticleSystem explosionEffect;
+    ParticleManager particleManager;
+    bool isInitialized = false;
     bool reflect =false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -17,8 +20,13 @@ public class BigLazer : MonoBehaviour
         boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
 		bossHp = GameObject.FindWithTag("Stage3Boss").GetComponent<BossHP>();
 		mirror = FindAnyObjectByType<MatarialAlpha>();
-	}
-
+        //explosionEffect = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>().hitParticle;
+        particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
+    }
+    private void Start()
+    {
+        isInitialized = true;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -39,8 +47,22 @@ public class BigLazer : MonoBehaviour
         if(col.CompareTag("Stage3Boss"))
         {
 			//데미지 입히는거 넣기
-			bossHp.BossHPMinus();
+			//bossHp.BossHPMinus();
 			gameObject.SetActive(false);
         }
+    }
+
+    //private void OnDisable()
+    //{
+    //    Vector3 effectPos = transform.position;
+    //    var explosion = Instantiate(explosionEffect, effectPos, Quaternion.identity);
+    //    explosion.Play();
+    //}
+
+    private void OnDisable()
+    {
+        if (!isInitialized) return;
+        Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
+        particleManager.PlayHitEffect(effectPos);
     }
 }
