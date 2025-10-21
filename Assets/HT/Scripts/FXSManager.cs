@@ -8,8 +8,8 @@ using UnityEngine;
 
 public class FXSManager : MonoBehaviour
 {
-
-  public static FXSManager  Instance;
+   public static FXSManager  Instance;
+    
   public AudioSource MusicSource;
   public AudioSource SfXSource;
   public bool isMute;
@@ -42,9 +42,13 @@ public class FXSManager : MonoBehaviour
   public void Start()
   {
 
-        MasterSlider.value = MusicSource.volume;
-        MusicSlider.value = MusicSource.volume;
-        //SfXSource = SfXSource.volume;
+        MasterVolume =     PlayerPrefs.GetFloat("MSR");
+        MusicVolume = PlayerPrefs.GetFloat("MSC");
+        SfXVolume = PlayerPrefs.GetFloat("SFX");
+
+        MasterSlider.value = MasterVolume;
+        MusicSlider.value = MusicVolume;
+        SfXSlider.value = SfXVolume;
         dict = new();
         if (MusicAudioClip.Count > 0)
         {
@@ -127,6 +131,15 @@ public class FXSManager : MonoBehaviour
     textMeshPro.text = MusicSource.clip.name;
      
   }
-  
 
+
+    public void OnDestroy()
+    {
+
+         PlayerPrefs.SetFloat("MSR", MasterVolume);
+         PlayerPrefs.SetFloat("MSC", MusicSource.volume);
+         PlayerPrefs.SetFloat("SFX", SfXSource.volume);
+    }
 }
+
+
