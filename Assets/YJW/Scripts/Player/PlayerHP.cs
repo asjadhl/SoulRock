@@ -7,10 +7,10 @@ public class PlayerHP : MonoBehaviour
      0.1초에 0.1씩 줄어들고
     PlayerShoot()실행되면 = 박자에 맞춰서 총을 쏘면(누굴 못맞추더라도) 0.2씩 플러스.
     적에게 대미지를 받으면 -10씩
-    적을 잘 맞추면 +1씩
+    적을 잘 맞추면 +5씩
      */
 
-    public int playerHP = 10;
+    public float playerHP = 100;
 
     [SerializeField] GameObject DamageImage;
 
@@ -20,9 +20,19 @@ public class PlayerHP : MonoBehaviour
             PlayerDie();
     }
 
+    private void PlayerHPTimer()
+    {
+        playerHP -= 0.1f;
+    }
+
+    public void PlayerHPPlus(int recover)
+    {
+        playerHP += recover;
+    }
+
     public async UniTask PlayerHPMinus()
     {
-        playerHP--;
+        playerHP -= 10;
         GetDamImageOn();
         await UniTask.Delay(300);
         GetDamImageOff();

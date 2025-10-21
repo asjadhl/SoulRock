@@ -26,13 +26,13 @@ public class CircleHit : MonoBehaviour
 	[Header("풀 사이즈")]
 	[SerializeField] int poolSize = 10;
 
-	//[Header("Combo")]
-	//public int combo = 0;
-	//public GameObject[] comboImage;
-	
-    AudioSource a;
+	[Header("Combo")]
+	public int combo = 0;
+
+	AudioSource a;
 	[SerializeField] AudioClip clip;
-	[SerializeField] PlayerShoot player;
+	[SerializeField] PlayerShoot playerShoot;
+	private PlayerHP playerHPSc;
 	public GameObject[] poolCircle;
 	private int pivot = 0;
 	private double secondsPerBeat;
@@ -65,8 +65,10 @@ public class CircleHit : MonoBehaviour
 		//{
 		//	comboImage[i].SetActive(false);
 		//}
-		player = FindAnyObjectByType<PlayerShoot>();
-		circleGen().Forget();
+		playerShoot = FindAnyObjectByType<PlayerShoot>();
+        playerHPSc = FindAnyObjectByType<PlayerHP>();
+
+        circleGen().Forget();
 	}
 
 	private void Update()
@@ -141,9 +143,11 @@ public class CircleHit : MonoBehaviour
 
 	public void OnClickSuccess()
 	{
-		//combo++;
-		a.PlayOneShot(clip);
-		player.PlayerShoot_();
+		combo++;
+		playerHPSc.PlayerHPPlus(2);
+
+        a.PlayOneShot(clip);
+        playerShoot.PlayerShoot_();
 		//Debug.Log("클릭성공!");
 		// 클릭 성공 시 처리할 로직
 		// 예: 좌/우 도트 비활성화, 점수 증가 등
