@@ -10,8 +10,8 @@ public class BossMove : MonoBehaviour
  
   private void Update()
     {
-    if (canRun)
-      UpdateBossRun();
+      if (canRun)
+        UpdateBossRun();
     }
 
     [Obsolete]
