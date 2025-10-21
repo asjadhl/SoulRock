@@ -1,30 +1,24 @@
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LastBossMove : MonoBehaviour
 {
-    private float moveSpeed = 4f;
-    public bool canRun = false;
-
+    //GameObject player;
+    private void Start()
+    {
+        //player = GameObject.FindWithTag("Player");
+    }
+    
     private void Update()
     {
-        if (canRun)
-            UpdateBossRun();
+        //transform.LookAt(player.transform);
     }
-
-    [Obsolete]
-    private async UniTask BossRun()
+    public void HitGhostBoss()
     {
-        await UniTask.Delay(3000);
-        transform.Translate(new Vector3(0, 0, -1) * moveSpeed * Time.fixedDeltaTime);
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
     }
-
-    private void UpdateBossRun()
-    {
-        transform.position += moveSpeed * Time.fixedDeltaTime * -transform.forward;
-    }
-
 }
 
 

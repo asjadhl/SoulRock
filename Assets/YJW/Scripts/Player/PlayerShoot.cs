@@ -130,6 +130,10 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<MiniBoss>().ReturnOriPos();
                 }
+                if(hit.collider.gameObject.tag == "GhostBoss")
+                {
+                    hit.collider.gameObject.GetComponent<LastBossMove>().HitGhostBoss();
+                }
                 if (hit.collider.gameObject.tag == "miniHTrue")
                 {
                     hit.collider.gameObject.GetComponent<MiniBoss>().miniHTrue();

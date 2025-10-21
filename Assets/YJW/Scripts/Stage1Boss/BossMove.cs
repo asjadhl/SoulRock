@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossMove : MonoBehaviour
 {
-   private float moveSpeed = 4f;
+   public float moveSpeed = 4f;
     GameObject boss;
    public bool canRun = false;
  
