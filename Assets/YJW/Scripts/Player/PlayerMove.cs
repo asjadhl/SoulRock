@@ -15,8 +15,12 @@ public class PlayerMove : MonoBehaviour
   [SerializeField] float QuadraticBezierRate = 0.6f;
     private float t = 0f;
     bool canRun = false;
+    BossMove temp;
+    LastBossMove temp2;
     private void Start()
     {
+        temp = GameObject.FindAnyObjectByType<BossMove>();
+        temp2 = GameObject.FindAnyObjectByType<LastBossMove>();
         playerRb = GetComponent<Rigidbody>();
         WaitToRun().Forget();
     }
@@ -52,11 +56,17 @@ public class PlayerMove : MonoBehaviour
       await UniTask.WaitForFixedUpdate();
       }
     await UniTask.WaitForSeconds(3f);
-    var temp = GameObject.FindAnyObjectByType<BossMove>();
+    
+
     if (temp != null)
     {
       canRun = true;
       temp.canRun = true;
+    }
+    if(temp2 != null)
+    {
+      canRun = true;
+      temp2.canRun = true;
     }
    }
     

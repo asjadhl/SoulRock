@@ -8,11 +8,14 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] private ParticleSystem skullParticle;
     [Header("구체 폭발 파티클")]
     [SerializeField] private ParticleSystem hitParticle;
+    [Header("가짜 유령 폭발 파티클")]
+    [SerializeField] private ParticleSystem fakeGhostParticle;
     [Header("풀 사이즈")]
     [SerializeField] private int poolSize = 10;
 
     private Queue<ParticleSystem> skullPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> hitPool = new Queue<ParticleSystem>();
+    private Queue<ParticleSystem> fakeGhostPool = new Queue<ParticleSystem>();
 
     void Awake()
     {
@@ -28,6 +31,12 @@ public class ParticleManager : MonoBehaviour
             ParticleSystem effect = Instantiate(hitParticle, transform);
             effect.gameObject.SetActive(false);
             hitPool.Enqueue(effect);
+        }
+        for (int i = 0; i < poolSize; i++)
+        {
+            ParticleSystem effect = Instantiate(fakeGhostParticle, transform);
+            effect.gameObject.SetActive(false);
+            fakeGhostPool.Enqueue(effect);
         }
     }
 
@@ -50,7 +59,7 @@ public class ParticleManager : MonoBehaviour
     {
         if (hitPool.Count == 0)
         {
-            AddEffectToPool(hitParticle, hitPool, 1);
+            AddEffectToPool(fakeGhostParticle, hitPool, 1);
         }
 
         ParticleSystem effect = hitPool.Dequeue();
@@ -59,6 +68,21 @@ public class ParticleManager : MonoBehaviour
         effect.Play();
 
         ReturnToPoolAfter(effect, hitPool).Forget();
+    }
+
+    public void PlayGhostEffect(Vector3 pos)
+    {
+        if (fakeGhostPool.Count == 0)
+        {
+            AddEffectToPool(skullParticle, skullPool, 1);
+        }
+
+        ParticleSystem effect = fakeGhostPool.Dequeue();
+        effect.transform.position = pos;
+        effect.gameObject.SetActive(true);
+        effect.Play();
+
+        ReturnToPoolAfter(effect, fakeGhostPool).Forget();
     }
     private async UniTask ReturnToPoolAfter(ParticleSystem effect, Queue<ParticleSystem> pool)
     {

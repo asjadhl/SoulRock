@@ -134,6 +134,10 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<LastBossMove>().HitGhostBoss();
                 }
+                if(hit.collider.gameObject.tag == "FakeClone")
+                {
+                    hit.collider.gameObject.GetComponent<CloneMove>().OnHit();
+                }
                 if (hit.collider.gameObject.tag == "miniHTrue")
                 {
                     hit.collider.gameObject.GetComponent<MiniBoss>().miniHTrue();

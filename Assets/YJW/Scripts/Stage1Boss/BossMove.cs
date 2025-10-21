@@ -5,7 +5,6 @@ using UnityEngine;
 public class BossMove : MonoBehaviour
 {
    public float moveSpeed = 4f;
-    GameObject boss;
    public bool canRun = false;
  
   private void Update()
@@ -23,7 +22,7 @@ public class BossMove : MonoBehaviour
     
     private void UpdateBossRun()
     {
-    transform.position += moveSpeed * Time.fixedDeltaTime * -transform.forward;
+        transform.position += moveSpeed * Time.fixedDeltaTime * - transform.forward;
     }
    
 }
