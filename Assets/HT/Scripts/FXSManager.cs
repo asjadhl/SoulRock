@@ -41,32 +41,31 @@ public class FXSManager : MonoBehaviour
 
   public void Start()
   {
-     
-     
-     MasterSlider.value = MusicSource.volume;
-     MusicSlider.value = MusicSource.volume;
-    //SfXSource = SfXSource.volume;
-    dict = new();
-    if (MusicAudioClip.Count > 0)
-    {
-      dict.Add(0, new());
-      for (int i = 0; i < MusicAudioClip.Count; i++)
-      {
-        dict[0].Add(MusicAudioClip[i]);
-      }
-    }
 
-    if (SfXAudioClip.Count > 0)
-    {
-      dict.Add(1, new());
-      for (int i = 0; i < SfXAudioClip.Count; i++)
-      {
-        dict[1].Add(SfXAudioClip[i]);
-      }
-    }
+        MasterSlider.value = MusicSource.volume;
+        MusicSlider.value = MusicSource.volume;
+        //SfXSource = SfXSource.volume;
+        dict = new();
+        if (MusicAudioClip.Count > 0)
+        {
+            dict.Add(0, new());
+            for (int i = 0; i < MusicAudioClip.Count; i++)
+            {
+                dict[0].Add(MusicAudioClip[i]);
+            }
+        }
 
-    //NextClip(0);
-  }
+        if (SfXAudioClip.Count > 0)
+        {
+            dict.Add(1, new());
+            for (int i = 0; i < SfXAudioClip.Count; i++)
+            {
+                dict[1].Add(SfXAudioClip[i]);
+            }
+        }
+
+        NextClip(0);
+    }
 
 
   public void SetMasterVolume(float Op)
@@ -108,6 +107,7 @@ public class FXSManager : MonoBehaviour
         MusicSource.clip = dict[key][index];
         MusicSource.volume = MasterVolume*MusicVolume;  
         MusicSource.Play();
+                Debug.Log("Play");
         break;
       case 1:
         SfXSource.clip = dict[key][index];
