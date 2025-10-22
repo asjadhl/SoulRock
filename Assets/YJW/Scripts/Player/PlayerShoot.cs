@@ -16,7 +16,7 @@ public class PlayerShoot : MonoBehaviour
     public Transform gunTransform;
     public float kickbackDistance = 0.1f;
     public float kickbackSpeed = 10f;
-
+    BossMove bossMove;
     private Vector3 originalPosition;
 
     private void Update()
@@ -26,7 +26,8 @@ public class PlayerShoot : MonoBehaviour
     void Start()
     {
         originalPosition = gunTransform.localPosition;
-    }
+        bossMove = GameObject.FindAnyObjectByType<BossMove>();
+	}
 
 
     public void PlayerShoot_()
@@ -130,7 +131,7 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<MiniBoss>().ReturnOriPos();
                 }
-                if(hit.collider.gameObject.tag == "GhostBoss")
+                if(hit.collider.gameObject.tag == "GhostBoss" && bossMove.canRun)
                 {
                     hit.collider.gameObject.GetComponent<LastBossMove>().HitGhostBoss();
                 }

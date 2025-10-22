@@ -12,15 +12,13 @@ public class PlayerMove : MonoBehaviour
     //bool isGrounded = true;
 
     [SerializeField] Transform[] StartPos;
-  [SerializeField] float QuadraticBezierRate = 0.6f;
+    [SerializeField] float QuadraticBezierRate = 0.6f;
     private float t = 0f;
     bool canRun = false;
     BossMove temp;
-    LastBossMove temp2;
     private void Start()
     {
         temp = GameObject.FindAnyObjectByType<BossMove>();
-        temp2 = GameObject.FindAnyObjectByType<LastBossMove>();
         playerRb = GetComponent<Rigidbody>();
         WaitToRun().Forget();
     }
@@ -63,11 +61,7 @@ public class PlayerMove : MonoBehaviour
       canRun = true;
       temp.canRun = true;
     }
-    if(temp2 != null)
-    {
-      canRun = true;
-      temp2.canRun = true;
-    }
+    
    }
     
     private void PlayerJumpButtonClick()

@@ -1,70 +1,106 @@
 using Cysharp.Threading.Tasks;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UIElements;
 
 public class LastBossMove : MonoBehaviour
 {
-    [Header("타겟 (플레이어)")]
-    public Transform player;
+	
 
-    [Header("이동 속도")]
-    public float moveSpeed = 3.8f;
+	//[Header("이동 속도")]
+	//public float moveSpeed = 3.8f;
 
-    [Header("회전 속도")]
-    public float rotationSpeed = 5f;
+	//   [Header("회전 속도")]
+	//   public float rotationSpeed = 5f;
 
-    public bool canRun = false;
-    private void Awake()
-    {
-        if (player == null)
-            player = GameObject.FindWithTag("Player").transform;
-    }
+	
+	//public bool canRun = false;
+	//bool isChasing = false;
+
 
     private void Update()
     {
-        if (player != null && canRun)
-        {
-            ChasePlayer();
-        }
-    }
+		//if (canRun)
+		//{
+		//	UpdateBossRun();
+		//}
+		
+	}
 
-    private void ChasePlayer()
-    {
-        Vector3 directionToPlayer = player.position - transform.position;
-        directionToPlayer.y = 0f; // 수평 회전
+	//private void UpdateBossRun()
+	//{
+	//	transform.position += moveSpeed * Time.fixedDeltaTime * -transform.forward;
+	//}
 
-        if (directionToPlayer != Vector3.zero)
-        {
-            // 플레이어를 바라보게 회전
-            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+	public void HitGhostBoss()
+	{
+		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
+	}
+	
+	//private void ChasePlayer()
+	//{
+	//	float distance = Vector3.Distance(transform.position, player.position);
 
-            // LookRotation에서 계산한 방향 벡터의 반대로 이동
-            Vector3 fleeDirection = -(targetRotation * Vector3.forward);
-            transform.position += fleeDirection * moveSpeed * Time.deltaTime;
-        }
-    }
+	//	if (distance > chaseStartDistance)
+	//	{
+	//		isChasing = false;
+	//		return;
+	//}
+	//	isChasing = true;
 
+	//	Vector3 dirToPlayer = player.position - transform.position;
+	//	dirToPlayer.y = 0f;
 
-    public void HitGhostBoss()
-    {
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
-    }
-    //private void bossMove()
-    //{
-    //    Vector3 directionToPlayer = player.position - transform.position;
-    //    directionToPlayer.y = 0f;
+	//	if (dirToPlayer != Vector3.zero)
+	//	{
+	//		Quaternion targetRot = Quaternion.LookRotation(dirToPlayer);
+	//		transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+	//	}
 
-    //    if (directionToPlayer != Vector3.zero)
-    //    {
-    //        // 회전
-    //        transform.rotation = Quaternion.LookRotation(directionToPlayer);
+	//	if (distance > disableDistance)
+	//	{
+	//		transform.position += dirToPlayer.normalized * moveSpeed * Time.deltaTime;
+	//	}
+	//	else
+	//	{
+	//		// 근접 시 멈춤 또는 공격 등
+	//		isChasing = false;
+	//	}
+	//}
 
-    //        // 플레이어 방향으로 이동
-    //        transform.position += directionToPlayer.normalized * moveSpeed * Time.deltaTime;
-    //    }
-    //}
+	//private void ChasePlayer()
+	//   {
+	//       Vector3 directionToPlayer = player.position - transform.position;
+	//       directionToPlayer.y = 0f; // 수평 회전
+
+	//       if (directionToPlayer != Vector3.zero)
+	//       {
+	//           // 플레이어를 바라보게 회전
+	//           Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+	//           transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+	//           // LookRotation에서 계산한 방향 벡터의 반대로 이동
+	//           Vector3 fleeDirection = -(targetRotation * Vector3.forward);
+	//           transform.position += fleeDirection * moveSpeed * Time.deltaTime;
+	//       }
+	//   }
+
+	//private void bossMove()
+	//{
+	//    Vector3 directionToPlayer = player.position - transform.position;
+	//    directionToPlayer.y = 0f;
+
+	//    if (directionToPlayer != Vector3.zero)
+	//    {
+	//        // 회전
+	//        transform.rotation = Quaternion.LookRotation(directionToPlayer);
+
+	//        // 플레이어 방향으로 이동
+	//        transform.position += directionToPlayer.normalized * moveSpeed * Time.deltaTime;
+	//    }
+	//}
 }
 
 

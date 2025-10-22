@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CloneMove : MonoBehaviour
 {
-   //public float moveSpeed = 3.8f;
+    public float moveSpeed = 3.8f;
 
     private ParticleManager particleManager;
     private bool isInitialized = false;
@@ -19,13 +19,13 @@ public class CloneMove : MonoBehaviour
     }
     private void Update()
     {
-        //UpdateBossRun();
+        UpdateBossRun();
     }
-    
-    //private void UpdateBossRun()
-    //{
-    //    transform.position += moveSpeed * Time.fixedDeltaTime * - transform.forward;
-    //}
+
+    private void UpdateBossRun()
+    {
+        transform.position += moveSpeed * Time.fixedDeltaTime * -transform.forward;
+    }
     public void OnHit()
     {
         if (!isInitialized) return; //시작 폭발 방지임ㅋㅋ

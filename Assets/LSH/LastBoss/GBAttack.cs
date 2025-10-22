@@ -20,23 +20,28 @@ public class GBAttack : MonoBehaviour
     float firstclonexPos;
     float firstcloneyPos;
     int cooltime = 2000;
-    LastBossMove bossMove;
+    BossMove bossMove;
+	[Header("거리 설정")]
+	public float disableDistance = 1f;
+	[Header("타겟 (플레이어)")]
+	public Transform player;
+	////분신패턴
+	//[SerializeField] private int clonePoolSize = 4;
+	//[SerializeField] private GameObject ghostClonePrefab;
+	//private GameObject[] clonePool;
+	//private bool[] cloneUsed;
+	//int cloneCount = 4;
+	//float spacing = 3f;//간격
+	//Vector3 bossPoss;
 
-    ////분신패턴
-    //[SerializeField] private int clonePoolSize = 4;
-    //[SerializeField] private GameObject ghostClonePrefab;
-    //private GameObject[] clonePool;
-    //private bool[] cloneUsed;
-    //int cloneCount = 4;
-    //float spacing = 3f;//간격
-    //Vector3 bossPoss;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+	// Start is called once before the first execution of Update after the MonoBehaviour is created
+	void Awake()
     {
         musicBox = GameObject.FindWithTag("MusicBox").GetComponent<AudioSource>();
-        bossMove = GetComponent<LastBossMove>();
-        teleportIndex = 0;
+        bossMove = GetComponent<BossMove>();
+		if (player == null)
+			player = GameObject.FindWithTag("Player").transform;
+		teleportIndex = 0;
         patternIndex = 0;
         firstxPos = transform.position.x;
         firstyPos = transform.position.y;
@@ -68,10 +73,22 @@ public class GBAttack : MonoBehaviour
         {
             _ = BossPattern();
         }
-    }
+		StuckWithPlayer();
+	}
 
+	void StuckWithPlayer()
+	{
+		float distance = Vector3.Distance(transform.position, player.position);
+		if (distance <= disableDistance)
+		{
+            transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+			bossMove.canRun = false;
+			transform.SetParent(player.transform, true);
 
-    private async UniTask BossPattern()
+		}
+	}
+
+	private async UniTask BossPattern()
     {
         patternIndex = Random.Range(0, 3);
         switch (patternIndex)
@@ -104,9 +121,12 @@ public class GBAttack : MonoBehaviour
                     musicBox.panStereo = 0.5f;
                     await SoundAttackVector(1);
                     break;
+                 
             }
             musicBox.panStereo = 0f;
-            await UniTask.Delay(cooltime);
+            if(!bossMove.canRun)
+                break;
+            await UniTask.Delay(cooltime-1500);
         }
         isAttack = false;
     }
@@ -121,7 +141,7 @@ public class GBAttack : MonoBehaviour
                 transform.position = new Vector3(transform.position.x + (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
                 break;
         }
-        await UniTask.Delay(3000);
+        await UniTask.Delay(1500);
         transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
     }
 
