@@ -97,11 +97,13 @@ public class FXSManager : MonoBehaviour
 
    if(Input.GetKeyDown(KeyCode.E))
     {
-      anim.Play("MainSettingShowUp");
+      anim.SetFloat("S", 1);
+      anim.Play("MainSettingShowUp",1,0);
     }
-   else if(Input.GetKeyDown(KeyCode.R))
+    else if (Input.GetKeyDown(KeyCode.R))
     {
-      anim.Play("MainSettingShowUp", 1, -1);
+      anim.SetFloat("S", -1);
+      anim.Play("MainSettingShowUp",1,1);
     }
   }
 
