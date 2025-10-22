@@ -22,8 +22,10 @@ public class FXSManager : MonoBehaviour
   public float MasterVolume;
   public float MusicVolume;
   public float SfXVolume;
-  
-
+  [Space(2f)]
+  public Animator anim;
+  Stack<string> Inter = new();
+  public GameObject MainSetting;
   Dictionary<int,List<AudioClip>> dict;
   public int currentIndex;
   public TextMeshProUGUI textMeshPro;
@@ -68,9 +70,40 @@ public class FXSManager : MonoBehaviour
             }
         }
 
-        NextClip(0);
-    }
+  
 
+    Inter.Push("MainSettingShowUp");
+    }
+    
+
+    public void PlayClip(string ClipName)
+    { 
+      anim.Play(ClipName);
+    }
+  
+  public void Update()
+  {
+    //if (Input.GetKeyDown(KeyCode.Escape) && 0 >= Inter.Count)
+    //{
+    //  Inter.Push("MainSettingShowUp");
+    //  anim.Play(Inter.Peek());
+     
+    //}
+    //else if(Input.GetKeyDown(KeyCode.Escape) &&0 < Inter.Count)
+    //{
+    //  anim.Play(Inter.Pop());
+
+    //}
+
+   if(Input.GetKeyDown(KeyCode.E))
+    {
+      anim.Play("MainSettingShowUp");
+    }
+   else if(Input.GetKeyDown(KeyCode.R))
+    {
+      anim.Play("MainSettingShowUp", 1, -1);
+    }
+  }
 
   public void SetMasterVolume(float Op)
   {
