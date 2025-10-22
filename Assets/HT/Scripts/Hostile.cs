@@ -20,14 +20,14 @@ public class Hostile : Enemy
 
                 break;
             case Behavior.Alert:
-                if (Vector3.Distance(PlayerTransform.position, transform.position) <= StartAlertingRange)
-                {
+                //if (Vector3.Distance(PlayerTransform.position, transform.position) <= StartAlertingRange)
+                //{
 
                          //lockOnDodgeEnemy.StartDodging();
                          //if (!lockOnDodgeEnemy.IsDodging())
                           LookAt(PlayerTransform.position);
 
-                    transform.position += 3.8f*Time.fixedDeltaTime * Vector3.forward;
+                    transform.position += 4f*Time.fixedDeltaTime * Vector3.forward;
                     transform.position += m_speed * Time.deltaTime * transform.forward;
                     EnemyGhostGraphics.AnimationManager(AnimationState.Forward, Cts.normal).Forget();
                     //if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
@@ -41,7 +41,7 @@ public class Hostile : Enemy
                         MyBehavior = Behavior.Attack;
 
                     }
-                }
+                //}
                 break;
             case Behavior.Attack:
                 timer = Mathf.Clamp(timer + Time.deltaTime, 0f, 10f);
