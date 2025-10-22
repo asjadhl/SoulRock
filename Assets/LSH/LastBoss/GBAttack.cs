@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 public class GBAttack : MonoBehaviour
@@ -74,17 +75,18 @@ public class GBAttack : MonoBehaviour
             _ = BossPattern();
         }
 		StuckWithPlayer();
+		transform.LookAt(player.position);
 	}
 
 	void StuckWithPlayer()
 	{
 		float distance = Vector3.Distance(transform.position, player.position);
+        Debug.LogError(distance);
 		if (distance <= disableDistance)
 		{
             transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
 			bossMove.canRun = false;
 			transform.SetParent(player.transform, true);
-
 		}
 	}
 
@@ -126,9 +128,9 @@ public class GBAttack : MonoBehaviour
             musicBox.panStereo = 0f;
             if(!bossMove.canRun)
                 break;
-            await UniTask.Delay(cooltime-1500);
         }
-        isAttack = false;
+		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+		isAttack = false;
     }
     private async UniTask SoundAttackVector(int patternNum)
     {
@@ -141,9 +143,9 @@ public class GBAttack : MonoBehaviour
                 transform.position = new Vector3(transform.position.x + (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
                 break;
         }
-        await UniTask.Delay(1500);
-        transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-    }
+		await UniTask.Delay(cooltime);
+		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+	}
 
     private async UniTask Duplicate()
     {

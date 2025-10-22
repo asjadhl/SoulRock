@@ -22,11 +22,7 @@ public class LastBossMove : MonoBehaviour
 
     private void Update()
     {
-		//if (canRun)
-		//{
-		//	UpdateBossRun();
-		//}
-		
+
 	}
 
 	//private void UpdateBossRun()
