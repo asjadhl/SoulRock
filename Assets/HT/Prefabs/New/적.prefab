@@ -396,7 +396,6 @@ GameObject:
   - component: {fileID: 1287949958900666621}
   - component: {fileID: 4234273570993325775}
   - component: {fileID: 3074391620697680658}
-  - component: {fileID: 9013655343960311697}
   m_Layer: 0
   m_Name: "\uC801"
   m_TagString: Enemy
@@ -506,7 +505,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -527,28 +526,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Attackrate: 1
-  m_speed: 0
+  m_speed: 5
   m_damage: 1
   StartAlertingRange: 500
   StartAttackingRange: 1.4
   offsetLookAt: {x: 0, y: 0.25, z: 0}
---- !u!114 &9013655343960311697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5091808336580822755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 230a53b609fb13a4cbeaf1f0957c3d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  restTime: 2
-  dashSpeed: 10
-  minDashLenght: 2
-  maxDashLenght: 4
 --- !u!1 &5545298399379527242
 GameObject:
   m_ObjectHideFlags: 0
