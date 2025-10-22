@@ -10314,8 +10314,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1583243870}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -131.31827}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2.3520813}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10324,11 +10324,11 @@ RectTransform:
   - {fileID: 1539003049}
   - {fileID: 366617887}
   - {fileID: 1045682126}
-  m_Father: {fileID: 543450651616194552}
+  m_Father: {fileID: 6060368853702280993}
   m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000047683705, y: 0.002698898}
+  m_AnchoredPosition: {x: 0.000047683705, y: 16.239658}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1583243872
@@ -11418,13 +11418,8 @@ MonoBehaviour:
   - {fileID: 490825720}
   - {fileID: 1311594448}
   - {fileID: 463392572}
-  clubBalls:
-  - {fileID: 357093115}
-  - {fileID: 3342702}
-  - {fileID: 212352727}
-  - {fileID: 625308597}
-  - {fileID: 753348914}
-  - {fileID: 1550759239}
+  spinWheel: {fileID: 919132147883308354}
+  spinCircle: {fileID: 5813471017886387267}
 --- !u!136 &1795970301
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13364,7 +13359,6 @@ Transform:
   - {fileID: 3189516323387002263}
   - {fileID: 6060368853702280993}
   - {fileID: 641182898}
-  - {fileID: 1583243871}
   m_Father: {fileID: 1795970303}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: -180}
 --- !u!33 &686399464458501720
@@ -13815,7 +13809,8 @@ Transform:
   m_LocalPosition: {x: -0, y: -16.236961, z: -133.6704}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1583243871}
   m_Father: {fileID: 543450651616194552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6158610109883326205

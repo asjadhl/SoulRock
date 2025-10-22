@@ -32,6 +32,13 @@ public class Stage2BossAttack : MonoBehaviour
     스택은 7개 모으면 즉사
     */
 
+
+    /// <summary>
+    /// 1. 클럽 패턴 수정
+    /// 2. 하트에서 넘어갈 때 패턴 동시에 나옴.
+    /// 3. 하트 패턴 실패 시 상호작용
+    /// </summary>
+    
     public static int clubStack = 0;
     int reMiniH;
     private bool bossRecover = false;
@@ -49,20 +56,13 @@ public class Stage2BossAttack : MonoBehaviour
     public int playerHitCount = 0;
     private bool miniBossSpawned = false;
 
-
     [SerializeField] GameObject[] miniBoss;
     public Transform[] spawnPos;
     public List<int> usedPos;
 
-
     [SerializeField] GameObject[] spadeCards;
     private float spadeTimer = 0;
     private bool isCardSpawn = false;
-
-
-    [SerializeField] GameObject[] clubBalls;
-    private float clubTimer = 0;
-    private bool isBallSpawn = false;
 
     private BossHP BossHP;
 
@@ -72,6 +72,12 @@ public class Stage2BossAttack : MonoBehaviour
 
     private bool isHAttacking = false;
     private bool miniHeartTrue = false;
+
+    [SerializeField] GameObject spinWheel;
+    [SerializeField] GameObject spinCircle;
+    private float spinSpeede = 10f;
+    private bool isCAttacking = false;
+    bool isAttack = false;
 
     private void Start()
     {
@@ -86,6 +92,14 @@ public class Stage2BossAttack : MonoBehaviour
         Debug.Log(curShape);
 
         if (!isDelay) return;
+        if(!isAttack)
+        {
+            BossPattern();
+        }
+    }
+
+    private void BossPattern()
+    {
         switch (curShape)
         {
             case Shape.H:
@@ -107,7 +121,7 @@ public class Stage2BossAttack : MonoBehaviour
                 {
                     if (!cardChanged)
                     {
-                        _=ChangeNextRanCard();
+                        _ = ChangeNextRanCard();
                         cardChanged = true;
                     }
                     spadeTimer = 0;
@@ -119,25 +133,10 @@ public class Stage2BossAttack : MonoBehaviour
                 DAttack();
                 break;
             case Shape.C:
-                clubTimer += Time.fixedDeltaTime;
-                if (clubTimer <= 10)
-                {
-                    if (!isBallSpawn)
-                        _ = CAttack();
-                }
-                else
-                {
-                    if (!cardChanged)
-                    {
-                        _=ChangeNextRanCard();
-                        cardChanged = true;
-                    }
-                    clubTimer = 0;
-                }
+                _=CAttack();
                 break;
 
         }
-
     }
 
     private void SetCardData()
@@ -250,13 +249,19 @@ public class Stage2BossAttack : MonoBehaviour
     private async UniTask CAttack()
     {
         Debug.Log("클로버");
+        isCAttacking = true;
+        spinWheel.SetActive(true);
+        SpinWheel();
 
-        RedOrBlackBallOn();
-        isBallSpawn = true;
-        await UniTask.Delay(2500);
-        isBallSpawn = false;
+        await UniTask.Delay(7000);
+        if(cardChanged == false)
+        {
+            await ChangeNextRanCard();
+            cardChanged = true;
+        }
+        isCAttacking = false;
         cardChanged = false;
-
+        spinWheel.SetActive(false);
     }
 
     // 다이이 패턴
@@ -317,11 +322,9 @@ public class Stage2BossAttack : MonoBehaviour
     }
 
     // 클럽 패턴
-    private void RedOrBlackBallOn()
+    private void SpinWheel()
     {
-        int ranIndex = Random.Range(0, clubBalls.Length);
-
-        clubBalls[ranIndex].SetActive(true);
+        spinCircle.transform.Rotate(new Vector3(0, 10, 0) * spinSpeede * Time.fixedDeltaTime);
     }
 
     private async UniTask StartDelay()
