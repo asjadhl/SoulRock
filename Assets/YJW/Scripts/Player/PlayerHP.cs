@@ -16,13 +16,14 @@ public class PlayerHP : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(playerHP <=0 || Stage2BossAttack.clubStack == 7)
+        PlayerHPTimer();
+        if (playerHP <=0 || Stage2BossAttack.clubStack == 7)
             PlayerDie();
     }
 
     private void PlayerHPTimer()
     {
-        playerHP -= 0.1f;
+        playerHP -= 0.05f;
     }
 
     public void PlayerHPPlus(int recover)

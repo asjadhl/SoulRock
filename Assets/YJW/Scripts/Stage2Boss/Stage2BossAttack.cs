@@ -78,6 +78,7 @@ public class Stage2BossAttack : MonoBehaviour
     private float spinSpeede = 10f;
     private bool isCAttacking = false;
     bool isAttack = false;
+    public bool wheelStop = true;
 
     private void Start()
     {
@@ -90,6 +91,7 @@ public class Stage2BossAttack : MonoBehaviour
     private void FixedUpdate()
     {
         Debug.Log(curShape);
+        Debug.LogError(wheelStop);
 
         if (!isDelay) return;
         if(!isAttack)
@@ -169,14 +171,20 @@ public class Stage2BossAttack : MonoBehaviour
         miniBossSpawned = true;
         await UniTask.Delay(10000);
         usedPos.Clear();
-        
+
 
         //currentCard = cards[1];
         //SetCardData();
+
+        checkFindTure();
+
         for (int i = 0; i <= clubStack + 4; i++)
         {
-            miniBoss[i].GetComponent<MiniBoss>().ReturnOriPos();
-            miniBoss[i].SetActive(false);
+            if(miniBoss[i].activeSelf == true)
+            {
+                miniBoss[i].GetComponent<MiniBoss>().ReturnOriPos();
+                miniBoss[i].SetActive(false);
+            }
         }
         miniBossSpawned = false;
 
@@ -248,7 +256,7 @@ public class Stage2BossAttack : MonoBehaviour
         Debug.Log("클로버");
         isCAttacking = true;
         spinWheel.SetActive(true);
-        SpinWheel();
+        await SpinWheel();
 
         await UniTask.Delay(7000);
         //if(cardChanged == false)
@@ -260,6 +268,7 @@ public class Stage2BossAttack : MonoBehaviour
         //cardChanged = false;
         spinWheel.SetActive(false);
         isAttack = false;
+        wheelStop = true;
     }
 
     // 다이이 패턴
@@ -319,16 +328,40 @@ public class Stage2BossAttack : MonoBehaviour
         spadeCards[ranIndex].SetActive(true);
     }
 
+    private void checkFindTure()
+    {
+        if (miniBoss[0].activeSelf == false)
+        {
+            miniBoss[0].GetComponent<MiniBoss>().ReturnOriPos();
+            player.GetComponent<PlayerHP>().PlayerHPMinus();
+        }
+        if (miniBoss[0].activeSelf == true)
+        {
+            miniBoss[0].GetComponent<MiniBoss>().miniHTureReturnOriState();
+        }
+    }
+
     // 클럽 패턴
     private async UniTask SpinWheel()
     {
-        int randomSpin = Random.Range(200,400);
-        for(int i = 0; i < randomSpin; i++)
+        wheelStop = false;
+        int randomSpin = Random.Range(800,1300);
+        for (int i = 0; i < randomSpin; i++)
         {
-            spinCircle.transform.Rotate(new Vector3(0, 10, 0) * spinSpeede * Time.fixedDeltaTime);
-            await UniTask.Delay(10);
+            if(wheelStop == true)
+            {
+                break;
+            }
+            //spinCircle.transform.Rotate(new Vector3(0, 10, 0) * spinSpeede * Time.fixedDeltaTime);
+            //await UniTask.Delay(10);
+            spinCircle.transform.Rotate(Vector3.up * spinSpeede * Time.deltaTime * 60); // 속도 보정
+            await UniTask.Yield(PlayerLoopTiming.Update); // 프레임마다 체크
         }
-       
+    }
+
+    public void WheelStop()
+    {
+        wheelStop = true;
     }
 
     private async UniTask StartDelay()

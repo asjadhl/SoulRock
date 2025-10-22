@@ -1,6 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public static class BossState
+{
+    public static bool isBoss3Dead = false;
+}
+
 public class BossHP : MonoBehaviour
 {
     public int bossHP = 3;

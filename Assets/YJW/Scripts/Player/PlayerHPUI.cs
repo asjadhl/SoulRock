@@ -20,6 +20,6 @@ public class PlayerHPUI : MonoBehaviour
 
     private void UpdatePlayerHPUI()
     {
-        playerHPImage.fillAmount = (float)playerHp.playerHP / 10f;
+        playerHPImage.fillAmount = playerHp.playerHP / 100f;
     }
 }

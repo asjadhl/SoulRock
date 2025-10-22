@@ -147,6 +147,10 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<MiniBoss>().miniHTrue();
                 }
+                if(hit.collider.gameObject.tag == "Wheel")
+                {
+                    boss2.GetComponent<Stage2BossAttack>().WheelStop();
+                }
 
             }
 

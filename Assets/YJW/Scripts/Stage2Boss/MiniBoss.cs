@@ -79,4 +79,10 @@ public class MiniBoss : MonoBehaviour
             await UniTask.Delay(20);
         }
     }
+
+    public void miniHTureReturnOriState()
+    {
+        Transform joker = transform.GetChild(1);
+        joker.localScale =  new Vector3(1, 0.5f, 1);
+    }
 }
