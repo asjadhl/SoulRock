@@ -75,7 +75,7 @@ public class GBAttack : MonoBehaviour
             _ = BossPattern();
         }
 		StuckWithPlayer();
-		transform.LookAt(player.position);
+        LookingPlayer();
 	}
 
 	void StuckWithPlayer()
@@ -89,7 +89,16 @@ public class GBAttack : MonoBehaviour
 			transform.SetParent(player.transform, true);
 		}
 	}
-
+    void LookingPlayer()
+    {
+		Vector3 direction = player.position - transform.position;
+		direction.y = 0f; // y축 회전만 적용하기 위해 높이는 무시
+		if (direction != Vector3.zero) // 0벡터 방지
+		{
+			Quaternion targetRotation = Quaternion.LookRotation(direction);
+			transform.rotation = targetRotation;
+		}
+	}
 	private async UniTask BossPattern()
     {
         patternIndex = Random.Range(0, 3);
