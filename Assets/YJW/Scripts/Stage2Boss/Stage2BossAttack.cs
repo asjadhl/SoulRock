@@ -322,11 +322,11 @@ public class Stage2BossAttack : MonoBehaviour
     // 클럽 패턴
     private async UniTask SpinWheel()
     {
-        int randomSpin = Random.Range(100,300);
+        int randomSpin = Random.Range(200,400);
         for(int i = 0; i < randomSpin; i++)
         {
             spinCircle.transform.Rotate(new Vector3(0, 10, 0) * spinSpeede * Time.fixedDeltaTime);
-            await UniTask.Delay(20);
+            await UniTask.Delay(10);
         }
        
     }
