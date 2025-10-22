@@ -12,13 +12,14 @@ public class LazerBall : MonoBehaviour
     //ParticleSystem explosionEffect;
     ParticleManager particleManager;
     //Vector3 oriPos;
-    float x;
-    float y;
+    //float x;
+    //float y;
     bool isInitialized = false;
+    bool isAttack = false;
     private void Awake()
     {
-        x = transform.position.x;
-        y = transform.position.y;
+        //x = transform.position.x;
+        //y = transform.position.y;
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
         particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
@@ -44,7 +45,7 @@ public class LazerBall : MonoBehaviour
     }
     void Update()
     {
-        if(gameObject.activeSelf == true)
+        if(gameObject.activeSelf == true && !isAttack)
         {
             lazerMove();
         }
@@ -53,6 +54,7 @@ public class LazerBall : MonoBehaviour
 
     public async void lazerMove()
     {
+        isAttack = true;
         //Vector3 targetPos = player.position;
         //lazerBallPool[j].transform.position = Vector3.MoveTowards(
         //lazerBallPool[j].transform.position, targetPos, lazerBallspeed * Time.deltaTime);
@@ -62,6 +64,7 @@ public class LazerBall : MonoBehaviour
 
         transform.LookAt(player.position);
         transform.Translate(Vector3.forward * lazerBallspeed * Time.fixedDeltaTime);
+        isAttack = false;
     }
     private void OnTriggerEnter(Collider col)
     {

@@ -7,7 +7,7 @@ public class BossMove : MonoBehaviour
    public float moveSpeed = 4f;
    public bool canRun = false;
  
-  private void Update()
+    private void Update()
     {
       if (canRun)
         UpdateBossRun();
@@ -22,7 +22,7 @@ public class BossMove : MonoBehaviour
     
     private void UpdateBossRun()
     {
-        transform.position += moveSpeed * Time.fixedDeltaTime * - transform.forward;
+        transform.position += moveSpeed * Time.fixedDeltaTime * -transform.forward;
     }
    
 }

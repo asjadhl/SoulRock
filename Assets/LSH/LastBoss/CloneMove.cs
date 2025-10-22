@@ -30,7 +30,7 @@ public class CloneMove : MonoBehaviour
     {
         if (!isInitialized) return; //시작 폭발 방지임ㅋㅋ
         Vector3 effectPos = transform.position + new Vector3(0, 1f, 2f);
-        particleManager.PlaySkullEffect(effectPos);
+        particleManager.PlayGhostEffect(effectPos);
         gameObject.SetActive(false);
     }
 }

@@ -131,9 +131,13 @@ public class PlayerShoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<MiniBoss>().ReturnOriPos();
                 }
-                if(hit.collider.gameObject.tag == "GhostBoss" && bossMove.canRun)
+                if(hit.collider.gameObject.tag == "GhostBall")
                 {
                     hit.collider.gameObject.GetComponent<LastBossMove>().HitGhostBoss();
+                }
+                if(hit.collider.gameObject.tag == "Poltergeist")
+                {
+                    hit.collider.gameObject.SetActive(false);
                 }
                 if(hit.collider.gameObject.tag == "FakeClone")
                 {

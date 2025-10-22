@@ -59,7 +59,7 @@ public class ParticleManager : MonoBehaviour
     {
         if (hitPool.Count == 0)
         {
-            AddEffectToPool(fakeGhostParticle, hitPool, 1);
+            AddEffectToPool(hitParticle, hitPool, 1);
         }
 
         ParticleSystem effect = hitPool.Dequeue();
@@ -74,7 +74,7 @@ public class ParticleManager : MonoBehaviour
     {
         if (fakeGhostPool.Count == 0)
         {
-            AddEffectToPool(skullParticle, skullPool, 1);
+            AddEffectToPool(fakeGhostParticle, fakeGhostPool, 1);
         }
 
         ParticleSystem effect = fakeGhostPool.Dequeue();

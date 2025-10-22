@@ -1678,6 +1678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skullParticle: {fileID: 3765637054241222527, guid: fd1ac2656c000024dafc6102d9c45ad1, type: 3}
   hitParticle: {fileID: 5781927832435029353, guid: 07c0962b0a684ec4786893771a09bb2a, type: 3}
+  fakeGhostParticle: {fileID: 0}
   poolSize: 10
 --- !u!4 &708348041
 Transform:
@@ -3004,7 +3005,7 @@ Transform:
   m_GameObject: {fileID: 1123644674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.80999756}
+  m_LocalPosition: {x: 0, y: 1.9, z: -0.80999756}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3541,7 +3542,7 @@ Transform:
   m_GameObject: {fileID: 1242192926}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000076023596, y: 0.000000042146844, z: 3.5542256e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -0.80999756}
+  m_LocalPosition: {x: 0, y: 2.9, z: -0.80999756}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3901,6 +3902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e34f469aa3548649932070181e9e248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 4
   canRun: 0
 --- !u!4 &1510681585
 Transform:
@@ -5454,7 +5456,7 @@ Transform:
   m_GameObject: {fileID: 1779447837}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000076023596, y: 0.000000042146844, z: 3.2041548e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -0.80999756}
+  m_LocalPosition: {x: 0, y: 2.9, z: -0.80999756}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6083,8 +6085,9 @@ MonoBehaviour:
   maxdis: 50
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
   poolSize: 10
+  combo: 0
   clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
-  player: {fileID: 1123644675}
+  playerShoot: {fileID: 0}
   poolCircle: []
   getDamage: 0
 --- !u!58 &1886530224

@@ -53,15 +53,9 @@ public class PlayerMove : MonoBehaviour
       StartMove(t+=Time.deltaTime* QuadraticBezierRate);
       await UniTask.WaitForFixedUpdate();
       }
-    await UniTask.WaitForSeconds(3f);
-    
-
-    if (temp != null)
-    {
+      await UniTask.Delay(3000);
       canRun = true;
       temp.canRun = true;
-    }
-    
    }
     
     private void PlayerJumpButtonClick()
