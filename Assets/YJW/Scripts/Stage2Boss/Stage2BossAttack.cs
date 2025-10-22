@@ -111,21 +111,8 @@ public class Stage2BossAttack : MonoBehaviour
                 break;
 
             case Shape.S:
-                spadeTimer += Time.fixedDeltaTime;
-                if (spadeTimer <= 10)
-                {
-                    if (!isCardSpawn)
-                        _ = SAttack();
-                }
-                else
-                {
-                    if (!cardChanged)
-                    {
-                        _ = ChangeNextRanCard();
-                        cardChanged = true;
-                    }
-                    spadeTimer = 0;
-                }
+                  _ = SAttack();
+                  
                 break;
 
             case Shape.D:
@@ -147,6 +134,7 @@ public class Stage2BossAttack : MonoBehaviour
 
     private async UniTask ChangeNextRanCard()
     {
+        //await RollCardEffect(rollCount: 12, delay: 80);
         await RollCardEffect(rollCount: 12, delay: 80);
 
         //currentCard = cards[Random.Range(0, cards.Length)];
@@ -171,6 +159,7 @@ public class Stage2BossAttack : MonoBehaviour
 
     private async UniTask HAttack()
     {
+        isAttack = true;
         await UniTask.Delay(500);
         reMiniH = clubStack + 4;
         for(int i = 0; i < clubStack + 4; i++)
@@ -199,24 +188,30 @@ public class Stage2BossAttack : MonoBehaviour
         }
 
         await ChangeNextRanCard();
-        cardChanged = false;
+        //cardChanged = false;
         miniHeartTrue = false;
-
+        isAttack = false;
     }
 
     private async UniTask SAttack()
     {
+        isAttack = true;
         Debug.Log("스페이드");
-
-        GoldOrRedCardOn();
-        isCardSpawn = true;
-        await UniTask.Delay(1500);
-        isCardSpawn = false;
-        cardChanged = false;
+        for(int i = 0; i < 6; i++)
+        {
+            GoldOrRedCardOn();
+            await UniTask.Delay(1500);
+        }
+        //isCardSpawn = true;
+        //isCardSpawn = false;
+        //cardChanged = false;
+        await ChangeNextRanCard();
+        isAttack = false;
     }
 
-    private void DAttack()
+    private async UniTask DAttack()
     {
+        isAttack = true;
         Debug.Log("다이아");
         if(teleportCount < 5)
         {
@@ -235,33 +230,36 @@ public class Stage2BossAttack : MonoBehaviour
             else
             {
                 transform.position = new Vector3(0, 0, player.transform.position.z + 17);
-                if (!cardChanged)
-                {
-                    _=ChangeNextRanCard();
-                    cardChanged = true;
-                }
+                //if (!cardChanged)
+                //{
+                    await ChangeNextRanCard();
+                    //cardChanged = true;
+                //}
                 playerHitCount = 0;
             }
 
         }
+        isAttack = false;
     }
 
     private async UniTask CAttack()
     {
+        isAttack = true;
         Debug.Log("클로버");
         isCAttacking = true;
         spinWheel.SetActive(true);
         SpinWheel();
 
         await UniTask.Delay(7000);
-        if(cardChanged == false)
-        {
+        //if(cardChanged == false)
+        //{
             await ChangeNextRanCard();
-            cardChanged = true;
-        }
+            //cardChanged = true;
+        //}
         isCAttacking = false;
-        cardChanged = false;
+        //cardChanged = false;
         spinWheel.SetActive(false);
+        isAttack = false;
     }
 
     // 다이이 패턴
@@ -288,10 +286,10 @@ public class Stage2BossAttack : MonoBehaviour
             _=player.GetComponent<PlayerHP>().PlayerHPMinus();
             transform.rotation = Quaternion.Euler(0,180,0);
             transform.position = new Vector3(0, 0, player.transform.position.z + 17);
-            _=ChangeNextRanCard();
+            _ = ChangeNextRanCard();
             teleportCount = 0;
             playerHitCount = 0;
-            cardChanged = false;
+            //cardChanged = false;
 
         }
     }
@@ -322,16 +320,22 @@ public class Stage2BossAttack : MonoBehaviour
     }
 
     // 클럽 패턴
-    private void SpinWheel()
+    private async UniTask SpinWheel()
     {
-        spinCircle.transform.Rotate(new Vector3(0, 10, 0) * spinSpeede * Time.fixedDeltaTime);
+        int randomSpin = Random.Range(100,300);
+        for(int i = 0; i < randomSpin; i++)
+        {
+            spinCircle.transform.Rotate(new Vector3(0, 10, 0) * spinSpeede * Time.fixedDeltaTime);
+            await UniTask.Delay(20);
+        }
+       
     }
 
     private async UniTask StartDelay()
     {
         await UniTask.Delay(3000);
         isDelay = true;
-         await ChangeNextRanCard();
+        await ChangeNextRanCard();
         //currentCard = cards[3];
         //SetCardData();
     }
