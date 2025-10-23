@@ -13,7 +13,7 @@ public class MiniSkullMove : MonoBehaviour
 
 	[Header("이동 속도 설정")]
 	public float forwardSpeed = 2f;    
-	public float chaseSpeed = 10f;    
+	public float chaseSpeed = 6f;    
 
 	[Header("거리 설정")]
 	public float chaseStartDistance = 10f;  
@@ -32,9 +32,10 @@ public class MiniSkullMove : MonoBehaviour
 	private bool hasExploded = false;
 	private readonly Vector3 effectOffset = new Vector3(0, 1f, 0); 
 	bool isInitialized = false;
-
+    PlayerHP playerHP;
     void Awake()
 	{
+        playerHP = GameObject.FindWithTag("Player").GetComponent<PlayerHP>();
         spawner = GameObject.FindWithTag("SkullScaner").GetComponent<SkullSpawner>();
         if (skullScanner == null)
 			skullScanner = GameObject.FindWithTag("Player").transform;
@@ -94,6 +95,8 @@ public class MiniSkullMove : MonoBehaviour
 			transform.SetParent(skullScanner.transform, true);
 
 			await UniTask.Delay((int)(attachDelay * 1000));
+			if(gameObject == null) return; //오브젝트가 비활성화 된 경우 방지
+            _ = playerHP.PlayerHPMinus();
             spawner.ReturnSkull(gameObject);
         }
 	}
