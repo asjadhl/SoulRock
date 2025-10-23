@@ -1,4 +1,5 @@
 
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,28 +41,48 @@ public class Generator : MonoBehaviour
     {
       Debug.Log("LEFT");
 
-      EmptyGameObject = Instantiate(g, transform.position, Quaternion.identity);
-      EmptyGameObject.transform.position = PrevTransform.position + (PrevTransform.transform.right * GenerateOffSet.x);
-     // Debug.Log($"PrevTransform.position: {PrevTransform.position}, PrevTransform.transform.right: {PrevTransform.transform.right},-GenerateOffSet.x: {GenerateOffSet.x},(PrevTransform.transform.right * -GenerateOffSet.x) : {(PrevTransform.transform.right * GenerateOffSet.x)} ");
-      EmptyGameObject.transform.position += PrevTransform.position + (PrevTransform.transform.forward * GenerateOffSet.z);
+      EmptyGameObject = Instantiate(g, PrevTransform.position + new Vector3(0, -1f, 0), Quaternion.identity);
+      EmptyGameObject.transform.position += (PrevTransform.transform.right * GenerateOffSet.x);
+      EmptyGameObject.transform.position += (PrevTransform.transform.forward * GenerateOffSet.z);
       EmptyGameObject.transform.rotation = Quaternion.LookRotation(-PrevTransform.transform.right);
+     
       Queune.Add(EmptyGameObject);
-    }
+            WaitToTurn(PrevTransform,PrevTransform.right).Forget();
+        }
     //Right
     else if (dex == 1)
     {
       Debug.Log("RIGHT");
-      EmptyGameObject = Instantiate(g, transform.position, Quaternion.identity);
-      EmptyGameObject.transform.position = PrevTransform.position + (PrevTransform.transform.right * -GenerateOffSet.x);
-      EmptyGameObject.transform.position += PrevTransform.position + (PrevTransform.transform.forward * -GenerateOffSet.z);
+      EmptyGameObject = Instantiate(g, PrevTransform.position+new Vector3(0,-1f,0), Quaternion.identity);
+      EmptyGameObject.transform.position += (-PrevTransform.transform.right * GenerateOffSet.x);
+      EmptyGameObject.transform.position += (PrevTransform.transform.forward * GenerateOffSet.z);
       EmptyGameObject.transform.rotation = Quaternion.LookRotation(PrevTransform.transform.right);
       Queune.Add(EmptyGameObject);
+            WaitToTurn(PrevTransform,-PrevTransform.right).Forget();
     }
 
 
 
 
 
+        Destroy(PrevTransform.gameObject);
+    }
+
+    async  UniTaskVoid WaitToTurn(Transform PrevTransform,Vector3 dir)
+  {
+        while(true)
+        {
+            Debug.Log("A");
+            if(Vector3.Distance(PlayerTransform.position, PrevTransform.position+TrueOffset) <= 2f)
+            {
+                PlayerTransform.position = PrevTransform.position + TrueOffset;
+                PlayerTransform.rotation = Quaternion.LookRotation(dir);
+                Debug.Log("B");
+                break;
+            }
+
+            await UniTask.WaitForEndOfFrame();
+        }
   }
   public static bool IsInsideCircle(Vector3 pos, Vector3 center, float radius)
   {
@@ -82,9 +103,10 @@ public class Generator : MonoBehaviour
   private void Start()
   {
     FindPlayer();
-    StartGenerate = transform.position;
+    
     GameObject EmptyGameObject;
-    EmptyGameObject = Instantiate(g, PlayerTransform.position + new Vector3(0, 0, GenerateOffSet.x), Quaternion.identity);
+    EmptyGameObject = Instantiate(g, PlayerTransform.position + PlayerTransform.transform.forward*StartGenerate.x, Quaternion.identity);
+        EmptyGameObject.transform.position += new Vector3(0, -1f, 0);
     EmptyGameObject.transform.eulerAngles = new Vector3(0, 180, 0);
     Queune = new();
     Queune.Add(EmptyGameObject);
@@ -101,7 +123,7 @@ public class Generator : MonoBehaviour
 
 
 
-    TrueOffset = Queune[0].transform.forward * TriggeredOffset.x;
+    TrueOffset  = Queune[0].transform.forward * TriggeredOffset.x;
     TrueOffset += Queune[0].transform.forward * TriggeredOffset.y;
     TrueOffset += Queune[0].transform.forward * TriggeredOffset.z;
     if (IsInsideCircle(PlayerTransform.position, Queune[0].transform.position + TrueOffset, Radius))
@@ -114,6 +136,8 @@ public class Generator : MonoBehaviour
     }
   }
 }
+
+
 
 
 [CustomEditor(typeof(Generator))]
