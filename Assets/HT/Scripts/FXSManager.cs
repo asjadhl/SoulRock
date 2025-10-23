@@ -325,7 +325,7 @@ public class FXSManager : MonoBehaviour
     {
         var index = dict[key].FindIndex(x => x.clip == audioClip);
         if (index != -1)
-            PlayClip(key, index,ScheduledStart);
+            PlayClip(key, index);
 
 
     }
@@ -343,7 +343,7 @@ public class FXSManager : MonoBehaviour
       case 0:   
                 previousMusicData.scheduledStart = ScheduledStart;
                 
-                MusicSource.clip = dict[key][index].clip;
+        MusicSource.clip = dict[key][index].clip;
         MusicSource.volume = MasterVolume * MusicVolume;
         MusicSource.loop = dict[key][index].isLoop;
         MusicSource.PlayScheduled(previousMusicData.scheduledStart);
