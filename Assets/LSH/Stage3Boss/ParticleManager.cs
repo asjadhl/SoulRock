@@ -10,14 +10,17 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] private ParticleSystem hitParticle;
     [Header("가짜 유령 폭발 파티클")]
     [SerializeField] private ParticleSystem fakeGhostParticle;
-    [Header("풀 사이즈")]
+	[Header("진짜 유령 폭발 파티클")]
+	[SerializeField] private ParticleSystem RealGhostParticle;
+	[Header("풀 사이즈")]
     [SerializeField] private int poolSize = 10;
 
     private Queue<ParticleSystem> skullPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> hitPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> fakeGhostPool = new Queue<ParticleSystem>();
+	private Queue<ParticleSystem> RealGhostPool = new Queue<ParticleSystem>();
 
-    void Awake()
+	void Awake()
     {
         for (int i = 0; i < poolSize; i++)
         {
@@ -38,7 +41,13 @@ public class ParticleManager : MonoBehaviour
             effect.gameObject.SetActive(false);
             fakeGhostPool.Enqueue(effect);
         }
-    }
+		for(int i = 0; i < 4; i++)
+        {
+			ParticleSystem effect = Instantiate(RealGhostParticle, transform);
+			effect.gameObject.SetActive(false);
+			RealGhostPool.Enqueue(effect);
+		}
+	}
 
     public void PlaySkullEffect(Vector3 pos)
     {
@@ -84,7 +93,21 @@ public class ParticleManager : MonoBehaviour
 
         ReturnToPoolAfter(effect, fakeGhostPool).Forget();
     }
-    private async UniTask ReturnToPoolAfter(ParticleSystem effect, Queue<ParticleSystem> pool)
+	public void PlayRealGhostEffect(Vector3 pos)
+	{
+		if (RealGhostPool.Count == 0)
+		{
+			AddEffectToPool(RealGhostParticle, RealGhostPool, 1);
+		}
+
+		ParticleSystem effect = RealGhostPool.Dequeue();
+		effect.transform.position = pos;
+		effect.gameObject.SetActive(true);
+		effect.Play();
+
+		ReturnToPoolAfter(effect, RealGhostPool).Forget();
+	}
+	private async UniTask ReturnToPoolAfter(ParticleSystem effect, Queue<ParticleSystem> pool)
     {
         await UniTask.Delay((int)(effect.main.duration * 1000)); 
         effect.Stop();

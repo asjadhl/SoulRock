@@ -151,6 +151,11 @@ public class PlayerShoot : MonoBehaviour
                 {
                     boss2.GetComponent<Stage2BossAttack>().WheelStop();
                 }
+                if(hit.collider.gameObject.tag == "RealClone")
+                {
+                    hit.collider.gameObject.GetComponent<GBAttack>().ReturnClone();
+					hit.collider.gameObject.GetComponent<GBAttack>().SuccessFindRealClone();
+				}
 
             }
 

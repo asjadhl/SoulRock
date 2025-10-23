@@ -12,6 +12,7 @@ public class GBAttack : MonoBehaviour
      * */
     AudioSource musicBox;
     Animator animator;
+    private ParticleManager particleManager;
     int teleportIndex;
     int patternIndex;
     [SerializeField] GameObject[] clone;
@@ -28,7 +29,7 @@ public class GBAttack : MonoBehaviour
     [Header("폹터가이스트 현상")]
     [SerializeField] GameObject poltergeist;
     [SerializeField] GameObject[] poltergeistOB;
-
+    bool cloneMakeGhost = false;
     [Header("타겟 (플레이어)")]
 	public Transform player;
     ////분신패턴
@@ -43,10 +44,11 @@ public class GBAttack : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        musicBox = GameObject.FindWithTag("MusicBox").GetComponent<AudioSource>();
+		particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
+		musicBox = GameObject.FindWithTag("MusicBox").GetComponent<AudioSource>();
         bossMove = GetComponent<BossMove>();
         animator = GetComponent<Animator>();
-        if (player == null)
+		if (player == null)
 			player = GameObject.FindWithTag("Player").transform;
 		teleportIndex = 0;
         patternIndex = 0;
@@ -163,8 +165,8 @@ public class GBAttack : MonoBehaviour
 
     private async UniTask Duplicate()
     {
-
         isAttack = true;
+        gameObject.tag = "RealClone";
         int teleport = Random.Range(0, cloneTransform.Length);
         for (int i = 0; i < clone.Length; i++)
         {
@@ -175,16 +177,25 @@ public class GBAttack : MonoBehaviour
         transform.position = new Vector3(cloneTransform[teleport].transform.position.x, cloneTransform[teleport].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
         await UniTask.Delay(cooltime + 3000);
         transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-        ReturnClone();
+		ReturnClone();
         isAttack = false;
     }
 
-    private void ReturnClone()
+    public void SuccessFindRealClone()
+    {
+		animator.SetTrigger("Teleport");
+	}
+
+    public void ReturnClone()
     {
         for (int i = 0; i < clone.Length; i++)
         {
-            clone[i].transform.position = new Vector3(firstclonexPos, firstcloneyPos, transform.position.z);
-            clone[i].SetActive(false);
+			gameObject.tag = "GhostBoss";
+			Vector3 effectPos = clone[i].transform.position;
+			particleManager.PlayGhostEffect(effectPos);
+			clone[i].transform.position = new Vector3(firstclonexPos, firstcloneyPos, transform.position.z);
+
+			clone[i].SetActive(false);
         }
     }
 

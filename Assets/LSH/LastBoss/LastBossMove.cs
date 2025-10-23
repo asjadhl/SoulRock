@@ -37,7 +37,7 @@ public class LastBossMove : MonoBehaviour
 
     public void HitGhostBoss()
 	{
-		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
+		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 5f);
 	}
     private void UpdateBossRun()
     {
