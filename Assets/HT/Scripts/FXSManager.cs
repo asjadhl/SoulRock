@@ -31,7 +31,7 @@ public class FXSManager : MonoBehaviour
   Dictionary<int, List<AudioClip>> dict;
   public int currentIndex;
   public float AnimationProgress;
-  private CancellationTokenSource cts;
+ 
   public TextMeshProUGUI textMeshPro;
   public void Awake()
   {
@@ -87,17 +87,15 @@ public class FXSManager : MonoBehaviour
     {
       anim.SetFloat("S", 1);
       m_Stack.Push("MainSettingShowUp");
-      anim.Play(m_Stack.Peek(), 0, AnimationProgress);
-      cts = new();
-      PredictSample(m_Stack.Peek(), cts).Forget();
+      anim.Play(m_Stack.Peek(), 0, 0);
+    
     }
     else if (Input.GetKeyDown(KeyCode.Escape) && 0 < m_Stack.Count)
     {
-      cts.Cancel();
+ 
       anim.SetFloat("S", -1);
-      anim.Play(m_Stack.Peek(), 0, AnimationProgress);
-      cts = new();
-      PredictSample(m_Stack.Pop(), cts).Forget();
+      anim.Play(m_Stack.Pop(), 0, 1);
+      
     }
 
 
@@ -105,12 +103,11 @@ public class FXSManager : MonoBehaviour
 
   public void ShowFXSSetting()
   {
-    cts.Cancel();
+    
     anim.SetFloat("S", 1);
     m_Stack.Push("SoundsSettingShowUp");
-    anim.Play(m_Stack.Peek(), 0, AnimationProgress);
-    cts = new();
-    PredictSample(m_Stack.Peek(), cts).Forget();
+    anim.Play(m_Stack.Peek(), 0, 0);
+ 
   }
 
   public void SetMasterVolume(float Op)
@@ -176,6 +173,7 @@ public class FXSManager : MonoBehaviour
   {
     MusicSource.Stop();
     SfXSource.Stop();
+        Debug.Log("StopPlaying");
   }
   public AnimationClip GetClipByName(string clipName)
   {
@@ -185,29 +183,8 @@ public class FXSManager : MonoBehaviour
     }
     return null;
   }
-  private async UniTaskVoid PredictSample(string clipName,CancellationTokenSource ctstoken)
-  {
-
-    AnimationClip clip = GetClipByName(clipName);
-    float startTime = Time.time;
-    int totalSamples = Mathf.FloorToInt(clip.frameRate * clip.length);
-
-    float elapsed;
-    int currentSample;
-    while(true)
-    {
-      elapsed = Time.time - startTime;
-      currentSample = Mathf.FloorToInt(elapsed * clip.frameRate);
-
-      currentSample = Mathf.Min(currentSample, totalSamples - 1);
-
-      AnimationProgress = currentSample;
-      if (AnimationProgress <= 1f)
-                 break;
-      await UniTask.Yield(cancellationToken: ctstoken.Token);
-    
-    }
-  }
+ 
+   
 
   public void OnDestroy()
   {
