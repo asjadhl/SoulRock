@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public static class BossState
 {
+    public static bool isBoss1Dead = false;
+    public static bool isBoss2Dead = false;
     public static bool isBoss3Dead = false;
 }
 
