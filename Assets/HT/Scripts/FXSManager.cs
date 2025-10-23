@@ -108,7 +108,7 @@ public class FXSManager : MonoBehaviour
             DisableUnwantedThreat();
             SaveCurrentClip();
             StopPlay();
-            
+            Time.timeScale = 0;
         }
     else if (Input.GetKeyDown(KeyCode.Escape) && 0 < m_Stack.Count)
     {
@@ -118,21 +118,20 @@ public class FXSManager : MonoBehaviour
       if(m_Stack.Count == 1) // Exiting Main Setting
         {       
                 EnableUnwantedThreat();
-               double  elapsed = previousMusicData.pausedDSP - previousMusicData.scheduledStart;
+             
 
                 MusicSource.clip = previousMusicData.clip;
-                MusicSource.time = (float)elapsed;//previousMusicData.audioTime;
+                MusicSource.time =  previousMusicData.audioTime;
                 MusicSource.loop = previousMusicData.isLoop;
-                double resumeAt = AudioSettings.dspTime + 0.05;
-                MusicSource.PlayScheduled(resumeAt);
-                previousMusicData.scheduledStart = resumeAt - elapsed;
+                MusicSource.PlayScheduled(AudioSettings.dspTime + 0.05);
+                 
 
-                elapsed = previousSfxData.pausedDSP - previousSfxData.scheduledStart;
+             
                 SfXSource.clip = previousSfxData.clip;
-                SfXSource.time = (float)elapsed;//previousSfxData.audioTime;
+                SfXSource.time =  previousSfxData.audioTime;
                 SfXSource.loop = previousSfxData.isLoop;
-                SfXSource.PlayScheduled(resumeAt);
-                previousSfxData.scheduledStart = resumeAt - elapsed;
+                SfXSource.PlayScheduled(AudioSettings.dspTime + 0.05);
+                Time.timeScale = 1;
             }
         if(m_Stack.Count == 2) //  Exiting Music Setting
             {
@@ -238,13 +237,13 @@ public class FXSManager : MonoBehaviour
         previousMusicData.clip = MusicSource.clip;
         previousMusicData.audioTime = MusicSource.time;
         previousMusicData.isLoop = MusicSource.loop;
-        previousMusicData.pausedDSP = AudioSettings.dspTime;
+        
 
 
         previousSfxData.clip = SfXSource.clip;
         previousSfxData.audioTime = SfXSource.time;
         previousSfxData.isLoop = MusicSource.loop;
-        previousSfxData.pausedDSP = AudioSettings.dspTime;
+        
 
         isNextClip = true;
     }
@@ -372,8 +371,8 @@ public class FXSManager : MonoBehaviour
   }
   public void StopPlay()
   {
-    MusicSource.Stop();
-    SfXSource.Stop();
+    MusicSource.Pause();
+    SfXSource.Pause();
        
   }
    
