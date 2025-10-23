@@ -14,14 +14,14 @@ public class TextManager : MonoBehaviour
     void Start()
     {
         // 예시: 1스테이지 대사 시작
-        StartStageDialogue(2);
+        StartStageDialogue(1);
     }
     public void StartStageDialogue(int stageNum)
     {
         if (dialogueRoutine != null)
             StopCoroutine(dialogueRoutine);
 
-        string[] lines = null;
+        DialogueLine[] lines = null; // string[] → DialogueLine[]
 
         switch (stageNum)
         {
@@ -40,20 +40,25 @@ public class TextManager : MonoBehaviour
         }
 
         if (lines != null)
-            dialogueRoutine = StartCoroutine(PlayDialogue(lines));
+            dialogueRoutine = StartCoroutine(PlayDialogue(lines, stageNum)); // 스테이지 번호 전달
     }
 
-    private IEnumerator PlayDialogue(string[] lines)
+
+    private IEnumerator PlayDialogue(DialogueLine[] lines, int stageNum)
     {
-        dialogueUI.ShowDialogueUI(true); // 켜기
+        dialogueUI.ShowDialogueUI(true);               // 대화창 켜기
+        dialogueUI.StartImageAnimation(stageNum);      // 스테이지별 이미지 애니메이션 시작
 
         foreach (var line in lines)
         {
-            dialogueUI.ShowDialogueText(line);
+            dialogueUI.ShowDialogueText(line.text, line.sound);
             yield return new WaitForSeconds(interval);
         }
 
-        dialogueUI.ShowDialogueUI(false); // 끄기
+        dialogueUI.StopImageAnimation();               // 대화 종료 시 애니메이션 정지
+        dialogueUI.ShowDialogueUI(false);              // 대화창 끄기
         dialogueRoutine = null;
     }
+
+
 }

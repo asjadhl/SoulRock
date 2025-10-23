@@ -459,13 +459,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speechBubble: {fileID: 620839944}
-  speakerImageObject: {fileID: 1024469801}
+  speakerImage: {fileID: 1024469803}
   dialogueText: {fileID: 335636470}
   sdfFontAsset: {fileID: 11400000, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
   typingSpeed: 0.04
   typingAudio: {fileID: 966790952}
-  randomPitch: 1
-  pitchRange: {x: 0.95, y: 1.05}
+  stage1_img1: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
+  stage1_img2: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
+  stage2_img1: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
+  stage2_img2: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
+  stage3_img1: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
+  stage3_img2: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
+  boss_img1: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
+  boss_img2: {fileID: 2800000, guid: c538e4a5391d7ef4ca4a9e9f88620524, type: 3}
 --- !u!4 &154126324
 Transform:
   m_ObjectHideFlags: 0
@@ -3469,13 +3475,9 @@ MonoBehaviour:
   - {fileID: 1842209543}
   - {fileID: 1027743269}
   - {fileID: 1121705854}
-  clubBalls:
-  - {fileID: 1647725887}
-  - {fileID: 1645356228}
-  - {fileID: 356725282}
-  - {fileID: 1003713492}
-  - {fileID: 2083492200}
-  - {fileID: 1149065332}
+  spinWheel: {fileID: 0}
+  spinCircle: {fileID: 0}
+  wheelStop: 1
 --- !u!114 &650919684
 MonoBehaviour:
   m_ObjectHideFlags: 0
