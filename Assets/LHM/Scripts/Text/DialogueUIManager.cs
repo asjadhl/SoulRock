@@ -68,16 +68,18 @@ public class DialogueUIManager : MonoBehaviour
     private IEnumerator TypeText(string message, AudioClip clip)
     {
         dialogueText.text = "";
-
+        if (typingAudio != null && clip != null)
+            typingAudio.PlayOneShot(clip);
         foreach (char c in message)
         {
             dialogueText.text += c;
 
-            if (typingAudio != null && clip != null)
-                typingAudio.PlayOneShot(clip);
+            
+                
 
             yield return new WaitForSeconds(typingSpeed);
         }
+        
     }
 
     /// <summary>
