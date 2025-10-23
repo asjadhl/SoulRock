@@ -27,7 +27,7 @@ public class Hostile : Enemy
                          //if (!lockOnDodgeEnemy.IsDodging())
                           LookAt(PlayerTransform.position);
 
-                    transform.position += 4f*Time.fixedDeltaTime * Vector3.forward;
+                     transform.position += 4f*Time.fixedDeltaTime * Vector3.forward;
                     transform.position += m_speed * Time.deltaTime * transform.forward;
                     EnemyGhostGraphics.AnimationManager(AnimationState.Forward, Cts.normal).Forget();
                     //if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
