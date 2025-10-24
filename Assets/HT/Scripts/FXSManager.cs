@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Rendering;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 
@@ -64,6 +66,9 @@ public class FXSManager : MonoBehaviour
   public void Start()
   {
 
+
+    UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+
     MasterVolume = PlayerPrefs.GetFloat("MSR");
     MusicVolume = PlayerPrefs.GetFloat("MSC");
     SfXVolume = PlayerPrefs.GetFloat("SFX");
@@ -98,7 +103,10 @@ public class FXSManager : MonoBehaviour
     }
   }
 
-
+  private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene,LoadSceneMode mode)
+  {
+    StopPlay();
+  }
  
 
   public void Update()
@@ -416,6 +424,8 @@ public class FXSManager : MonoBehaviour
     PlayerPrefs.SetFloat("MSR", MasterVolume);
     PlayerPrefs.SetFloat("MSC", MusicSource.volume);
     PlayerPrefs.SetFloat("SFX", SfXSource.volume);
+
+    UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
   }
 }
 

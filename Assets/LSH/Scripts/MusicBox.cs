@@ -116,11 +116,11 @@ public class MusicBox : MonoBehaviour
             await FadeOutCurrentSong();
 
             // 새로운 곡 재생
-            //musicSource.clip = music[i];
+             //musicSource.clip = music[i];
            
             await UniTask.Delay(delayMusic); // 약간의 딜레이 추가
             //musicSource.Play();
-            FXSManager.Instance.PlayClip(0, 5);
+            FXSManager.Instance.PlayClip(0, music[i]);
         }
        // switch (musicSource.clip.name)
             switch (FXSManager.Instance.MusicSource.clip.name)
