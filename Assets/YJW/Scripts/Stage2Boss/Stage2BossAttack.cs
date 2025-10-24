@@ -6,6 +6,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -94,6 +95,11 @@ public class Stage2BossAttack : MonoBehaviour
         if(!isAttack)
         {
             BossPattern();
+        }
+        if ((int)CheckRealTime.inGamerealTime >=125)
+        {
+            BossState.isBoss1Dead = true;
+            SceneManager.LoadScene("StageSelect");
         }
     }
 

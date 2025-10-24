@@ -25,6 +25,6 @@ public class NormalMusicBox : MonoBehaviour
         //musicSource.PlayScheduled(nextStartTime); // 예약된 시간에 첫 곡 재생
 
         if (FXSManager.Instance != null)
-            FXSManager.Instance.PlayClip(0, music, nextStartTime);
+            FXSManager.Instance.PlayClip(0, 1, nextStartTime);
     }
 }

@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Stage3Boss : MonoBehaviour
 {
@@ -122,7 +123,12 @@ public class Stage3Boss : MonoBehaviour
             Debug.Log("빡친보스패턴");
             AngryBoss3Pattern();
         }
-	}
+        if((int)CheckRealTime.inGamerealTime >= 210)
+        {
+            BossState.isBoss2Dead = true;
+            SceneManager.LoadScene("StageSelect");
+        }
+    }
 
     #region("보스빡침")
     void AngryBoss3Pattern()

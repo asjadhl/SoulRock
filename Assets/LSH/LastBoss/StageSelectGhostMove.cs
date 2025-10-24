@@ -1,25 +1,42 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageSelectGhostMove : MonoBehaviour
 {
 	public float moveSpeed = 4f;
 	public Transform playerPos;
 	public float chaseStartDistance = 10f;
-	public float disableDistance = 1f; 
-											
+	public float disableDistance = 1f;
+	bool lastStageOn = false;
 	void Awake()
     {
 		if (playerPos == null)
 			playerPos = GameObject.FindWithTag("Player").transform;
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-		 SkullMove();
+	// Update is called once per frame
+	void Update()
+	{
+
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			BossState.isBoss1Dead = true;
+		}
+		if (Input.GetKeyDown(KeyCode.T))
+		{
+			BossState.isBoss2Dead = true;
+		}
+		if (BossState.isBoss1Dead && BossState.isBoss2Dead)
+		{
+			GhostMove();
+			if(!lastStageOn)
+			{
+				LastStage().Forget();
+            }
+		}
 	}
-	void SkullMove()
+    void GhostMove()
 	{
 		float distance = Vector3.Distance(transform.position, playerPos.position);
 		if (distance > chaseStartDistance)
@@ -48,4 +65,12 @@ public class StageSelectGhostMove : MonoBehaviour
 			transform.SetParent(playerPos.transform, true);
 		}
 	}
+
+	private async UniTask LastStage()
+	{
+        lastStageOn = true;
+		Debug.Log("Last Stage±Ó¡ˆ 5√ ");
+        await UniTask.Delay(5000);
+        SceneManager.LoadScene("LastStage");
+    }
 }
