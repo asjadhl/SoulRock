@@ -256,7 +256,6 @@ public class SpawnManager : MonoBehaviour
 
     }
 
-        Debug.Log("RemoveAreaSpawn");
     areaSpawns.Remove(areaSpawns[0]);
     IsSpawning = false;
   }

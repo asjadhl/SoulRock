@@ -174,7 +174,6 @@ public class CorridorSpawner : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         currentStage++;
-        Debug.Log($"[Stage Change] currentStage = {currentStage}");
 
         isTransitionRunning = false;
         StartStageTimer(); // 다음 단계 자동 실행

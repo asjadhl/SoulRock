@@ -147,7 +147,6 @@ public class Health: MonoBehaviour, IDamagable
                 
                 m_healthBar.transform.SetParent(m_canvas.transform);
 
-                Debug.Log(m_canvas.transform.localPosition);
 
 
 

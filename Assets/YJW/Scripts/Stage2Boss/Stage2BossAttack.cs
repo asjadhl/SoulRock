@@ -90,9 +90,6 @@ public class Stage2BossAttack : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Debug.Log(curShape);
-        Debug.LogError(wheelStop);
-
         if (!isDelay) return;
         if(!isAttack)
         {
@@ -220,7 +217,6 @@ public class Stage2BossAttack : MonoBehaviour
     private async UniTask DAttack()
     {
         isAttack = true;
-        Debug.Log("다이아");
         if(teleportCount < 5)
         {
             if (teleportTimer >= 2)
@@ -253,17 +249,23 @@ public class Stage2BossAttack : MonoBehaviour
     private async UniTask CAttack()
     {
         isAttack = true;
-        Debug.Log("클로버");
         isCAttacking = true;
         spinWheel.SetActive(true);
         await SpinWheel();
 
-        await UniTask.Delay(7000);
+        int result = spinWheel.GetComponentInChildren<Roulette>().GetNum();
+        Debug.Log(result);
+        clubStack += result;
+
+        //await UniTask.Delay(7000);
         //if(cardChanged == false)
         //{
-            await ChangeNextRanCard();
-            //cardChanged = true;
+        await ChangeNextRanCard();
+        //cardChanged = true;
         //}
+
+        
+
         isCAttacking = false;
         //cardChanged = false;
         spinWheel.SetActive(false);

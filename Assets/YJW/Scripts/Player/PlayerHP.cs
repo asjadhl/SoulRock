@@ -41,7 +41,6 @@ public class PlayerHP : MonoBehaviour
 
     private void PlayerDie()
     {
-        Debug.Log("Player Die!");
     }
 
     private void GetDamImageOn()
