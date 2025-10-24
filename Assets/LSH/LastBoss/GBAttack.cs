@@ -7,8 +7,9 @@ using UnityEngine.UIElements;
 public class GBAttack : MonoBehaviour
 {
     /*
-     * 보스 움직임 직선적 말고 플레이어를 향해 돌진하는 거였음 좋겠음.
-     * 
+     * 보스 노래들 시간 구해서 끝나는대로 다음 씬으로 넘어가게 만들기.
+     * 클리어 할때 지우의 BossHp스크립트로 true만들어서 현민이의 대기실 박살.
+     * 올 True면 엔딩.
      * */
     AudioSource musicBox;
     Animator animator;

@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 154297455}
   - component: {fileID: 154297459}
   - component: {fileID: 154297460}
-  - component: {fileID: 154297461}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -226,7 +225,7 @@ Transform:
   m_GameObject: {fileID: 154297454}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.56, z: 2.72}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -268,26 +267,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 154297454}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b0e100bf0eeb5c4caef52dfb480d051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 0
---- !u!114 &154297461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 154297454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffe86136eb756da4c86dbc3b10dd7b26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartPos: []
-  QuadraticBezierRate: 0.6
+  m_speed: 10
 --- !u!1 &377890807
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,7 +721,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1227322019
 Transform:
   m_ObjectHideFlags: 0
@@ -768,8 +753,8 @@ MonoBehaviour:
   PlayerTransform: {fileID: 0}
   PrevTransform: {fileID: 0}
   g: {fileID: 3372988496784074368, guid: fef59d434cc28c64fae9994eedf98a4c, type: 3}
-  StartGenerate: {x: 0, y: 0, z: 0}
-  GenerateOffSet: {x: 5, y: 0, z: -5}
+  StartGenerate: {x: 90, y: 0, z: 0}
+  GenerateOffSet: {x: 95, y: 0, z: 5}
   TriggeredOffset: {x: 5, y: 0, z: 0}
   TrueOffset: {x: 0, y: 0, z: 0}
   Radius: 2
@@ -852,7 +837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1737356847
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1096,7 +1081,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 901436825334695834, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7373458126896748120, guid: 1d910f641e2ecf84f96a3c3983f4f52d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1245,7 +1230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8594118327721097176, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1368,10 +1353,6 @@ PrefabInstance:
     - target: {fileID: 7136097192227924679, guid: edc4d2933949bd44fa7e30d5d1439fbb, type: 3}
       propertyPath: m_Name
       value: FXSManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 7136097192227924679, guid: edc4d2933949bd44fa7e30d5d1439fbb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

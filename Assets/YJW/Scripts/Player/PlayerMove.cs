@@ -35,7 +35,8 @@ public class PlayerMove : MonoBehaviour
     
     void UpdatePlayerRun()
     {
-       transform.position +=  moveSpeed * Time.fixedDeltaTime * transform.forward;
+       transform.position +=  moveSpeed * Time.deltaTime * transform.forward;
+      
     }
 
   [Obsolete]

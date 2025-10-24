@@ -11,8 +11,12 @@ public class Hostile : Enemy
          
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master).Forget();
     }
-
-    public override void m_Update()
+  public void FixedUpdate()
+  {  
+    if(MyBehavior != Behavior.Attack)
+    transform.position += 4f * Time.fixedDeltaTime * Vector3.forward;
+  }
+  public override void m_Update()
     {
         switch (MyBehavior)
         {
@@ -27,7 +31,7 @@ public class Hostile : Enemy
                          //if (!lockOnDodgeEnemy.IsDodging())
                           LookAt(PlayerTransform.position);
 
-                     transform.position += 4f*Time.fixedDeltaTime * Vector3.forward;
+                   
                     transform.position += m_speed * Time.deltaTime * transform.forward;
                     EnemyGhostGraphics.AnimationManager(AnimationState.Forward, Cts.normal).Forget();
                     //if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)

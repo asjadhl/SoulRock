@@ -7,13 +7,15 @@ public class BossMove : MonoBehaviour
    public float moveSpeed = 4f;
    public bool canRun = false;
  
-    private void Update()
-    {
-      if (canRun)
-        UpdateBossRun();
-    }
+ 
 
-    [Obsolete]
+  private void FixedUpdate()
+  {
+
+    if (canRun)
+      UpdateBossRun();
+  }
+  [Obsolete]
     private async UniTask BossRun()
     {
         await UniTask.Delay(3000);

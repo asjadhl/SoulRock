@@ -8,11 +8,10 @@ public class EndingMusic : MonoBehaviour
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        FXSManager.Instance.PlayClip(0, 3);
         if(BossState.isBoss3Dead == true)
         {
-            audioSource.clip = endingClip;
-            audioSource.Play();
+            FXSManager.Instance.PlayClip(0, 4);
         }
     }
 

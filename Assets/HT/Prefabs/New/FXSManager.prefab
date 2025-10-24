@@ -435,7 +435,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &1081044838035716013
 MonoBehaviour:
@@ -2455,85 +2455,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &7009321272292614972
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8639903031423774830}
-  - component: {fileID: 4046039785040916804}
-  - component: {fileID: 2994375538318814000}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8639903031423774830
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7009321272292614972}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6826738149780061101}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4046039785040916804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7009321272292614972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!114 &2994375538318814000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7009321272292614972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
 --- !u!1 &7044459054094230921
 GameObject:
   m_ObjectHideFlags: 0
@@ -2771,7 +2692,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4485682418980062107}
-  - {fileID: 8639903031423774830}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6882725150690127211
@@ -2792,15 +2712,34 @@ MonoBehaviour:
   MasterSlider: {fileID: 2962316921542146395}
   MusicSlider: {fileID: 6994171780763475978}
   SfXSlider: {fileID: 2101292051542869298}
-  MusicAudioClip:
-  - {fileID: 8300000, guid: b7bd179eb5b71534898166877034aa79, type: 3}
-  - {fileID: 8300000, guid: 1503c0627c16c754aa294ac2de8a1f28, type: 3}
-  - {fileID: 8300000, guid: 3f7e2993d2a030944b56ba3616a14bf3, type: 3}
-  SfXAudioClip: []
+  MusicList:
+  - clip: {fileID: 8300000, guid: b7bd179eb5b71534898166877034aa79, type: 3}
+    isLoop: 0
+  - clip: {fileID: 8300000, guid: 1503c0627c16c754aa294ac2de8a1f28, type: 3}
+    isLoop: 0
+  - clip: {fileID: 8300000, guid: 3f7e2993d2a030944b56ba3616a14bf3, type: 3}
+    isLoop: 0
+  - clip: {fileID: 8300000, guid: 47cac4e574795c844927a2646d401940, type: 3}
+    isLoop: 1
+  - clip: {fileID: 8300000, guid: e3749d9a0544e1940ba3b6a9f7c4f973, type: 3}
+    isLoop: 1
+  - clip: {fileID: 8300000, guid: 66a6e5b0e4d92f642bd5f16511d2c38d, type: 3}
+    isLoop: 1
+  - clip: {fileID: 8300000, guid: 1336b60cef86111438925ef6b2406872, type: 3}
+    isLoop: 1
+  SfXList:
+  - clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
+    isLoop: 0
   MasterVolume: 1
   MusicVolume: 1
   SfXVolume: 1
   anim: {fileID: 7806268096043798870}
+  previousMusicData:
+    clip: {fileID: 0}
+    audioTime: 0
+    scheduledStart: 0
+    pausedDSP: 0
+    isLoop: 0
   currentIndex: 0
   AnimationProgress: 0
   textMeshPro: {fileID: 7843391207651670838}
@@ -2815,7 +2754,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: b7bd179eb5b71534898166877034aa79, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3010,7 +2949,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: c7cf347eb3c773e40a1cceb8da51d509, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
