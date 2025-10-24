@@ -17,7 +17,7 @@ public class CloneMove : MonoBehaviour
     {
         isInitialized = true;
     }
-    private void Update()
+    private void FixedUpdate()
     {
         UpdateBossRun();
     }

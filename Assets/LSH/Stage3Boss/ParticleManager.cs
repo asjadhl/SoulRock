@@ -11,14 +11,21 @@ public class ParticleManager : MonoBehaviour
     [Header("가짜 유령 폭발 파티클")]
     [SerializeField] private ParticleSystem fakeGhostParticle;
 	[Header("진짜 유령 폭발 파티클")]
-	[SerializeField] private ParticleSystem RealGhostParticle;
+	[SerializeField] private ParticleSystem realGhostParticle;
+    [Header("광대 파티클")]
+	[SerializeField] private ParticleSystem clownParticle;
+    [Header("무언가 파티클")]
+    [SerializeField] private ParticleSystem boxParticle;
 	[Header("풀 사이즈")]
     [SerializeField] private int poolSize = 10;
 
     private Queue<ParticleSystem> skullPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> hitPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> fakeGhostPool = new Queue<ParticleSystem>();
-	private Queue<ParticleSystem> RealGhostPool = new Queue<ParticleSystem>();
+	private Queue<ParticleSystem> realGhostPool = new Queue<ParticleSystem>();
+    private Queue<ParticleSystem> clownPool = new Queue<ParticleSystem>();
+    private Queue<ParticleSystem> boxPool = new Queue<ParticleSystem>();
+
 
 	void Awake()
     {
@@ -43,9 +50,21 @@ public class ParticleManager : MonoBehaviour
         }
 		for(int i = 0; i < 4; i++)
         {
-			ParticleSystem effect = Instantiate(RealGhostParticle, transform);
+			ParticleSystem effect = Instantiate(realGhostParticle, transform);
 			effect.gameObject.SetActive(false);
-			RealGhostPool.Enqueue(effect);
+			realGhostPool.Enqueue(effect);
+		}
+		for (int i = 0; i < poolSize; i++)
+		{
+			ParticleSystem effect = Instantiate(clownParticle, transform);
+			effect.gameObject.SetActive(false);
+			clownPool.Enqueue(effect);
+		}
+		for (int i = 0; i < poolSize; i++)
+		{
+			ParticleSystem effect = Instantiate(boxParticle, transform);
+			effect.gameObject.SetActive(false);
+			boxPool.Enqueue(effect);
 		}
 	}
 
@@ -95,17 +114,47 @@ public class ParticleManager : MonoBehaviour
     }
 	public void PlayRealGhostEffect(Vector3 pos)
 	{
-		if (RealGhostPool.Count == 0)
+		if (realGhostPool.Count == 0)
 		{
-			AddEffectToPool(RealGhostParticle, RealGhostPool, 1);
+			AddEffectToPool(realGhostParticle, realGhostPool, 1);
 		}
 
-		ParticleSystem effect = RealGhostPool.Dequeue();
+		ParticleSystem effect = realGhostPool.Dequeue();
 		effect.transform.position = pos;
 		effect.gameObject.SetActive(true);
 		effect.Play();
 
-		ReturnToPoolAfter(effect, RealGhostPool).Forget();
+		ReturnToPoolAfter(effect, realGhostPool).Forget();
+	}
+
+	public void PlayClownEffect(Vector3 pos)
+	{
+		if (clownPool.Count == 0)
+		{
+			AddEffectToPool(clownParticle, clownPool, 1);
+		}
+
+		ParticleSystem effect = clownPool.Dequeue();
+		effect.transform.position = pos;
+		effect.gameObject.SetActive(true);
+		effect.Play();
+
+		ReturnToPoolAfter(effect, clownPool).Forget();
+	}
+
+	public void PlayBoxEffect(Vector3 pos)
+	{
+		if (boxPool.Count == 0)
+		{
+			AddEffectToPool(boxParticle, boxPool, 1);
+		}
+
+		ParticleSystem effect = boxPool.Dequeue();
+		effect.transform.position = pos;
+		effect.gameObject.SetActive(true);
+		effect.Play();
+
+		ReturnToPoolAfter(effect, boxPool).Forget();
 	}
 	private async UniTask ReturnToPoolAfter(ParticleSystem effect, Queue<ParticleSystem> pool)
     {

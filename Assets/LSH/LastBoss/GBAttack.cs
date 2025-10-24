@@ -74,8 +74,8 @@ public class GBAttack : MonoBehaviour
         for (int i = 0; i < clone.Length; i++)
         {
             clone[i].transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            firstclonexPos = clone[i].transform.position.x;
-            firstcloneyPos = clone[i].transform.position.y;
+            //firstclonexPos = clone[i].transform.position.x;
+            //firstcloneyPos = clone[i].transform.position.y;
             clone[i].SetActive(false);
         }
     }
@@ -189,15 +189,17 @@ public class GBAttack : MonoBehaviour
 
     public void ReturnClone()
     {
-        for (int i = 0; i < clone.Length; i++)
+		gameObject.tag = "GhostBoss";
+		for (int i = 0; i < clone.Length; i++)
         {
-			gameObject.tag = "GhostBoss";
-			Vector3 effectPos = clone[i].transform.position;
-			particleManager.PlayGhostEffect(effectPos);
-			clone[i].transform.position = new Vector3(firstclonexPos, firstcloneyPos, transform.position.z);
-
-			clone[i].SetActive(false);
-        }
+            if (clone[i].activeSelf)
+            {
+				Vector3 effectPos = clone[i].transform.position;
+				particleManager.PlayGhostEffect(effectPos);
+				clone[i].SetActive(false);
+			}
+			//clone[i].transform.position = new Vector3(firstclonexPos, firstcloneyPos, transform.position.z);
+		}
     }
 
     private async UniTask Poltergeist()

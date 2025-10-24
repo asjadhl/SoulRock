@@ -24,7 +24,7 @@ public class LastBossMove : MonoBehaviour
     {
         temp = GameObject.FindAnyObjectByType<BossMove>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if (temp.canRun)
             UpdateBossRun();
@@ -37,7 +37,7 @@ public class LastBossMove : MonoBehaviour
 
     public void HitGhostBoss()
 	{
-		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 5f);
+		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 6f);
 	}
     private void UpdateBossRun()
     {
