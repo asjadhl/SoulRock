@@ -160,12 +160,12 @@ public class CorridorSpawner : MonoBehaviour
             stageCoroutine = null;
         }
 
-        // 다음 스테이지로 넘어가는 시간이 정해진 경우에만 시작
-        if (IsAutoStage(currentStage))
-        {
-            float delay = GetStageDelay(currentStage);
-            stageCoroutine = StartCoroutine(StageTimer(delay));
-        }
+        //// 다음 스테이지로 넘어가는 시간이 정해진 경우에만 시작
+        //if (IsAutoStage(currentStage))
+        //{
+        //    float delay = GetStageDelay(currentStage);
+        //    stageCoroutine = StartCoroutine(StageTimer(delay));
+        //}
     }
 
     IEnumerator StageTimer(float delay)
@@ -179,19 +179,19 @@ public class CorridorSpawner : MonoBehaviour
         StartStageTimer(); // 다음 단계 자동 실행
     }
 
-    bool IsAutoStage(int stage)
-    {
-        // 1, 2, 4, 5 단계만 자동 진행
-        return stage == 1 || stage == 2 /*|| stage == 4 || stage == 5*/;
-    }
+    //bool IsAutoStage(int stage)
+    //{
+    //    // 1, 2, 4, 5 단계만 자동 진행
+    //    return stage == 1 || stage == 2 /*|| stage == 4 || stage == 5*/;
+    //}
 
-    float GetStageDelay(int stage)
-    {
-        // 1,4는 빈맵, 2,5는 일반맵
-        if (stage == 1 /*|| stage == 4*/)
-            return emptyDelay;
-        else if (stage == 2 /*|| stage == 5*/)
-            return normalDelay;
-        return 0f;
-    }
+    //float GetStageDelay(int stage)
+    //{
+    //    // 1,4는 빈맵, 2,5는 일반맵
+    //    if (stage == 1 /*|| stage == 4*/)
+    //        return emptyDelay;
+    //    else if (stage == 2 /*|| stage == 5*/)
+    //        return normalDelay;
+    //    return 0f;
+    //}
 }

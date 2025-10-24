@@ -1,27 +1,60 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class TextManager : MonoBehaviour
 {
-    [Header("대사 데이터")]
     [SerializeField] private StageDialogueData dialogueData;
     [SerializeField] private DialogueUIManager dialogueUI;
-
-    [Header("대사 간 간격 (초)")]
     [SerializeField] private float interval = 3f;
 
     private Coroutine dialogueRoutine;
+
+    // 이전 상태값 저장용
+    private bool prevBoss1Dead;
+    private bool prevBoss2Dead;
+    private bool prevBoss3Dead;
+
     void Start()
     {
-        // 예시: 1스테이지 대사 시작
+        // 예시: 스테이지 1 대사 시작
         StartStageDialogue(1);
+
+        // 초기 상태 저장
+        prevBoss1Dead = BossState.isBoss1Dead;
+        prevBoss2Dead = BossState.isBoss2Dead;
+        prevBoss3Dead = BossState.isBoss3Dead;
     }
+
+    void Update()
+    {
+        // Boss1 사망 감지
+        if (!prevBoss1Dead && BossState.isBoss1Dead)
+        {
+            StartStageDialogue(2); // 보스 처치 후 다음 스테이지 대사
+            prevBoss1Dead = true;
+        }
+
+        // Boss2 사망 감지
+        if (!prevBoss2Dead && BossState.isBoss2Dead)
+        {
+            StartStageDialogue(3);
+            prevBoss2Dead = true;
+        }
+
+        // Boss3 사망 감지
+        if (!prevBoss3Dead && BossState.isBoss3Dead)
+        {
+            StartStageDialogue(4);
+            prevBoss3Dead = true;
+        }
+    }
+
     public void StartStageDialogue(int stageNum)
     {
         if (dialogueRoutine != null)
             StopCoroutine(dialogueRoutine);
 
-        DialogueLine[] lines = null; // string[] → DialogueLine[]
+        DialogueLine[] lines = null;
 
         switch (stageNum)
         {
@@ -40,14 +73,13 @@ public class TextManager : MonoBehaviour
         }
 
         if (lines != null)
-            dialogueRoutine = StartCoroutine(PlayDialogue(lines, stageNum)); // 스테이지 번호 전달
+            dialogueRoutine = StartCoroutine(PlayDialogue(lines, stageNum));
     }
-
-
+    
     private IEnumerator PlayDialogue(DialogueLine[] lines, int stageNum)
     {
-        dialogueUI.ShowDialogueUI(true);               // 대화창 켜기
-        dialogueUI.StartImageAnimation(stageNum);      // 스테이지별 이미지 애니메이션 시작
+        dialogueUI.ShowDialogueUI(true);
+        dialogueUI.StartImageAnimation(stageNum);
 
         foreach (var line in lines)
         {
@@ -55,10 +87,8 @@ public class TextManager : MonoBehaviour
             yield return new WaitForSeconds(interval);
         }
 
-        dialogueUI.StopImageAnimation();               // 대화 종료 시 애니메이션 정지
-        dialogueUI.ShowDialogueUI(false);              // 대화창 끄기
+        dialogueUI.StopImageAnimation();
+        dialogueUI.ShowDialogueUI(false);
         dialogueRoutine = null;
     }
-
-
 }

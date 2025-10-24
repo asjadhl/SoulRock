@@ -17,13 +17,13 @@ public class FXSManager : MonoBehaviour
         public float audioTime;
         public double scheduledStart;
         public double pausedDSP;
-        public bool isLoop;
+        //public bool isLoop;
     }
     [System.Serializable]
     public struct AudioData
     {
         public AudioClip clip;
-        public bool isLoop;
+        //public bool isLoop;
     }
     public static FXSManager Instance;
 
@@ -137,7 +137,7 @@ public class FXSManager : MonoBehaviour
         {
           MusicSource.clip = previousMusicData.clip;
           MusicSource.time = previousMusicData.audioTime;
-          MusicSource.loop = previousMusicData.isLoop;
+          //MusicSource.loop = previousMusicData.isLoop;
 
          
 
@@ -152,7 +152,7 @@ public class FXSManager : MonoBehaviour
         {
           SfXSource.clip = previousSfxData.clip;
           SfXSource.time = previousSfxData.audioTime;
-          SfXSource.loop = previousSfxData.isLoop;
+          //SfXSource.loop = previousSfxData.isLoop;
 
 
           if (!SafePlayScheduled(SfXSource, scheduledTime)) // Error CounterMeasure
@@ -281,14 +281,14 @@ public class FXSManager : MonoBehaviour
     {
       previousMusicData.clip = MusicSource.clip;
       previousMusicData.audioTime = MusicSource.time;
-      previousMusicData.isLoop = MusicSource.loop;
+      //previousMusicData.isLoop = MusicSource.loop;
     }
 
     if (SfXSource.clip != null)
     {
       previousSfxData.clip = SfXSource.clip;
       previousSfxData.audioTime = SfXSource.time;
-      previousSfxData.isLoop = MusicSource.loop;
+      //previousSfxData.isLoop = MusicSource.loop;
     }  
     }
 
@@ -343,14 +343,14 @@ public class FXSManager : MonoBehaviour
       case 0:
          MusicSource.clip = dict[key][index].clip;
         MusicSource.volume = MasterVolume * MusicVolume;
-        MusicSource.loop = dict[key][index].isLoop;
+        //MusicSource.loop = dict[key][index].isLoop;
         MusicSource.Play();
          
         break;
       case 1:
           SfXSource.clip = dict[key][index].clip;
           SfXSource.volume = MasterVolume * SfXVolume;
-                SfXSource.loop = dict[key][index].isLoop;
+                //SfXSource.loop = dict[key][index].isLoop;
                 SfXSource.Play();
         break;
     }
@@ -387,7 +387,7 @@ public class FXSManager : MonoBehaviour
                 previousMusicData.scheduledStart = ScheduledStart;
                 MusicSource.clip = dict[key][index].clip;
                 MusicSource.volume = MasterVolume * MusicVolume;
-                MusicSource.loop = dict[key][index].isLoop;
+                //MusicSource.loop = dict[key][index].isLoop;
                 MusicSource.PlayScheduled(previousMusicData.scheduledStart);
          
         break;
@@ -395,7 +395,7 @@ public class FXSManager : MonoBehaviour
                 previousSfxData.scheduledStart = ScheduledStart;
                 SfXSource.clip = dict[key][index].clip;
                 SfXSource.volume = MasterVolume * SfXVolume;
-                SfXSource.loop = dict[key][index].isLoop;
+                //SfXSource.loop = dict[key][index].isLoop;
                 SfXSource.PlayScheduled(previousSfxData.scheduledStart);
         break;
     }

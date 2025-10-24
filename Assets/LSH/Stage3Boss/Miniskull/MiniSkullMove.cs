@@ -112,7 +112,8 @@ public class MiniSkullMove : MonoBehaviour
     private void OnDisable()
     {
         if (!isInitialized) return; //시작 폭발 방지임ㅋㅋ
-        Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
+		Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
+
         particleManager.PlaySkullEffect(effectPos);
     }
 

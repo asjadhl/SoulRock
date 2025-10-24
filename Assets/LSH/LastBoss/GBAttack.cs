@@ -27,7 +27,7 @@ public class GBAttack : MonoBehaviour
     float firstcloneyPos;
     int cooltime = 2000;
     BossMove bossMove;
-    [Header("폹터가이스트 현상")]
+    [Header("폴터가이스트 현상")]
     [SerializeField] GameObject poltergeist;
     [SerializeField] GameObject[] poltergeistOB;
     bool cloneMakeGhost = false;
