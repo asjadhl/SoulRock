@@ -10,11 +10,12 @@ public class Hostile : Enemy
         //lockOnDodgeEnemy.StopDodging();
          
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master).Forget();
+    transform.SetParent(PlayerTransform);
     }
   public void FixedUpdate()
   {  
-    if(MyBehavior != Behavior.Attack)
-      FixedTransform = 4f * Time.fixedDeltaTime * Vector3.forward;
+    //if(MyBehavior != Behavior.Attack)
+    //  FixedTransform = 4f * Time.fixedDeltaTime * Vector3.forward;
   }
   public override void m_Update()
     {
@@ -24,15 +25,16 @@ public class Hostile : Enemy
 
                 break;
             case Behavior.Alert:
-                //if (Vector3.Distance(PlayerTransform.position, transform.position) <= StartAlertingRange)
-                //{
+        //if (Vector3.Distance(PlayerTransform.position, transform.position) <= StartAlertingRange)
+        //{
 
-                         //lockOnDodgeEnemy.StartDodging();
-                         //if (!lockOnDodgeEnemy.IsDodging())
-                         
+        //lockOnDodgeEnemy.StartDodging();
+        //if (!lockOnDodgeEnemy.IsDodging())
 
-                   
-                    transform.position  += FixedTransform + m_speed * Time.deltaTime * transform.forward;
+
+
+        //transform.position  += FixedTransform + m_speed * Time.deltaTime * transform.forward
+         transform.position  +=   m_speed * Time.deltaTime * transform.forward;
         LookAt(PlayerTransform.position);
         EnemyGhostGraphics.AnimationManager(AnimationState.Forward, Cts.normal).Forget();
                     //if (Mathf.Abs(PlayerPos.position.z - transform.position.z) <= StartAttackingRange)
