@@ -41,7 +41,7 @@ public class FXSManager : MonoBehaviour
   public Animator anim;
    private Stack<string> m_Stack = new();
     public PreviousData previousMusicData;
-    private PreviousData previousSfxData; 
+    public PreviousData previousSfxData; 
     private Dictionary<int, List<AudioData>> dict;
   public int currentIndex;
   public float AnimationProgress;
@@ -89,9 +89,13 @@ public class FXSManager : MonoBehaviour
         dict[1].Add(SfXList[i]);
       }
     }
-
-    anim.SetFloat("S", -1);
-
+    
+    anim = GetComponent<Animator>();
+    if (anim != null)
+    {
+      anim.SetFloat("S", -1);
+      anim.updateMode = AnimatorUpdateMode.UnscaledTime;
+    }
   }
 
 
@@ -127,8 +131,13 @@ public class FXSManager : MonoBehaviour
           MusicSource.time = previousMusicData.audioTime;
           MusicSource.loop = previousMusicData.isLoop;
 
-          if(!(double.IsNaN(scheduledTime) ||  double.IsInfinity(scheduledTime) || scheduledTime < AudioSettings.dspTime)) // Error CounterMeasure
-                 MusicSource.PlayScheduled(scheduledTime);
+         
+
+          if(!SafePlayScheduled(MusicSource,scheduledTime))  // Error CounterMeasure
+          {
+            scheduledTime = AudioSettings.dspTime + 0.05f;
+            SafePlayScheduled(MusicSource,scheduledTime);
+          }
         }
 
         if (SfXSource.clip != null)
@@ -136,12 +145,17 @@ public class FXSManager : MonoBehaviour
           SfXSource.clip = previousSfxData.clip;
           SfXSource.time = previousSfxData.audioTime;
           SfXSource.loop = previousSfxData.isLoop;
-          if (!(double.IsNaN(scheduledTime) || double.IsInfinity(scheduledTime) || scheduledTime < AudioSettings.dspTime))// Error CounterMeasure
-            SfXSource.PlayScheduled(AudioSettings.dspTime + 0.05);
-        }    
 
-               //Release Time
-                Time.timeScale = 1;
+
+          if (!SafePlayScheduled(SfXSource, scheduledTime)) // Error CounterMeasure
+          {
+            scheduledTime = AudioSettings.dspTime + 0.05f;
+            SafePlayScheduled(SfXSource, scheduledTime);
+          }
+        }
+
+        //Release Time
+        Time.timeScale = 1;
             }
         if(m_Stack.Count == 2) //  Exiting Music Setting
             {
@@ -155,89 +169,100 @@ public class FXSManager : MonoBehaviour
 
 
   }
+   
+  //Helper
+    private bool SafePlayScheduled(AudioSource source, double time)
+    {
+       if(source == null) return false;
+       if(double.IsNaN(time) || double.IsInfinity(time))return false;
+       if (time < AudioSettings.dspTime) return false;
+
+       source.PlayScheduled(time);
+          return true;
+    }
 
     void EnableUnwantedThreat()
     {
-        var temp = GameObject.FindObjectsByType<MainGhostClick>(
+        var mainghostclick = GameObject.FindObjectsByType<MainGhostClick>(
      FindObjectsInactive.Include,
      FindObjectsSortMode.None
                               );
 
-        if (temp.Length >= 1)
+        if (mainghostclick.Length >= 1)
         {
-            for (int i = 0; i < temp.Length; i++)
+            for (int i = 0; i < mainghostclick.Length; i++)
             {
-                temp[i].enabled = true;
+                mainghostclick[i].enabled = true;
             }
         }
 
-        var temp2 = GameObject.FindObjectsByType<GhostTrainingLoader>(
+        var ghosttrainingloader = GameObject.FindObjectsByType<GhostTrainingLoader>(
             FindObjectsInactive.Include,
             FindObjectsSortMode.None
             );
 
-        if (temp2.Length >= 1)
+        if (ghosttrainingloader.Length >= 1)
         {
-            for (int i = 0; i < temp2.Length; i++)
+            for (int i = 0; i < ghosttrainingloader.Length; i++)
             {
-                temp2[i].enabled = true;
+                ghosttrainingloader[i].enabled = true;
             }
         }
 
-        var temp3 = GameObject.FindObjectsByType<MainQuitGhost>(
+        var MainQuitGhost = GameObject.FindObjectsByType<MainQuitGhost>(
            FindObjectsInactive.Include,
            FindObjectsSortMode.None
            );
 
-        if (temp3.Length >= 1)
+        if (MainQuitGhost.Length >= 1)
         {
-            for (int i = 0; i < temp3.Length; i++)
+            for (int i = 0; i < MainQuitGhost.Length; i++)
             {
-                temp3[i].enabled = false;
+                MainQuitGhost[i].enabled = false;
             }
         }
     }
    void DisableUnwantedThreat()
     {
         
-              var temp = GameObject.FindObjectsByType<MainGhostClick>(
+              var mainghostclick = GameObject.FindObjectsByType<MainGhostClick>(
          FindObjectsInactive.Include,
          FindObjectsSortMode.None
                                   );
 
-        if (temp.Length >= 1)
+        if (mainghostclick.Length >= 1)
         {
             
-            for ( int i = 0; i < temp.Length; i++)
+            for ( int i = 0; i < mainghostclick.Length; i++)
             {
-                temp[i].enabled = false;
+                mainghostclick[i].enabled = false;
             }
         }
 
-        var temp2 = GameObject.FindObjectsByType<GhostTrainingLoader>(
+        var ghosttrainingloader = GameObject.FindObjectsByType<GhostTrainingLoader>(
             FindObjectsInactive.Include,
             FindObjectsSortMode.None
             );
 
-        if (temp2.Length >= 1)
+        if (ghosttrainingloader.Length >= 1)
         {
-            for (int i = 0; i < temp2.Length; i++)
+            for (int i = 0; i < ghosttrainingloader.Length; i++)
             {
-                temp2[i].enabled = false;
+                ghosttrainingloader[i].enabled = false;
             }
         }
 
 
-        var temp3 = GameObject.FindObjectsByType<MainQuitGhost>(
+        var MainQuitGhost = GameObject.FindObjectsByType<MainQuitGhost>(
             FindObjectsInactive.Include,
             FindObjectsSortMode.None
             );
 
-        if (temp3.Length >= 1)
+        if (MainQuitGhost.Length >= 1)
         {
-            for (int i = 0; i < temp3.Length; i++)
+            for (int i = 0; i < MainQuitGhost.Length; i++)
             {
-                temp3[i].enabled = false;
+                MainQuitGhost[i].enabled = false;
             }
         }
     }
@@ -323,19 +348,19 @@ public class FXSManager : MonoBehaviour
     }
 
   } 
-    public void PlayClip(int key,AudioClip audioClip)
+    public void PlayClip(int key,AudioClip audioClip) // override
     {
           var index = dict[key].FindIndex(x => x.clip == audioClip);
            if(index != -1)
-           PlayClip(key, index);
+              PlayClip(key, index);
 
 
     }
-    public void PlayClip(int key, AudioClip audioClip,double ScheduledStart)
-    {
+    public void PlayClip(int key, AudioClip audioClip,double ScheduledStart) // override
+  {
         var index = dict[key].FindIndex(x => x.clip == audioClip);
         if (index != -1)
-            PlayClip(key, index);
+            PlayClip(key, index,ScheduledStart);
 
 
     }
@@ -352,17 +377,16 @@ public class FXSManager : MonoBehaviour
     {
       case 0:   
                 previousMusicData.scheduledStart = ScheduledStart;
-                
-        MusicSource.clip = dict[key][index].clip;
-        MusicSource.volume = MasterVolume * MusicVolume;
-        MusicSource.loop = dict[key][index].isLoop;
-        MusicSource.PlayScheduled(previousMusicData.scheduledStart);
+                MusicSource.clip = dict[key][index].clip;
+                MusicSource.volume = MasterVolume * MusicVolume;
+                MusicSource.loop = dict[key][index].isLoop;
+                MusicSource.PlayScheduled(previousMusicData.scheduledStart);
          
         break;
       case 1:
                 previousSfxData.scheduledStart = ScheduledStart;
-          SfXSource.clip = dict[key][index].clip;
-          SfXSource.volume = MasterVolume * SfXVolume;
+                SfXSource.clip = dict[key][index].clip;
+                SfXSource.volume = MasterVolume * SfXVolume;
                 SfXSource.loop = dict[key][index].isLoop;
                 SfXSource.PlayScheduled(previousSfxData.scheduledStart);
         break;
@@ -385,12 +409,10 @@ public class FXSManager : MonoBehaviour
     SfXSource.Pause();
        
   }
-   
-   
 
   public void OnDestroy()
   {
-
+    //Save
     PlayerPrefs.SetFloat("MSR", MasterVolume);
     PlayerPrefs.SetFloat("MSC", MusicSource.volume);
     PlayerPrefs.SetFloat("SFX", SfXSource.volume);

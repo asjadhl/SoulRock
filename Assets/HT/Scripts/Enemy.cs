@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Mono.Cecil;
 using System.Net.Http.Headers;
 using System.Threading;
 using UnityEngine;
@@ -112,10 +113,14 @@ public class Enemy : MonoBehaviour
   }
   public void Attack()
   {
-    if (PlayerTransform.TryGetComponent<IDamagable>(out var damagable))
-    {
-      damagable?.TakeHit(m_damage);
-    }
+    //if (PlayerTransform.TryGetComponent<IDamagable>(out var damagable))
+    //{
+    //  damagable?.TakeHit(m_damage);
+    //}
+
+    var PlayerHP = PlayerTransform.GetComponent<PlayerHP>();
+    if (PlayerHP != null)
+        PlayerHP.PlayerHPMinus().Forget();
      
   }
   public void LookAt(Vector3 target)

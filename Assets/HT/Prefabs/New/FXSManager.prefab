@@ -2730,11 +2730,19 @@ MonoBehaviour:
   SfXList:
   - clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
     isLoop: 0
+  - clip: {fileID: 8300000, guid: c0e9c94f84d1f4249aff126f0f8832b9, type: 3}
+    isLoop: 0
   MasterVolume: 1
   MusicVolume: 1
   SfXVolume: 1
   anim: {fileID: 7806268096043798870}
   previousMusicData:
+    clip: {fileID: 0}
+    audioTime: 0
+    scheduledStart: 0
+    pausedDSP: 0
+    isLoop: 0
+  previousSfxData:
     clip: {fileID: 0}
     audioTime: 0
     scheduledStart: 0
