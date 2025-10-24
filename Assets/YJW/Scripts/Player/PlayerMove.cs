@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
       
     }
 
-  [Obsolete]
+    [Obsolete]
     private async UniTask PlayerRun()
     {
         //StartMove();

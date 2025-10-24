@@ -8,8 +8,10 @@ public class EndingMusic : MonoBehaviour
 
     void Start()
     {
-        FXSManager.Instance.PlayClip(0, 3);
-        if(BossState.isBoss3Dead == true)
+        if (FXSManager.Instance == null)
+            Debug.Log("NULL!!");
+        FXSManager.Instance.PlayClip(0, 4);
+        if (BossState.isBoss3Dead == true)
         {
             FXSManager.Instance.PlayClip(0, 4);
         }
