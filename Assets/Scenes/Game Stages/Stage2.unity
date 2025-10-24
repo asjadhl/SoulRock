@@ -3194,7 +3194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetImage: {fileID: 412345860}
   circleBig: 11
-  bpm: 82
+  bpm: 90
   mindis: 0.01
   maxdis: 50
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
@@ -7325,9 +7325,7 @@ MonoBehaviour:
     trapChance: 0
     corridorLength: 87
   - normalTag: Stage2Normal
-    trapTags:
-    - Stage2Empty
-    - Stage2Normal2
+    trapTags: []
     trapChance: 0.6
     corridorLength: 87
   - normalTag: Stage2Boss
@@ -7340,7 +7338,7 @@ MonoBehaviour:
     corridorLength: 87
   emptyDelay: 5
   normalDelay: 60
-  corridorCount: 5
+  corridorCount: 3
   corridorLength: 87
   corridorWidth: 60
   player: {fileID: 867834511}
@@ -8064,7 +8062,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1195646840}
-  - component: {fileID: 1195646839}
+  - component: {fileID: 1195646841}
   m_Layer: 0
   m_Name: ParticleManager
   m_TagString: ParticleManager
@@ -8072,23 +8070,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1195646839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1195646838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4740f970baa2dd6489af37d66dfde9fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skullParticle: {fileID: 3765637054241222527, guid: fd1ac2656c000024dafc6102d9c45ad1, type: 3}
-  hitParticle: {fileID: 5781927832435029353, guid: 07c0962b0a684ec4786893771a09bb2a, type: 3}
-  fakeGhostParticle: {fileID: 19800004, guid: 24ba0c3bf64a034498c336187a5d8439, type: 3}
-  RealGhostParticle: {fileID: 0}
-  poolSize: 10
 --- !u!4 &1195646840
 Transform:
   m_ObjectHideFlags: 0
@@ -8104,6 +8085,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1195646841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195646838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e69ff8a93e83d4498ad52a7adfd4183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clownParticle: {fileID: 630623331624387920, guid: a594237a7e902854c91ec44a4d0a6499, type: 3}
+  boxParticle: {fileID: 3758570629970209504, guid: 976ac80f742860042ac7a37ea6664f1b, type: 3}
+  poolSize: 10
 --- !u!1 &1210838192
 GameObject:
   m_ObjectHideFlags: 0

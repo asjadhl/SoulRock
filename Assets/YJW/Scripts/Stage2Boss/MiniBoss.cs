@@ -60,8 +60,7 @@ public class MiniBoss : MonoBehaviour
     public async UniTask ReturnOriPos()
     {
         Vector3 InstPos = new Vector3(transform.position.x, transform.position.y + 0.7f, transform.position.z);
-        ParticleSystem exEffect = Instantiate(GameDataManager.Instance.explosionParticle, InstPos, Quaternion.identity);
-        exEffect.Play();
+        Stage1ParticleManager.Instance.PlayBoxEffect(InstPos);
         await UniTask.Delay(150);
         transform.position = oriPos;
         isSpawned = false;
