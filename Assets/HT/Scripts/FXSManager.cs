@@ -119,12 +119,16 @@ public class FXSManager : MonoBehaviour
         {       
                 EnableUnwantedThreat();
 
+        double scheduledTime = AudioSettings.dspTime + 0.05f;
+               
         if (MusicSource.clip != null)
         {
           MusicSource.clip = previousMusicData.clip;
           MusicSource.time = previousMusicData.audioTime;
           MusicSource.loop = previousMusicData.isLoop;
-          MusicSource.PlayScheduled(AudioSettings.dspTime + 0.05);
+
+          if(!(double.IsNaN(scheduledTime) ||  double.IsInfinity(scheduledTime) || scheduledTime < AudioSettings.dspTime)) // Error CounterMeasure
+                 MusicSource.PlayScheduled(scheduledTime);
         }
 
         if (SfXSource.clip != null)
@@ -132,7 +136,8 @@ public class FXSManager : MonoBehaviour
           SfXSource.clip = previousSfxData.clip;
           SfXSource.time = previousSfxData.audioTime;
           SfXSource.loop = previousSfxData.isLoop;
-          SfXSource.PlayScheduled(AudioSettings.dspTime + 0.05);
+          if (!(double.IsNaN(scheduledTime) || double.IsInfinity(scheduledTime) || scheduledTime < AudioSettings.dspTime))// Error CounterMeasure
+            SfXSource.PlayScheduled(AudioSettings.dspTime + 0.05);
         }    
 
                //Release Time
