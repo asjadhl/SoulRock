@@ -26,7 +26,6 @@ public class Stage3Boss : MonoBehaviour
     Transform player;
     Animator anime;
     BossHP hp;
-    MusicBox musicBox;
     [Header("Renderer")]
     [SerializeField] Material material;
 	int ranIndex = 0;
@@ -45,7 +44,6 @@ public class Stage3Boss : MonoBehaviour
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         anime = GetComponent<Animator>();
         hp = GetComponent<BossHP>();
-        musicBox = GameObject.FindWithTag("MusicBox").GetComponent<MusicBox>();
         material.color = Color.white;
         ReadyforLazerBallAttack();
 		ReadyforLazerAttack();
@@ -106,8 +104,9 @@ public class Stage3Boss : MonoBehaviour
 
     void Update()
     {
-        if (CheckRealTime.inGamerealTime == 10)
+        if ((int)CheckRealTime.inGamerealTime == 40)
         {
+            Debug.LogError("°³ºýÄ§");
 			Phase2();
 			isAngry = true;
             animeOn = true;

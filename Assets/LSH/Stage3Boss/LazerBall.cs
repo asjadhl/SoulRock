@@ -5,7 +5,7 @@ using UnityEngine;
 public class LazerBall : MonoBehaviour
 {
     [Header("LazerBallSpeed")]
-    [SerializeField] float lazerBallspeed = 6f;
+    [SerializeField] float lazerBallspeed = 5f;
 
     private Transform player;
     private Transform boss;
@@ -45,26 +45,21 @@ public class LazerBall : MonoBehaviour
     }
     void Update()
     {
-        if(gameObject.activeSelf == true && !isAttack)
+        if(gameObject.activeSelf == true)
         {
             lazerMove();
         }
 
     }
 
-    public async void lazerMove()
+    void lazerMove()
     {
-        isAttack = true;
         //Vector3 targetPos = player.position;
         //lazerBallPool[j].transform.position = Vector3.MoveTowards(
         //lazerBallPool[j].transform.position, targetPos, lazerBallspeed * Time.deltaTime);
         //await UniTask.Delay(100);
-
-        await UniTask.Delay(2000);
-
         transform.LookAt(player.position);
         transform.Translate(Vector3.forward * lazerBallspeed * Time.fixedDeltaTime);
-        isAttack = false;
     }
     private void OnTriggerEnter(Collider col)
     {
@@ -84,7 +79,8 @@ public class LazerBall : MonoBehaviour
     private void OnDisable()
     {
         if (!isInitialized) return;
-        Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
+		if (particleManager == null) return;
+		Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
         particleManager.PlayHitEffect(effectPos);
     }
 }
