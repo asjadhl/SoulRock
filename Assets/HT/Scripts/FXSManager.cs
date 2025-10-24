@@ -63,9 +63,12 @@ public class FXSManager : MonoBehaviour
     }
     public void ScrollBottom()
     {
+       
         if (_scrollrect.verticalNormalizedPosition >= 0)
         {
+            Debug.Log("Down");
             _scrollrect.verticalNormalizedPosition -= 0.01f;
+            Debug.Log($"_scrollrect.verticalNormalizedPosition: {_scrollrect.verticalNormalizedPosition}");
         }
     }
 
@@ -215,24 +218,28 @@ public class FXSManager : MonoBehaviour
 
     public void Update()
     {
-        
 
-      
-                if (ScrollButtonTop != null)
-                {
-                    if (ScrollButtonTop.IsDown)
-                    {
-                        ScrollTop();
-                    }
-                }
-                else if (ScrollButtonBottom != null)
-                {
-                    if (ScrollButtonBottom.IsDown)
-                    {
-                        ScrollBottom();
-                    }
-                }
-  
+
+   
+        if (ScrollButtonTop != null)
+        {
+          
+            if (ScrollButtonTop.IsDown)
+            {
+                ScrollTop();
+            }
+        }
+           if (ScrollButtonBottom != null)
+        {
+            
+            if (ScrollButtonBottom.IsDown)
+            {
+
+                ScrollBottom();
+            }
+           
+        }
+
     }
 
   //Helper
