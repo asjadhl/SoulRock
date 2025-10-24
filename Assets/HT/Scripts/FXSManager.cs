@@ -7,8 +7,9 @@ using UnityEngine;
 
 
 public class FXSManager : MonoBehaviour
-{ 
-    public struct PreviousData
+{
+  [System.Serializable]
+  public struct PreviousData
     {
        public AudioClip clip;
         public float audioTime;
@@ -39,7 +40,7 @@ public class FXSManager : MonoBehaviour
   [Space(2f)]
   public Animator anim;
    private Stack<string> m_Stack = new();
-    private PreviousData previousMusicData;
+    public PreviousData previousMusicData;
     private PreviousData previousSfxData; 
     private Dictionary<int, List<AudioData>> dict;
   public int currentIndex;
@@ -47,9 +48,7 @@ public class FXSManager : MonoBehaviour
    
   public TextMeshProUGUI textMeshPro;
 
-
-    //Temporary Field
-    bool isNextClip = false;
+ 
   public void Awake()
   {
     if (Instance != null)
@@ -108,6 +107,7 @@ public class FXSManager : MonoBehaviour
             DisableUnwantedThreat();
             SaveCurrentClip();
             StopPlay();
+            //Freeze Time
             Time.timeScale = 0;
         }
     else if (Input.GetKeyDown(KeyCode.Escape) && 0 < m_Stack.Count)
@@ -118,19 +118,24 @@ public class FXSManager : MonoBehaviour
       if(m_Stack.Count == 1) // Exiting Main Setting
         {       
                 EnableUnwantedThreat();
-             
 
-                MusicSource.clip = previousMusicData.clip;
-                MusicSource.time =  previousMusicData.audioTime;
-                MusicSource.loop = previousMusicData.isLoop;
-                MusicSource.PlayScheduled(AudioSettings.dspTime + 0.05);
-                 
+        if (MusicSource.clip != null)
+        {
+          MusicSource.clip = previousMusicData.clip;
+          MusicSource.time = previousMusicData.audioTime;
+          MusicSource.loop = previousMusicData.isLoop;
+          MusicSource.PlayScheduled(AudioSettings.dspTime + 0.05);
+        }
 
-             
-                SfXSource.clip = previousSfxData.clip;
-                SfXSource.time =  previousSfxData.audioTime;
-                SfXSource.loop = previousSfxData.isLoop;
-                SfXSource.PlayScheduled(AudioSettings.dspTime + 0.05);
+        if (SfXSource.clip != null)
+        {
+          SfXSource.clip = previousSfxData.clip;
+          SfXSource.time = previousSfxData.audioTime;
+          SfXSource.loop = previousSfxData.isLoop;
+          SfXSource.PlayScheduled(AudioSettings.dspTime + 0.05);
+        }    
+
+               //Release Time
                 Time.timeScale = 1;
             }
         if(m_Stack.Count == 2) //  Exiting Music Setting
@@ -234,18 +239,19 @@ public class FXSManager : MonoBehaviour
 
     void SaveCurrentClip()
     {
-        previousMusicData.clip = MusicSource.clip;
-        previousMusicData.audioTime = MusicSource.time;
-        previousMusicData.isLoop = MusicSource.loop;
-        
+    if (MusicSource.clip != null)
+    {
+      previousMusicData.clip = MusicSource.clip;
+      previousMusicData.audioTime = MusicSource.time;
+      previousMusicData.isLoop = MusicSource.loop;
+    }
 
-
-        previousSfxData.clip = SfXSource.clip;
-        previousSfxData.audioTime = SfXSource.time;
-        previousSfxData.isLoop = MusicSource.loop;
-        
-
-        isNextClip = true;
+    if (SfXSource.clip != null)
+    {
+      previousSfxData.clip = SfXSource.clip;
+      previousSfxData.audioTime = SfXSource.time;
+      previousSfxData.isLoop = MusicSource.loop;
+    }  
     }
 
     
@@ -255,7 +261,7 @@ public class FXSManager : MonoBehaviour
         anim.SetFloat("S", 1);
     m_Stack.Push("SoundsSettingShowUp");
     anim.Play(m_Stack.Peek(), 0, 0);
-      
+    isNextClip = true;
 
 
 
@@ -358,16 +364,15 @@ public class FXSManager : MonoBehaviour
     }
 
   }
+  bool isNextClip = false;
   public void NextClip(int dir)
   {
-        if (!isNextClip)
-        { return;}
-    //Queue Algorithm   Phython 
+    if (!isNextClip) return;
 
+    //Queue Algorithm   Phython 
     currentIndex = (((currentIndex + dir) % dict[0].Count) + dict[0].Count) % dict[0].Count;
     PlayClip(0, currentIndex);
     textMeshPro.text = MusicSource.clip.name;
-
   }
   public void StopPlay()
   {

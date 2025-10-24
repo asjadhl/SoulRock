@@ -2724,12 +2724,18 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: e3749d9a0544e1940ba3b6a9f7c4f973, type: 3}
     isLoop: 1
   - clip: {fileID: 8300000, guid: 66a6e5b0e4d92f642bd5f16511d2c38d, type: 3}
-    isLoop: 0
+    isLoop: 1
   SfXList: []
   MasterVolume: 1
   MusicVolume: 1
   SfXVolume: 1
   anim: {fileID: 7806268096043798870}
+  previousMusicData:
+    clip: {fileID: 0}
+    audioTime: 0
+    scheduledStart: 0
+    pausedDSP: 0
+    isLoop: 0
   currentIndex: 0
   AnimationProgress: 0
   textMeshPro: {fileID: 7843391207651670838}
