@@ -146,9 +146,9 @@ public class CircleHit : MonoBehaviour
 		combo++;
 		playerHPSc.PlayerHPPlus(2);
 
-        //a.PlayOneShot(clip);
-				if(FXSManager.Instance != null) 
-			  FXSManager.Instance.PlayClip(1,clip);
+           a.PlayOneShot(clip);
+				//if(FXSManager.Instance != null) 
+			  //FXSManager.Instance.PlayClip(1,clip);
         playerShoot.PlayerShoot_();
 		//Debug.Log("클릭성공!");
 		// 클릭 성공 시 처리할 로직

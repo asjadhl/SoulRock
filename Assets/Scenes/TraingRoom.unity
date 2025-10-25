@@ -1705,7 +1705,7 @@ AudioSource:
   m_GameObject: {fileID: 643749535}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4733374374011145014, guid: 73b5567795219a5418d3148b3f9ccc1a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -3517,7 +3517,7 @@ AudioSource:
   m_GameObject: {fileID: 1219020919}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -995819650710469680, guid: 73b5567795219a5418d3148b3f9ccc1a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -3625,15 +3625,10 @@ MonoBehaviour:
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
   poolSize: 10
   combo: 0
-  comboImage:
-  - {fileID: 1020518038}
-  - {fileID: 1696713145}
-  - {fileID: 1799638998}
-  - {fileID: 134603134}
-  - {fileID: 779020475}
   clip: {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
-  player: {fileID: 0}
+  playerShoot: {fileID: 0}
   poolCircle: []
+  getDamage: 0
 --- !u!58 &1219020923
 CircleCollider2D:
   m_ObjectHideFlags: 0

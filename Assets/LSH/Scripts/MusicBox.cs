@@ -43,30 +43,30 @@ public class MusicBox : MonoBehaviour
         //      nextStartTime += musicSource.clip.length;
         double delay = 5.0;
         nextStartTime = AudioSettings.dspTime + delay; // 현재 DSP 시간에 지연 시간 추가
-        //musicSource.clip = music[i];
-        //musicSource.PlayScheduled(nextStartTime); // 예약된 시간에 첫 곡 재생
+        musicSource.clip = music[i];
+        musicSource.PlayScheduled(nextStartTime); // 예약된 시간에 첫 곡 재생
 
-        if (FXSManager.Instance != null)
-            FXSManager.Instance.PlayClip(0, 2, nextStartTime);
-        else
-            gameObject.SetActive(false);
+        //if (FXSManager.Instance != null)
+        //    FXSManager.Instance.PlayClip(0, 2, nextStartTime);
+        //else
+        //    gameObject.SetActive(false);
         
     }
 
     void Update()
-    {   
-         if(FXSManager.Instance.MusicSource.isPlaying)
-         {
-            musicStart = true;
-         }
-
-        //if (musicSource.isPlaying)
+    {
+        //if(FXSManager.Instance.MusicSource.isPlaying)
         //{
-        //    musicStart = true;
+        //   musicStart = true;
         //}
-        //_ = ChangeSong();
 
-        if(!isChangingSong)
+        if (musicSource.isPlaying)
+        {
+            musicStart = true;
+        }
+          ChangeSong().Forget();
+
+        if (!isChangingSong)
         {
             ChangeSong().Forget();
         }
@@ -117,14 +117,14 @@ public class MusicBox : MonoBehaviour
             await FadeOutCurrentSong();
 
             // 새로운 곡 재생
-             //musicSource.clip = music[i];
+             musicSource.clip = music[i];
            
             await UniTask.Delay(delayMusic); // 약간의 딜레이 추가
-            //musicSource.Play();
-            FXSManager.Instance.PlayClip(0, music[i]);
+            musicSource.Play();
+            //FXSManager.Instance.PlayClip(0, music[i]);
         }
-       // switch (musicSource.clip.name)
-            switch (FXSManager.Instance.MusicSource.clip.name)
+        switch (musicSource.clip.name)
+            //switch (FXSManager.Instance.MusicSource.clip.name)
         {
             case "Stage1":
                 CircleHit.Instance.bpm = 82;
@@ -144,21 +144,21 @@ public class MusicBox : MonoBehaviour
     private async UniTask FadeOutCurrentSong()
     {
         float fadeDuration = 1f;
-        // float startVolume = musicSource.volume;
-        float startVolume = FXSManager.Instance.MusicVolume;
+         float startVolume = musicSource.volume;
+        //float startVolume = FXSManager.Instance.MusicVolume;
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
-            //musicSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
-            FXSManager.Instance.MusicSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
-            FXSManager.Instance.MusicVolume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+            musicSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+          //  FXSManager.Instance.MusicSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+            //FXSManager.Instance.MusicVolume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
             await UniTask.Yield();
         }
 
-       // musicSource.Stop(); 
-        FXSManager.Instance.MusicSource.Stop();
-      //  musicSource.volume = startVolume;
-        FXSManager.Instance.MusicVolume = startVolume;
-        FXSManager.Instance.MusicSource.volume = startVolume;
+       musicSource.Stop(); 
+       // FXSManager.Instance.MusicSource.Stop();
+       musicSource.volume = startVolume;
+      //  FXSManager.Instance.MusicVolume = startVolume;
+        //FXSManager.Instance.MusicSource.volume = startVolume;
     }
     //void CheckMusicTime()
     //{
