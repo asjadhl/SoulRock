@@ -195,7 +195,7 @@ public class Stage2BossAttack : MonoBehaviour
 
         if (miniHeartTrue == false && isHAttacking == false)
         {
-            Debug.Log("패턴 실패");
+            player.GetComponent<PlayerHP>().PlayerHPMinus().Forget();
         }
 
         await ChangeNextRanCard();
