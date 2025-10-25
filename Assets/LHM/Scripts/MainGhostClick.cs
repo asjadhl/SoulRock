@@ -30,7 +30,7 @@ public class MainGhostClick : MonoBehaviour
                 {
                     Debug.Log("Ghost clicked!");
 
-                    SceneManager.LoadScene("Stage1");
+                    SceneManager.LoadScene("Stage2");
                 }
             }
         }
