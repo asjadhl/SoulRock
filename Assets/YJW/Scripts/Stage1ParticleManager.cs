@@ -10,11 +10,14 @@ public class Stage1ParticleManager : MonoBehaviour
     [SerializeField] private ParticleSystem clownParticle;
     [Header("박스 파티클")]
     [SerializeField] private ParticleSystem boxParticle;
+    [Header("카드 파티클")]
+    [SerializeField] private ParticleSystem cardParticle;
     [Header("풀 사이즈")]
     [SerializeField] private int poolSize = 10;
 
     private Queue<ParticleSystem> clownPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> boxPool = new Queue<ParticleSystem>();
+    private Queue<ParticleSystem> cardPool = new Queue<ParticleSystem>();
 
 
     void Awake()
@@ -31,6 +34,12 @@ public class Stage1ParticleManager : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             ParticleSystem effect = Instantiate(boxParticle, transform);
+            effect.gameObject.SetActive(false);
+            boxPool.Enqueue(effect);
+        }
+        for (int i = 0; i < poolSize; i++)
+        {
+            ParticleSystem effect = Instantiate(cardParticle, transform);
             effect.gameObject.SetActive(false);
             boxPool.Enqueue(effect);
         }
@@ -65,6 +74,22 @@ public class Stage1ParticleManager : MonoBehaviour
 
         ReturnToPoolAfter(effect, boxPool).Forget();
     }
+
+    public void PlayCardEffect(Vector3 pos)
+    {
+        if (cardPool.Count == 0)
+        {
+            AddEffectToPool(cardParticle, cardPool, 1);
+        }
+
+        ParticleSystem effect = cardPool.Dequeue();
+        effect.transform.position = pos;
+        effect.gameObject.SetActive(true);
+        effect.Play();
+
+        ReturnToPoolAfter(effect, cardPool).Forget();
+    }
+
     private async UniTask ReturnToPoolAfter(ParticleSystem effect, Queue<ParticleSystem> pool)
     {
         await UniTask.Delay((int)(effect.main.duration * 1000));

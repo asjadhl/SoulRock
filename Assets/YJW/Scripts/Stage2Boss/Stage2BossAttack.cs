@@ -86,7 +86,7 @@ public class Stage2BossAttack : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         BossHP = GetComponent<BossHP>();
         if (isDelay == false)
-            _ = StartDelay();
+            StartDelay().Forget();
 
     }
     private void FixedUpdate()
@@ -111,21 +111,21 @@ public class Stage2BossAttack : MonoBehaviour
                 if (!miniBossSpawned && !isHAttacking)
                 {
                     isHAttacking = true;
-                    _=HAttack();
+                    HAttack().Forget();
                 }
                 break;
 
             case Shape.S:
-                  _ = SAttack();
+                  SAttack().Forget();
                   
                 break;
 
             case Shape.D:
                 teleportTimer += Time.fixedDeltaTime;
-                DAttack();
+                DAttack().Forget();
                 break;
             case Shape.C:
-                _=CAttack();
+                CAttack().Forget();
                 break;
 
         }
@@ -185,7 +185,7 @@ public class Stage2BossAttack : MonoBehaviour
         {
             if(miniBoss[i].activeSelf == true)
             {
-                miniBoss[i].GetComponent<MiniBoss>().ReturnOriPos();
+                miniBoss[i].GetComponent<MiniBoss>().ReturnOriPos().Forget();
                 miniBoss[i].SetActive(false);
             }
         }
@@ -246,6 +246,8 @@ public class Stage2BossAttack : MonoBehaviour
                     //cardChanged = true;
                 //}
                 playerHitCount = 0;
+                teleportTimer = 0;
+                teleportCount = 0;
             }
 
         }
@@ -282,6 +284,9 @@ public class Stage2BossAttack : MonoBehaviour
     // 다이이 패턴
     private void MoveToRanPos()
     {
+        Vector3 currentPos = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
+        Stage1ParticleManager.Instance.PlayClownEffect(currentPos);
+
         int x = Random.Range(-8, 9);
         int z = (int)player.transform.position.z + Random.Range(10, 20);
 
@@ -300,12 +305,13 @@ public class Stage2BossAttack : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            _=player.GetComponent<PlayerHP>().PlayerHPMinus();
+            player.GetComponent<PlayerHP>().PlayerHPMinus().Forget();
             transform.rotation = Quaternion.Euler(0,180,0);
             transform.position = new Vector3(0, 0, player.transform.position.z + 17);
-            _ = ChangeNextRanCard();
+            ChangeNextRanCard().Forget();
             teleportCount = 0;
             playerHitCount = 0;
+            teleportTimer = 0;
             //cardChanged = false;
 
         }
@@ -340,8 +346,8 @@ public class Stage2BossAttack : MonoBehaviour
     {
         if (miniBoss[0].activeSelf == false)
         {
-            miniBoss[0].GetComponent<MiniBoss>().ReturnOriPos();
-            player.GetComponent<PlayerHP>().PlayerHPMinus();
+            miniBoss[0].GetComponent<MiniBoss>().ReturnOriPos().Forget();
+            player.GetComponent<PlayerHP>().PlayerHPMinus().Forget();
         }
         if (miniBoss[0].activeSelf == true)
         {

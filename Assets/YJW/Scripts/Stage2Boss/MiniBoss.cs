@@ -21,14 +21,14 @@ public class MiniBoss : MonoBehaviour
         y = transform.position.y;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if(gameObject.activeSelf == true)
         {
             oriPos = new Vector3(x, y, boss.transform.position.z);
             if(isSpawned == false)
             {
-                _=SetRanPos();
+                SetRanPos().Forget();
                 isSpawned = true;
             }
             if (Mathf.Abs(transform.position.z - player.transform.position.z) >= 11)

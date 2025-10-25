@@ -53,11 +53,11 @@ public class PlayerShoot : MonoBehaviour
             }},
             { "RedCard", col => col.GetComponent<CardMove>().CardGetDam() },
             { "GoldCard", col => col.GetComponent<CardMove>().CardGetDam() },
-            { "miniH", col => col.GetComponent<MiniBoss>().ReturnOriPos() },
+            { "miniH", col => col.GetComponent<MiniBoss>().ReturnOriPos().Forget() },
             { "GhostBall", col => col.GetComponent<LastBossMove>().HitGhostBoss() },
             { "Poltergeist", col => col.gameObject.SetActive(false) },
             { "FakeClone", col => col.GetComponent<CloneMove>().OnHit() },
-            { "miniHTrue", col => col.GetComponent<MiniBoss>().miniHTrue() },
+            { "miniHTrue", col => col.GetComponent<MiniBoss>().miniHTrue().Forget() },
             { "Wheel", col => boss2.GetComponent<Stage2BossAttack>().WheelStop() },
             { "RealClone", col => {
                 var clone = col.GetComponent<GBAttack>();
