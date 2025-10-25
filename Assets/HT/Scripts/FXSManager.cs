@@ -54,14 +54,14 @@ public class FXSManager : MonoBehaviour
     public ScrollRect _scrollrect;
     public ScrollButton ScrollButtonTop;
     public ScrollButton ScrollButtonBottom;
-    public void ScrollTop()
+    public void ScrollBottom()
     {
         if (_scrollrect.verticalNormalizedPosition <= 1)
         {
             _scrollrect.verticalNormalizedPosition += 0.01f;
         }
     }
-    public void ScrollBottom()
+    public void ScrollTop()
     {
        
         if (_scrollrect.verticalNormalizedPosition >= 0)
@@ -219,8 +219,8 @@ public class FXSManager : MonoBehaviour
     public void Update()
     {
 
+        Debug.Log($"_scrollrect.verticalNormalizedPosition: {_scrollrect.verticalNormalizedPosition}");
 
-   
         if (ScrollButtonTop != null)
         {
           
