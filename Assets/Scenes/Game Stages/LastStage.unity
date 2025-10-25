@@ -915,7 +915,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.389
+  m_Volume: 0.176
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2711,9 +2711,7 @@ MonoBehaviour:
   skullParticle: {fileID: 3765637054241222527, guid: fd1ac2656c000024dafc6102d9c45ad1, type: 3}
   hitParticle: {fileID: 5781927832435029353, guid: 07c0962b0a684ec4786893771a09bb2a, type: 3}
   fakeGhostParticle: {fileID: 19800004, guid: 24ba0c3bf64a034498c336187a5d8439, type: 3}
-  realGhostParticle: {fileID: 0}
-  clownParticle: {fileID: 0}
-  boxParticle: {fileID: 0}
+  realGhostParticle: {fileID: 19800000, guid: 4bb6b4cd5e00b074d8b2c56e3b6c3d62, type: 3}
   poolSize: 10
 --- !u!4 &696960249
 Transform:

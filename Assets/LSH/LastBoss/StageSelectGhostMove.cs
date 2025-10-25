@@ -66,7 +66,8 @@ public class StageSelectGhostMove : MonoBehaviour
 		}
 	}
 
-	private async UniTask LastStage()
+	
+    private async UniTask LastStage()
 	{
         lastStageOn = true;
 		Debug.Log("Last Stage±Ó¡ˆ 5√ ");

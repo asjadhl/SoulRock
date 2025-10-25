@@ -22,10 +22,9 @@ public class ClownStageEnter : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 // 클릭된 오브젝트가 이 Ghost라면
-                if (hit.transform == transform)
+                if (hit.transform.CompareTag("Stage2"))
                 {
-                    Debug.Log("Ghost clicked!");
-
+                    Debug.Log("Stage3 오브젝트 클릭됨!");
                     SceneManager.LoadScene("Stage2");
                 }
             }

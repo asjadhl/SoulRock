@@ -4,16 +4,14 @@ using UnityEngine.SceneManagement;
 public class SkullStageEnter : MonoBehaviour
 {
     private Camera mainCam;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         mainCam = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // 마우스 왼쪽 버튼 클릭 시 검사
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -21,11 +19,9 @@ public class SkullStageEnter : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                // 클릭된 오브젝트가 이 Ghost라면
                 if (hit.transform == transform)
                 {
-                    Debug.Log("Ghost clicked!");
-
+                    Debug.Log("Stage3 오브젝트 클릭됨!");
                     SceneManager.LoadScene("Stage3");
                 }
             }
