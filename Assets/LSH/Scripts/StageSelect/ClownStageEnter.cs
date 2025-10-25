@@ -1,20 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainGhostClick : MonoBehaviour
+public class ClownStageEnter : MonoBehaviour
 {
-    [Header("Canvas")]
-    public GameObject targetCanvas; // 클릭 시 켜질 캔버스
-
     private Camera mainCam;
-
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         mainCam = Camera.main;
-        if (targetCanvas != null)
-            targetCanvas.SetActive(false); // 처음엔 꺼둠
     }
 
+    // Update is called once per frame
     void Update()
     {
         // 마우스 왼쪽 버튼 클릭 시 검사
@@ -30,10 +26,9 @@ public class MainGhostClick : MonoBehaviour
                 {
                     Debug.Log("Ghost clicked!");
 
-                    SceneManager.LoadScene("StageSelect");
+                    SceneManager.LoadScene("Stage2");
                 }
             }
         }
     }
 }
-
