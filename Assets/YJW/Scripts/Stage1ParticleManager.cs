@@ -12,12 +12,15 @@ public class Stage1ParticleManager : MonoBehaviour
     [SerializeField] private ParticleSystem boxParticle;
     [Header("카드 파티클")]
     [SerializeField] private ParticleSystem cardParticle;
+    [Header("카드 파티클")]
+    [SerializeField] private ParticleSystem CParticle;
     [Header("풀 사이즈")]
     [SerializeField] private int poolSize = 10;
 
     private Queue<ParticleSystem> clownPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> boxPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> cardPool = new Queue<ParticleSystem>();
+    private Queue<ParticleSystem> CPool = new Queue<ParticleSystem>();
 
 
     void Awake()
@@ -25,7 +28,7 @@ public class Stage1ParticleManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else if (Instance != this) Destroy(gameObject);
 
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < 2; i++)
         {
             ParticleSystem effect = Instantiate(clownParticle, transform);
             effect.gameObject.SetActive(false);
@@ -37,11 +40,17 @@ public class Stage1ParticleManager : MonoBehaviour
             effect.gameObject.SetActive(false);
             boxPool.Enqueue(effect);
         }
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < 3; i++)
         {
             ParticleSystem effect = Instantiate(cardParticle, transform);
             effect.gameObject.SetActive(false);
             boxPool.Enqueue(effect);
+        }
+        for (int i = 0; i < 1; i++)
+        {
+            ParticleSystem effect = Instantiate(CParticle, transform);
+            effect.gameObject.SetActive(false);
+            CPool.Enqueue(effect);
         }
     }
 
@@ -88,6 +97,21 @@ public class Stage1ParticleManager : MonoBehaviour
         effect.Play();
 
         ReturnToPoolAfter(effect, cardPool).Forget();
+    }
+
+    public void PlayCEffect(Vector3 pos)
+    {
+        if (CPool.Count == 0)
+        {
+            AddEffectToPool(CParticle, CPool, 1);
+        }
+
+        ParticleSystem effect = CPool.Dequeue();
+        effect.transform.position = pos;
+        effect.gameObject.SetActive(true);
+        effect.Play();
+
+        ReturnToPoolAfter(effect, CPool).Forget();
     }
 
     private async UniTask ReturnToPoolAfter(ParticleSystem effect, Queue<ParticleSystem> pool)

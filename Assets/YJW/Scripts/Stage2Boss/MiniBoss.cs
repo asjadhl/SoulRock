@@ -72,7 +72,9 @@ public class MiniBoss : MonoBehaviour
         boss.GetComponent<Stage2BossAttack>().HeartTrue();
         //Transform cap = transform.GetChild(0);
         Transform joker = transform.GetChild(1);
-        while(joker.localScale.y < 1.5f)
+        Vector3 currentPos = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+        Stage1ParticleManager.Instance.PlayCEffect(currentPos);
+        while (joker.localScale.y < 1.5f)
         {
             joker.localScale += new Vector3(0, 0.1f, 0);
             await UniTask.Delay(20);
