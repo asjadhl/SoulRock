@@ -24,7 +24,7 @@ public class TextManager : MonoBehaviour
             StartStageDialogue(2); // 스테이지 선택 후 대사
         }
         // Boss1 사망 감지
-        if (BossState.isBoss1Dead)
+        if (BossState.isBoss2Dead)
         {
             StartStageDialogue(3); // 보스 처치 후 다음 스테이지 대사
         }
