@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class SuperDeathBall : MonoBehaviour
@@ -14,12 +15,12 @@ public class SuperDeathBall : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider col)
     {
-        if (other.CompareTag("Player"))
+        if (col.CompareTag("Player"))
         {
-            //플레이어 피격 처리
-            Debug.Log("Player Hit by SuperDeathBall");
+            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPBigMinus().Forget();
+            gameObject.SetActive(false);
         }
     }
 }

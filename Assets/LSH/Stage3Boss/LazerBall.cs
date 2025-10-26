@@ -74,7 +74,7 @@ public class LazerBall : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus().Forget();
             gameObject.SetActive(false);
         }
     }

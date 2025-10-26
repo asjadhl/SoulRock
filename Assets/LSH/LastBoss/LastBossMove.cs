@@ -43,6 +43,9 @@ public class LastBossMove : MonoBehaviour
     {
         transform.position += moveSpeed * Time.fixedDeltaTime * -transform.forward;
     }
+
+
+
     //private void ChasePlayer()
     //{
     //	float distance = Vector3.Distance(transform.position, player.position);

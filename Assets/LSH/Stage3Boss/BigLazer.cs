@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,7 +37,7 @@ public class BigLazer : MonoBehaviour
     {   
         if(col.CompareTag("Player"))
         {
-            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPBigMinus().Forget();
             gameObject.SetActive(false);
         }
         if(col.CompareTag("Mirror") && mirror.successMirror)
@@ -62,7 +63,7 @@ public class BigLazer : MonoBehaviour
     private void OnDisable()
     {
         if (!isInitialized) return;
-        Vector3 effectPos = transform.position + new Vector3(0, 1f, 0);
+        Vector3 effectPos = transform.position + new Vector3(0, -1f, 0);
         particleManager.PlayHitEffect(effectPos);
     }
 }

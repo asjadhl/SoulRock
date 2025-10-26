@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class LazerMoving : MonoBehaviour
@@ -23,7 +24,7 @@ public class LazerMoving : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus().Forget();
             gameObject.SetActive(false);
         }
     }

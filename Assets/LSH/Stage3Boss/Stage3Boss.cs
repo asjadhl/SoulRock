@@ -105,7 +105,7 @@ public class Stage3Boss : MonoBehaviour
 
     void Update()
     {
-        if ((int)CheckRealTime.inGamerealTime == 40)
+        if ((int)CheckRealTime.inGamerealTime == 15)
         {
             Debug.LogError("개빡침");
 			Phase2();
@@ -137,17 +137,17 @@ public class Stage3Boss : MonoBehaviour
         {
             case 0:
                 Debug.Log("레이저");
-                _ = AngryChargeLazerAttack();
+                AngryChargeLazerAttack().Forget();
                 ranIndex = Random.Range(0, 3);
                 break;
             case 1:
                 Debug.Log("레이저볼");
-                _ = AngrysecondPattern();
+                AngrysecondPattern().Forget();
                 ranIndex = Random.Range(0, 3);
                 break;
             case 2:
                 Debug.Log("빅레이저");
-                _ = AngryThirdPattern();
+                AngryThirdPattern().Forget();
                 ranIndex = Random.Range(0, 3);
                 break;
         }
@@ -163,7 +163,7 @@ public class Stage3Boss : MonoBehaviour
             await UniTask.Delay(15);
         }
 
-        _ = AngryLazerAttack();
+        AngryLazerAttack().Forget();
     }
 
     private async UniTask AngryLazerAttack()
@@ -214,7 +214,7 @@ public class Stage3Boss : MonoBehaviour
                 lazerBallPool[poolIndex].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);
             }
-            await UniTask.Delay(200);
+            await UniTask.Delay(700);
         }
         await UniTask.Delay(coolTime+2000);
         isAttacking = false;
@@ -264,17 +264,17 @@ public class Stage3Boss : MonoBehaviour
         {
             case 0:
                 Debug.Log("레이저");
-                _ = ChargeLazerAttack();
+                ChargeLazerAttack().Forget();
                 ranIndex = Random.Range(0, 3);
                 break;
             case 1:
                 Debug.Log("레이저볼");
-                _ = secondPattern();
+                secondPattern().Forget();
                 ranIndex = Random.Range(0, 3);
 				break;
             case 2:
                 Debug.Log("빅레이저");
-                _ = ThirdPattern();
+                ThirdPattern().Forget();
                 ranIndex = Random.Range(0, 3);
                 break;
         }
@@ -290,7 +290,7 @@ public class Stage3Boss : MonoBehaviour
             await UniTask.Delay(20);
         }
 
-        _ = LazerAttack();
+        LazerAttack().Forget();
     }
 
     private async UniTask LazerAttack()
@@ -340,7 +340,7 @@ public class Stage3Boss : MonoBehaviour
                 lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
                 await UniTask.Delay(2);
             }
-			await UniTask.Delay(500);
+			await UniTask.Delay(1000);
         }
 		await UniTask.Delay(coolTime);
 		isAttacking = false;
