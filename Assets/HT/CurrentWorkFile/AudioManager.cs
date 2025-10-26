@@ -38,7 +38,8 @@ public class AudioManager : MonoBehaviour
     public ScrollButton ScrollButtonTop;
     public ScrollButton ScrollButtonBottom;
 
-    [Header("Animation-Shader")]
+  [Header("Animation-Shader")]
+  public Canvas main_canvas;
     public Material mat1;
     private static readonly int UnscaledTimeID = Shader.PropertyToID("_UnscaledTime");
     public bool isSingle = false;
@@ -85,7 +86,8 @@ public class AudioManager : MonoBehaviour
     public void ScrollBottom()
     {
         if (_scrollrect.verticalNormalizedPosition <= 1)
-        {
+        {    
+             
             _scrollrect.verticalNormalizedPosition += 0.001f;
         }
     }
@@ -94,9 +96,9 @@ public class AudioManager : MonoBehaviour
 
         if (_scrollrect.verticalNormalizedPosition >= 0)
         {
-            Debug.Log("Down");
+            
             _scrollrect.verticalNormalizedPosition -= 0.001f;
-            Debug.Log($"_scrollrect.verticalNormalizedPosition: {_scrollrect.verticalNormalizedPosition}");
+           
         }
     }
     #region Animation
@@ -333,7 +335,8 @@ public class AudioManager : MonoBehaviour
 
 
         InitTest();
-
+    main_canvas.renderMode = RenderMode.ScreenSpaceCamera;
+    main_canvas.worldCamera = Camera.main;
     }
 
     public void Update()
