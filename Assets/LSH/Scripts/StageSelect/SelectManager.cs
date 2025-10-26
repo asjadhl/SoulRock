@@ -5,26 +5,42 @@ public class SelectManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] GameObject clownLight;
     [SerializeField] GameObject skullLight;
+    [SerializeField] BoxCollider clownCol;
+    [SerializeField] BoxCollider skull;
+    bool isAllCol = false;
+    private void Awake()
+    {
+        //clownCol = GetComponent<BoxCollider>();
+    }
     void Start()
     {
-        
+        skullLight.SetActive(false);
+        clownLight.SetActive(true);
+        skull.GetComponent<BoxCollider>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckClearLight();
+        if(!isAllCol)
+             CheckClearLight();
     }
 
     void CheckClearLight()
     {
-        if(BossState.isBoss1Dead == true)
+        if(BossState.isBoss1Dead == true && !BossState.isBoss2Dead)
         {
+            skullLight.SetActive(true);
             clownLight.SetActive(false);
+            //clownCol.enabled = false;
+            clownCol.GetComponent<BoxCollider>().enabled = false;
+            skull.GetComponent<BoxCollider>().enabled = true;
         }
         if (BossState.isBoss2Dead == true)
         {
+            isAllCol = true;
             skullLight.SetActive(false);
+            skull.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }

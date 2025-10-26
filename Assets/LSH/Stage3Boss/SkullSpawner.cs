@@ -48,7 +48,7 @@ public class SkullSpawner : MonoBehaviour
 	{
         isSpawn = true;
 		
-        Vector3 randomPos = transform.position + new Vector3(Random.Range(-6f, 6f), Random.Range(1f, 6f), 0f);
+        Vector3 randomPos = transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(1f, 6f), 0f);
         poolSkull[pivot].transform.position = randomPos;
         poolSkull[pivot].transform.parent = transform;
         poolSkull[pivot].SetActive(true);
