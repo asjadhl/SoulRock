@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Accessibility;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 public class AudioManager : MonoBehaviour
@@ -24,13 +25,43 @@ public class AudioManager : MonoBehaviour
     public GameObject MusicSettingPanel;
     public GameObject LicsenseSettingPanel;
     public AudioSource OurAudioSource;
-    private int currentIndex = 0;
-    public List<AudioClip> ListOfTestAudio;
+    private int currentIndex = -1;
+    public List<AudioClip> ListTestMusicClip;
+    public List<AudioClip> ListTestSFXClip;
+    public Dictionary<int, List<AudioClip>> dictest;
+    private int currenttestindex = 0;
+    public AudioMixerGroup MusicGroup;
+    public AudioMixerGroup SFXGroup;
     public TextMeshProUGUI textMeshPro;
     public bool isNextClip  = false;
     public ScrollRect _scrollrect;
     public ScrollButton ScrollButtonTop;
     public ScrollButton ScrollButtonBottom;
+
+
+
+
+    public void InitTest()
+    {
+        dictest = new();
+        if(ListTestMusicClip != null)
+        {
+            dictest.Add(0,new List<AudioClip>());
+            for(int i=0;i<ListTestMusicClip.Count;i++)
+            {
+                dictest[0].Add(ListTestMusicClip[i]);
+            }
+        }
+
+        if(ListTestSFXClip != null)
+        {
+            dictest.Add(1,new List<AudioClip>());
+            for (int i=0; i < ListTestSFXClip.Count;i++)
+            {
+                dictest[1].Add(ListTestSFXClip[i]);
+            }
+        }
+    }
 
     public void ScrollBottom()
     {
@@ -125,10 +156,28 @@ public class AudioManager : MonoBehaviour
         if (!isNextClip) return;
 
         //Queue Algorithm   Phython 
-        currentIndex = (((currentIndex + dir) % ListOfTestAudio.Count) + ListOfTestAudio.Count) % ListOfTestAudio.Count;
-        OurAudioSource.clip = ListOfTestAudio[currentIndex];
+        currentIndex = (((currentIndex + dir) % dictest[currenttestindex].Count) + dictest[currenttestindex].Count) % dictest[currenttestindex].Count;
+        OurAudioSource.clip = dictest[currenttestindex][currentIndex];
         OurAudioSource.Play();
-        textMeshPro.text = ListOfTestAudio[currentIndex].name;
+        textMeshPro.text = dictest[currenttestindex][currentIndex].name;
+    }
+    public void ChangeSoundType() // -button-
+    {
+            currenttestindex += 1;
+        if (currenttestindex >= dictest.Count)
+        {
+            currenttestindex = 0;
+        }
+        
+        if (currenttestindex == 0)
+        {
+            OurAudioSource.outputAudioMixerGroup = MusicGroup;
+        }
+        else if (currenttestindex == 1)
+        {
+            OurAudioSource.outputAudioMixerGroup = SFXGroup;
+        }
+            NextClip(0);
     }
     void EnableUnwantedThreat()
     {
@@ -222,14 +271,7 @@ public class AudioManager : MonoBehaviour
     public void Start()
     {
 
-
-        if (instance != null)
-            Destroy(this.gameObject);
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-
+ 
 
             masterSlider.minValue = 0.0001f;
             musicSlider.minValue = 0.0001f;
@@ -269,7 +311,10 @@ public class AudioManager : MonoBehaviour
                 animator.updateMode = AnimatorUpdateMode.UnscaledTime;
             }
             OurAudioSource.ignoreListenerPause = true;
-        }
+
+
+            InitTest();
+        
     }
 
     public void Update()
@@ -324,15 +369,18 @@ public class AudioManager : MonoBehaviour
 
     private void LoadMasterVolume()
     {
-        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume"); 
+        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
+        myMixer.SetFloat("Master", Mathf.Log10(masterSlider.value) * 20);
     }
     private void LoadMusicVolume()
     {
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        myMixer.SetFloat("Music", Mathf.Log10(musicSlider.value) * 20);
     }
     private void LoadSFXVolume()
     {
         SFXSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        myMixer.SetFloat("SFX", Mathf.Log10(SFXSlider.value) * 20);
     }
 
 
