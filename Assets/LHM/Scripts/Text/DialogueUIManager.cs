@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DialogueUIManager : MonoBehaviour
 {
     [Header("UI 오브젝트 연결")]
-    [SerializeField] private GameObject speechBubble;
+    [SerializeField] public GameObject speechBubble;
     [SerializeField] private RawImage speakerImage; //  움직일 유령 이미지
     [SerializeField] private TextMeshProUGUI dialogueText;
 
@@ -18,6 +18,8 @@ public class DialogueUIManager : MonoBehaviour
 
     [Header("사운드 설정")]
     [SerializeField] private AudioSource typingAudio;
+    [SerializeField] private bool randomPitch = true;
+    [SerializeField] private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
 
     private Coroutine typingCoroutine;
     private Coroutine imageChangeRoutine;
@@ -32,6 +34,8 @@ public class DialogueUIManager : MonoBehaviour
     public Texture stage3_img2;
     public Texture boss_img1;
     public Texture boss_img2;
+    public Texture boss_img3;
+    public Texture boss_img4;
 
     void Start()
     {
@@ -68,14 +72,18 @@ public class DialogueUIManager : MonoBehaviour
     private IEnumerator TypeText(string message, AudioClip clip)
     {
         dialogueText.text = "";
-        if (typingAudio != null && clip != null)
-            typingAudio.PlayOneShot(clip);
+   
         foreach (char c in message)
         {
             dialogueText.text += c;
 
+            if (typingAudio != null && clip != null)
+            {
+                typingAudio.pitch = Random.Range(pitchRange.x, pitchRange.y);
+                typingAudio.PlayOneShot(clip);
+            }
             
-                
+
 
             yield return new WaitForSeconds(typingSpeed);
         }
@@ -98,6 +106,7 @@ public class DialogueUIManager : MonoBehaviour
             case 2: img1 = stage2_img1; img2 = stage2_img2; break;
             case 3: img1 = stage3_img1; img2 = stage3_img2; break;
             case 4: img1 = boss_img1; img2 = boss_img2; break;
+            case 5: img1 = boss_img1; img2 = boss_img2; break;
         }
 
         imageChangeRoutine = StartCoroutine(ChangeImageLoop(img1, img2));
@@ -127,5 +136,7 @@ public class DialogueUIManager : MonoBehaviour
     {
         if (imageChangeRoutine != null)
             StopCoroutine(imageChangeRoutine);
+      
+        
     }
 }

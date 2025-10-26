@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TextManager : MonoBehaviour
 {
@@ -9,45 +10,50 @@ public class TextManager : MonoBehaviour
 
     private Coroutine dialogueRoutine;
 
-    // 이전 상태값 저장용
-    private bool prevBoss1Dead;
-    private bool prevBoss2Dead;
-    private bool prevBoss3Dead;
+  
 
     void Start()
     {
-        // 예시: 스테이지 1 대사 시작
-        StartStageDialogue(1);
+       
+        // Boss1 사망 감지
+        if (BossState.isBoss1Dead)
+        {
+            StartStageDialogue(2); // 보스 처치 후 다음 스테이지 대사
 
-        // 초기 상태 저장
-        prevBoss1Dead = BossState.isBoss1Dead;
-        prevBoss2Dead = BossState.isBoss2Dead;
-        prevBoss3Dead = BossState.isBoss3Dead;
+        }
+
+        // Boss2 사망 감지
+        if (BossState.isBoss2Dead)
+        {
+            StartStageDialogue(3);
+
+        }
+
+        // Boss3 사망 감지
+        if (BossState.isBoss3Dead)
+        {
+            StartStageDialogue(4);
+
+        }
     }
 
     void Update()
     {
-        // Boss1 사망 감지
-        if (!prevBoss1Dead && BossState.isBoss1Dead)
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartStageDialogue(2); // 보스 처치 후 다음 스테이지 대사
-            prevBoss1Dead = true;
+            BossState.isBoss1Dead = true;
+            SceneManager.LoadScene("StageSelect");
         }
 
-        // Boss2 사망 감지
-        if (!prevBoss2Dead && BossState.isBoss2Dead)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            StartStageDialogue(3);
-            prevBoss2Dead = true;
+            BossState.isBoss2Dead = true;
+            SceneManager.LoadScene("StageSelect");
         }
-
-        // Boss3 사망 감지
-        if (!prevBoss3Dead && BossState.isBoss3Dead)
-        {
-            StartStageDialogue(4);
-            prevBoss3Dead = true;
-        }
+      
     }
+
 
     public void StartStageDialogue(int stageNum)
     {
@@ -89,6 +95,8 @@ public class TextManager : MonoBehaviour
 
         dialogueUI.StopImageAnimation();
         dialogueUI.ShowDialogueUI(false);
+
+        dialogueUI.speechBubble.SetActive(false);
         dialogueRoutine = null;
     }
 }

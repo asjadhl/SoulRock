@@ -462,8 +462,10 @@ MonoBehaviour:
   speakerImage: {fileID: 1024469803}
   dialogueText: {fileID: 335636470}
   sdfFontAsset: {fileID: 11400000, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
-  typingSpeed: 0.04
+  typingSpeed: 0.5
   typingAudio: {fileID: 966790952}
+  randomPitch: 1
+  pitchRange: {x: 0.95, y: 1.05}
   stage1_img1: {fileID: 2800000, guid: 4827d8b417692974f90b532fd67ab74f, type: 3}
   stage1_img2: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
   stage2_img1: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
@@ -472,6 +474,8 @@ MonoBehaviour:
   stage3_img2: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
   boss_img1: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
   boss_img2: {fileID: 2800000, guid: c538e4a5391d7ef4ca4a9e9f88620524, type: 3}
+  boss_img3: {fileID: 0}
+  boss_img4: {fileID: 0}
 --- !u!4 &154126324
 Transform:
   m_ObjectHideFlags: 0
