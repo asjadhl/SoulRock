@@ -28,7 +28,7 @@ public class SelectManager : MonoBehaviour
 
     void CheckClearLight()
     {
-        if(BossState.isBoss1Dead == true && !BossState.isBoss2Dead)
+        if(BossState.isBoss1Dead == true)
         {
             skullLight.SetActive(true);
             clownLight.SetActive(false);
