@@ -39,6 +39,14 @@ public class PlayerHP : MonoBehaviour
         GetDamImageOff();
     }
 
+    public async UniTask PlayerHPBigMinus()
+    {
+        playerHP -= 30;
+        GetDamImageOn();
+        await UniTask.Delay(300);
+        GetDamImageOff();
+    }
+
     private void PlayerDie()
     {
     }

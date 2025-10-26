@@ -28,7 +28,7 @@ public class RotateOB : MonoBehaviour
     }
     public async void OBMove()
     {
-        await UniTask.Delay(3000);
+        await UniTask.Delay(5000);
         transform.LookAt(player.position);
         transform.Translate(Vector3.forward * OBSpeed * Time.fixedDeltaTime);
     }

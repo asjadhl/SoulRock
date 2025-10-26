@@ -25,7 +25,7 @@ public class MusicBox : MonoBehaviour
     int i = 0;
     //[Header("MusicStartDelay")]
     double nextStartTime = 5f;
-    private int delayMusic = 2000;
+    private int delayMusic = 1000;
 	bool isChangingSong = false;
     public bool musicStart = false;
     BossHP hp;
@@ -64,12 +64,7 @@ public class MusicBox : MonoBehaviour
         {
             musicStart = true;
         }
-          ChangeSong().Forget();
-
-        if (!isChangingSong)
-        {
-            ChangeSong().Forget();
-        }
+        ChangeSong();
     }
     //   private async UniTask  ChangeSong()
     //   {
@@ -101,25 +96,25 @@ public class MusicBox : MonoBehaviour
     //	nextStartTime += musicSource.clip.length;
     //	isChangingSong = false;
     //}
-    private async UniTask ChangeSong()
+    void ChangeSong()
     {
-        //if (isChangingSong) return; // 이미 노래가 변경되었으면 실행하지 않음
+        if (isChangingSong) return; // 이미 노래가 변경되었으면 실행하지 않음
 
-        if ((int)CheckRealTime.inGamerealTime == 41)
+        if ((int)CheckRealTime.inGamerealTime == 15)
         {
 			Debug.LogError("노래변경");
-			//isChangingSong = true; // 노래가 변경되었음을 기록
+            isChangingSong = true; // 노래가 변경되었음을 기록
 
-			// 새로운 노래로 변경
-			i++; // 다음 곡으로 이동
-            if (i >= music.Length) i = 0; // 인덱스 초과 방지
+            // 새로운 노래로 변경
+            i++; // 다음 곡으로 이동
+            //if (i > music.Length) i = 0; // 인덱스 초과 방지
             // 현재 곡 페이드아웃 (선택 사항)
-            await FadeOutCurrentSong();
+            //await FadeOutCurrentSong();
 
             // 새로운 곡 재생
              musicSource.clip = music[i];
            
-            await UniTask.Delay(delayMusic); // 약간의 딜레이 추가
+            //await UniTask.Delay(delayMusic); // 약간의 딜레이 추가
             musicSource.Play();
             //FXSManager.Instance.PlayClip(0, music[i]);
         }
