@@ -29,7 +29,7 @@ public class MainGhostClick : MonoBehaviour
                 if (hit.transform == transform)
                 {
                     Debug.Log("Ghost clicked!");
-
+                    MainPlayState.isClicked1 = true;
                     SceneManager.LoadScene("StageSelect");
                 }
             }

@@ -1274,7 +1274,7 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
-  m_sharedMaterial: {fileID: -4344721060064226625, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
+  m_sharedMaterial: {fileID: -7804401255479017457, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1382,7 +1382,7 @@ MonoBehaviour:
   speechBubble: {fileID: 624378901}
   speakerImage: {fileID: 206110109}
   dialogueText: {fileID: 389860159}
-  sdfFontAsset: {fileID: 11400000, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
+  sdfFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   typingSpeed: 0.085
   typingAudio: {fileID: 2059826619}
   randomPitch: 1
@@ -1562,7 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd743aea48783e746940f73add4c192d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueAutoPlayer: {fileID: 0}
+  dialogueAutoPlayer: {fileID: 49318139}
 --- !u!4 &489973678
 Transform:
   m_ObjectHideFlags: 0
@@ -2338,6 +2338,7 @@ MonoBehaviour:
   hitParticle: {fileID: 5781927832435029353, guid: 07c0962b0a684ec4786893771a09bb2a, type: 3}
   fakeGhostParticle: {fileID: 19800004, guid: 24ba0c3bf64a034498c336187a5d8439, type: 3}
   realGhostParticle: {fileID: 19800004, guid: 24ba0c3bf64a034498c336187a5d8439, type: 3}
+  poltergeistParticle: {fileID: 0}
   poolSize: 10
 --- !u!4 &701470396
 Transform:

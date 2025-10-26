@@ -19,16 +19,16 @@ public class TextManager : MonoBehaviour
             Debug.Log("트레이닝 룸 진입: 대사 시작");
             StartStageDialogue(1); // 트레이닝용 대사 번호
         }
+        if (MainPlayState.isClicked1)
+        {
+            StartStageDialogue(2); // 스테이지 선택 후 대사
+        }
         // Boss1 사망 감지
         if (BossState.isBoss1Dead)
         {
-            StartStageDialogue(2); // 보스 처치 후 다음 스테이지 대사
+            StartStageDialogue(3); // 보스 처치 후 다음 스테이지 대사
         }
-        // Boss2 사망 감지
-        if (BossState.isBoss2Dead)
-        {
-            StartStageDialogue(3);
-        }
+        
         if (MapSelected3.start3)
         {
             StartStageDialogue(4); // 마지막 스테이지 대사
