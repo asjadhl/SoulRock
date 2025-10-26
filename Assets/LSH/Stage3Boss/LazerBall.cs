@@ -43,24 +43,15 @@ public class LazerBall : MonoBehaviour
     {
         isInitialized = true;
     }
-    //void Update()
-    //{
-    //    if(gameObject.activeSelf == true)
-    //    {
-    //        lazerMove();
-    //    }
-
-    //}
-
-
-    private void FixedUpdate()
+    void Update()
     {
-
-        if (gameObject.activeSelf == true)
+        if(gameObject.activeSelf == true)
         {
             lazerMove();
         }
+
     }
+
     void lazerMove()
     {
         //Vector3 targetPos = player.position;
