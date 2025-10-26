@@ -12,6 +12,7 @@ public class StageSelectGhostMove : MonoBehaviour
     [SerializeField] BoxCollider clownCol;
     [SerializeField] BoxCollider skull;
     bool lastStageOn = false;
+    TextManager TextManager;
     void Awake()
     {
         if (playerPos == null)
@@ -30,7 +31,16 @@ public class StageSelectGhostMove : MonoBehaviour
         // 두 보스가 모두 죽었을 때 한 번만 실행
         if (BossState.isBoss1Dead && BossState.isBoss2Dead && !lastStageOn)
         {
+            MapSelected3.start3 = true;
             lastStageOn = true;
+
+            var tm = FindObjectOfType<TextManager>();
+            if (tm != null)
+            {
+                tm.StartStageDialogue(4);
+                Debug.Log("textManager에서 4번 대사 실행됨");
+            }
+
             MoveScene().Forget();
         }
     }
@@ -65,13 +75,21 @@ public class StageSelectGhostMove : MonoBehaviour
     private async UniTaskVoid MoveScene()
     {
         Debug.Log("28초 동안 Ghost 이동 시작");
-        await UniTask.Delay(5000);
+        await UniTask.Delay(24000);
         clownCol.GetComponent<BoxCollider>().enabled = true;
         skull.GetComponent<BoxCollider>().enabled = true;
-        await GhostMove(5f); 
-        Debug.Log("28초 후 LastStage로 이동");
+        await GhostMove(5f);
+        MapSelected3.stop3 = true;
 
-        await UniTask.Delay(28000);
+        var tm = FindObjectOfType<TextManager>();
+        if (tm != null)
+        {
+            tm.StartStageDialogue(5);
+            Debug.Log("textManager에서 4번 대사 실행됨");
+        }
+
+        Debug.Log("28초 후 LastStage로 이동");
+        await UniTask.Delay(29000);
         SceneManager.LoadScene("LastStage");
     }
 }

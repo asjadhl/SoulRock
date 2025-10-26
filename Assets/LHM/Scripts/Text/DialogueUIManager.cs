@@ -106,7 +106,7 @@ public class DialogueUIManager : MonoBehaviour
             case 2: img1 = stage2_img1; img2 = stage2_img2; break;
             case 3: img1 = stage3_img1; img2 = stage3_img2; break;
             case 4: img1 = boss_img1; img2 = boss_img2; break;
-            case 5: img1 = boss_img1; img2 = boss_img2; break;
+            case 5: img1 = boss_img3; img2 = boss_img4; break;
         }
 
         imageChangeRoutine = StartCoroutine(ChangeImageLoop(img1, img2));
