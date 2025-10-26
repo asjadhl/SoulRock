@@ -21,7 +21,8 @@ public class GhostTrainingLoader : MonoBehaviour
             {
                 if (hit.transform == transform)
                 {
-                    Debug.Log("유령 클릭됨 → 트레이닝 씬으로 이동");
+                    Debug.Log("오브젝트 클릭 감지됨");
+                    MainGhostTrainingState.isClicked = true;
                     SceneManager.LoadScene("TraingRoom");
                 }
             }

@@ -17,6 +17,10 @@ public class DialogueTriggerOnBossState : MonoBehaviour
         {
             dialogueAutoPlayer.StartStageDialogue(3);
         }
-       
+        if (MainGhostTrainingState.isClicked)
+        {
+            Debug.Log("트레이닝 룸 진입: 대사 시작");
+            dialogueAutoPlayer.StartStageDialogue(1); // 트레이닝용 대사 번호
+        }
     }
 }

@@ -35,6 +35,11 @@ public class TextManager : MonoBehaviour
             StartStageDialogue(4);
 
         }
+        if (MainGhostTrainingState.isClicked)
+        {
+            Debug.Log("트레이닝 룸 진입: 대사 시작");
+            StartStageDialogue(1); // 트레이닝용 대사 번호
+        }
     }
 
     void Update()
@@ -48,8 +53,8 @@ public class TextManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            BossState.isBoss2Dead = true;
-            SceneManager.LoadScene("StageSelect");
+           // MainGhostTrainingState.isClicked = true;
+            SceneManager.LoadScene("TraingRoom");
         }
       
     }
