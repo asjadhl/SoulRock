@@ -14,49 +14,35 @@ public class TextManager : MonoBehaviour
 
     void Start()
     {
-       
-        // Boss1 사망 감지
-        if (BossState.isBoss1Dead)
-        {
-            StartStageDialogue(2); // 보스 처치 후 다음 스테이지 대사
-
-        }
-
-        // Boss2 사망 감지
-        if (BossState.isBoss2Dead)
-        {
-            StartStageDialogue(3);
-
-        }
-
-        // Boss3 사망 감지
-        if (BossState.isBoss3Dead)
-        {
-            StartStageDialogue(4);
-
-        }
         if (MainGhostTrainingState.isClicked)
         {
             Debug.Log("트레이닝 룸 진입: 대사 시작");
             StartStageDialogue(1); // 트레이닝용 대사 번호
         }
+        // Boss1 사망 감지
+        if (BossState.isBoss1Dead)
+        {
+            StartStageDialogue(2); // 보스 처치 후 다음 스테이지 대사
+        }
+        // Boss2 사망 감지
+        if (BossState.isBoss2Dead)
+        {
+            StartStageDialogue(3);
+        }
+        if (MapSelected3.start3)
+        {
+            StartStageDialogue(4); // 마지막 스테이지 대사
+        }
+        if (MapSelected3.stop3)
+        {
+            StartStageDialogue(5); // 마지막 스테이지 대사
+        }
     }
 
     void Update()
     {
+        
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            BossState.isBoss1Dead = true;
-            SceneManager.LoadScene("StageSelect");
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-           // MainGhostTrainingState.isClicked = true;
-            SceneManager.LoadScene("TraingRoom");
-        }
-      
     }
 
 
@@ -79,9 +65,13 @@ public class TextManager : MonoBehaviour
                 lines = dialogueData.stage3.dialogues;
                 break;
             case 4:
-                lines = dialogueData.stage3.dialogues;
+                lines = dialogueData.stage4.dialogues;
+                break;
+            case 5:
+                lines = dialogueData.stage5.dialogues;
                 break;
         }
+
 
         if (lines != null)
             dialogueRoutine = StartCoroutine(PlayDialogue(lines, stageNum));
