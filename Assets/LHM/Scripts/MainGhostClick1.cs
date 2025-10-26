@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // 씬 이동에 필요
+using UnityEngine.SceneManagement;
 
-public class GhostTrainingLoader : MonoBehaviour
+public class MainGhostClick1 : MonoBehaviour
 {
     private Camera mainCam;
 
@@ -12,6 +12,7 @@ public class GhostTrainingLoader : MonoBehaviour
 
     void Update()
     {
+        // 마우스 왼쪽 버튼 클릭 시 검사
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -19,13 +20,15 @@ public class GhostTrainingLoader : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
+                // 클릭된 오브젝트가 이 Ghost라면
                 if (hit.transform == transform)
                 {
-                    Debug.Log("오브젝트 클릭 감지됨");
-                    MainGhostTrainingState.isClicked = true;
-                    SceneManager.LoadScene("TraingRoom");
+                    Debug.Log("Ghost clicked!");
+
+                    SceneManager.LoadScene("Main");
                 }
             }
         }
     }
 }
+
