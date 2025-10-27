@@ -147,14 +147,15 @@ public class CircleHit : MonoBehaviour
 		combo++;
 		comboText.GetComponent<ComboText>().RanTextColor();
 		comboText.SetActive(true);
-		playerShoot.PlayerShoot_();
+        a.PlayOneShot(clip);
+        playerShoot.PlayerShoot_();
 		await UniTask.Delay(500);
 		comboText.SetActive(false);
 
 
         playerHPSc.PlayerHPPlus(2);
 
-           a.PlayOneShot(clip);
+        
 				//if(FXSManager.Instance != null) 
 			  //FXSManager.Instance.PlayClip(1,clip);
         
