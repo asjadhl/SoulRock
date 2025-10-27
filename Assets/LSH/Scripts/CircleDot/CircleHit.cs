@@ -149,12 +149,9 @@ public class CircleHit : MonoBehaviour
 		comboText.SetActive(true);
         a.PlayOneShot(clip);
         playerShoot.PlayerShoot_();
+        playerHPSc.PlayerHPPlus(2);
 		await UniTask.Delay(500);
 		comboText.SetActive(false);
-
-
-        playerHPSc.PlayerHPPlus(2);
-
         
 				//if(FXSManager.Instance != null) 
 			  //FXSManager.Instance.PlayClip(1,clip);
