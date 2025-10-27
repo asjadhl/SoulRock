@@ -28,6 +28,7 @@ public class CircleHit : MonoBehaviour
 
 	[Header("Combo")]
 	public int combo = 0;
+	[SerializeField] GameObject comboText;
 
 	AudioSource a;
 	[SerializeField] AudioClip clip;
@@ -141,10 +142,16 @@ public class CircleHit : MonoBehaviour
 		circleDot.transform.localScale = Vector3.one * circleBig;
 	}
 
-	public void OnClickSuccess()
+	public async UniTask OnClickSuccess()
 	{
 		combo++;
-		playerHPSc.PlayerHPPlus(2);
+		comboText.GetComponent<ComboText>().RanTextColor();
+		comboText.SetActive(true);
+		await UniTask.Delay(500);
+		comboText.SetActive(false);
+
+
+        playerHPSc.PlayerHPPlus(2);
 
            a.PlayOneShot(clip);
 				//if(FXSManager.Instance != null) 
