@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using UnityEngine;
 public class TextManager : MonoBehaviour
@@ -12,6 +13,13 @@ public class TextManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(DelayedDialogueCheck());
+    }
+
+    private IEnumerator DelayedDialogueCheck()
+    {
+        yield return new WaitForSeconds(0.1f);
+
         if (MainGhostTrainingState.isClicked)
         {
             Debug.Log("트레이닝 룸 진입: 대사 시작");
@@ -22,11 +30,11 @@ public class TextManager : MonoBehaviour
             StartStageDialogue(2); // 스테이지 선택 후 대사
         }
         // Boss1 사망 감지
-        if (BossState.isBoss1Dead)
+        if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
             StartStageDialogue(3); // 보스 처치 후 다음 스테이지 대사
         }
-        
+
         if (MapSelected3.start3)
         {
             StartStageDialogue(4); // 마지막 스테이지 대사
@@ -36,7 +44,6 @@ public class TextManager : MonoBehaviour
             StartStageDialogue(5); // 마지막 스테이지 대사
         }
     }
-
     void Update()
     {
         
