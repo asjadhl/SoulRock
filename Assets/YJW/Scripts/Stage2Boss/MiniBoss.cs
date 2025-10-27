@@ -15,6 +15,8 @@ public class MiniBoss : MonoBehaviour
     float y;
     Vector3 oriPos;
 
+    private bool moveDone = false;
+
     private void Start()
     {
         x = transform.position.x;
@@ -23,19 +25,32 @@ public class MiniBoss : MonoBehaviour
 
     private void Update()
     {
-        if(gameObject.activeSelf == true)
+        if (gameObject.activeSelf == true)
         {
-            oriPos = new Vector3(x, y, boss.transform.position.z);
-            if(isSpawned == false)
+            if (isSpawned == false)
             {
                 SetRanPos().Forget();
                 isSpawned = true;
             }
-            if (Mathf.Abs(transform.position.z - player.transform.position.z) >= 11)
-                transform.Translate(Vector3.forward * 3 * Time.fixedDeltaTime);
-            //Debug.Log(Mathf.Abs(transform.position.z - player.transform.position.z));
+
+            if (!moveDone)
+            {
+                float distanceZ = Mathf.Abs(transform.position.z - player.transform.position.z);
+
+                if (distanceZ > 11f)
+                {
+                    float speed = 3f;
+                    Vector3 targetPos = new Vector3(transform.position.x, transform.position.y, player.transform.position.z);
+                    transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+                }
+                else
+                {
+                    moveDone = true;
+                }
+            }
         }
     }
+
 
     // 비동기 Position 값 생성
     private async UniTask SetRanPos()
@@ -64,6 +79,7 @@ public class MiniBoss : MonoBehaviour
         await UniTask.Delay(150);
         transform.position = oriPos;
         isSpawned = false;
+        moveDone = false;
         gameObject.SetActive(false);
     }
 
