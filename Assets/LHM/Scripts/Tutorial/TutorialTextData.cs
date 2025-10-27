@@ -4,5 +4,5 @@ using UnityEngine;
 
 public static class TutorialTextData 
 {
-    public TutorialManager Tutorial1;
+   // public TutorialManager Tutorial1;
 }
