@@ -33,7 +33,6 @@ public class AudioManager : MonoBehaviour
   public AudioMixerGroup MusicGroup;
   public AudioMixerGroup SFXGroup;
   public TextMeshProUGUI textMeshPro;
-  public bool isNextClip = false;
   public ScrollRect _scrollrect;
   public ScrollButton ScrollButtonTop;
   public ScrollButton ScrollButtonBottom;
@@ -45,16 +44,25 @@ public class AudioManager : MonoBehaviour
   public bool isSingle = false;
   public void OnClickSetMaterial(string paremeter)
   {
-    if (mat1 != null)
+        AudioListener.pause = true;
+        if (mat1 != null)
     {
       isSingle = !isSingle;
-      Debug.Log(isSingle);
+    
       if (isSingle == true)
         mat1.SetFloat(paremeter, 1);
       else mat1.SetFloat(paremeter, 0);
     }
   }
 
+    public void StopAllAudio()
+    {
+        AudioListener.pause = true;
+    }
+    public void PlayAllAudio()
+    {
+        AudioListener.pause = false;
+    }
   void UpdateTimeMaterial()
   {
     if (mat1 != null)
@@ -118,7 +126,7 @@ public class AudioManager : MonoBehaviour
    
   public void NextClip(int dir)
   {
-    if (!isNextClip) return;
+   
 
     //Queue Algorithm   Phython 
     currentIndex = (((currentIndex + dir) % dictest[currenttestindex].Count) + dictest[currenttestindex].Count) % dictest[currenttestindex].Count;
@@ -300,7 +308,7 @@ FindObjectsSortMode.None
 
         ScrollBottom();
       }
-
+     
     }
     UpdateTimeMaterial();
   }
