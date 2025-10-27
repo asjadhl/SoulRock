@@ -70,7 +70,7 @@ public class PlayerShoot : MonoBehaviour
 
     public void PlayerShoot_()
     {
-        StartCoroutine(Kickback());
+        Kickback().Forget();
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f))
@@ -100,27 +100,37 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    private IEnumerator Kickback()
+    private async UniTask Kickback()
     {
         shootParticle.Play();
+
         Vector3 targetPos = originalPosition - gunTransform.forward * kickbackDistance;
         gunObject.transform.Rotate(-15, 0, 0);
-        
+
+        // 뒤로 밀리는 구간
         while (Vector3.Distance(gunTransform.localPosition, targetPos) > 0.01f)
         {
-            
-            gunTransform.localPosition = Vector3.Lerp(gunTransform.localPosition, targetPos, kickbackSpeed * Time.deltaTime);
-            yield return null;
+            gunTransform.localPosition = Vector3.Lerp(
+                gunTransform.localPosition,
+                targetPos,
+                kickbackSpeed * Time.deltaTime
+            );
+            await UniTask.Yield(PlayerLoopTiming.Update);
         }
-        gunObject.transform.Rotate(15, 0, 0);
-        
 
+        gunObject.transform.Rotate(15, 0, 0);
+
+        // 원래 자리로 복귀하는 구간
         while (Vector3.Distance(gunTransform.localPosition, originalPosition) > 0.01f)
         {
-            gunTransform.localPosition = Vector3.Lerp(gunTransform.localPosition, originalPosition, kickbackSpeed * Time.deltaTime);
-            yield return null;
+            gunTransform.localPosition = Vector3.Lerp(
+                gunTransform.localPosition,
+                originalPosition,
+                kickbackSpeed * Time.deltaTime
+            );
+            await UniTask.Yield(PlayerLoopTiming.Update);
         }
-        
+
 
         //private async UniTask GunMove()
         //{
