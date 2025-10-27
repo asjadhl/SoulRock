@@ -1,7 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 public class TextManager : MonoBehaviour
 {
     [SerializeField] private StageDialogueData dialogueData;

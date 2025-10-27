@@ -1,8 +1,5 @@
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
 
 public class BigLazer : MonoBehaviour
 {

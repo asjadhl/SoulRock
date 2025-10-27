@@ -1,10 +1,5 @@
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

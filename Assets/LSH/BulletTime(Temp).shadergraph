@@ -179,9 +179,6 @@
         },
         {
             "m_Id": "650c3ce858ec43ae95a1644abda1296f"
-        },
-        {
-            "m_Id": "625b038898234c37ae5e49b5994bae54"
         }
     ],
     "m_GroupDatas": [
@@ -825,9 +822,6 @@
         "m_Blocks": [
             {
                 "m_Id": "bbc8bfe989c04908b1d9cae4a03d71aa"
-            },
-            {
-                "m_Id": "625b038898234c37ae5e49b5994bae54"
             }
         ]
     },
@@ -858,8 +852,8 @@
     "m_ObjectId": "01d88e6b5aea499cb69d39cc84121209",
     "m_Title": "surface",
     "m_Position": {
-        "x": -1989.0001220703125,
-        "y": 1393.000244140625
+        "x": -1989.0,
+        "y": 1393.0
     }
 }
 
@@ -1499,7 +1493,7 @@
         "m_Id": "8d3eaf3f52ce48eca036a2bfebd14eaf"
     },
     "m_AllowMaterialOverride": false,
-    "m_SurfaceType": 1,
+    "m_SurfaceType": 0,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
@@ -1903,7 +1897,7 @@
     "m_Title": "Distrotion Effect",
     "m_Position": {
         "x": -2189.0,
-        "y": 2264.000244140625
+        "y": 2264.0
     }
 }
 
@@ -2325,8 +2319,8 @@
     "m_ObjectId": "592bf38dcd4e487dadb00ad94602bd18",
     "m_Title": "ScrollTexture",
     "m_Position": {
-        "x": -1911.0001220703125,
-        "y": 133.99998474121095
+        "x": -1911.0,
+        "y": 134.0
     }
 }
 
@@ -2526,40 +2520,6 @@
         "y": 0.0
     },
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "625b038898234c37ae5e49b5994bae54",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "SurfaceDescription.Alpha",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "f4b1a2437c1d42d3bb2d256843b0eaa1"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "SurfaceDescription.Alpha"
 }
 
 {
@@ -6313,21 +6273,6 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "f4b1a2437c1d42d3bb2d256843b0eaa1",
-    "m_Id": 0,
-    "m_DisplayName": "Alpha",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Alpha",
-    "m_StageCapability": 2,
-    "m_Value": 1.0,
-    "m_DefaultValue": 1.0,
-    "m_Labels": []
 }
 
 {
