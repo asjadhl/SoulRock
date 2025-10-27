@@ -100,7 +100,7 @@ public class CircleHit : MonoBehaviour
 				if (mindis <= distance && distance <= maxdis)
 				{
 					Debug.LogWarning("클릭 성공");
-					OnClickSuccess();
+					OnClickSuccess().Forget();
 
 					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
