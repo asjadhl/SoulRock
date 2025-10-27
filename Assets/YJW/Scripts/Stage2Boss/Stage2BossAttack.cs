@@ -75,6 +75,8 @@ public class Stage2BossAttack : MonoBehaviour
     private bool isCAttacking = false;
     bool isAttack = false;
     public bool wheelStop = true;
+    private int index = 0;
+    [SerializeField] GameObject[] clubStackImage;
 
     private void Start()
     {
@@ -86,6 +88,7 @@ public class Stage2BossAttack : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        ClubStackUIUpdate();
         if (!isDelay) return;
         if(!isAttack)
         {
@@ -371,6 +374,12 @@ public class Stage2BossAttack : MonoBehaviour
     public void WheelStop()
     {
         wheelStop = true;
+    }
+
+    private void ClubStackUIUpdate()
+    {
+        for (int i = 0; i < clubStackImage.Length; i++)
+            clubStackImage[i].SetActive(i < Stage2BossAttack.clubStack);
     }
 
     private async UniTask StartDelay()
