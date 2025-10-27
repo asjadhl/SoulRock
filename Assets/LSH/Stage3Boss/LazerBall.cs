@@ -59,7 +59,7 @@ public class LazerBall : MonoBehaviour
         //lazerBallPool[j].transform.position, targetPos, lazerBallspeed * Time.deltaTime);
         //await UniTask.Delay(100);
         transform.LookAt(player.position);
-        transform.Translate(Vector3.forward * lazerBallspeed * Time.fixedDeltaTime);
+        transform.Translate(Vector3.forward * lazerBallspeed * Time.deltaTime);
     }
     private void OnTriggerEnter(Collider col)
     {

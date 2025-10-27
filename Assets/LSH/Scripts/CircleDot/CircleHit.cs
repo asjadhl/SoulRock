@@ -147,6 +147,7 @@ public class CircleHit : MonoBehaviour
 		combo++;
 		comboText.GetComponent<ComboText>().RanTextColor();
 		comboText.SetActive(true);
+		playerShoot.PlayerShoot_();
 		await UniTask.Delay(500);
 		comboText.SetActive(false);
 
@@ -156,7 +157,7 @@ public class CircleHit : MonoBehaviour
            a.PlayOneShot(clip);
 				//if(FXSManager.Instance != null) 
 			  //FXSManager.Instance.PlayClip(1,clip);
-        playerShoot.PlayerShoot_();
+        
 		//Debug.Log("클릭성공!");
 		// 클릭 성공 시 처리할 로직
 		// 예: 좌/우 도트 비활성화, 점수 증가 등
