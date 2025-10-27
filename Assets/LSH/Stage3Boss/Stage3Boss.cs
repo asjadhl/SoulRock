@@ -105,7 +105,7 @@ public class Stage3Boss : MonoBehaviour
 
     void Update()
     {
-        if ((int)CheckRealTime.inGamerealTime == 15)
+        if ((int)CheckRealTime.inGamerealTime == 40)
         {
             Debug.LogError("°³ºýÄ§");
 			Phase2();

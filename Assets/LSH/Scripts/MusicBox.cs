@@ -100,7 +100,7 @@ public class MusicBox : MonoBehaviour
     {
         if (isChangingSong) return; // 이미 노래가 변경되었으면 실행하지 않음
 
-        if ((int)CheckRealTime.inGamerealTime == 15)
+        if ((int)CheckRealTime.inGamerealTime == 40)
         {
 			Debug.LogError("노래변경");
             isChangingSong = true; // 노래가 변경되었음을 기록

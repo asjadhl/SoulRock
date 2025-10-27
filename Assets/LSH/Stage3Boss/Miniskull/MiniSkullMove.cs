@@ -95,7 +95,7 @@ public class MiniSkullMove : MonoBehaviour
 			transform.SetParent(skullScanner.transform, true);
 
 			await UniTask.Delay((int)(attachDelay * 1000));
-			if(gameObject == null) return; //오브젝트가 비활성화 된 경우 방지
+			if(!gameObject.activeSelf) return; //오브젝트가 비활성화 된 경우 방지
             _ = playerHP.PlayerHPMinus();
             spawner.ReturnSkull(gameObject);
         }
