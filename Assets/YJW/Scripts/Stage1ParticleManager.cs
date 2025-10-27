@@ -44,7 +44,7 @@ public class Stage1ParticleManager : MonoBehaviour
         {
             ParticleSystem effect = Instantiate(cardParticle, transform);
             effect.gameObject.SetActive(false);
-            boxPool.Enqueue(effect);
+            cardPool.Enqueue(effect);
         }
         for (int i = 0; i < 1; i++)
         {
