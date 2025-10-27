@@ -136,6 +136,20 @@ public class ParticleManager : MonoBehaviour
 		ReturnToPoolAfter(effect, realGhostPool).Forget();
 	}
 
+    public void PlayChairBoom(Vector3 pos)
+    {
+        if (poltergeistPool.Count == 0)
+        {
+            AddEffectToPool(poltergeistParticle, poltergeistPool, 1);
+        }
+
+        ParticleSystem effect = poltergeistPool.Dequeue();
+        effect.transform.position = new Vector3(0, 0, 0);
+        effect.gameObject.SetActive(true);
+        effect.Play();
+
+        ReturnToPoolAfter(effect, poltergeistPool).Forget();
+    }
 
     //public void PlayClownEffect(Vector3 pos)
     //{

@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DummySpawner : MonoBehaviour
 {
@@ -34,5 +35,10 @@ public class DummySpawner : MonoBehaviour
         dummyHp = 3;
         await UniTask.Delay(10000);
         animator.SetTrigger("Stand");
+    }
+
+    public void SkipScene()
+    {
+        SceneManager.LoadScene("StageSelect");
     }
 }

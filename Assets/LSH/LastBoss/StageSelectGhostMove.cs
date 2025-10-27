@@ -38,7 +38,6 @@ public class StageSelectGhostMove : MonoBehaviour
             if (tm != null)
             {
                 tm.StartStageDialogue(4);
-                Debug.Log("textManager에서 4번 대사 실행됨");
             }
 
             MoveScene().Forget();
@@ -62,7 +61,6 @@ public class StageSelectGhostMove : MonoBehaviour
             else if (distance <= disableDistance)
             {
                 transform.SetParent(playerPos.transform, true);
-                Debug.Log("Ghost reached player");
                 break;
             }
 
@@ -85,10 +83,8 @@ public class StageSelectGhostMove : MonoBehaviour
         if (tm != null)
         {
             tm.StartStageDialogue(5);
-            Debug.Log("textManager에서 4번 대사 실행됨");
         }
 
-        Debug.Log("28초 후 LastStage로 이동");
         await UniTask.Delay(29000);
         SceneManager.LoadScene("LastStage");
     }
