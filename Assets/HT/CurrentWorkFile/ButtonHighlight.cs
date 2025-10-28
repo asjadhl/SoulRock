@@ -19,11 +19,12 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
     float Deg = 0;
     float duration = 1.3f;
     float value = 0;
-   
+   float Colorvalue = 0;
      float sinevalue = 0;
-  
- 
-    void Awake()
+  float Deg2 = 0;
+  float duration2 = 0.7f;
+
+  void Awake()
     {
      
         myButton = GetComponent<Button>();
@@ -134,7 +135,12 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
         break;
         case State.Waiting:
         {
-          // NULL
+          Deg2 += (360f / duration2) * Time.unscaledDeltaTime;
+          if (Deg2 > 360f) Deg2 -= 360f;
+
+          float rad = Mathf.Deg2Rad * Deg2;
+          Colorvalue = Mathf.Lerp(0.4f, 0.7f, (Mathf.Sin(rad) + 1f) * 0.5f);
+          mat.SetFloat("_Colorvalue", Colorvalue);
         }
         break;
       }
@@ -148,8 +154,8 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
   
     public void OnPointerEnter(PointerEventData eventData)
     {
-    
 
+    mat.SetFloat("_Colorvalue", 1);
     mystate = State.EnteringToHovering;
     }
 
