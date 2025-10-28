@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using Unity.IntegerTime;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,20 +37,21 @@ public class GBAttack : MonoBehaviour
 	public Transform player;
 
     [Header("4번째 패턴")]
-    [SerializeField] GameObject rightLongBeat;
-	[SerializeField] GameObject leftLongBeat;
-    Image rightBeat;
-    Image leftBeat;
-	float timer = 0;
-	////분신패턴
-	//[SerializeField] private int clonePoolSize = 4;
-	//[SerializeField] private GameObject ghostClonePrefab;
-	//private GameObject[] clonePool;
-	//private bool[] cloneUsed;
-	//int cloneCount = 4;
-	//float spacing = 3f;//간격
-	//Vector3 bossPoss;
-	Quaternion originalRotation;
+    [SerializeField] GameObject rightBeat;
+    [SerializeField] Image rightLongBeat;
+    float barAmount = 0;
+    bool isBeatOn = false;
+    //[SerializeField] Image leftLongBeat; 
+
+    ////분신패턴
+    //[SerializeField] private int clonePoolSize = 4;
+    //[SerializeField] private GameObject ghostClonePrefab;
+    //private GameObject[] clonePool;
+    //private bool[] cloneUsed;
+    //int cloneCount = 4;
+    //float spacing = 3f;//간격
+    //Vector3 bossPoss;
+    Quaternion originalRotation;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -62,9 +65,6 @@ public class GBAttack : MonoBehaviour
         patternIndex = 0;
         firstxPos = transform.position.x;
         firstyPos = transform.position.y;
-		//4번쨰 패턴
-		rightBeat = rightLongBeat.GetComponent<Image>();
-		leftBeat = leftLongBeat.GetComponent<Image>();
 		//bossPoss = transform.position;
 	}
     private void Start()
@@ -78,14 +78,14 @@ public class GBAttack : MonoBehaviour
         //    clonePool[i].SetActive(false);
         //    cloneUsed[i] = false;
         //}
+
+        rightBeat.SetActive(false);
         originalRotation = transform.rotation; // 현재 회전 저장
         poltergeist.SetActive(false);
         mosterSpawner.SetActive(false);
         for (int i = 0; i < clone.Length; i++)
         {
             clone[i].transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            //firstclonexPos = clone[i].transform.position.x;
-            //firstcloneyPos = clone[i].transform.position.y;
             clone[i].SetActive(false);
         }
     }
@@ -96,7 +96,18 @@ public class GBAttack : MonoBehaviour
         {
             _ = BossPattern();
         }
-		//StuckWithPlayer();
+        //StuckWithPlayer();
+        if (Input.GetKey(KeyCode.Alpha1) && isBeatOn)
+        {
+            barAmount += 0.4f;
+			rightLongBeat.fillAmount = barAmount / 100f;
+		}
+        if(Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            barAmount = 0;
+			rightLongBeat.fillAmount = barAmount / 100f;
+		}
+		
 	}
 
 	//void StuckWithPlayer()
@@ -116,23 +127,21 @@ public class GBAttack : MonoBehaviour
         switch (patternIndex)
         {
             case 0:
-                await SoundAttack();
+                await LongBit();
                 break;
             case 1:
                 await Duplicate();
                 break;
             case 2:
-                await Poltergeist();
+                await LongBit();
                 break;
             case 3:
-                while(rightBeat.fillAmount <= 1)
-                {
-					await LongBit();
-				}
+			    await LongBit();
                 break;
 
 		}
     }
+    
     private async UniTask SoundAttack()
     {
         isAttack = true;
@@ -147,11 +156,11 @@ public class GBAttack : MonoBehaviour
             switch (teleportIndex)
             {
                 case 0:
-                    musicBox.panStereo = -0.5f;
+                    //musicBox.panStereo = -0.5f;
                     await SoundAttackVector(0);
                     break;
                 case 1:
-                    musicBox.panStereo = 0.5f;
+                    //musicBox.panStereo = 0.5f;
                     await SoundAttackVector(1);
                     break;
                  
@@ -241,9 +250,27 @@ public class GBAttack : MonoBehaviour
     public async UniTask LongBit()
     {
 		isAttack = true;
-		timer += Time.deltaTime;
-        rightBeat.fillAmount = timer / 100f;
-		isAttack = false;
+		teleportIndex = Random.Range(0, 2);
+        switch(teleportIndex)
+        {
+            case 0:
+				musicBox.panStereo = -1f;
+				isBeatOn = true;
+				rightBeat.SetActive(true);
+                await UniTask.Delay(6000);
+                break;
+            case 1:
+				musicBox.panStereo = 1f;
+				isBeatOn = true;
+				rightBeat.SetActive(true);
+				await UniTask.Delay(6000);
+				break;
+        }
+        isBeatOn = false;
+        barAmount = 0f;
+        rightBeat.SetActive(false);
+		musicBox.panStereo = 0f;
+        isAttack = false;
 	}
     //private async UniTask Duplicate()
     //{
