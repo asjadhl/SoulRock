@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Cysharp.Threading.Tasks;
 
 public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -39,18 +40,23 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         float rad = Mathf.Deg2Rad * Deg;
 
-        float alpha = Mathf.Lerp(0.1f, 0.9f, (Mathf.Sin(rad) + 1f) * 0.5f);
+        float alpha = Mathf.Lerp(0.3f, 0.5f, (Mathf.Sin(rad) + 1f) * 0.5f);
 
-        mat.SetFloat("_Value", alpha);
+        mat.SetFloat("_value", alpha);
     }
 
     void OnClick()
     {
         // Example: set shader property when clicked
-        mat.SetFloat("_Value", 1);
+        mat.SetFloat("_value", 1);
         isPressed = true;
+       Wait(0.2f).Forget();
     }
-
+   async UniTaskVoid Wait(float delay)
+   {
+    await UniTask.WaitForSeconds(delay);
+    isPressed = false;
+   }
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!isPressed)
@@ -61,6 +67,6 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
             isPressed = false;
             isHovered = false;
-        mat.SetFloat("_Value", 0);
+        mat.SetFloat("_value", 0);
     }
 }

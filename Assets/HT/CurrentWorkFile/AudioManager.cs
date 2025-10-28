@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Accessibility;
 using UnityEngine.Audio;
@@ -14,16 +15,11 @@ public class AudioManager : MonoBehaviour
   [SerializeField] private Slider SFXSlider;
 
 
-  public Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
-
-
-  private Stack<string> AnimationStack = new Stack<string>();
+  
 
    
 
-  public GameObject MainPanel;
-  public GameObject MusicSettingPanel;
-  public GameObject LicsenseSettingPanel;
+ 
   public AudioSource OurAudioSource;
   private int currentIndex = -1;
   public List<AudioClip> ListTestMusicClip;
@@ -32,21 +28,25 @@ public class AudioManager : MonoBehaviour
   private int currenttestindex = 0;
   public AudioMixerGroup MusicGroup;
   public AudioMixerGroup SFXGroup;
-  public TextMeshProUGUI textMeshPro;
+  
   public ScrollRect _scrollrect;
   public ScrollButton ScrollButtonTop;
   public ScrollButton ScrollButtonBottom;
 
   [Header("Animation-Shader")]
   public Canvas main_canvas;
+  public Image image;
   public Material mat1;
   private static readonly int UnscaledTimeID = Shader.PropertyToID("_UnscaledTime");
   public bool isSingle = false;
   public void OnClickSetMaterial(string paremeter)
   {
+
+    if (mat1 != image.material) image.material = mat1;
+
         AudioListener.pause = true;
         if (mat1 != null)
-    {
+        {
       isSingle = !isSingle;
     
       if (isSingle == true)
@@ -113,12 +113,7 @@ public class AudioManager : MonoBehaviour
   #region Animation
 
 
-  public void InitializePanel()
-  {
-    panels.Add("AudioManager", MainPanel);
-    panels.Add("MusicSetting", MusicSettingPanel);
-    panels.Add("LicsenseSetting", LicsenseSettingPanel);
-  }
+ 
   public void StopPlay()
   {
     OurAudioSource.Stop();
@@ -132,7 +127,7 @@ public class AudioManager : MonoBehaviour
     currentIndex = (((currentIndex + dir) % dictest[currenttestindex].Count) + dictest[currenttestindex].Count) % dictest[currenttestindex].Count;
     OurAudioSource.clip = dictest[currenttestindex][currentIndex];
     OurAudioSource.Play();
-    textMeshPro.text = dictest[currenttestindex][currentIndex].name;
+     
   }
   public void ChangeSoundType() // -button-
   {
@@ -152,7 +147,7 @@ public class AudioManager : MonoBehaviour
     }
     NextClip(0);
   }
-  void EnableUnwantedThreat()
+  public void EnableUnwantedThreat()
   {
     var mainghostclick = GameObject.FindObjectsByType<MainGhostClick>(
  FindObjectsInactive.Include,
@@ -193,12 +188,12 @@ public class AudioManager : MonoBehaviour
       }
     }
   }
-  void DisableUnwantedThreat()
+ public void DisableUnwantedThreat()
   {
 
     var mainghostclick = GameObject.FindObjectsByType<MainGhostClick>(
-FindObjectsInactive.Include,
-FindObjectsSortMode.None
+     FindObjectsInactive.Include,
+     FindObjectsSortMode.None
                         );
 
     if (mainghostclick.Length >= 1)
@@ -277,8 +272,7 @@ FindObjectsSortMode.None
       SetSFXVolume(0);
     }
 
-    InitializePanel();
-    
+   
     OurAudioSource.ignoreListenerPause = true;
 
 
@@ -286,6 +280,10 @@ FindObjectsSortMode.None
     main_canvas.renderMode = RenderMode.ScreenSpaceCamera;
     main_canvas.worldCamera = Camera.main;
     main_canvas.planeDistance = 1;
+
+    mat1 = image.material;
+    mat1 = Object.Instantiate(mat1);
+    image.material = mat1;
   }
 
   public void Update()
