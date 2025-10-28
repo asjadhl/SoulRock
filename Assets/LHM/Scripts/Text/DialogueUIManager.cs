@@ -2,12 +2,13 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class DialogueUIManager : MonoBehaviour
 {
     [Header("UI 오브젝트 연결")]
     [SerializeField] public GameObject speechBubble;
-    [SerializeField] private RawImage speakerImage; //  움직일 유령 이미지
+    [SerializeField] private RawImage speakerImage;
     [SerializeField] private TextMeshProUGUI dialogueText;
 
     [Header("폰트 (SDF 폰트 에셋)")]
@@ -23,6 +24,11 @@ public class DialogueUIManager : MonoBehaviour
 
     private Coroutine typingCoroutine;
     private Coroutine imageChangeRoutine;
+    private bool isTyping = false;
+    private string currentFullText = "";
+
+    // 클릭 시 다음 대사로 넘기기 위한 이벤트
+    public event Action OnDialogueClick;
 
     //  스테이지별 두 장의 이미지 (a1, a2)
     [Header("스테이지별 이미지 세트")]
@@ -41,26 +47,34 @@ public class DialogueUIManager : MonoBehaviour
     {
         if (sdfFontAsset != null && dialogueText != null)
             dialogueText.font = sdfFontAsset;
-    }
 
-    /// <summary>
-    /// 대화창과 유령 이미지 켜기
-    /// </summary>
-    public void ShowDialogueUI(bool isOn)
-    {
+        // 말풍선 클릭 이벤트 등록
         if (speechBubble != null)
-            speechBubble.SetActive(isOn);
+        {
+            Button btn = speechBubble.GetComponent<Button>();
+            if (btn == null)
+                btn = speechBubble.AddComponent<Button>();
 
-        if (speakerImage != null)
-            speakerImage.gameObject.SetActive(isOn);
-
-        if (dialogueText != null)
-            dialogueText.gameObject.SetActive(isOn);
+            btn.onClick.AddListener(OnSpeechBubbleClick);
+        }
     }
 
-    /// <summary>
-    /// 대사 출력
-    /// </summary>
+    private void OnSpeechBubbleClick()
+    {
+        if (isTyping)
+        {
+            // 현재 문장 즉시 완성
+            StopCoroutine(typingCoroutine);
+            dialogueText.text = currentFullText;
+            isTyping = false;
+        }
+        else
+        {
+            // 이미 다 나왔으면 다음 문장으로 스킵
+            OnDialogueClick?.Invoke();
+        }
+    }
+
     public void ShowDialogueText(string message, AudioClip clip = null)
     {
         if (typingCoroutine != null)
@@ -71,29 +85,42 @@ public class DialogueUIManager : MonoBehaviour
 
     private IEnumerator TypeText(string message, AudioClip clip)
     {
+        isTyping = true;
+        currentFullText = message;
         dialogueText.text = "";
-   
+
         foreach (char c in message)
         {
             dialogueText.text += c;
 
             if (typingAudio != null && clip != null)
             {
-                typingAudio.pitch = Random.Range(pitchRange.x, pitchRange.y);
+                typingAudio.pitch = UnityEngine.Random.Range(pitchRange.x, pitchRange.y);
                 typingAudio.PlayOneShot(clip);
             }
-            
-
 
             yield return new WaitForSeconds(typingSpeed);
         }
-        
+
+        isTyping = false;
     }
 
-    /// <summary>
-    ///  스테이지별 유령 이미지 2장을 3초 간격으로 바꾸기
-    /// </summary>
-    public void StartImageAnimation(int stageNum)
+    public void ShowDialogueUI(bool isOn)
+    {
+        if (speechBubble != null)
+            speechBubble.SetActive(isOn);
+        if (speakerImage != null)
+            speakerImage.gameObject.SetActive(isOn);
+        if (dialogueText != null)
+            dialogueText.gameObject.SetActive(isOn);
+    }
+
+
+
+/// <summary>
+///  스테이지별 유령 이미지 2장을 3초 간격으로 바꾸기
+/// </summary>
+public void StartImageAnimation(int stageNum)
     {
         if (imageChangeRoutine != null)
             StopCoroutine(imageChangeRoutine);
