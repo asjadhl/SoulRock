@@ -50,13 +50,13 @@ public class ReverseRotate : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            _ = GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus();
+            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus().Forget();
             gameObject.SetActive(false);
         }
     }
     private void OnDisable()
     {
-        if (!isInitialized) return; //시작 폭발 방지임ㅋㅋ
+        if (!isInitialized) return; //시작 폭발 방지임ㅋㅋ 펑
         Vector3 effectPos = transform.position + new Vector3(0, 1f, 2f);
         particleManager.PlayChairBoom(effectPos);
         gameObject.SetActive(false);
