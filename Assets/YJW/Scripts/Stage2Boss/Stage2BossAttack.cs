@@ -34,8 +34,13 @@ public class Stage2BossAttack : MonoBehaviour
     /// 2. 하트에서 넘어갈 때 패턴 동시에 나옴.
     /// 3. 하트 패턴 실패 시 상호작용
     /// </summary>
-    
-    public static int clubStack = 0;
+
+    private static int _clubStack = 0;
+    public static int clubStack
+    {
+        get => _clubStack;
+        set => _clubStack = Mathf.Clamp(value, 0, 7);
+    }
     int reMiniH;
     private bool bossRecover = false;
 
