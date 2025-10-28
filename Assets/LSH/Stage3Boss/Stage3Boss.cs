@@ -40,9 +40,11 @@ public class Stage3Boss : MonoBehaviour
     bool isAngry = false;
     bool animeOn = false;
     [SerializeField] GameObject monsterSpawner;
+    NormalMusicBox normalMusicBox;
     private async UniTask Awake()
     {
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         anime = GetComponent<Animator>();
         hp = GetComponent<BossHP>();
         material.color = Color.white;
@@ -123,7 +125,7 @@ public class Stage3Boss : MonoBehaviour
             Debug.Log("빡친보스패턴");
             AngryBoss3Pattern();
         }
-        if((int)CheckRealTime.inGamerealTime >= 210)
+        if(normalMusicBox.MusicFin) //노래끝 버티기 끝
         {
             BossState.isBoss2Dead = true;
             SceneManager.LoadScene("StageSelect");

@@ -28,13 +28,24 @@ public class SelectManager : MonoBehaviour
 
     void CheckClearLight()
     {
-        if(BossState.isBoss1Dead == true)
+        if(DialogueLineTrueORFalse.stage1True)
+        {
+            clownCol.GetComponent<BoxCollider>().enabled = false;
+        }
+        else if(!DialogueLineTrueORFalse.stage1True)
+        {
+            clownCol.GetComponent<BoxCollider>().enabled = true;
+        }
+        if (BossState.isBoss1Dead == true)
         {
             skullLight.SetActive(true);
             clownLight.SetActive(false);
             //clownCol.enabled = false;
             clownCol.GetComponent<BoxCollider>().enabled = false;
-            skull.GetComponent<BoxCollider>().enabled = true;
+            if(!DialogueLineTrueORFalse.stage2True)
+            {
+                skull.GetComponent<BoxCollider>().enabled = true;
+            }
         }
         if (BossState.isBoss2Dead == true)
         {

@@ -21,15 +21,15 @@ public class TextManager : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
 
         if (MainGhostTrainingState.isClicked)
-            _ = StartStageDialogueAsync(1);
+            StartStageDialogueAsync(1).Forget();
         if (MainPlayState.isClicked1)
-            _ = StartStageDialogueAsync(2);
+            StartStageDialogueAsync(2).Forget();
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
-            _ = StartStageDialogueAsync(3);
+            StartStageDialogueAsync(3).Forget();
         if (MapSelected3.start3)
-            _ = StartStageDialogueAsync(4);
+            StartStageDialogueAsync(4).Forget();
         if (MapSelected3.stop3)
-            _ = StartStageDialogueAsync(5);
+            StartStageDialogueAsync(5).Forget();
     }
 
     public async UniTaskVoid StartStageDialogueAsync(int stageNum)
@@ -57,11 +57,11 @@ public class TextManager : MonoBehaviour
         // 대화 시작 플래그 설정
         switch (stageNum)
         {
-            case 1: DialogueLineTrueORFalse.TutorialTrue = true; break;
-            case 2: DialogueLineTrueORFalse.stage1True = true; break;
-            case 3: DialogueLineTrueORFalse.stage2True = true; break;
-            case 4: DialogueLineTrueORFalse.stage3_1True = true; break;
-            case 5: DialogueLineTrueORFalse.stage3_2True = true; break;
+            case 1: DialogueLineTrueORFalse.TutorialTrue = true; break; //트레이닝 룸 대사
+            case 2: DialogueLineTrueORFalse.stage1True = true; break; //광대 설명
+            case 3: DialogueLineTrueORFalse.stage2True = true; break; //해골 설명
+            case 4: DialogueLineTrueORFalse.stage3_1True = true; break; //박살내기 전
+            case 5: DialogueLineTrueORFalse.stage3_2True = true; break; //박살낸 후
         }
 
         int index = 0;

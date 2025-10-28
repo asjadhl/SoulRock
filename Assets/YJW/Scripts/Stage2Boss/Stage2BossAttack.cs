@@ -82,10 +82,11 @@ public class Stage2BossAttack : MonoBehaviour
     public bool wheelStop = true;
     private int index = 0;
     [SerializeField] GameObject[] clubStackImage;
-
+    NormalMusicBox normalMusicBox;
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
+        normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         BossHP = GetComponent<BossHP>();
         if (isDelay == false)
             StartDelay().Forget();
@@ -99,7 +100,7 @@ public class Stage2BossAttack : MonoBehaviour
         {
             BossPattern();
         }
-        if ((int)CheckRealTime.inGamerealTime >=125)
+        if (normalMusicBox.MusicFin)
         {
             BossState.isBoss1Dead = true;
             SceneManager.LoadScene("StageSelect");

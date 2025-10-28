@@ -7,20 +7,20 @@ public class DialogueTriggerOnBossState : MonoBehaviour
     void Start()
     {
         // 스테이지1 보스가 죽었으면 해당 대사 실행
-        if (BossState.isBoss1Dead)
+        if (BossState.isBoss1Dead&&!BossState.isBoss2Dead)
         {
-            _ = dialogueAutoPlayer.StartStageDialogueAsync(2); // 예: 다음 스테이지의 대사 실행
+            dialogueAutoPlayer.StartStageDialogueAsync(2).Forget(); // 예: 다음 스테이지의 대사 실행
         }
 
         // 필요하면 다른 보스도 조건 추가
-        if (BossState.isBoss2Dead)
+        if (BossState.isBoss1Dead&&BossState.isBoss2Dead)
         {
-            _ = dialogueAutoPlayer.StartStageDialogueAsync(3);
+            dialogueAutoPlayer.StartStageDialogueAsync(3).Forget();
         }
         if (MainGhostTrainingState.isClicked)
         {
             Debug.Log("트레이닝 룸 진입: 대사 시작");
-            _ = dialogueAutoPlayer.StartStageDialogueAsync(1); // 트레이닝용 대사 번호
+            dialogueAutoPlayer.StartStageDialogueAsync(1).Forget(); // 트레이닝용 대사 번호
         }
     }
 }

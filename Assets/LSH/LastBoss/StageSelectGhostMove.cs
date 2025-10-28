@@ -37,7 +37,7 @@ public class StageSelectGhostMove : MonoBehaviour
             var tm = FindObjectOfType<TextManager>();
             if (tm != null)
             {
-                _ = tm.StartStageDialogueAsync(4);
+                tm.StartStageDialogueAsync(4).Forget();
             }
 
             MoveScene().Forget();

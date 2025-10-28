@@ -14,6 +14,7 @@ public class GBAttack : MonoBehaviour
      * 올 True면 엔딩.
      * */
     AudioSource musicBox;
+    NormalMusicBox normalMusicBox;
     Animator animator;
     private ParticleManager particleManager;
     int teleportIndex;
@@ -38,9 +39,14 @@ public class GBAttack : MonoBehaviour
 
     [Header("4번째 패턴")]
     [SerializeField] GameObject rightBeat;
+    [SerializeField] GameObject leftBeat;
     [SerializeField] Image rightLongBeat;
+    [SerializeField] Image leftLongBeat;
+
     float barAmount = 0;
+    int ranIndex = 0;
     bool isBeatOn = false;
+    bool isSuccess = false;
     //[SerializeField] Image leftLongBeat; 
 
     ////분신패턴
@@ -57,6 +63,7 @@ public class GBAttack : MonoBehaviour
     {
 		particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
 		musicBox = GameObject.FindWithTag("MusicBox").GetComponent<AudioSource>();
+        normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         bossMove = GetComponent<BossMove>();
         animator = GetComponent<Animator>();
 		if (player == null)
@@ -80,6 +87,7 @@ public class GBAttack : MonoBehaviour
         //}
 
         rightBeat.SetActive(false);
+        leftBeat.SetActive(false);
         originalRotation = transform.rotation; // 현재 회전 저장
         poltergeist.SetActive(false);
         mosterSpawner.SetActive(false);
@@ -88,28 +96,65 @@ public class GBAttack : MonoBehaviour
             clone[i].transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             clone[i].SetActive(false);
         }
+        LongBitRoutine().Forget();
     }
     // Update is called once per frame
     void Update()
     {
         if (!isAttack && bossMove.canRun)
         {
-            _ = BossPattern();
+            BossPattern().Forget();
         }
+        CheckForthPattern();
         //StuckWithPlayer();
+        if(normalMusicBox.MusicFin)
+        {
+            //여기에 노래끝났을때.
+        }
+    }
+
+    void CheckForthPattern()
+    {
         if (Input.GetKey(KeyCode.Alpha1) && isBeatOn)
         {
             barAmount += 0.4f;
-			rightLongBeat.fillAmount = barAmount / 100f;
-		}
-        if(Input.GetKeyUp(KeyCode.Alpha1))
+            rightLongBeat.fillAmount = barAmount / 100f;
+            if (rightLongBeat.fillAmount >= 1f)
+            {
+                isSuccess = true;
+                rightBeat.SetActive(false);
+            }
+        }
+       if (Input.GetKeyUp(KeyCode.Alpha1))
+       {
+            barAmount = 0;
+            rightLongBeat.fillAmount = barAmount / 100f;
+       }
+       if (Input.GetKey(KeyCode.Alpha2) && isBeatOn)
+       {
+            barAmount += 0.4f;
+            leftLongBeat.fillAmount = barAmount / 100f;
+            if (leftLongBeat.fillAmount >= 1f)
+            {
+                isSuccess = true;
+                leftBeat.SetActive(false);
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2))
         {
             barAmount = 0;
-			rightLongBeat.fillAmount = barAmount / 100f;
-		}
-		
-	}
+            leftLongBeat.fillAmount = barAmount / 100f;
+        }
+        
+    }
 
+    void CheckSuccess()
+    {
+        if(!isSuccess)
+        {
+            GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus().Forget();
+        }
+    }
 	//void StuckWithPlayer()
 	//{
 	//	float distance = Vector3.Distance(transform.position, player.position);
@@ -123,23 +168,20 @@ public class GBAttack : MonoBehaviour
 	//}
 	private async UniTask BossPattern()
     {
-        patternIndex = Random.Range(0, 4);
+        patternIndex = Random.Range(0, 3);
         switch (patternIndex)
         {
             case 0:
-                await LongBit();
+                await SoundAttack();
                 break;
             case 1:
                 await Duplicate();
                 break;
             case 2:
-                await LongBit();
+                await Poltergeist();
                 break;
-            case 3:
-			    await LongBit();
-                break;
-
-		}
+        }
+        
     }
     
     private async UniTask SoundAttack()
@@ -165,7 +207,7 @@ public class GBAttack : MonoBehaviour
                     break;
                  
             }
-            musicBox.panStereo = 0f;
+            //musicBox.panStereo = 0f;
             if(!bossMove.canRun)
                 break;
         }
@@ -246,12 +288,20 @@ public class GBAttack : MonoBehaviour
         poltergeist.SetActive(false);
         isAttack = false;
     }
-    
+    private async UniTaskVoid LongBitRoutine()
+    {
+        while (true)
+        {
+            int thisran = Random.Range(10, 15);
+            await UniTask.Delay(1000 * thisran);
+            //await UniTask.WaitUntil(() => !isAttack);
+            await LongBit();
+        }
+    }
     public async UniTask LongBit()
     {
-		isAttack = true;
-		teleportIndex = Random.Range(0, 2);
-        switch(teleportIndex)
+        ranIndex = Random.Range(0, 2);
+        switch(ranIndex)
         {
             case 0:
 				musicBox.panStereo = -1f;
@@ -262,15 +312,17 @@ public class GBAttack : MonoBehaviour
             case 1:
 				musicBox.panStereo = 1f;
 				isBeatOn = true;
-				rightBeat.SetActive(true);
+				leftBeat.SetActive(true);
 				await UniTask.Delay(6000);
 				break;
         }
+        CheckSuccess();
         isBeatOn = false;
-        barAmount = 0f;
         rightBeat.SetActive(false);
-		musicBox.panStereo = 0f;
-        isAttack = false;
+        leftBeat.SetActive(false);
+        barAmount = 0f;
+        isSuccess = false;
+        musicBox.panStereo = 0f;
 	}
     //private async UniTask Duplicate()
     //{
