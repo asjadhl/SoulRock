@@ -1,8 +1,9 @@
-using System.Collections;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueUIManager : MonoBehaviour
 {
@@ -22,15 +23,14 @@ public class DialogueUIManager : MonoBehaviour
     [SerializeField] private bool randomPitch = true;
     [SerializeField] private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
 
-    private Coroutine typingCoroutine;
-    private Coroutine imageChangeRoutine;
+    private CancellationTokenSource typingCTS;
+    private CancellationTokenSource imageCTS;
+
     private bool isTyping = false;
     private string currentFullText = "";
 
-    // 클릭 시 다음 대사로 넘기기 위한 이벤트
     public event Action OnDialogueClick;
 
-    //  스테이지별 두 장의 이미지 (a1, a2)
     [Header("스테이지별 이미지 세트")]
     public Texture stage1_img1;
     public Texture stage1_img2;
@@ -48,7 +48,6 @@ public class DialogueUIManager : MonoBehaviour
         if (sdfFontAsset != null && dialogueText != null)
             dialogueText.font = sdfFontAsset;
 
-        // 말풍선 클릭 이벤트 등록
         if (speechBubble != null)
         {
             Button btn = speechBubble.GetComponent<Button>();
@@ -63,27 +62,24 @@ public class DialogueUIManager : MonoBehaviour
     {
         if (isTyping)
         {
-            // 현재 문장 즉시 완성
-            StopCoroutine(typingCoroutine);
+            typingCTS?.Cancel(); // 타이핑 중단
             dialogueText.text = currentFullText;
             isTyping = false;
         }
         else
         {
-            // 이미 다 나왔으면 다음 문장으로 스킵
             OnDialogueClick?.Invoke();
         }
     }
 
     public void ShowDialogueText(string message, AudioClip clip = null)
     {
-        if (typingCoroutine != null)
-            StopCoroutine(typingCoroutine);
-
-        typingCoroutine = StartCoroutine(TypeText(message, clip));
+        typingCTS?.Cancel();
+        typingCTS = new CancellationTokenSource();
+        _ = TypeTextAsync(message, clip, typingCTS.Token);
     }
 
-    private IEnumerator TypeText(string message, AudioClip clip)
+    private async UniTask TypeTextAsync(string message, AudioClip clip, CancellationToken token)
     {
         isTyping = true;
         currentFullText = message;
@@ -91,6 +87,8 @@ public class DialogueUIManager : MonoBehaviour
 
         foreach (char c in message)
         {
+            if (token.IsCancellationRequested) break;
+
             dialogueText.text += c;
 
             if (typingAudio != null && clip != null)
@@ -99,7 +97,7 @@ public class DialogueUIManager : MonoBehaviour
                 typingAudio.PlayOneShot(clip);
             }
 
-            yield return new WaitForSeconds(typingSpeed);
+            await UniTask.Delay(TimeSpan.FromSeconds(typingSpeed), cancellationToken: token);
         }
 
         isTyping = false;
@@ -115,18 +113,12 @@ public class DialogueUIManager : MonoBehaviour
             dialogueText.gameObject.SetActive(isOn);
     }
 
-
-
-/// <summary>
-///  스테이지별 유령 이미지 2장을 3초 간격으로 바꾸기
-/// </summary>
-public void StartImageAnimation(int stageNum)
+    public void StartImageAnimation(int stageNum)
     {
-        if (imageChangeRoutine != null)
-            StopCoroutine(imageChangeRoutine);
+        imageCTS?.Cancel();
+        imageCTS = new CancellationTokenSource();
 
         Texture img1 = null, img2 = null;
-
         switch (stageNum)
         {
             case 1: img1 = stage1_img1; img2 = stage1_img2; break;
@@ -136,34 +128,27 @@ public void StartImageAnimation(int stageNum)
             case 5: img1 = boss_img3; img2 = boss_img4; break;
         }
 
-        imageChangeRoutine = StartCoroutine(ChangeImageLoop(img1, img2));
+        _ = ChangeImageLoopAsync(img1, img2, imageCTS.Token);
     }
 
-    /// <summary>
-    ///  3초마다 번갈아 표시되는 루프
-    /// </summary>
-    private IEnumerator ChangeImageLoop(Texture img1, Texture img2)
+    private async UniTaskVoid ChangeImageLoopAsync(Texture img1, Texture img2, CancellationToken token)
     {
         if (speakerImage == null || img1 == null || img2 == null)
-            yield break;
+            return;
 
-        while (true)
+        while (!token.IsCancellationRequested)
         {
             speakerImage.texture = img1;
-            yield return new WaitForSeconds(0.5f);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: token);
+            if (token.IsCancellationRequested) break;
+
             speakerImage.texture = img2;
-            yield return new WaitForSeconds(0.5f);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: token);
         }
     }
 
-    /// <summary>
-    ///  대화 종료 시 이미지 애니메이션 중단
-    /// </summary>
     public void StopImageAnimation()
     {
-        if (imageChangeRoutine != null)
-            StopCoroutine(imageChangeRoutine);
-      
-        
+        imageCTS?.Cancel();
     }
 }

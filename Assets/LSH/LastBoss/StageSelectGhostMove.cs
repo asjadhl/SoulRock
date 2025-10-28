@@ -37,7 +37,7 @@ public class StageSelectGhostMove : MonoBehaviour
             var tm = FindObjectOfType<TextManager>();
             if (tm != null)
             {
-                tm.StartStageDialogue(4);
+                _ = tm.StartStageDialogueAsync(4);
             }
 
             MoveScene().Forget();
@@ -82,7 +82,7 @@ public class StageSelectGhostMove : MonoBehaviour
         var tm = FindObjectOfType<TextManager>();
         if (tm != null)
         {
-            tm.StartStageDialogue(5);
+            tm.StartStageDialogueAsync(5);
         }
 
         await UniTask.Delay(29000);

@@ -1,66 +1,60 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
 using UnityEngine;
+
 public class TextManager : MonoBehaviour
 {
     [SerializeField] private StageDialogueData dialogueData;
     [SerializeField] private DialogueUIManager dialogueUI;
     [SerializeField] private float interval = 3f;
 
-    private Coroutine dialogueRoutine;
+    private CancellationTokenSource dialogueCTS;
 
-  
-
-    void Start()
+    private void Start()
     {
-        StartCoroutine(DelayedDialogueCheck());
+        _ = DelayedDialogueCheckAsync();
     }
 
-
-    void Update()
+    public async UniTaskVoid DelayedDialogueCheckAsync()
     {
-        
-
-    }
-
-    private IEnumerator DelayedDialogueCheck()
-    {
-        yield return new WaitForSeconds(0.1f);
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
 
         if (MainGhostTrainingState.isClicked)
-            StartStageDialogue(1);
+            _ = StartStageDialogueAsync(1);
         if (MainPlayState.isClicked1)
-            StartStageDialogue(2);
+            _ = StartStageDialogueAsync(2);
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
-            StartStageDialogue(3);
+            _ = StartStageDialogueAsync(3);
         if (MapSelected3.start3)
-            StartStageDialogue(4);
+            _ = StartStageDialogueAsync(4);
         if (MapSelected3.stop3)
-            StartStageDialogue(5);
+            _ = StartStageDialogueAsync(5);
     }
 
-    public void StartStageDialogue(int stageNum)
+    public async UniTaskVoid StartStageDialogueAsync(int stageNum)
     {
-        if (dialogueRoutine != null)
-            StopCoroutine(dialogueRoutine);
+        // 기존 대화 취소
+        dialogueCTS?.Cancel();
+        dialogueCTS = new CancellationTokenSource();
 
-        DialogueLine[] lines = null;
-
-        switch (stageNum)
+        DialogueLine[] lines = stageNum switch
         {
-            case 1: lines = dialogueData.stage1.dialogues; break;
-            case 2: lines = dialogueData.stage2.dialogues; break;
-            case 3: lines = dialogueData.stage3.dialogues; break;
-            case 4: lines = dialogueData.stage4.dialogues; break;
-            case 5: lines = dialogueData.stage5.dialogues; break;
-        }
+            1 => dialogueData.stage1.dialogues,
+            2 => dialogueData.stage2.dialogues,
+            3 => dialogueData.stage3.dialogues,
+            4 => dialogueData.stage4.dialogues,
+            5 => dialogueData.stage5.dialogues,
+            _ => null
+        };
 
         if (lines != null)
-            dialogueRoutine = StartCoroutine(PlayDialogue(lines, stageNum));
+            await PlayDialogueAsync(lines, stageNum, dialogueCTS.Token);
     }
 
-    private IEnumerator PlayDialogue(DialogueLine[] lines, int stageNum)
+    private async UniTask PlayDialogueAsync(DialogueLine[] lines, int stageNum, CancellationToken token)
     {
-        // 대화 시작 시 True 설정
+        // 대화 시작 플래그 설정
         switch (stageNum)
         {
             case 1: DialogueLineTrueORFalse.TutorialTrue = true; break;
@@ -73,34 +67,32 @@ public class TextManager : MonoBehaviour
         int index = 0;
         bool waitingForClick = false;
 
-        // 클릭 이벤트 등록
         System.Action onClick = () => waitingForClick = false;
         dialogueUI.OnDialogueClick += onClick;
 
         dialogueUI.ShowDialogueUI(true);
         dialogueUI.StartImageAnimation(stageNum);
 
-        // 반복문으로 한 줄씩 출력
         while (index < lines.Length)
         {
+            if (token.IsCancellationRequested) break;
+
             DialogueLine line = lines[index];
             dialogueUI.ShowDialogueText(line.text, line.sound);
 
             waitingForClick = true;
-            while (waitingForClick)
-                yield return null;
+            while (waitingForClick && !token.IsCancellationRequested)
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
 
             index++;
         }
 
-        // 이벤트 해제 및 종료 처리
         dialogueUI.OnDialogueClick -= onClick;
         dialogueUI.StopImageAnimation();
         dialogueUI.ShowDialogueUI(false);
         dialogueUI.speechBubble.SetActive(false);
-        dialogueRoutine = null;
 
-        // 대화 종료 시 False 설정
+        // 대화 종료 플래그 해제
         switch (stageNum)
         {
             case 1: DialogueLineTrueORFalse.TutorialTrue = false; break;

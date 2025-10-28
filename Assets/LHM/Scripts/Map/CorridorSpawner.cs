@@ -119,21 +119,21 @@ public class CorridorSpawner : MonoBehaviour
 
 
 
-    float GetPrefabLength(GameObject obj)
-    {
-        if (obj == null)
-        {
-            Debug.LogWarning("GetPrefabLength() called with null object");
-            return corridorLength;
-        }
+    //float GetPrefabLength(GameObject obj)
+    //{
+    //    if (obj == null)
+    //    {
+    //        Debug.LogWarning("GetPrefabLength() called with null object");
+    //        return corridorLength;
+    //    }
 
-        Renderer rend = obj.GetComponentInChildren<Renderer>();
-        if (rend == null)
-            return corridorLength;
+    //    Renderer rend = obj.GetComponentInChildren<Renderer>();
+    //    if (rend == null)
+    //        return corridorLength;
 
-        // 실제 월드 스케일까지 반영
-        return rend.bounds.size.z;
-    }
+    //    // 실제 월드 스케일까지 반영
+    //    return rend.bounds.size.z;
+    //}
 
 
     string GetStageCorridorTag()
@@ -168,16 +168,16 @@ public class CorridorSpawner : MonoBehaviour
         //}
     }
 
-    IEnumerator StageTimer(float delay)
-    {
-        isTransitionRunning = true;
-        yield return new WaitForSeconds(delay);
+    //IEnumerator StageTimer(float delay)
+    //{
+    //    isTransitionRunning = true;
+    //    yield return new WaitForSeconds(delay);
 
-        currentStage++;
+    //    currentStage++;
 
-        isTransitionRunning = false;
-        StartStageTimer(); // 다음 단계 자동 실행
-    }
+    //    isTransitionRunning = false;
+    //    StartStageTimer(); // 다음 단계 자동 실행
+    //}
 
     //bool IsAutoStage(int stage)
     //{

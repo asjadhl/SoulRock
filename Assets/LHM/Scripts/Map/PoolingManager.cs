@@ -24,7 +24,6 @@ public class PoolingManager : MonoBehaviour
 
     void Start()
     {
-
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
         foreach (Pool pool in pools)
@@ -40,9 +39,7 @@ public class PoolingManager : MonoBehaviour
 
             poolDictionary.Add(pool.tag, objectPool);
         }
-
     }
-
 
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {
@@ -72,5 +69,4 @@ public class PoolingManager : MonoBehaviour
 
         return obj;
     }
-
 }
