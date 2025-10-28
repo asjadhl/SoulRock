@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
-using System.Security.Cryptography;
+using Unity.IntegerTime;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 
 public class GBAttack : MonoBehaviour
@@ -33,15 +33,22 @@ public class GBAttack : MonoBehaviour
     bool cloneMakeGhost = false;
     [Header("타겟 (플레이어)")]
 	public Transform player;
-    ////분신패턴
-    //[SerializeField] private int clonePoolSize = 4;
-    //[SerializeField] private GameObject ghostClonePrefab;
-    //private GameObject[] clonePool;
-    //private bool[] cloneUsed;
-    //int cloneCount = 4;
-    //float spacing = 3f;//간격
-    //Vector3 bossPoss;
-    Quaternion originalRotation;
+
+    [Header("4번째 패턴")]
+    [SerializeField] GameObject rightLongBeat;
+	[SerializeField] GameObject leftLongBeat;
+    Image rightBeat;
+    Image leftBeat;
+	float timer = 0;
+	////분신패턴
+	//[SerializeField] private int clonePoolSize = 4;
+	//[SerializeField] private GameObject ghostClonePrefab;
+	//private GameObject[] clonePool;
+	//private bool[] cloneUsed;
+	//int cloneCount = 4;
+	//float spacing = 3f;//간격
+	//Vector3 bossPoss;
+	Quaternion originalRotation;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -55,8 +62,11 @@ public class GBAttack : MonoBehaviour
         patternIndex = 0;
         firstxPos = transform.position.x;
         firstyPos = transform.position.y;
-        //bossPoss = transform.position;
-    }
+		//4번쨰 패턴
+		rightBeat = rightLongBeat.GetComponent<Image>();
+		leftBeat = leftLongBeat.GetComponent<Image>();
+		//bossPoss = transform.position;
+	}
     private void Start()
     {
         ////클론만들기~
@@ -102,7 +112,7 @@ public class GBAttack : MonoBehaviour
 	//}
 	private async UniTask BossPattern()
     {
-        patternIndex = Random.Range(0, 3);
+        patternIndex = Random.Range(0, 4);
         switch (patternIndex)
         {
             case 0:
@@ -114,7 +124,14 @@ public class GBAttack : MonoBehaviour
             case 2:
                 await Poltergeist();
                 break;
-        }
+            case 3:
+                while(rightBeat.fillAmount <= 1)
+                {
+					await LongBit();
+				}
+                break;
+
+		}
     }
     private async UniTask SoundAttack()
     {
@@ -220,6 +237,14 @@ public class GBAttack : MonoBehaviour
         poltergeist.SetActive(false);
         isAttack = false;
     }
+    
+    public async UniTask LongBit()
+    {
+		isAttack = true;
+		timer += Time.deltaTime;
+        rightBeat.fillAmount = timer / 100f;
+		isAttack = false;
+	}
     //private async UniTask Duplicate()
     //{
     //    isAttack = true;
