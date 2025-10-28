@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class MusicBox : MonoBehaviour
 {
@@ -21,8 +23,9 @@ public class MusicBox : MonoBehaviour
     [SerializeField] AudioSource musicSource;
     [Header("Musics")]
     [SerializeField] AudioClip[] music;
-
-    int i = 0;
+    [Header("Music Bar")]
+	[SerializeField] Image musicBar;
+	int i = 0;
     //[Header("MusicStartDelay")]
     double nextStartTime = 5f;
     private int delayMusic = 1000;
@@ -45,13 +48,12 @@ public class MusicBox : MonoBehaviour
         nextStartTime = AudioSettings.dspTime + delay; // 현재 DSP 시간에 지연 시간 추가
         musicSource.clip = music[i];
         musicSource.PlayScheduled(nextStartTime); // 예약된 시간에 첫 곡 재생
+		//if (FXSManager.Instance != null)
+		//    FXSManager.Instance.PlayClip(0, 2, nextStartTime);
+		//else
+		//    gameObject.SetActive(false);
 
-        //if (FXSManager.Instance != null)
-        //    FXSManager.Instance.PlayClip(0, 2, nextStartTime);
-        //else
-        //    gameObject.SetActive(false);
-        
-    }
+	}
 
     void Update()
     {
@@ -64,8 +66,14 @@ public class MusicBox : MonoBehaviour
         {
             musicStart = true;
         }
-        ChangeSong();
-    }
+		MusicBar();
+		ChangeSong();
+	}
+
+    public void MusicBar()
+    {
+		musicBar.fillAmount = (int)CheckRealTime.inGamerealTime / (int)musicSource.clip.length;
+	}
     //   private async UniTask  ChangeSong()
     //   {
     //	//Debug.LogError((int)CheckRealTime.Instance.inGamerealTime);

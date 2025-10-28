@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NormalMusicBox : MonoBehaviour
 {
@@ -6,8 +7,10 @@ public class NormalMusicBox : MonoBehaviour
     [SerializeField] AudioSource musicSource;
     [Header("Musics")]
     [SerializeField] AudioClip music;
-
-    double nextStartTime = 5f;
+	[Header("Music Bar")]
+	[SerializeField] Image musicBar;
+	double nextStartTime = 5f;
+    public bool MusicFin = false;
     private void Awake()
     {
     }
@@ -25,5 +28,23 @@ public class NormalMusicBox : MonoBehaviour
          musicSource.PlayScheduled(nextStartTime); // 예약된 시간에 첫 곡 재생
 
        
+    }
+	private void Update()
+	{
+        MusicBar();
+        CheckMusicFinished();
+	}
+	public void MusicBar()
+	{
+		musicBar.fillAmount = (float)CheckRealTime.inGamerealTime / musicSource.clip.length;
+	}
+
+    void CheckMusicFinished()
+    {
+        if(musicBar.fillAmount >= 1)
+        {
+            MusicFin = true;
+            Debug.LogError("노래끝남");
+		}
     }
 }

@@ -144,7 +144,7 @@ public class ParticleManager : MonoBehaviour
         }
 
         ParticleSystem effect = poltergeistPool.Dequeue();
-        effect.transform.position = new Vector3(0, 0, 0);
+        effect.transform.position = pos;
         effect.gameObject.SetActive(true);
         effect.Play();
 

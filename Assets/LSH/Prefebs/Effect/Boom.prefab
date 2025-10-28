@@ -47,7 +47,7 @@ ParticleSystem:
   m_GameObject: {fileID: 2001139236782490468}
   serializedVersion: 8
   lengthInSec: 3
-  simulationSpeed: 5
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -1380,11 +1380,11 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.028301895, g: 0.018653523, b: 0, a: 0.29411766}
-        key1: {r: 0.6415094, g: 0.02804351, b: 0.009077947, a: 0.20784314}
-        key2: {r: 0.6226415, g: 0, b: 0, a: 0}
-        key3: {r: 0, g: 0, b: 0, a: 0}
-        key4: {r: 0.3962264, g: 0.15613267, b: 0.1439124, a: 0}
+        key0: {r: 0.028301895, g: 0.018653523, b: 0, a: 0.6039216}
+        key1: {r: 0.6415094, g: 0.02804351, b: 0.009077947, a: 0.7921569}
+        key2: {r: 0.6226415, g: 0, b: 0, a: 0.5701367}
+        key3: {r: 0, g: 0, b: 0, a: 0.58836657}
+        key4: {r: 0.3962264, g: 0.15613267, b: 0.1439124, a: 0.74509805}
         key5: {r: 0.5921569, g: 0.5921569, b: 0.5921569, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
@@ -1396,18 +1396,18 @@ ParticleSystem:
         ctime5: 55705
         ctime6: 0
         ctime7: 0
-        atime0: 13107
-        atime1: 36044
-        atime2: 60909
-        atime3: 65535
-        atime4: 65535
-        atime5: 0
+        atime0: 11951
+        atime1: 13493
+        atime2: 26792
+        atime3: 27756
+        atime4: 36044
+        atime5: 60909
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_ColorSpace: 0
         m_NumColorKeys: 6
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 6
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -11402,7 +11402,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 13107
-        atime1: 39321
+        atime1: 38743
         atime2: 40285
         atime3: 43369
         atime4: 65535
