@@ -1,11 +1,6 @@
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
-using Unity.IntegerTime;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
-
 public class GBAttack : MonoBehaviour
 {
     /*
@@ -28,7 +23,7 @@ public class GBAttack : MonoBehaviour
     float firstyPos;
     float firstclonexPos;
     float firstcloneyPos;
-    int cooltime = 2000;
+    int cooltime = 1000;
     BossMove bossMove;
     [Header("폴터가이스트 현상")]
     [SerializeField] GameObject poltergeist;
@@ -45,6 +40,7 @@ public class GBAttack : MonoBehaviour
 
     float barAmount = 0;
     int ranIndex = 0;
+    int ranIndexBefore = 0;
     bool isBeatOn = false;
     bool isSuccess = false;
     //[SerializeField] Image leftLongBeat; 
@@ -115,17 +111,18 @@ public class GBAttack : MonoBehaviour
 
     void CheckForthPattern()
     {
-        if (Input.GetMouseButton(2) && isBeatOn)
+        if (Input.GetMouseButton(2)&&isBeatOn)
         {
             barAmount += 0.4f;
             rightLongBeat.fillAmount = barAmount / 100f;
             if (rightLongBeat.fillAmount >= 1f)
             {
                 isSuccess = true;
+                musicBox.panStereo = 0f;
                 rightBeat.SetActive(false);
             }
         }
-       if (Input.GetKeyUp(KeyCode.Alpha1))
+       if (Input.GetMouseButtonUp(2))
        {
             barAmount = 0;
             rightLongBeat.fillAmount = barAmount / 100f;
@@ -137,10 +134,11 @@ public class GBAttack : MonoBehaviour
             if (leftLongBeat.fillAmount >= 1f)
             {
                 isSuccess = true;
+                musicBox.panStereo = 0f;
                 leftBeat.SetActive(false);
             }
         }
-        if (Input.GetKeyUp(KeyCode.Alpha2))
+        if (Input.GetMouseButtonUp(1))
         {
             barAmount = 0;
             leftLongBeat.fillAmount = barAmount / 100f;
@@ -150,7 +148,7 @@ public class GBAttack : MonoBehaviour
 
     void CheckSuccess()
     {
-        if(!isSuccess)
+        if (!isSuccess)
         {
             GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus().Forget();
         }
@@ -167,8 +165,16 @@ public class GBAttack : MonoBehaviour
 	//	}
 	//}
 	private async UniTask BossPattern()
-    {
-        patternIndex = Random.Range(0, 3);
+    { 
+        for (int i = 0; ; i++)
+        {
+            patternIndex = Random.Range(0, 3);
+            if (patternIndex != ranIndexBefore)
+            {
+                ranIndexBefore = patternIndex;
+                break;
+            }
+        }
         switch (patternIndex)
         {
             case 0:
@@ -215,6 +221,7 @@ public class GBAttack : MonoBehaviour
         mosterSpawner.SetActive(false);
         transform.rotation = originalRotation;
         KillBall.SetActive(false);
+        await UniTask.Delay(2000);
         isAttack = false;
     }
     private async UniTask SoundAttackVector(int patternNum)
@@ -304,16 +311,16 @@ public class GBAttack : MonoBehaviour
         switch(ranIndex)
         {
             case 0:
-				musicBox.panStereo = -1f;
-				isBeatOn = true;
+                SoundSmooth(-1f, 2.5f).Forget();
+                isBeatOn = true;
 				rightBeat.SetActive(true);
-                await UniTask.Delay(6000);
+                await UniTask.Delay(5000);
                 break;
             case 1:
-				musicBox.panStereo = 1f;
-				isBeatOn = true;
+                SoundSmooth(1f, 2.5f).Forget();
+                isBeatOn = true;
 				leftBeat.SetActive(true);
-				await UniTask.Delay(6000);
+				await UniTask.Delay(5000);
 				break;
         }
         CheckSuccess();
@@ -324,59 +331,16 @@ public class GBAttack : MonoBehaviour
         isSuccess = false;
         musicBox.panStereo = 0f;
 	}
-    //private async UniTask Duplicate()
-    //{
-    //    isAttack = true;
-    //    int realBossIndex = Random.Range(0, cloneCount+ 1);
+    public async UniTask SoundSmooth(float stereo, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            musicBox.panStereo = Mathf.Lerp(0, stereo, elapsed / duration);
+            await UniTask.Yield();
+        }
+        musicBox.panStereo = stereo;
+    }
 
-    //    GameObject[] activeClones = new GameObject[cloneCount];
-    //    for (int i = 0; i < cloneCount; i++)
-    //    {
-    //        GameObject clone = GetCloneFromPool();
-    //        if (clone != null)
-    //        {
-    //            float offsetX = (i - cloneCount / 2) * spacing;
-    //            clone.transform.position = bossPoss + new Vector3((i - cloneCount/2) * spacing, 0, 0);
-    //            clone.GetComponent<GBAttack>().enabled = false;
-    //            clone.GetComponent<LastBossMove>().enabled = false;
-    //            activeClones[i] = clone;
-    //        }
-    //    }
-    //    transform.position = bossPoss + new Vector3((realBossIndex - cloneCount / 2) * spacing, 0, 0);
-    //    await UniTask.Delay(cooltime+3000);
-    //    for(int i = 0; i < cloneCount; i++)
-    //    {
-    //        if (activeClones[i] != null)
-    //        {
-    //            ReturnCloneToPool(activeClones[i]);
-    //        }
-    //    }
-    //    isAttack = false;
-    //}
-
-    //private GameObject GetCloneFromPool()
-    //{
-    //    for (int i = 0; i < clonePoolSize; i++)
-    //    {
-    //        if (!cloneUsed[i])
-    //        {
-    //            cloneUsed[i] = true;
-    //            clonePool[i].SetActive(true);
-    //            return clonePool[i];
-    //        }
-    //    }
-    //    return null;
-    //}
-    //private void ReturnCloneToPool(GameObject clone)
-    //{
-    //    for (int i = 0; i < clonePoolSize; i++)
-    //    {
-    //        if (clonePool[i] == clone)
-    //        {
-    //            cloneUsed[i] = false;
-    //            clone.SetActive(false);
-    //            return;
-    //        }
-    //    }
-    //}
 }

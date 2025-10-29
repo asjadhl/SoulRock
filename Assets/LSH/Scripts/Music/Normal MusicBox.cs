@@ -36,7 +36,7 @@ public class NormalMusicBox : MonoBehaviour
 	}
 	public void MusicBar()
 	{
-		musicBar.fillAmount = (float)CheckRealTime.inGamerealTime / musicSource.clip.length;
+		musicBar.fillAmount = (float)CheckRealTime.inGamerealTime / musicSource.clip.length+3f;
 	}
 
     void CheckMusicFinished()

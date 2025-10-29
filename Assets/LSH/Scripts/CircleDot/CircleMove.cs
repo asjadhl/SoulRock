@@ -19,7 +19,7 @@ public class CircleMove : MonoBehaviour
     Color originalColor;
     [Tooltip("투명화 걸리는시간")]
     public float fadeDuration = 0.1f;
-
+    private bool colorChanging = false;
     private void Awake()
     { 
 		rawImage = GetComponent<Image>();
@@ -45,9 +45,12 @@ public class CircleMove : MonoBehaviour
             circleHit.ReturnCircle(this.gameObject);
         }
 
-        if (transform.localScale.x <= 3)
-            ChangeColor_();
-        
+        if (transform.localScale.x <= 7 && !colorChanging)
+        {
+            colorChanging = true;
+            ChangeColorSmooth(Color.cyan, 1f).Forget();
+        }
+
     }
     public async UniTask ChangeColor()
     {
@@ -65,9 +68,20 @@ public class CircleMove : MonoBehaviour
         }
     }
 
-    public void ChangeColor_()
+    public async UniTask ChangeColorSmooth(Color targetColor, float duration)
     {
-        rawImage.color = Color.cyan;
+        Color startColor = rawImage.color;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            rawImage.color = Color.Lerp(startColor, targetColor, elapsed / duration);
+            await UniTask.Yield();
+        }
+
+        rawImage.color = targetColor;
+        colorChanging = false;
     }
 
     public void SetColor()
