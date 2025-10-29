@@ -115,7 +115,7 @@ public class GBAttack : MonoBehaviour
 
     void CheckForthPattern()
     {
-        if (Input.GetKey(KeyCode.Alpha1) && isBeatOn)
+        if (Input.GetMouseButton(2) && isBeatOn)
         {
             barAmount += 0.4f;
             rightLongBeat.fillAmount = barAmount / 100f;
@@ -130,7 +130,7 @@ public class GBAttack : MonoBehaviour
             barAmount = 0;
             rightLongBeat.fillAmount = barAmount / 100f;
        }
-       if (Input.GetKey(KeyCode.Alpha2) && isBeatOn)
+       if (Input.GetMouseButton(1) && isBeatOn)
        {
             barAmount += 0.4f;
             leftLongBeat.fillAmount = barAmount / 100f;

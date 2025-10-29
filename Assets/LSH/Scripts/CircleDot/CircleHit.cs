@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines.ExtrusionShapes;
 using UnityEngine.UI;
@@ -39,8 +41,9 @@ public class CircleHit : MonoBehaviour
 	private double secondsPerBeat;
 
 	private List<CircleMove> activeCircles = new List<CircleMove>();
-
+	Image[] changeColor;
 	public bool getDamage = false;
+
     private void Awake()
 	{
 		if (Instance == null) Instance = this;
@@ -101,7 +104,6 @@ public class CircleHit : MonoBehaviour
 				{
 					Debug.LogWarning("클릭 성공");
 					OnClickSuccess().Forget();
-
 					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
@@ -124,7 +126,7 @@ public class CircleHit : MonoBehaviour
 		circleDot.transform.localScale = Vector3.one * circleBig;
 		circleDot.SetActive(true);
 
-		var circleMove = circleDot.GetComponent<CircleMove>();
+			var circleMove = circleDot.GetComponent<CircleMove>();
         if (getDamage)
 			circleMove.ChangeColor().Forget();
 		circleMove.Initialize(this);
@@ -138,7 +140,8 @@ public class CircleHit : MonoBehaviour
 	{
 		if (circleDot == null || !circleDot.activeSelf) return;
         circleDot.GetComponent<CircleMove>().SetColor();
-        circleDot.SetActive(false);
+
+		circleDot.SetActive(false);
 		circleDot.transform.localScale = Vector3.one * circleBig;
 	}
 
@@ -180,7 +183,6 @@ public class CircleHit : MonoBehaviour
 			double delayMs = secondsPerBeat * 1000.0;
 			await UniTask.Delay((int)delayMs);
             GetCircle().transform.position = transform.position;
-
         }
 	}
 

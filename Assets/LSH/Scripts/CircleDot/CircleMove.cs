@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System.Security.Cryptography;
 using System.Transactions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +44,9 @@ public class CircleMove : MonoBehaviour
             returned = true;
             circleHit.ReturnCircle(this.gameObject);
         }
+
+        if (transform.localScale.x <= 5)
+            ChangeColor_();
         
     }
     public async UniTask ChangeColor()
@@ -59,6 +63,11 @@ public class CircleMove : MonoBehaviour
 
             await UniTask.Yield();
         }
+    }
+
+    public void ChangeColor_()
+    {
+        rawImage.color = Color.cyan;
     }
 
     public void SetColor()

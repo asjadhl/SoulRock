@@ -8,10 +8,11 @@ public class BigLazer : MonoBehaviour
     //private BossHP bossHp;
     //MatarialAlpha mirror;
     //ParticleSystem explosionEffect;
-    int BigLazerHp = 3;
+    int BigLazerHp = 1;
     ParticleManager particleManager;
     bool isInitialized = false;
     bool reflect =false;
+    public bool isGoing;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -25,18 +26,24 @@ public class BigLazer : MonoBehaviour
     private void Start()
     {
         isInitialized = true;
+        isGoing = false;
     }
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.forward * 10 * Time.deltaTime);
+        if(gameObject.activeSelf&&isGoing)
+        {
+			transform.Translate(Vector3.forward * 10 * Time.deltaTime);
+		}
+        
     }
     private void OnTriggerEnter(Collider col)
     {   
         if(col.CompareTag("Player"))
         {
             GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPBigMinus().Forget();
-            gameObject.SetActive(false);
+			isGoing = false;
+			gameObject.SetActive(false);
         }
        
     }
@@ -57,7 +64,8 @@ public class BigLazer : MonoBehaviour
 
     public void BallHpMin()
     {
-        BigLazerHp--;
+		isGoing = false;
+		BigLazerHp--;
         if (BigLazerHp <= 0)
         {
             gameObject.SetActive(false);

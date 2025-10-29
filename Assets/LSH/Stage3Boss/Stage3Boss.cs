@@ -29,6 +29,7 @@ public class Stage3Boss : MonoBehaviour
     Vector3[] thisPos;
     Transform player;
     Animator anime;
+    BigLazer bigLazerBool;
     //BossHP hp;
     [Header("Renderer")]
     [SerializeField] Material material;
@@ -48,7 +49,7 @@ public class Stage3Boss : MonoBehaviour
     {
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
-        anime = GetComponent<Animator>();
+		anime = GetComponent<Animator>();
 		//hp = GetComponent<BossHP>();
 		material.color = Color.white;
         ReadyforLazerBallAttack();
@@ -147,7 +148,7 @@ public class Stage3Boss : MonoBehaviour
                 break;
             case 1:
                 Debug.Log("레이저볼");
-                AngrysecondPattern().Forget();
+				AngrysecondPattern().Forget();
                 ranIndex = Random.Range(0, 3);
                 break;
             case 2:
@@ -229,41 +230,60 @@ public class Stage3Boss : MonoBehaviour
     private async UniTask AngryThirdPattern()
     {
         isAttacking = true;
-        bigChargeLazer.SetActive(true);
+		monsterSpawner.SetActive(false);
+		//bigChargeLazer.SetActive(true);
 		RotateCameraX(-30f, 1.2f).Forget();
 		//mirror.SetActive(true);
 		//mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-		anime.SetTrigger("BloodAttackReady");
-        for (int i = 1; i < 250; i++)
-        {
+		
+        //for (int i = 1; i < 250; i++)
+        //{
 
-            bigChargeLazer.transform.localScale =
-                new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
-            await UniTask.Delay(10);
-        }
-        anime.SetTrigger("BloodAttack");
+        //    bigChargeLazer.transform.localScale =
+        //        new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
+        //    await UniTask.Delay(10);
+        //}
+        //anime.SetTrigger("BloodAttack");
         await AngryBigLazerAttack();
-        await UniTask.Delay(4000);
+        await UniTask.Delay(6000);
 		//mirror.SetActive(false);
 		RotateCameraX(0f, 0.5f).Forget();
+		monsterSpawner.SetActive(true);
 		isAttacking = false;
     }
 
     private async UniTask AngryBigLazerAttack()
     {
-        bigChargeLazer.SetActive(false);
-        for(int i = 0; i<poolBigLazer;  i++)
+		//bigChargeLazer.SetActive(false);
+		for (int i = 0; i<8;  i++)
         {
-			bigLazerBallPool[poolBigLazer].SetActive(true);
-			bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
-			bigLazerBallPool[poolBigLazer].transform.LookAt(player.position);
+			int poolIndex = i % bigLazerBallPool.Length;
+            Vector3 randomPos = bigChargeLazer.transform.position + new Vector3(Random.Range(-5f, 5f), 0, -5f);
+            bigLazerBallPool[poolIndex].transform.localScale = Vector3.zero;
+			anime.SetTrigger("BloodAttackReady");
+			bigLazerBallPool[poolIndex].SetActive(true);
+            bigLazerBallPool[poolIndex].transform.position = randomPos;
+			for (int j = 0; j < 125; j++)
+			{
+				bigLazerBallPool[poolIndex].transform.localScale =
+					new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
+				await UniTask.Delay(10);
+			}
+            bigLazerBool = bigLazerBallPool[poolIndex].GetComponent<BigLazer>();
+			bigLazerBool.isGoing = true;
+            //bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
+            Vector3 targetPos = new Vector3(player.position.x, player.position.y -1.5f , player.position.z);
+			bigLazerBallPool[poolIndex].transform.LookAt(targetPos);
+			
+            //await UniTask.WaitWhile(() => bigLazerBallPool[poolIndex].activeSelf);
+            await UniTask.Delay(500);
 		}
-        if (poolBigLazer >= bigLazerBallPool.Length - 1)
-        {
-            poolBigLazer = 0;
-        }
-        else
-            poolBigLazer++;
+        //if (poolBigLazer >= bigLazerBallPool.Length - 1)
+        //{
+        //    poolBigLazer = 0;
+        //}
+        //else
+        //    poolBigLazer++;
     }
     #endregion
 
@@ -403,6 +423,7 @@ public class Stage3Boss : MonoBehaviour
                 new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
             await UniTask.Delay(15);
         }
+
 		anime.SetTrigger("BloodAttack");
 		BigLazerAttack(); 
 		await UniTask.Delay(4000);
@@ -416,7 +437,8 @@ public class Stage3Boss : MonoBehaviour
 		bigLazerBallPool[poolBigLazer].SetActive(true);
         bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
 		bigLazerBallPool[poolBigLazer].transform.LookAt(player.position);
-
+		bigLazerBool = bigLazerBallPool[poolBigLazer].GetComponent<BigLazer>();
+		bigLazerBool.isGoing = true;
 		if (poolBigLazer >= bigLazerBallPool.Length - 1)
         {
             poolBigLazer = 0;
