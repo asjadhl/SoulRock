@@ -34,7 +34,7 @@ public class CardMove : MonoBehaviour
             {
                 Vector3 currentPos = transform.position;
                 Stage1ParticleManager.Instance.PlayCardEffect(currentPos);
-                transform.Translate(0, -1 * Time.fixedDeltaTime * 3, 0);
+                transform.Translate(0, -1 * Time.fixedDeltaTime * 3, 0, Space.World);
             }
         }
     }

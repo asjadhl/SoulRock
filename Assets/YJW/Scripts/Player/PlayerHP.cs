@@ -49,6 +49,7 @@ public class PlayerHP : MonoBehaviour
 
     private void PlayerDie()
     {
+
     }
 
     private void GetDamImageOn()

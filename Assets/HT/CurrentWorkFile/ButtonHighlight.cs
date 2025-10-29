@@ -2,20 +2,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerDownHandler,IPointerUpHandler
 {   
 
 
   public enum State
   {
-     Pressed,Hovering,ReturningToHovering,ReturningToEnd,EnteringToHovering,Waiting
+     Pressed,Hovering,ReturningToHovering,ReturningToEnd,EnteringToHovering,Waiting,Held
   };
 
   public float Rotation;
     private Material mat;
-    private Button myButton;
+    
     public State mystate;
- 
+     private bool IsDown;
     float Deg = 0;
     float duration = 1.3f;
     float value = 0;
@@ -27,7 +27,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
   void Awake()
     {
      
-        myButton = GetComponent<Button>();
+        
 
         // Get and clone the material so this button has its own instance
         mat = Instantiate(GetComponent<Image>().material);
@@ -35,7 +35,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
     mat.SetFloat("_Rotation", Rotation);
     mystate = State.Waiting;
         // Hook into the button click
-        myButton.onClick.AddListener(OnClick);
+         
     }
 
     void Update()
@@ -96,9 +96,13 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
           value = Mathf.MoveTowards(value, 1, 5f * Time.unscaledDeltaTime);
           mat.SetFloat("_value", value);
 
+
+          
+
           if(Mathf.Abs(value-1) < 0.01f)
           {
             value = 1;
+            if(!IsDown)
             mystate = State.ReturningToHovering;
           }
         }
@@ -133,6 +137,12 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
           mat.SetFloat("_value", value);
         }
         break;
+
+      case State.Held:
+        {
+          mat.SetFloat("_value", value);
+        }
+        break;
         case State.Waiting:
         {
           Deg2 += (360f / duration2) * Time.unscaledDeltaTime;
@@ -145,12 +155,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
         break;
       }
     }
-    void OnClick()
-    {
-   
-    mystate = State.Pressed;
-  
-    }
+    
   
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -165,4 +170,15 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
      mystate = State.ReturningToEnd;
            
     }
+
+  public void OnPointerDown(PointerEventData eventData)
+  {
+    IsDown = true;
+    mystate = State.Pressed;
+  }
+
+  public void OnPointerUp(PointerEventData eventData)
+  {
+    IsDown = false;
+  }
 }

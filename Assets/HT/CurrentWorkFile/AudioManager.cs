@@ -287,6 +287,8 @@ public class AudioManager : MonoBehaviour
     main_canvas.worldCamera = Camera.main;
     main_canvas.planeDistance = 1;
     
+
+
     mat1 = image.material;
     mat1 = Object.Instantiate(mat1);
     image.material = mat1;
