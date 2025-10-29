@@ -11,9 +11,16 @@ public class PlayerHP : MonoBehaviour
     적을 잘 맞추면 +5씩
      */
     PlayerDieText playerDieText;
-    public float playerHP = 100;
+
+    [SerializeField] float _playerHP;
+    public float playerHP
+    {
+        get => _playerHP;
+        set => _playerHP = Mathf.Clamp(value, 0, _playerHP);
+    }
 
     [SerializeField] GameObject DamageImage;
+    [SerializeField] GameObject gameOver;
     private void Start()
     {
         playerDieText = FindObjectOfType<PlayerDieText>();
@@ -24,7 +31,7 @@ public class PlayerHP : MonoBehaviour
         PlayerHPTimer();
 
         if (playerHP <= 0 || Stage2BossAttack.clubStack == 7)
-            PlayerDie();
+            PlayerDie().Forget();
     }
 
     private void PlayerHPTimer()
@@ -57,16 +64,23 @@ public class PlayerHP : MonoBehaviour
 
     private async UniTaskVoid PlayerDie()
     {
-        if (isDead) return; 
-        isDead = true;
+        //if (isDead) return;
+        //isDead = true;
 
-        if (playerDieText == null) return;
-        Debug.Log("플레이어 사망 시퀀스 시작");
+        //if (playerDieText == null) return;
+        //Debug.Log("플레이어 사망 시퀀스 시작");
 
-        await playerDieText.OnDeadSequence(3);
-        
+        //await playerDieText.OnDeadSequence(3);
 
-        SceneManager.LoadScene("Main");
+
+        //SceneManager.LoadScene("Main");
+
+        CanvasGroup cg = gameOver.GetComponent<CanvasGroup>();
+        while(cg.alpha < 1f)
+        {
+            cg.alpha += Time.deltaTime / 10f;
+            await UniTask.Yield();
+        }
     }
 
     private void GetDamImageOn()
