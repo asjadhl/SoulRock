@@ -13,13 +13,14 @@ public class TutorialUIManager : MonoBehaviour
     public AudioSource audioSource;       // 대사 사운드 재생용
     public GameObject nextButton;         // [다음] 버튼
     public GameObject speechBubble;       // 말풍선 UI (선택적으로 꺼줄 수 있음)
+
     private CancellationTokenSource imageCTS;
     private CancellationTokenSource typingCTS;
     private bool isAnimating = false;
     private bool isTyping = false;
     private string currentFullText = "";
     public event Action OnDialogueClick;
-    [SerializeField] private AudioSource typingAudio;
+    [SerializeField] public AudioSource typingAudio;
     [SerializeField] private bool randomPitch = true;
     [SerializeField] private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
     [Header("스테이지별 이미지 세트")]
@@ -32,7 +33,10 @@ public class TutorialUIManager : MonoBehaviour
     {
 
     }
+    public void ShowDieUI()
+    {
 
+    }    
     // UI 표시/숨기기
     public void ShowDialogueUI(bool active)
     {

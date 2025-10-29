@@ -11,6 +11,7 @@ public class PlayerHP : MonoBehaviour
     적을 잘 맞추면 +5씩
      */
     PlayerDieText playerDieText;
+    [SerializeField] private GameOverManager gameOverManager;
 
     [SerializeField] float _playerHP;
     public float playerHP
@@ -74,6 +75,10 @@ public class PlayerHP : MonoBehaviour
 
 
         //SceneManager.LoadScene("Main");
+        if (isDead) return;
+        isDead = true;
+        if (gameOverManager != null)
+            await gameOverManager.TriggerGameOver();
 
         CanvasGroup cg = gameOver.GetComponent<CanvasGroup>();
         while(cg.alpha < 1f)
@@ -81,6 +86,7 @@ public class PlayerHP : MonoBehaviour
             cg.alpha += Time.deltaTime / 10f;
             await UniTask.Yield();
         }
+        
     }
 
     private void GetDamImageOn()
