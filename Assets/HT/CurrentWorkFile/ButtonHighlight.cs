@@ -14,7 +14,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
   public enum Direction
   {  
 
-    West =0,North= 90,South=270,East=180,North_West=45,South_West=315,South_East=225,North_East=135
+    West =0,North= 270,South=90,East=180,North_West=45,South_West=315,South_East=225,North_East=135
   }
   public float Rotation;
   public Direction MyDirection;
@@ -38,7 +38,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
         // Get and clone the material so this button has its own instance
         mat = Instantiate(GetComponent<Image>().material);
        GetComponent<Image>().material = mat;
-       mat.SetFloat("_Rotation", Rotation);
+       mat.SetFloat("_Rotation", (float)MyDirection);
        mystate = State.Waiting;
        
          
