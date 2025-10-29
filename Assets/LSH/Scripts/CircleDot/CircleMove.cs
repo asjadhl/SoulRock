@@ -45,7 +45,7 @@ public class CircleMove : MonoBehaviour
             circleHit.ReturnCircle(this.gameObject);
         }
 
-        if (transform.localScale.x <= 5)
+        if (transform.localScale.x <= 3)
             ChangeColor_();
         
     }
