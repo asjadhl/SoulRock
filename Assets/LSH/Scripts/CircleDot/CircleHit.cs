@@ -26,7 +26,7 @@ public class CircleHit : MonoBehaviour
 	[SerializeField] GameObject CirclePrefab;
 
 	[Header("풀 사이즈")]
-	[SerializeField] int poolSize = 10;
+	[SerializeField] int poolSize = 15;
 
 	[Header("Combo")]
 	public int combo = 0;
@@ -41,9 +41,8 @@ public class CircleHit : MonoBehaviour
 	private double secondsPerBeat;
 
 	private List<CircleMove> activeCircles = new List<CircleMove>();
-	Image[] changeColor;
 	public bool getDamage = false;
-
+	CanvasGroup cg;
     private void Awake()
 	{
 		if (Instance == null) Instance = this;
@@ -57,8 +56,8 @@ public class CircleHit : MonoBehaviour
 			poolCircle[i] = circleDot;
 		}
 		secondsPerBeat = 60.0 / bpm;
-        
-    }
+		cg = comboText.GetComponent<CanvasGroup>();
+	}
 
 	private void Start()
 	{
@@ -111,6 +110,30 @@ public class CircleHit : MonoBehaviour
 		}
 	}
 
+	//public GameObject GetCircle()
+	//{
+	//	if (poolCircle.Length == 0)
+	//	{
+	//		Debug.LogError("풀에 오브젝트가 없음!");
+	//		return null;
+	//	}
+
+	//	GameObject circleDot = poolCircle[pivot];
+
+	//	// 풀링 초기화
+	//	circleDot.SetActive(false);
+	//	circleDot.transform.localScale = Vector3.one * circleBig;
+	//	circleDot.SetActive(true);
+
+	//		var circleMove = circleDot.GetComponent<CircleMove>();
+	//       if (getDamage)
+	//		circleMove.ChangeColor().Forget();
+	//	circleMove.Initialize(this);
+	//       activeCircles.Add(circleMove);
+
+	//       pivot = (pivot + 1) % poolCircle.Length;
+	//	return circleDot;
+	//}
 	public GameObject GetCircle()
 	{
 		if (poolCircle.Length == 0)
@@ -120,61 +143,41 @@ public class CircleHit : MonoBehaviour
 		}
 
 		GameObject circleDot = poolCircle[pivot];
-
-		// 풀링 초기화
-		circleDot.SetActive(false);
 		circleDot.transform.localScale = Vector3.one * circleBig;
-		circleDot.SetActive(true);
+		circleDot.transform.position = transform.position;
+		circleDot.GetComponent<CircleMove>().Initialize(this);
 
-			var circleMove = circleDot.GetComponent<CircleMove>();
-        if (getDamage)
-			circleMove.ChangeColor().Forget();
-		circleMove.Initialize(this);
-        activeCircles.Add(circleMove);
-        
-        pivot = (pivot + 1) % poolCircle.Length;
+		if (getDamage)
+			circleDot.GetComponent<CircleMove>().ChangeColor().Forget();
+		else
+			circleDot.GetComponent<CircleMove>().SetColor();
+
+		circleDot.SetActive(true); 
+
+		activeCircles.Add(circleDot.GetComponent<CircleMove>());
+		pivot = (pivot + 1) % poolCircle.Length;
 		return circleDot;
 	}
-
 	public void ReturnCircle(GameObject circleDot)
 	{
 		if (circleDot == null || !circleDot.activeSelf) return;
-        circleDot.GetComponent<CircleMove>().SetColor();
+		circleDot.GetComponent<CircleMove>().SetColor();
 
 		circleDot.SetActive(false);
 		circleDot.transform.localScale = Vector3.one * circleBig;
 	}
-
 	public async UniTask OnClickSuccess()
 	{
 		combo++;
 		comboText.GetComponent<ComboText>().RanTextColor();
-		comboText.SetActive(true);
+		cg.alpha = 1;
+		//comboText.SetActive(true);
         a.PlayOneShot(clip);
         playerShoot.PlayerShoot_();
         playerHPSc.PlayerHPPlus(2);
 		await UniTask.Delay(500);
-		comboText.SetActive(false);
-        
-				//if(FXSManager.Instance != null) 
-			  //FXSManager.Instance.PlayClip(1,clip);
-        
-		//Debug.Log("클릭성공!");
-		// 클릭 성공 시 처리할 로직
-		// 예: 좌/우 도트 비활성화, 점수 증가 등
-		//switch (combo)
-		//{
-		//	case < 20:
-		//		comboImage[0].SetActive(true);
-		//		break;
-		//	case < 40:
-		//		comboImage[1].SetActive(true);
-		//		break;
-		//	case < 50:
-		//		comboImage[2].SetActive(true);
-		//		break;
-		//}
-		
+		//comboText.SetActive(false);
+		cg.alpha = 0;
 	}
 	private async UniTask circleGen()
 	{
