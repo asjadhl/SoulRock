@@ -12,7 +12,7 @@ public class BigLazer : MonoBehaviour
     ParticleManager particleManager;
     bool isInitialized = false;
     bool reflect =false;
-    public bool isGoing;
+    //public bool isGoing;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -26,14 +26,14 @@ public class BigLazer : MonoBehaviour
     private void Start()
     {
         isInitialized = true;
-        isGoing = false;
+        //isGoing = false;
     }
     // Update is called once per frame
     void Update()
     {
-        if(gameObject.activeSelf&&isGoing)
+        if(gameObject.activeSelf)
         {
-			transform.Translate(Vector3.forward * 10 * Time.deltaTime);
+			transform.Translate(Vector3.forward * 5 * Time.deltaTime);
 		}
         
     }
@@ -42,7 +42,7 @@ public class BigLazer : MonoBehaviour
         if(col.CompareTag("Player"))
         {
             GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPBigMinus().Forget();
-			isGoing = false;
+			//isGoing = false;
 			gameObject.SetActive(false);
         }
        
@@ -57,6 +57,7 @@ public class BigLazer : MonoBehaviour
 
     private void OnDisable()
     {
+        //isGoing = false;
         if (!isInitialized) return;
         Vector3 effectPos = transform.position + new Vector3(0, -1f, 0);
         particleManager.PlayHitEffect(effectPos);
@@ -64,8 +65,8 @@ public class BigLazer : MonoBehaviour
 
     public void BallHpMin()
     {
-		isGoing = false;
-		BigLazerHp--;
+        //isGoing = false;
+        BigLazerHp--;
         if (BigLazerHp <= 0)
         {
             gameObject.SetActive(false);
