@@ -1,6 +1,6 @@
 using UnityEngine;
 [System.Serializable]
-public class TutorialLine : MonoBehaviour
+public class TutorialLine 
 {
     [TextArea(2, 5)]
     public string text;          // ด๋ป็
