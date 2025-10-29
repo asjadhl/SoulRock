@@ -1,6 +1,4 @@
 using Cysharp.Threading.Tasks;
-using System.Security.Cryptography;
-using System.Transactions;
 using UnityEngine;
 using UnityEngine.UI;
 

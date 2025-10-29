@@ -1,11 +1,6 @@
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
 using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Splines.ExtrusionShapes;
-using UnityEngine.UI;
 
 public class CircleHit : MonoBehaviour
 {

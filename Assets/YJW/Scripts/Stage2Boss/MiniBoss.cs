@@ -1,6 +1,4 @@
 using Cysharp.Threading.Tasks;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MiniBoss : MonoBehaviour
