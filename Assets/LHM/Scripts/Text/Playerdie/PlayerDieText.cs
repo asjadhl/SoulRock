@@ -25,14 +25,19 @@ public class PlayerDieText : MonoBehaviour
     private void Start()
     {
         PlayerDieCTS = new CancellationTokenSource();
-        OnDeadSequence(3);
+       
+
+        DieUi.ShowDialogueUI(false);
+
     }
 
-    private async UniTaskVoid OnDeadSequence(int num)
+    public async UniTask OnDeadSequence(int num)
     {
-        //int num에 받은 숫자중 1~num 사이의 랜덤 숫자 선택
-        int randomNum = UnityEngine.Random.Range(1, num);
+        DieUi.ShowDialogueUI(true); // 유령+말풍선 켜기
+
+        int randomNum = UnityEngine.Random.Range(1, num + 1);
         Debug.Log("PlayerDieText Random Num: " + randomNum);
+
         switch (randomNum)
         {
             case 1:
@@ -45,8 +50,11 @@ public class PlayerDieText : MonoBehaviour
                 await ShowDialogueAsync("다시 한번 마음을 가다듬어봐...", null);
                 break;
         }
+
+        // 대사 끝나면 UI 비활성화
+        DieUi.ShowDialogueUI(false);
     }
-   
+
     private async UniTask TypeDialogueAsync(string text, AudioClip clip, CancellationToken token)
     {
         DieUi.ClearText();

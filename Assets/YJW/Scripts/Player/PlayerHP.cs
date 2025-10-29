@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHP : MonoBehaviour
 {
@@ -9,15 +10,20 @@ public class PlayerHP : MonoBehaviour
     적에게 대미지를 받으면 -10씩
     적을 잘 맞추면 +5씩
      */
-
+    PlayerDieText playerDieText;
     public float playerHP = 100;
 
     [SerializeField] GameObject DamageImage;
-
+    private void Start()
+    {
+        playerDieText = FindObjectOfType<PlayerDieText>();
+        
+    }
     private void FixedUpdate()
     {
         PlayerHPTimer();
-        if (playerHP <=0 || Stage2BossAttack.clubStack == 7)
+
+        if (playerHP <= 0 || Stage2BossAttack.clubStack == 7)
             PlayerDie();
     }
 
@@ -47,9 +53,20 @@ public class PlayerHP : MonoBehaviour
         GetDamImageOff();
     }
 
-    private void PlayerDie()
-    {
+    private bool isDead = false;
 
+    private async UniTaskVoid PlayerDie()
+    {
+        if (isDead) return; 
+        isDead = true;
+
+        if (playerDieText == null) return;
+        Debug.Log("플레이어 사망 시퀀스 시작");
+
+        await playerDieText.OnDeadSequence(3);
+        
+
+        SceneManager.LoadScene("Main");
     }
 
     private void GetDamImageOn()
