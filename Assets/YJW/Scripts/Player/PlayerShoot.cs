@@ -43,7 +43,7 @@ public class PlayerShoot : MonoBehaviour
                 dummy.getDummyHit = true;
                 dummy.getDummyDamage();
             }},
-            { "Mirror", col => col.GetComponent<MatarialAlpha>().mirrorRotate() },
+            { "SuperBigBall", col => col.GetComponent<BigLazer>().BallHpMin () },
             { "LazerBall", col => col.gameObject.SetActive(false) },
             { "Skull", col => col.GetComponent<MiniSkullMove>().ShootReturnSkull() },
             { "Stage2Boss", col => {

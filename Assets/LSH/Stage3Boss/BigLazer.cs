@@ -4,10 +4,11 @@ using UnityEngine;
 public class BigLazer : MonoBehaviour
 {
     private Transform player;
-    private Transform boss;
-    private BossHP bossHp;
-    MatarialAlpha mirror;
+    //private Transform boss;
+    //private BossHP bossHp;
+    //MatarialAlpha mirror;
     //ParticleSystem explosionEffect;
+    int BigLazerHp = 3;
     ParticleManager particleManager;
     bool isInitialized = false;
     bool reflect =false;
@@ -15,9 +16,9 @@ public class BigLazer : MonoBehaviour
     void Awake()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
-		bossHp = GameObject.FindWithTag("Stage3Boss").GetComponent<BossHP>();
-		mirror = FindAnyObjectByType<MatarialAlpha>();
+        //boss = GameObject.FindWithTag("Stage3Boss").GetComponent<Transform>();
+		//bossHp = GameObject.FindWithTag("Stage3Boss").GetComponent<BossHP>();
+		//mirror = FindAnyObjectByType<MatarialAlpha>();
         //explosionEffect = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>().hitParticle;
         particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
     }
@@ -28,7 +29,7 @@ public class BigLazer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.forward * 20 * Time.deltaTime);
+        transform.Translate(Vector3.forward * 10 * Time.deltaTime);
     }
     private void OnTriggerEnter(Collider col)
     {   
@@ -37,17 +38,7 @@ public class BigLazer : MonoBehaviour
             GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPBigMinus().Forget();
             gameObject.SetActive(false);
         }
-        if(col.CompareTag("Mirror") && mirror.successMirror)
-        {
-			transform.LookAt(boss.position);
-			mirror.gameObject.SetActive(false);
-        }
-        if(col.CompareTag("Stage3Boss"))
-        {
-			//데미지 입히는거 넣기
-			//bossHp.BossHPMinus();
-			gameObject.SetActive(false);
-        }
+       
     }
 
     //private void OnDisable()
@@ -63,4 +54,13 @@ public class BigLazer : MonoBehaviour
         Vector3 effectPos = transform.position + new Vector3(0, -1f, 0);
         particleManager.PlayHitEffect(effectPos);
     }
+
+    public void BallHpMin()
+    {
+        BigLazerHp--;
+        if (BigLazerHp <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+	}
 }

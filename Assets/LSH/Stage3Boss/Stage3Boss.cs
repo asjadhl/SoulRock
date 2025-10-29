@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,8 +15,8 @@ public class Stage3Boss : MonoBehaviour
     [SerializeField] GameObject bigChargeLazer;
     [Header("BigLazerOB")]
     [SerializeField] GameObject bigLazer;
-    [Header("MirrorOB")]
-    [SerializeField] GameObject mirror;
+    //[Header("MirrorOB")]
+    //[SerializeField] GameObject mirror;
     [Header("Pooling")]
     [SerializeField] GameObject[] lazerPool;
     [SerializeField] GameObject[] lazerBallPool;
@@ -23,10 +24,12 @@ public class Stage3Boss : MonoBehaviour
     [Header("공격 coolTime")]
     [SerializeField] int coolTime = 6000;
     [SerializeField] float firstOfLazerSize = 0.02f;
+    [Header("카메라")]
+    [SerializeField] CinemachineCamera cinemachineCamera;
     Vector3[] thisPos;
     Transform player;
     Animator anime;
-    BossHP hp;
+    //BossHP hp;
     [Header("Renderer")]
     [SerializeField] Material material;
 	int ranIndex = 0;
@@ -46,14 +49,14 @@ public class Stage3Boss : MonoBehaviour
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         anime = GetComponent<Animator>();
-        hp = GetComponent<BossHP>();
-        material.color = Color.white;
+		//hp = GetComponent<BossHP>();
+		material.color = Color.white;
         ReadyforLazerBallAttack();
 		ReadyforLazerAttack();
         ReadyforBigLazerAttack();
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
-        mirror.SetActive(false);
+        //mirror.SetActive(false);
         monsterSpawner.SetActive(false);
         await UniTask.Delay(5000);
         isAttacking = false;
@@ -73,7 +76,7 @@ public class Stage3Boss : MonoBehaviour
             lazerAttack.SetActive(false);
             lazerPool[i] = lazerAttack;
         }
-    }
+	}
     void ReadyforLazerBallAttack()
     {
         lazerBallPool = new GameObject[12];
@@ -95,7 +98,7 @@ public class Stage3Boss : MonoBehaviour
     }
     void ReadyforBigLazerAttack()
     {
-        bigLazerBallPool = new GameObject[2];
+        bigLazerBallPool = new GameObject[5];
         for(int i = 0;i<bigLazerBallPool.Length;i++)
         {
             GameObject biglazerAttack = Instantiate(bigLazer, bigChargeLazer.transform.position, Quaternion.identity);
@@ -109,7 +112,7 @@ public class Stage3Boss : MonoBehaviour
     {
         if ((int)CheckRealTime.inGamerealTime == 40)
         {
-            Debug.LogError("개빡침");
+            //Debug.LogError("개빡침");
 			Phase2();
 			isAngry = true;
             animeOn = true;
@@ -117,12 +120,12 @@ public class Stage3Boss : MonoBehaviour
 			
 		if (!isAttacking && !isAngry)  
         {
-            Debug.Log("일반보스패턴");
+            //Debug.Log("일반보스패턴");
             Boss3Pattern();
         }
         if(!isAttacking && isAngry)
         {
-            Debug.Log("빡친보스패턴");
+            //Debug.Log("빡친보스패턴");
             AngryBoss3Pattern();
         }
         if(normalMusicBox.MusicFin) //노래끝 버티기 끝
@@ -227,9 +230,10 @@ public class Stage3Boss : MonoBehaviour
     {
         isAttacking = true;
         bigChargeLazer.SetActive(true);
-        mirror.SetActive(true);
-        mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-        anime.SetTrigger("BloodAttackReady");
+		RotateCameraX(-30f, 1.2f).Forget();
+		//mirror.SetActive(true);
+		//mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+		anime.SetTrigger("BloodAttackReady");
         for (int i = 1; i < 250; i++)
         {
 
@@ -238,18 +242,22 @@ public class Stage3Boss : MonoBehaviour
             await UniTask.Delay(10);
         }
         anime.SetTrigger("BloodAttack");
-        AngryBigLazerAttack();
+        await AngryBigLazerAttack();
         await UniTask.Delay(4000);
-        mirror.SetActive(false);
-        isAttacking = false;
+		//mirror.SetActive(false);
+		RotateCameraX(0f, 0.5f).Forget();
+		isAttacking = false;
     }
-    void AngryBigLazerAttack()
+
+    private async UniTask AngryBigLazerAttack()
     {
         bigChargeLazer.SetActive(false);
-        bigLazerBallPool[poolBigLazer].SetActive(true);
-        bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
-        bigLazerBallPool[poolBigLazer].transform.LookAt(player.position);
-
+        for(int i = 0; i<poolBigLazer;  i++)
+        {
+			bigLazerBallPool[poolBigLazer].SetActive(true);
+			bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
+			bigLazerBallPool[poolBigLazer].transform.LookAt(player.position);
+		}
         if (poolBigLazer >= bigLazerBallPool.Length - 1)
         {
             poolBigLazer = 0;
@@ -384,8 +392,9 @@ public class Stage3Boss : MonoBehaviour
     {
         isAttacking = true;
         bigChargeLazer.SetActive(true);
-        mirror.SetActive(true);
-        mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+        RotateCameraX(-30f, 1.2f).Forget();
+		//mirror.SetActive(true);
+		//mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
 		anime.SetTrigger("BloodAttackReady");
 		for (int i = 1; i < 250; i++)
         {
@@ -395,10 +404,11 @@ public class Stage3Boss : MonoBehaviour
             await UniTask.Delay(15);
         }
 		anime.SetTrigger("BloodAttack");
-		BigLazerAttack();
-        await UniTask.Delay(4000);
-        mirror.SetActive(false);
-        isAttacking = false;
+		BigLazerAttack(); 
+		await UniTask.Delay(4000);
+		//mirror.SetActive(false);
+		RotateCameraX(0f, 0.5f).Forget();
+		isAttacking = false;
     }
     void BigLazerAttack()
     {
@@ -427,4 +437,27 @@ public class Stage3Boss : MonoBehaviour
 		coolTime = 500;
     }
 
+	private async UniTask RotateCameraX(float targetX, float duration)
+	{
+		float time = 0f;
+		Transform camTransform = cinemachineCamera.transform;
+		Quaternion startRot = camTransform.rotation;
+
+		// 목표 회전 (현재 Y, Z는 유지)
+		Quaternion targetRot = Quaternion.Euler(targetX,
+			camTransform.eulerAngles.y,
+			camTransform.eulerAngles.z);
+
+		while (time < duration)
+		{
+			time += Time.deltaTime;
+			float t = Mathf.Clamp01(time / duration);
+
+			camTransform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+			await UniTask.Yield(PlayerLoopTiming.Update);
+		}
+
+		camTransform.rotation = targetRot;
+	}
 }
