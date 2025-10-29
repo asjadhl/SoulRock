@@ -174,7 +174,7 @@ public class CircleHit : MonoBehaviour
 		//comboText.SetActive(true);
         a.PlayOneShot(clip);
         playerShoot.PlayerShoot_();
-        playerHPSc.PlayerHPPlus(2);
+        playerHPSc.PlayerHPPlus(3);
 		await UniTask.Delay(500);
 		//comboText.SetActive(false);
 		cg.alpha = 0;

@@ -1400,7 +1400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetImage: {fileID: 217924389}
   circleBig: 11
-  bpm: 89
+  bpm: 70
   mindis: 0.01
   maxdis: 50
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
@@ -3636,7 +3636,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnRate
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].SpawnRate
@@ -8328,7 +8328,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 0
+  Pan2D: 0.7961573
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -8430,7 +8430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1463865610}
-  music: {fileID: 8300000, guid: 1336b60cef86111438925ef6b2406872, type: 3}
+  music: {fileID: 8300000, guid: 7f920649c4bf44746b94325a867997eb, type: 3}
   musicBar: {fileID: 829276471}
   MusicFin: 0
 --- !u!1 &1473619652
