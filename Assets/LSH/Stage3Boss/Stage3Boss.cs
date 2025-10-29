@@ -148,7 +148,7 @@ public class Stage3Boss : MonoBehaviour
                 break;
             case 1:
                 Debug.Log("레이저볼");
-				AngrysecondPattern().Forget();
+				AngryThirdPattern().Forget();
                 ranIndex = Random.Range(0, 3);
                 break;
             case 2:
@@ -270,7 +270,7 @@ public class Stage3Boss : MonoBehaviour
 				await UniTask.Delay(10);
 			}
             bigLazerBool = bigLazerBallPool[poolIndex].GetComponent<BigLazer>();
-			bigLazerBool.isGoing = true;
+			//bigLazerBool.isGoing = true;
             //bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
             Vector3 targetPos = new Vector3(player.position.x, player.position.y -1.5f , player.position.z);
 			bigLazerBallPool[poolIndex].transform.LookAt(targetPos);
@@ -438,8 +438,8 @@ public class Stage3Boss : MonoBehaviour
         bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
 		bigLazerBallPool[poolBigLazer].transform.LookAt(player.position);
 		bigLazerBool = bigLazerBallPool[poolBigLazer].GetComponent<BigLazer>();
-		bigLazerBool.isGoing = true;
-		if (poolBigLazer >= bigLazerBallPool.Length - 1)
+        //bigLazerBool.isGoing = true;
+        if (poolBigLazer >= bigLazerBallPool.Length - 1)
         {
             poolBigLazer = 0;
         }

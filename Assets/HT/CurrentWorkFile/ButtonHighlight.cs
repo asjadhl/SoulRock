@@ -10,8 +10,14 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
   {
      Pressed,Hovering,ReturningToHovering,ReturningToEnd,EnteringToHovering,Waiting,Held
   };
+  [System.Serializable]
+  public enum Direction
+  {  
 
+    West =0,North= 90,South=270,East=180,North_West=45,South_West=315,South_East=225,North_East=135
+  }
   public float Rotation;
+  public Direction MyDirection;
     private Material mat;
     
     public State mystate;
@@ -19,10 +25,10 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
     float Deg = 0;
     float duration = 1.3f;
     float value = 0;
-   float Colorvalue = 0;
+   float IntensityValue = 0;
      float sinevalue = 0;
   float Deg2 = 0;
-  float duration2 = 0.7f;
+  float EmissionDuration = 0.7f;
 
   void Awake()
     {
@@ -31,17 +37,17 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         // Get and clone the material so this button has its own instance
         mat = Instantiate(GetComponent<Image>().material);
-        GetComponent<Image>().material = mat;
-    mat.SetFloat("_Rotation", Rotation);
-    mystate = State.Waiting;
-        // Hook into the button click
+       GetComponent<Image>().material = mat;
+       mat.SetFloat("_Rotation", Rotation);
+       mystate = State.Waiting;
+       
          
     }
 
     void Update()
     {
     StateUpdate();
-      
+  
     }
 
     void SinUpdate()
@@ -52,9 +58,6 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
         float rad = Mathf.Deg2Rad * Deg;
 
        value = Mathf.Lerp(0.3f, 0.5f, (Mathf.Sin(rad) + 1f) * 0.5f);
-          
-    
-
         mat.SetFloat("_value", value);
     }
      
@@ -145,12 +148,12 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
         break;
         case State.Waiting:
         {
-          Deg2 += (360f / duration2) * Time.unscaledDeltaTime;
+          Deg2 += (360f / EmissionDuration) * Time.unscaledDeltaTime;
           if (Deg2 > 360f) Deg2 -= 360f;
 
           float rad = Mathf.Deg2Rad * Deg2;
-          Colorvalue = Mathf.Lerp(0.4f, 0.7f, (Mathf.Sin(rad) + 1f) * 0.5f);
-          mat.SetFloat("_Colorvalue", Colorvalue);
+          IntensityValue = Mathf.Lerp(0.4f, 0.7f, (Mathf.Sin(rad) + 1f) * 0.5f);
+          mat.SetFloat("_Colorvalue", IntensityValue);
         }
         break;
       }
