@@ -46,24 +46,25 @@ public class Stage3Boss : MonoBehaviour
     [SerializeField] GameObject monsterSpawner;
     NormalMusicBox normalMusicBox;
     BossTextManager bossTextManager;
-    private async UniTask Awake()
+    private void Awake()
     {
-		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
-		anime = GetComponent<Animator>();
-		//hp = GetComponent<BossHP>();
-		material.color = Color.white;
+        anime = GetComponent<Animator>();
+        material.color = Color.white;
         ReadyforLazerBallAttack();
-		ReadyforLazerAttack();
+        ReadyforLazerAttack();
         ReadyforBigLazerAttack();
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
-        //mirror.SetActive(false);
         monsterSpawner.SetActive(false);
+    }
+
+    private async void Start()
+    {
         await UniTask.Delay(5000);
         isAttacking = false;
         ranIndex = Random.Range(0, 3);
-        //ranIndex = 2;
     }
 
 
