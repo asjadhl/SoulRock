@@ -3,13 +3,21 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
+
 public class OptionButtonGroup : MonoBehaviour
 {
-    [Header("Assign your option buttons here")]
-    public List<Button> buttons;
 
+ 
+
+  [Header("Assign your option buttons here")]
+    public List<Button> buttons;
+  [Header("Assign your option colors here")]
+  public List<Color> colors;
     [Header("Shader Property")]
     public string highlightProperty = "_Value"; // float 0..1 in your shader
+
+  [Header("Shader GlowColorProperty")]
+  public string highlightGlowColorProperty = "_GlowColor";
 
     [Header("Hover Animation")]
     public float duration = 1.3f;   // seconds per pulse cycle
@@ -20,12 +28,12 @@ public class OptionButtonGroup : MonoBehaviour
     void Awake()
     {
         optionButtons.Clear();
-        foreach (var btn in buttons)
-        {
-            if (btn == null) continue;
-            optionButtons.Add(new OptionButton(btn, this, highlightProperty, duration));
-        }
-       
+         
+       for(int i=0;i< buttons.Count;i++)
+       {
+           if(buttons[i] == null) continue;
+           optionButtons.Add(new OptionButton(buttons[i],this, highlightProperty, i < colors.Count ? colors[i] : Color.black, highlightGlowColorProperty, duration));
+       }
     }
 
     void Update()
@@ -54,20 +62,23 @@ public class OptionButtonGroup : MonoBehaviour
         private readonly Button button;
         private readonly Image image;
         private Material mat;
-
+        private Color glowcolor;
         private readonly OptionButtonGroup group;
         private readonly string prop;
+        private readonly string glowcolorprop;
         private readonly float duration;
 
         private bool hovered;
         private bool selected;
         private float deg;
 
-        public OptionButton(Button button, OptionButtonGroup group, string shaderFloatProperty, float duration)
+        public OptionButton(Button button, OptionButtonGroup group, string shaderFloatProperty,Color glowcolor, string shaderColorProperty, float duration)
         {
             this.button = button;
             this.group = group;
             this.prop = shaderFloatProperty;
+            this.glowcolor = glowcolor;
+            this.glowcolorprop = shaderColorProperty;
             this.duration = duration;
 
             image = button.GetComponent<Image>();
@@ -84,11 +95,20 @@ public class OptionButtonGroup : MonoBehaviour
             {
                 if (!selected) hovered = true;
             });
+            AddEvent(trigger, EventTriggerType.PointerUp, _ =>
+            {
+              hovered = false;
+              if (!selected) Set(0f);
+
+            });
             AddEvent(trigger, EventTriggerType.PointerExit, _ =>
             {
                 hovered = false;
                 if (!selected) Set(0f);
             });
+
+          
+           mat.SetColor(this.glowcolorprop,this.glowcolor*25f);
         }
 
         public void Tick()
@@ -129,6 +149,7 @@ public class OptionButtonGroup : MonoBehaviour
                 group.SetSelected(group.optionButtons[1]);
                 return;
             }
+            
             // 그룹의 private SetSelected 호출 (중첩 클래스이므로 접근 가능)
             group.SetSelected(this);
              
