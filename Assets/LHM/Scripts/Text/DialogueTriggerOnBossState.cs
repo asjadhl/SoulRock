@@ -10,12 +10,11 @@ public class DialogueTriggerOnBossState : MonoBehaviour
 
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
-            // 보스2 설명 출력
+          
             textManager.StartStageDialogueAsync(3).Forget();
         }
         else if (!BossState.isBoss1Dead)
         {
-            // 보스1 설명 출력
             textManager.StartStageDialogueAsync(2).Forget();
         }
         Debug.Log($"[DialogueTrigger] Boss1Dead={BossState.isBoss1Dead}, Boss2Dead={BossState.isBoss2Dead}");

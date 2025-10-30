@@ -33,17 +33,14 @@ public class BossTextManager: MonoBehaviour
             if (BossState.isBoss1Dead)
             {
                 await HandleBossDeathAsync(1, 3);
-                BossState.isBoss1Dead = false;
             }
             else if (BossState.isBoss2Dead)
             {
                 await HandleBossDeathAsync(4, 7);
-                BossState.isBoss2Dead = false;
             }
             else if (BossState.isBoss3Dead)
             {
                 await HandleBossDeathAsync(8, 8);
-                BossState.isBoss3Dead = false;
             }
 
             await UniTask.Yield(PlayerLoopTiming.Update);
@@ -51,8 +48,15 @@ public class BossTextManager: MonoBehaviour
     }
     private async UniTask HandleBossDeathAsync(int startStage, int endStage)
     {
-        bossUI.ShowDialogueUI(true);
+        if (startStage == 1)
+            BossState.isBoss1Dead = true;
+        else if (startStage == 4)
+            BossState.isBoss2Dead = true;
+        else if (startStage == 8)
+            BossState.isBoss3Dead = true;
 
+        Debug.Log($"보스 사망 즉시 갱신됨: Boss1={BossState.isBoss1Dead}, Boss2={BossState.isBoss2Dead}, Boss3={BossState.isBoss3Dead}");
+        bossUI.ShowDialogueUI(true);
         for (int i = startStage; i <= endStage; i++)
         {
             await StartStageDialogueAsync(i);
@@ -62,8 +66,6 @@ public class BossTextManager: MonoBehaviour
         bossUI.ShowDialogueUI2(false);
 
         await UniTask.Delay(1000);
-        BossState.isBoss1Dead = true;
-        Debug.Log($"보스1 클리어! BossState.isBoss1Dead = {BossState.isBoss1Dead}");
         SceneManager.LoadScene("StageSelect");
     }
 

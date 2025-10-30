@@ -85,6 +85,7 @@ public class Stage2BossAttack : MonoBehaviour
     [SerializeField] GameObject[] clubStackImage;
     NormalMusicBox normalMusicBox;
     BossTextManager bossTextManager;
+    private bool bossDeadHandled = false;
     private void Start()
     {
 
@@ -106,9 +107,11 @@ public class Stage2BossAttack : MonoBehaviour
         }
         if (normalMusicBox.MusicFin)
         {
+            bossDeadHandled = true;
+
+            Debug.Log("보스1 클리어 감지됨!");
             BossState.isBoss1Dead = true;
-            //SceneManager.LoadScene("StageSelect");
-            //DelayedDialogueCheckAsync().Forget();
+            Debug.Log($"BossState.isBoss1Dead = {BossState.isBoss1Dead}");
         }
     }
     //public async UniTaskVoid DelayedDialogueCheckAsync()
