@@ -1881,7 +1881,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 1
 --- !u!114 &320316499
 MonoBehaviour:
@@ -6790,10 +6790,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9582c20882b94a74d99591e7e8d8b66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverManager: {fileID: 0}
-  _playerHP: 0
+  gameOverManager: {fileID: 311924106}
+  _playerHP: 100
   DamageImage: {fileID: 1509825898}
-  gameOver: {fileID: 0}
+  gameOver: {fileID: 320316496}
 --- !u!114 &1207685872
 MonoBehaviour:
   m_ObjectHideFlags: 0
