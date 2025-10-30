@@ -7,8 +7,13 @@ using System.Collections.Generic;
 public class OptionButtonGroup : MonoBehaviour
 {
 
- 
+    [System.Serializable]
+    public class a
+    {
+        public Color colo;
+    }
 
+    List<a> aList; 
   [Header("Assign your option buttons here")]
     public List<Button> buttons;
   [Header("Assign your option colors here")]
@@ -68,7 +73,7 @@ public class OptionButtonGroup : MonoBehaviour
         private readonly string prop;
         private readonly string glowcolorprop;
         private readonly float duration;
-
+        private bool isClickedOnce = false;
         private bool hovered;
         private bool selected;
         private float deg;
@@ -99,13 +104,22 @@ public class OptionButtonGroup : MonoBehaviour
             AddEvent(trigger, EventTriggerType.PointerUp, _ =>
             {
               hovered = false;
-              if (!selected) Set(0f);
+
+                if (!selected)
+                {
+                    button.interactable = true;
+                    Set(0f);
+                }
 
             });
             AddEvent(trigger, EventTriggerType.PointerExit, _ =>
             {
                 hovered = false;
-                if (!selected) Set(0f);
+
+                if (!selected)
+                {
+                    button.interactable = false;
+                    Set(0f); }
             });
 
           
@@ -131,7 +145,8 @@ public class OptionButtonGroup : MonoBehaviour
         {
             selected = true;
             hovered = false;
-            
+            isClickedOnce = true;
+            button.interactable = !isClickedOnce;
             Set(1f);
         }
 
@@ -139,14 +154,22 @@ public class OptionButtonGroup : MonoBehaviour
         {
             selected = false;
             hovered = false;
+            isClickedOnce = false;
+            button.interactable = !isClickedOnce;
             deg = 0f;
             Set(0f);
         }
 
         private void OnClick()
         {
-      if (this.button.name == group.optionButtons[0].button.name)
-        return;
+         if (this.button.name == group.optionButtons[0].button.name)
+            { group.SetSelected(group.optionButtons[1]);
+                group.optionButtons[1].button.onClick.Invoke();
+                return;
+            }       
+
+         if(this.button.name == group.optionButtons[3].button.name)
+                        return;
             
             // 그룹의 private SetSelected 호출 (중첩 클래스이므로 접근 가능)
             group.SetSelected(this);

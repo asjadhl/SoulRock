@@ -14,7 +14,7 @@ public class ScrollManager : MonoBehaviour
         if (_scrollrect.verticalNormalizedPosition <= 1)
         {
 
-            _scrollrect.verticalNormalizedPosition += ScrollSpeed;
+            _scrollrect.verticalNormalizedPosition += ScrollSpeed*Time.unscaledDeltaTime;
         }
     }
     public void ScrollTop()
@@ -23,7 +23,7 @@ public class ScrollManager : MonoBehaviour
         if (_scrollrect.verticalNormalizedPosition >= 0)
         {
 
-            _scrollrect.verticalNormalizedPosition -= ScrollSpeed;
+            _scrollrect.verticalNormalizedPosition -= ScrollSpeed * Time.unscaledDeltaTime;
 
         }
     }
