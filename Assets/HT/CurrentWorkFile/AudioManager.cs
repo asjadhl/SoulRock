@@ -51,9 +51,9 @@ public class AudioManager : MonoBehaviour
   public void OnClickSetMaterial(string paremeter)
   {
 
-    if (mat1 != image.material) image.material = mat1;
+    if (mat1 != image.material) mat1 = image.material;
 
-        AudioListener.pause = true;
+    AudioListener.pause = true;
         if (mat1 != null)
         {
       isSingle = !isSingle;
@@ -74,6 +74,8 @@ public class AudioManager : MonoBehaviour
     }
   void UpdateTimeMaterial()
   {
+    if (mat1 != image.material) mat1 = image.material;  
+
     if (mat1 != null)
     {
       mat1.SetFloat(UnscaledTimeID, Time.unscaledTime);
@@ -286,10 +288,7 @@ public class AudioManager : MonoBehaviour
            child.gameObject.SetActive(false);
         }
 
-
-    mat1 = image.material;
-    mat1 = Object.Instantiate(mat1);
-    image.material = mat1;
+ 
   }
 
   public void Update()
