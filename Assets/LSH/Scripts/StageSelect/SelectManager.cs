@@ -17,6 +17,7 @@ public class SelectManager : MonoBehaviour
         skullLight.SetActive(false);
         clownLight.SetActive(true);
         skull.GetComponent<BoxCollider>().enabled = false;
+        Cursor.visible = true;
     }
 
     // Update is called once per frame
