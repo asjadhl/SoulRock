@@ -15,17 +15,20 @@ public class GameOverManager : MonoBehaviour
 
         currentSceneName = SceneManager.GetActiveScene().name;
     }
+    void Start()
+    {
+      
+    }
     public async UniTask TriggerGameOver()
     {
         if (isTriggered) return;
         isTriggered = true;
         gameOverPanel.SetActive(true);
 
-
         await UniTask.Delay(5000);
         GameOverText.SetActive(false);
 
-        await UniTask.Delay(TimeSpan.FromSeconds(4f));
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
         if (gameOverTextUI != null)
         {
             string[] messages =
