@@ -12,7 +12,6 @@ public class CircleMove : MonoBehaviour
 	private double startTime;
 	private bool returned = false;
 	private CircleHit circleHit;
-
     Image rawImage;
     Color originalColor;
     [Tooltip("투명화 걸리는시간")]
@@ -57,7 +56,6 @@ public class CircleMove : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
-
             Color newColor = originalColor;
             newColor.a = alpha;
             rawImage.color = newColor;

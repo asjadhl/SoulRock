@@ -34,10 +34,10 @@ public class CircleHit : MonoBehaviour
 	public GameObject[] poolCircle;
 	private int pivot = 0;
 	private double secondsPerBeat;
-
 	private List<CircleMove> activeCircles = new List<CircleMove>();
 	public bool getDamage = false;
 	CanvasGroup cg;
+	public bool isScale = false;
     private void Awake()
 	{
 		if (Instance == null) Instance = this;
@@ -57,34 +57,16 @@ public class CircleHit : MonoBehaviour
 	private void Start()
 	{
 		a = GetComponent<AudioSource>();
-
-		
-		//for (int i = 0; i < comboImage.Length; i++)
-		//{
-		//	comboImage[i].SetActive(false);
-		//}
 		playerShoot = FindAnyObjectByType<PlayerShoot>();
         playerHPSc = FindAnyObjectByType<PlayerHP>();
-
         circleGen().Forget();
 	}
 
 	private void Update()
 	{
 		CheckCol();
-		//if(combo == 0)
-		//{
-		//	for (int k = 0; k < comboImage.Length; k++)
-		//	{
-		//		comboImage[k].SetActive(false);
-		//	}
-		//}
-		//if(Input.GetKeyDown(KeyCode.K)) getDamage = true;
-  //      if (Input.GetKeyDown(KeyCode.S)) getDamage = false;
-
-
     }
-
+    
 	void CheckCol()
 	{
 		if (Input.GetMouseButtonDown(0))
@@ -96,7 +78,6 @@ public class CircleHit : MonoBehaviour
 
 				if (mindis <= distance && distance <= maxdis)
 				{
-					Debug.LogWarning("클릭 성공");
 					OnClickSuccess().Forget();
 					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
@@ -104,31 +85,6 @@ public class CircleHit : MonoBehaviour
 			}
 		}
 	}
-
-	//public GameObject GetCircle()
-	//{
-	//	if (poolCircle.Length == 0)
-	//	{
-	//		Debug.LogError("풀에 오브젝트가 없음!");
-	//		return null;
-	//	}
-
-	//	GameObject circleDot = poolCircle[pivot];
-
-	//	// 풀링 초기화
-	//	circleDot.SetActive(false);
-	//	circleDot.transform.localScale = Vector3.one * circleBig;
-	//	circleDot.SetActive(true);
-
-	//		var circleMove = circleDot.GetComponent<CircleMove>();
-	//       if (getDamage)
-	//		circleMove.ChangeColor().Forget();
-	//	circleMove.Initialize(this);
-	//       activeCircles.Add(circleMove);
-
-	//       pivot = (pivot + 1) % poolCircle.Length;
-	//	return circleDot;
-	//}
 	public GameObject GetCircle()
 	{
 		if (poolCircle.Length == 0)
@@ -157,7 +113,6 @@ public class CircleHit : MonoBehaviour
 	{
 		if (circleDot == null || !circleDot.activeSelf) return;
 		circleDot.GetComponent<CircleMove>().SetColor();
-
 		circleDot.SetActive(false);
 		circleDot.transform.localScale = Vector3.one * circleBig;
 	}
@@ -165,13 +120,14 @@ public class CircleHit : MonoBehaviour
 	{
 		combo++;
 		comboText.GetComponent<ComboText>().RanTextColor();
+		isScale = true;
 		cg.alpha = 1;
-		//comboText.SetActive(true);
         a.PlayOneShot(clip);
         playerShoot.PlayerShoot_();
-        playerHPSc.PlayerHPPlus(3);
-		await UniTask.Delay(500);
-		//comboText.SetActive(false);
+        playerHPSc.PlayerHPPlus(4);
+		await UniTask.Delay(150);
+		isScale = false;
+		await UniTask.Delay(350);
 		cg.alpha = 0;
 	}
 	private async UniTask circleGen()

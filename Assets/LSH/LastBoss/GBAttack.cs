@@ -23,7 +23,7 @@ public class GBAttack : MonoBehaviour
     float firstyPos;
     float firstclonexPos;
     float firstcloneyPos;
-    int cooltime = 1000;
+    int cooltime = 2000;
     BossMove bossMove;
     [Header("폴터가이스트 현상")]
     [SerializeField] GameObject poltergeist;
@@ -197,7 +197,7 @@ public class GBAttack : MonoBehaviour
         KillBall.SetActive(true);
         KillBall.transform.position = new Vector3(transform.position.x, transform.position.y+3f, transform.position.z);
         musicBox.panStereo = 0f;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 7; i++)
         {
             teleportIndex = Random.Range(0, 2);
             animator.SetTrigger("Teleport");
@@ -221,7 +221,7 @@ public class GBAttack : MonoBehaviour
         mosterSpawner.SetActive(false);
         transform.rotation = originalRotation;
         KillBall.SetActive(false);
-        await UniTask.Delay(2000);
+        await UniTask.Delay(3000);
         isAttack = false;
     }
     private async UniTask SoundAttackVector(int patternNum)
@@ -288,10 +288,10 @@ public class GBAttack : MonoBehaviour
             obj.SetActive(true);
             Vector3 randomPos = transform.position + new Vector3(Random.Range(-10f, 10f), Random.Range(5f, 15f), 0f);
             obj.transform.position = randomPos;
-            await UniTask.Delay(1000);
+            await UniTask.Delay(4000);
         }
 
-        await UniTask.Delay(cooltime+2000); // 모든 오브젝트가 발사된 후 대기 시간
+        await UniTask.Delay(cooltime+3000); // 모든 오브젝트가 발사된 후 대기 시간
         poltergeist.SetActive(false);
         isAttack = false;
     }
@@ -314,13 +314,13 @@ public class GBAttack : MonoBehaviour
                 SoundSmooth(-1f, 2.5f).Forget();
                 isBeatOn = true;
 				rightBeat.SetActive(true);
-                await UniTask.Delay(5000);
+                await UniTask.Delay(6000);
                 break;
             case 1:
                 SoundSmooth(1f, 2.5f).Forget();
                 isBeatOn = true;
 				leftBeat.SetActive(true);
-				await UniTask.Delay(5000);
+				await UniTask.Delay(6000);
 				break;
         }
         CheckSuccess();

@@ -294,59 +294,54 @@ public class Stage3Boss : MonoBehaviour
 
         switch (ranIndex)
         {
-            case 0:
-                Debug.Log("레이저");
-                ChargeLazerAttack().Forget();
-                ranIndex = Random.Range(0, 3);
-                break;
             case 1:
                 Debug.Log("레이저볼");
                 secondPattern().Forget();
-                ranIndex = Random.Range(0, 3);
+                ranIndex = Random.Range(1, 3);
 				break;
             case 2:
                 Debug.Log("빅레이저");
                 ThirdPattern().Forget();
-                ranIndex = Random.Range(0, 3);
+                ranIndex = Random.Range(1, 3);
                 break;
         }
     }
-    private async UniTask ChargeLazerAttack()
-    {
-        isAttacking = true;
-        chargeLazer.SetActive(true);
-        for (int i = 1; i < 100; i++)
-        {
-            chargeLazer.transform.localScale =
-                new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
-            await UniTask.Delay(20);
-        }
+  //  private async UniTask ChargeLazerAttack()
+  //  {
+  //      isAttacking = true;
+  //      chargeLazer.SetActive(true);
+  //      for (int i = 1; i < 100; i++)
+  //      {
+  //          chargeLazer.transform.localScale =
+  //              new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
+  //          await UniTask.Delay(20);
+  //      }
 
-        LazerAttack().Forget();
-    }
+  //      LazerAttack().Forget();
+  //  }
 
-    private async UniTask LazerAttack()
-    {
-		anime.SetTrigger("BloodAttack");
-		chargeLazer.SetActive(false);
-        lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y, chargeLazer.transform.position.z);
-        lazerPool[poolIndex].SetActive(true);
-        await UniTask.Delay(3000);
-        ReturnLazer(lazerPool[poolIndex]);
-        if (poolIndex >= lazerPool.Length-1)
-        {
-            poolIndex = 0;
-        }
-        else
-            poolIndex++;
-        await UniTask.Delay(coolTime);
-        isAttacking = false;
-    }
-    void ReturnLazer(GameObject lazer)
-    {
-        lazer.SetActive(false);
-        lazer.transform.position = transform.position;
-    }
+  //  private async UniTask LazerAttack()
+  //  {
+		//anime.SetTrigger("BloodAttack");
+		//chargeLazer.SetActive(false);
+  //      lazerPool[poolIndex].transform.position = new Vector3(chargeLazer.transform.position.x, chargeLazer.transform.position.y, chargeLazer.transform.position.z);
+  //      lazerPool[poolIndex].SetActive(true);
+  //      await UniTask.Delay(3000);
+  //      ReturnLazer(lazerPool[poolIndex]);
+  //      if (poolIndex >= lazerPool.Length-1)
+  //      {
+  //          poolIndex = 0;
+  //      }
+  //      else
+  //          poolIndex++;
+  //      await UniTask.Delay(coolTime);
+  //      isAttacking = false;
+  //  }
+  //  void ReturnLazer(GameObject lazer)
+  //  {
+  //      lazer.SetActive(false);
+  //      lazer.transform.position = transform.position;
+  //  }
 
     
     private async UniTask secondPattern()
