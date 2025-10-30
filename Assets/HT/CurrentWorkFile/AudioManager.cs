@@ -9,6 +9,15 @@ using UnityEngine.UI;
  
 public class AudioManager : MonoBehaviour
 {
+
+    [System.Serializable]
+    public enum ModeType
+    {
+        Master,Music,SFX
+    }
+
+
+
   [SerializeField] private AudioMixer myMixer;
   [SerializeField] private Slider masterSlider;
   [SerializeField] private Slider musicSlider;
@@ -31,9 +40,7 @@ public class AudioManager : MonoBehaviour
   public AudioMixerGroup MusicGroup;
   public AudioMixerGroup SFXGroup;
   
-  public ScrollRect _scrollrect;
-  public ScrollButton ScrollButtonTop;
-  public ScrollButton ScrollButtonBottom;
+ 
 
   [Header("Animation-Shader")]
   public Canvas main_canvas;
@@ -94,24 +101,7 @@ public class AudioManager : MonoBehaviour
     }
   }
 
-  public void ScrollBottom()
-  {
-    if (_scrollrect.verticalNormalizedPosition <= 1)
-    {
-
-      _scrollrect.verticalNormalizedPosition += 0.001f;
-    }
-  }
-  public void ScrollTop()
-  {
-
-    if (_scrollrect.verticalNormalizedPosition >= 0)
-    {
-
-      _scrollrect.verticalNormalizedPosition -= 0.001f;
-
-    }
-  }
+ 
   #region Animation
 
 
@@ -285,7 +275,16 @@ public class AudioManager : MonoBehaviour
     main_canvas.renderMode = RenderMode.ScreenSpaceCamera;
     main_canvas.worldCamera = Camera.main;
     main_canvas.planeDistance = 1;
-    
+
+       //Initialize
+      var child =  main_canvas.transform.Find("Panel");
+        if (child != null)
+        {
+          child.gameObject.SetActive(false);
+          child = child.Find("Licsense_Setting");
+        if(child != null)
+           child.gameObject.SetActive(false);
+        }
 
 
     mat1 = image.material;
@@ -295,27 +294,15 @@ public class AudioManager : MonoBehaviour
 
   public void Update()
   {
-
-
-    if (ScrollButtonTop != null)
-    {
-
-      if (ScrollButtonTop.IsDown)
-      {
-        ScrollTop();
-      }
-    }
-    if (ScrollButtonBottom != null)
-    {
-
-      if (ScrollButtonBottom.IsDown)
-      {
-
-        ScrollBottom();
-      }
-     
-    }
+ 
     UpdateTimeMaterial();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+
+            Application.Quit();
+ 
+        }
   }
 
   public void OnDestroy()
@@ -324,46 +311,62 @@ public class AudioManager : MonoBehaviour
     PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
     PlayerPrefs.SetFloat("SFXVolume", SFXSlider.value);
   }
+   
   public void SetMasterVolume(float dir) //slider
   {
-    masterSlider.value += dir;
-    masterImage.color = Painter(masterSlider.value);
-    myMixer.SetFloat("Master", Mathf.Log10(masterSlider.value) * 20);
+       
+        masterSlider.value += dir;
+        masterImage.color = Painter(masterSlider.value);
+         masterSlider.onValueChanged.Invoke(0);
+         masterSlider.onValueChanged.Invoke(1);
+        myMixer.SetFloat("Master", Mathf.Log10(masterSlider.value) * 20);
   }
+
+     
 
   public void SetMusicVolume(float dir) //slider
   {
     musicSlider.value += dir;
     musicImage.color = Painter(musicSlider.value);
-    myMixer.SetFloat("Music", Mathf.Log10(musicSlider.value) * 20);
+        musicSlider.onValueChanged.Invoke(0);
+        musicSlider.onValueChanged.Invoke(1);
+        myMixer.SetFloat("Music", Mathf.Log10(musicSlider.value) * 20);
   }
 
   public void SetSFXVolume(float dir) //slider
   {
-    SFXSlider.value += dir;
-    SFXImage.color = Painter(SFXSlider.value);
-    myMixer.SetFloat("SFX", Mathf.Log10(SFXSlider.value) * 20);
+        SFXSlider.value += dir;
+        SFXImage.color = Painter(SFXSlider.value);
+        SFXSlider.onValueChanged.Invoke(0);
+        SFXSlider.onValueChanged.Invoke(1);
+        myMixer.SetFloat("SFX", Mathf.Log10(SFXSlider.value) * 20);
   }
 
-
+    
 
   private void LoadMasterVolume()
   {
-    masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
-    masterImage.color = Painter(masterSlider.value);
-    myMixer.SetFloat("Master", Mathf.Log10(masterSlider.value) * 20);
+        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
+        masterImage.color = Painter(masterSlider.value);
+        masterSlider.onValueChanged.Invoke(0);
+        masterSlider.onValueChanged.Invoke(1);
+        myMixer.SetFloat("Master", Mathf.Log10(masterSlider.value) * 20);
   }
   private void LoadMusicVolume()
   {
     musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
     musicImage.color = Painter(musicSlider.value);
-    myMixer.SetFloat("Music", Mathf.Log10(musicSlider.value) * 20);
+        musicSlider.onValueChanged.Invoke(0);
+        musicSlider.onValueChanged.Invoke(1);
+        myMixer.SetFloat("Music", Mathf.Log10(musicSlider.value) * 20);
   }
   private void LoadSFXVolume()
   {
     SFXSlider.value = PlayerPrefs.GetFloat("SFXVolume");
     SFXImage.color = Painter(SFXSlider.value);
-    myMixer.SetFloat("SFX", Mathf.Log10(SFXSlider.value) * 20);
+        SFXSlider.onValueChanged.Invoke(0);
+        SFXSlider.onValueChanged.Invoke(1);
+        myMixer.SetFloat("SFX", Mathf.Log10(SFXSlider.value) * 20);
   }
 
 

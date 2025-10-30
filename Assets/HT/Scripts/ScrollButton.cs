@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
  
 
-public class ScrollButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ScrollButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,IPointerExitHandler
 {
 
   
@@ -15,6 +15,9 @@ public class ScrollButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         IsDown = true;
 
     }
+
+    public void OnPointerExit(PointerEventData eventData)
+    { IsDown = false; }
 
     public void OnPointerUp(PointerEventData eventData)
     {

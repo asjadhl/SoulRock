@@ -25,7 +25,7 @@ public class OptionButtonGroup : MonoBehaviour
             if (btn == null) continue;
             optionButtons.Add(new OptionButton(btn, this, highlightProperty, duration));
         }
-        SetSelected(optionButtons[0]);// First
+       
     }
 
     void Update()
@@ -45,6 +45,7 @@ public class OptionButtonGroup : MonoBehaviour
         currentSelected.Select();
     }
 
+   
     // ========================
     // Inner non-MonoBehaviour
     // ========================
@@ -109,6 +110,7 @@ public class OptionButtonGroup : MonoBehaviour
         {
             selected = true;
             hovered = false;
+            
             Set(1f);
         }
 
@@ -121,9 +123,15 @@ public class OptionButtonGroup : MonoBehaviour
         }
 
         private void OnClick()
-        {
+        {   
+            if(this.button.name == group.optionButtons[0].button.name)
+            {
+                group.SetSelected(group.optionButtons[1]);
+                return;
+            }
             // 그룹의 private SetSelected 호출 (중첩 클래스이므로 접근 가능)
             group.SetSelected(this);
+             
         }
 
         private void EnsureMaterial()
@@ -136,7 +144,7 @@ public class OptionButtonGroup : MonoBehaviour
 
         private void Set(float v)
         {
-            if (mat != null) mat.SetFloat(prop, v);
+            if (mat != null)   mat.SetFloat(prop, v);    
         }
 
         private static void AddEvent(EventTrigger trigger, EventTriggerType type, System.Action<BaseEventData> cb)

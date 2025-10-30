@@ -35,12 +35,14 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
      
         
 
-        // Get and clone the material so this button has its own instance
-        mat = Instantiate(GetComponent<Image>().material);
+        
+       mat = Instantiate(GetComponent<Image>().material);
        GetComponent<Image>().material = mat;
        mat.SetFloat("_Rotation", (float)MyDirection);
        mystate = State.Waiting;
-       
+
+     
+             
          
     }
 
@@ -184,4 +186,21 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
   {
     IsDown = false;
   }
+
+
+    public void SetColor(GameObject obj)
+    {
+        SafeGuard();
+       
+        var a = obj.GetComponent<Image>().color;
+        mat.EnableKeyword("_EMISSION");
+        mat.SetColor("_Color",a*8f);
+    }
+
+    private void SafeGuard()
+    {
+        if (mat == null)
+            mat = GetComponent<Image>().material;
+    }
+
 }
