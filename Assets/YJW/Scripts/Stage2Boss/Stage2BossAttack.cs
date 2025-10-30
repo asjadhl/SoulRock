@@ -108,10 +108,7 @@ public class Stage2BossAttack : MonoBehaviour
         if (normalMusicBox.MusicFin)
         {
             bossDeadHandled = true;
-
-            Debug.Log("보스1 클리어 감지됨!");
             BossState.isBoss1Dead = true;
-            Debug.Log($"BossState.isBoss1Dead = {BossState.isBoss1Dead}");
         }
     }
     //public async UniTaskVoid DelayedDialogueCheckAsync()

@@ -55,7 +55,6 @@ public class BossTextManager: MonoBehaviour
         else if (startStage == 8)
             BossState.isBoss3Dead = true;
 
-        Debug.Log($"∫∏Ω∫ ªÁ∏¡ ¡ÔΩ√ ∞ªΩ≈µ : Boss1={BossState.isBoss1Dead}, Boss2={BossState.isBoss2Dead}, Boss3={BossState.isBoss3Dead}");
         bossUI.ShowDialogueUI(true);
         for (int i = startStage; i <= endStage; i++)
         {

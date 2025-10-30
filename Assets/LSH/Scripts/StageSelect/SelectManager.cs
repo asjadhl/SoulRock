@@ -6,57 +6,69 @@ public class SelectManager : MonoBehaviour
     [SerializeField] GameObject clownLight;
     [SerializeField] GameObject skullLight;
     [SerializeField] BoxCollider clownCol;
-    [SerializeField] BoxCollider skull;
+    [SerializeField] BoxCollider skullCol;
     bool isAllCol = false;
-    private void Awake()
-    {
-        //clownCol = GetComponent<BoxCollider>();
-    }
     void Start()
     {
         skullLight.SetActive(false);
         clownLight.SetActive(true);
-        skull.GetComponent<BoxCollider>().enabled = false;
+        clownCol.enabled = true;
+        skullCol.enabled = false;
         Cursor.visible = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!isAllCol)
-             CheckClearLight();
+        CheckClearLight();
     }
 
     void CheckClearLight()
     {
-        if(DialogueLineTrueORFalse.stage1True)//대사 시작
+        // 모든 클리어
+        if (BossState.isBoss2Dead && BossState.isBoss2Dead)
         {
-            clownCol.GetComponent<BoxCollider>().enabled = false;
-        }
-        else if(!DialogueLineTrueORFalse.stage1True&&!BossState.isBoss1Dead)//대사 끝
-        {
-            clownCol.GetComponent<BoxCollider>().enabled = true;
-        }
-        else if (BossState.isBoss1Dead&&DialogueLineTrueORFalse.stage2True) //보스1이 죽고 대사 시작
-        {
-            Debug.LogError("보스1 사망");
-            skullLight.SetActive(true);
+            Debug.Log("보스2 사망");
             clownLight.SetActive(false);
-            //clownCol.enabled = false;
-            clownCol.GetComponent<BoxCollider>().enabled = false;
-        }
-        else if (!DialogueLineTrueORFalse.stage2True && BossState.isBoss1Dead) //보스1이 죽고 대사 끝
-        { 
-            clownLight.SetActive(false);
-            skull.GetComponent<BoxCollider>().enabled = true;
-        }
-        else if(BossState.isBoss2Dead&&DialogueLineTrueORFalse.stage3_1True)
-        {
-            Debug.LogError("보스2 사망"); 
-            isAllCol = true;
             skullLight.SetActive(false);
+            clownCol.enabled = false;
+            skullCol.enabled = false;
+            return;
+        }
+        // 보스1 사망 + 2보스 대사 중
+        if (BossState.isBoss1Dead && DialogueLineTrueORFalse.stage2True && !BossState.isBoss2Dead)
+        {
+            clownCol.enabled = false;
+            skullCol.enabled = false;
             clownLight.SetActive(false);
-            skull.GetComponent<BoxCollider>().enabled = false;
+            skullLight.SetActive(true);
+            return;
+        }
+
+        // 보스1 사망 + 대사 끝
+        if (BossState.isBoss1Dead && !DialogueLineTrueORFalse.stage2True && !BossState.isBoss2Dead)
+        {
+            clownCol.enabled = false;
+            skullCol.enabled = true;
+            clownLight.SetActive(false);
+            skullLight.SetActive(true);
+            return;
+        }
+
+        // 1보스 대사 중
+        if (DialogueLineTrueORFalse.stage1True && !BossState.isBoss1Dead)
+        {
+            clownCol.enabled = false;
+            skullCol.enabled = false;
+            return;
+        }
+
+        // 1보스 대사 끝
+        if (!DialogueLineTrueORFalse.stage1True && !BossState.isBoss1Dead)
+        {
+            clownCol.enabled = false;
+            skullCol.enabled = false;
+            return;
         }
     }
 }
