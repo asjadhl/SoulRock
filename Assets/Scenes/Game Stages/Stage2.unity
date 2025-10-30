@@ -6220,7 +6220,7 @@ RectTransform:
   m_GameObject: {fileID: 768555115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 100, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2030021564}
@@ -6854,8 +6854,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 853299443}
   - {fileID: 2030021564}
+  - {fileID: 853299443}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &873753370
@@ -9751,7 +9751,7 @@ Transform:
   m_GameObject: {fileID: 1310444316}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000076023596, y: 0.000000042146844, z: 3.5542256e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 9.76, z: -23.17}
+  m_LocalPosition: {x: 0, y: 6.76, z: -23.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10944,7 +10944,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 5, z: 0}
+  FollowOffset: {x: 0, y: 2, z: 0}
 --- !u!114 &1435377333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10997,7 +10997,7 @@ Transform:
   m_GameObject: {fileID: 1435377330}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000076023596, y: 0.000000042146844, z: 3.5542256e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 9.76, z: -23.17}
+  m_LocalPosition: {x: 0, y: 6.76, z: -23.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15274,19 +15274,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.data[0].tag
-      value: Stage2Normal
-      objectReference: {fileID: 0}
-    - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
-      propertyPath: pools.Array.data[1].tag
       value: Stage2Empty
       objectReference: {fileID: 0}
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
+      propertyPath: pools.Array.data[1].tag
+      value: Stage2Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.data[2].tag
-      value: Stage2Normal2
+      value: Stage2Boss
       objectReference: {fileID: 0}
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.data[3].tag
@@ -15339,15 +15339,15 @@ PrefabInstance:
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.data[0].prefab
       value: 
-      objectReference: {fileID: 5594955746311829623, guid: d828ec8e5d6beae44bc916ffa15acc91, type: 3}
+      objectReference: {fileID: 1284270221901532706, guid: 5d086bf72c6bf974aad1cb856f75f254, type: 3}
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.data[1].prefab
       value: 
-      objectReference: {fileID: 1284270221901532706, guid: 5d086bf72c6bf974aad1cb856f75f254, type: 3}
+      objectReference: {fileID: 3358284350819414496, guid: 3baf9852aa85b484a9d459b0455bab66, type: 3}
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.data[2].prefab
       value: 
-      objectReference: {fileID: 8921674072561438024, guid: b685f18f6955fa340aa5fedd679cf4c2, type: 3}
+      objectReference: {fileID: 3358284350819414496, guid: 3baf9852aa85b484a9d459b0455bab66, type: 3}
     - target: {fileID: 8136123525616257243, guid: 932210637d7a3c941b8f80605d38960b, type: 3}
       propertyPath: pools.Array.data[3].prefab
       value: 
@@ -15600,7 +15600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2030021564
 RectTransform:
   m_ObjectHideFlags: 0
