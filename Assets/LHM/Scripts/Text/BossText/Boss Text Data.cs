@@ -2,9 +2,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BossTextData", menuName = "SoulRock/BossTextData")]
 public class BossTextData : ScriptableObject
 {
-    public StageDialogue stage1;
-    public StageDialogue stage2;
-    public StageDialogue stage3;
-    public StageDialogue stage4;
-    public StageDialogue stage5;
+    public BossText act1;
+    public BossText act2;
+    public BossText act3;
+    public BossText act4;
+    public BossText act5;
+    public BossText act6;
+    public BossText act7;
+    public BossText act8;
 }

@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class GBAttack : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class GBAttack : MonoBehaviour
     [SerializeField] GameObject leftBeat;
     [SerializeField] Image rightLongBeat;
     [SerializeField] Image leftLongBeat;
-
+    BossTextManager bossTextManager;
     float barAmount = 0;
     int ranIndex = 0;
     int ranIndexBefore = 0;
@@ -105,8 +106,20 @@ public class GBAttack : MonoBehaviour
         //StuckWithPlayer();
         if(normalMusicBox.MusicFin)
         {
+            DelayedDialogueCheckAsync().Forget();
+            
             //여기에 노래끝났을때.
         }
+    }
+    public async UniTaskVoid DelayedDialogueCheckAsync()
+    {
+
+        await bossTextManager.StartStageDialogueAsync(8);
+
+
+
+        await UniTask.Delay(1000);
+        SceneManager.LoadScene("Main");
     }
 
     void CheckForthPattern()

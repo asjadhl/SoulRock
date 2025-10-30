@@ -45,6 +45,7 @@ public class Stage3Boss : MonoBehaviour
     bool animeOn = false;
     [SerializeField] GameObject monsterSpawner;
     NormalMusicBox normalMusicBox;
+    BossTextManager bossTextManager;
     private async UniTask Awake()
     {
 		player = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -132,8 +133,20 @@ public class Stage3Boss : MonoBehaviour
         if(normalMusicBox.MusicFin) //노래끝 버티기 끝
         {
             BossState.isBoss2Dead = true;
-            SceneManager.LoadScene("StageSelect");
+
+            DelayedDialogueCheckAsync().Forget();
         }
+    }
+    public async UniTaskVoid DelayedDialogueCheckAsync()
+    {
+
+        await bossTextManager.StartStageDialogueAsync(4);
+        await bossTextManager.StartStageDialogueAsync(5);
+        await bossTextManager.StartStageDialogueAsync(6);
+        await bossTextManager.StartStageDialogueAsync(7);
+
+        await UniTask.Delay(1000);
+        SceneManager.LoadScene("StageSelect");
     }
 
     #region("보스빡침")

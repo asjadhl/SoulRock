@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -83,9 +84,12 @@ public class Stage2BossAttack : MonoBehaviour
     private int index = 0;
     [SerializeField] GameObject[] clubStackImage;
     NormalMusicBox normalMusicBox;
+    BossTextManager bossTextManager;
     private void Start()
     {
+
         player = GameObject.FindWithTag("Player");
+        bossTextManager = FindObjectOfType<BossTextManager>();
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         BossHP = GetComponent<BossHP>();
         if (isDelay == false)
@@ -103,10 +107,25 @@ public class Stage2BossAttack : MonoBehaviour
         if (normalMusicBox.MusicFin)
         {
             BossState.isBoss1Dead = true;
-            SceneManager.LoadScene("StageSelect");
+            DelayedDialogueCheckAsync().Forget();
         }
     }
+    public async UniTaskVoid DelayedDialogueCheckAsync()
+    {
 
+        await bossTextManager.StartStageDialogueAsync(1);
+
+        await bossTextManager.StartStageDialogueAsync(2);
+
+        await bossTextManager.StartStageDialogueAsync(3);
+
+
+
+
+        await UniTask.Delay(1000);
+        SceneManager.LoadScene("StageSelect");
+    }
+    
     private void BossPattern()
     {
         switch (curShape)

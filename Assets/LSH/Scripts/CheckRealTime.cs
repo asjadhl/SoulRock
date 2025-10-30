@@ -9,7 +9,8 @@ public class CheckRealTime : MonoBehaviour
     int plusTime = 0;
     public double startTime;
 
-	void Awake()
+	int Count = 0;
+    void Awake()
 	{
 		// ΩÃ±€≈Ê
 		if (Instance == null) Instance = this;
