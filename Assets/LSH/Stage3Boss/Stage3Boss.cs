@@ -133,7 +133,7 @@ public class Stage3Boss : MonoBehaviour
         if(normalMusicBox.MusicFin) //노래끝 버티기 끝
         {
             BossState.isBoss2Dead = true;
-
+            SceneManager.LoadScene("StageSelect");
             //DelayedDialogueCheckAsync().Forget();
         }
     }

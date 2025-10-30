@@ -109,6 +109,7 @@ public class Stage2BossAttack : MonoBehaviour
         {
             bossDeadHandled = true;
             BossState.isBoss1Dead = true;
+            SceneManager.LoadScene("StageSelect");
         }
     }
     //public async UniTaskVoid DelayedDialogueCheckAsync()
