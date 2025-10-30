@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using System;
 public class GameOverManager : MonoBehaviour
 {
     string currentSceneName;
@@ -10,20 +11,16 @@ public class GameOverManager : MonoBehaviour
     private bool isTriggered = false;
     private async void Awake()
     {
+
         currentSceneName = SceneManager.GetActiveScene().name;
     }
     public async UniTask TriggerGameOver()
     {
         if (isTriggered) return;
         isTriggered = true;
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(true);
-        }
+        gameOverPanel.SetActive(true);
 
-
-        await UniTask.Delay(4000);
-
+        await UniTask.Delay(TimeSpan.FromSeconds(4f));
         if (gameOverTextUI != null)
         {
             string[] messages =
@@ -33,7 +30,7 @@ public class GameOverManager : MonoBehaviour
                 "다시 한번 마음을 가다듬어봐..."
             };
 
-            int randomIndex = Random.Range(0, messages.Length);
+            int randomIndex = UnityEngine.Random.Range(0, messages.Length);
             await gameOverTextUI.ShowGameOverText(messages[randomIndex]);
         }
     }

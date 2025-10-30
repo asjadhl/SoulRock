@@ -82,10 +82,7 @@ public class PlayerHP : MonoBehaviour
 
 
         //SceneManager.LoadScene("Main");
-        if (isDead) return;
-        isDead = true;
-        if (gameOverManager != null)
-            await gameOverManager.TriggerGameOver();
+        FindObjectOfType<GameOverManager>()?.TriggerGameOver().Forget();
 
         CanvasGroup cg = gameOver.GetComponent<CanvasGroup>();
         while(cg.alpha < 1f)

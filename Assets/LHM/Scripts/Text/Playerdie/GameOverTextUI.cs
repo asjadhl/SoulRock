@@ -19,9 +19,7 @@ public class GameOverTextUI : MonoBehaviour
 
     private void Awake()
     {
-        // 시작 시 완전히 비활성화
-        if (dialogueText != null)
-            dialogueText.gameObject.SetActive(false);
+        
     }
 
     public async UniTask ShowGameOverText(string message)
@@ -50,10 +48,7 @@ public class GameOverTextUI : MonoBehaviour
 
             await UniTask.Delay(TimeSpan.FromSeconds(typingSpeed), cancellationToken: typingCTS.Token);
         }
-
-        // 2초 유지 후 자동 숨김
-        await UniTask.Delay(2000);
-        dialogueText.gameObject.SetActive(false);
+       
     }
 
     private void OnDestroy()
