@@ -7,6 +7,7 @@ public class GameOverManager : MonoBehaviour
     string currentSceneName;
     [SerializeField] private GameOverTextUI gameOverTextUI;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject GameOverText;
 
     private bool isTriggered = false;
     private async void Awake()
@@ -19,6 +20,10 @@ public class GameOverManager : MonoBehaviour
         if (isTriggered) return;
         isTriggered = true;
         gameOverPanel.SetActive(true);
+
+
+        await UniTask.Delay(5000);
+        GameOverText.SetActive(false);
 
         await UniTask.Delay(TimeSpan.FromSeconds(4f));
         if (gameOverTextUI != null)
