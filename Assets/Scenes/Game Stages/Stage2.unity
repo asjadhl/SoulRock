@@ -5732,7 +5732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &735507060
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7455,7 +7455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverTextUI: {fileID: 960654668}
   gameOverPanel: {fileID: 735507059}
-  GameOverText: {fileID: 0}
+  GameOverText: {fileID: 1657529231}
 --- !u!1 &972040650
 GameObject:
   m_ObjectHideFlags: 0
@@ -9851,7 +9851,7 @@ Camera:
   m_GameObject: {fileID: 1310444316}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
