@@ -90,7 +90,8 @@ public class PlayerHP : MonoBehaviour
             cg.alpha += Time.deltaTime / 10f;
             await UniTask.Yield();
         }
-        
+        Cursor.visible = true;
+
     }
 
     private void GetDamImageOn()
