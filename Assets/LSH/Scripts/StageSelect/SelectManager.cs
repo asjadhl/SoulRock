@@ -66,7 +66,7 @@ public class SelectManager : MonoBehaviour
         // 1보스 대사 끝
         if (!DialogueLineTrueORFalse.stage1True && !BossState.isBoss1Dead)
         {
-            clownCol.enabled = false;
+            clownCol.enabled = true;
             skullCol.enabled = false;
             return;
         }
