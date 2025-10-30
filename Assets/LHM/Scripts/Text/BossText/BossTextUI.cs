@@ -49,7 +49,7 @@ public class BossTextUI : MonoBehaviour
     {
         //if (sdfFontAsset != null && dialogueText != null)
         //    dialogueText.font = sdfFontAsset;
-
+        
         if (speechBubble != null)
         {
             Button btn = speechBubble.GetComponent<Button>();

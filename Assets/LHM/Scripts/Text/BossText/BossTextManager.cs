@@ -16,10 +16,55 @@ public class BossTextManager: MonoBehaviour
 
     private CancellationTokenSource bossCTS;
 
-    private void Start()
+    private async UniTask Start()
     {
+        bossUI.ShowDialogueUI(false);
+        bossUI.ShowDialogueUI2(false);
 
-        _ = DelayedDialogueCheckAsync();
+        // 보스 상태 감시 루프
+        await CheckBossDeathLoopAsync();
+
+        //_ = DelayedDialogueCheckAsync();
+    }
+    private async UniTask CheckBossDeathLoopAsync()
+    {
+        while (true)
+        {
+            if (BossState.isBoss1Dead)
+            {
+                await HandleBossDeathAsync(1, 3);
+                BossState.isBoss1Dead = false;
+            }
+            else if (BossState.isBoss2Dead)
+            {
+                await HandleBossDeathAsync(4, 7);
+                BossState.isBoss2Dead = false;
+            }
+            else if (BossState.isBoss3Dead)
+            {
+                await HandleBossDeathAsync(8, 8);
+                BossState.isBoss3Dead = false;
+            }
+
+            await UniTask.Yield(PlayerLoopTiming.Update);
+        }
+    }
+    private async UniTask HandleBossDeathAsync(int startStage, int endStage)
+    {
+        bossUI.ShowDialogueUI(true);
+
+        for (int i = startStage; i <= endStage; i++)
+        {
+            await StartStageDialogueAsync(i);
+        }
+
+        bossUI.ShowDialogueUI(false);
+        bossUI.ShowDialogueUI2(false);
+
+        await UniTask.Delay(1000);
+        BossState.isBoss1Dead = true;
+        Debug.Log($"보스1 클리어! BossState.isBoss1Dead = {BossState.isBoss1Dead}");
+        SceneManager.LoadScene("StageSelect");
     }
 
     public async UniTask DelayedDialogueCheckAsync()

@@ -2,25 +2,36 @@ using UnityEngine;
 
 public class DialogueTriggerOnBossState : MonoBehaviour
 {
-    [SerializeField] private TextManager dialogueAutoPlayer;
-
-    void Start()
+    [SerializeField] private TextManager textManager;
+    private void Start()
     {
-        // 스테이지1 보스가 죽었으면 해당 대사 실행
-        if (BossState.isBoss1Dead&&!BossState.isBoss2Dead)
-        {
-            dialogueAutoPlayer.StartStageDialogueAsync(2).Forget(); // 예: 다음 스테이지의 대사 실행
-        }
+        if (textManager == null)
+            textManager = FindObjectOfType<TextManager>();
 
-        // 필요하면 다른 보스도 조건 추가
-        if (BossState.isBoss1Dead&&BossState.isBoss2Dead)
+        if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
-            dialogueAutoPlayer.StartStageDialogueAsync(3).Forget();
+            // 보스2 설명 출력
+            textManager.StartStageDialogueAsync(3).Forget();
         }
-        if (MainGhostTrainingState.isClicked)
+        else if (!BossState.isBoss1Dead)
         {
-            Debug.Log("트레이닝 룸 진입: 대사 시작");
-            dialogueAutoPlayer.StartStageDialogueAsync(1).Forget(); // 트레이닝용 대사 번호
+            // 보스1 설명 출력
+            textManager.StartStageDialogueAsync(2).Forget();
         }
+        Debug.Log($"[DialogueTrigger] Boss1Dead={BossState.isBoss1Dead}, Boss2Dead={BossState.isBoss2Dead}");
+
+        //// 보스2 클리어 → StageSelect 복귀 시
+        //else if (BossState.isBoss2Dead && !BossState.isBoss3Dead)
+        //{
+        //    Debug.Log("보스2 클리어: 보스3 설명 대사 출력");
+        //    textManager.StartStageDialogueAsync(4).Forget();
+        //}
+
+        //// 보스3 클리어 → 엔딩 설명
+        //else if (BossState.isBoss3Dead)
+        //{
+        //    Debug.Log("보스3 클리어: 엔딩 대사 출력");
+        //    textManager.StartStageDialogueAsync(5).Forget();
+        //}
     }
 }

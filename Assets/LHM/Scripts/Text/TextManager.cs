@@ -13,7 +13,11 @@ public class TextManager : MonoBehaviour
 
     private void Start()
     {
-        _ = DelayedDialogueCheckAsync();
+        //_ = DelayedDialogueCheckAsync();
+        if (dialogueUI != null)
+        {
+            dialogueUI.ShowDialogueUI(true);  
+        }
     }
 
     public async UniTaskVoid DelayedDialogueCheckAsync()

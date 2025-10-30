@@ -134,20 +134,20 @@ public class Stage3Boss : MonoBehaviour
         {
             BossState.isBoss2Dead = true;
 
-            DelayedDialogueCheckAsync().Forget();
+            //DelayedDialogueCheckAsync().Forget();
         }
     }
-    public async UniTaskVoid DelayedDialogueCheckAsync()
-    {
+    //public async UniTaskVoid DelayedDialogueCheckAsync()
+    //{
 
-        await bossTextManager.StartStageDialogueAsync(4);
-        await bossTextManager.StartStageDialogueAsync(5);
-        await bossTextManager.StartStageDialogueAsync(6);
-        await bossTextManager.StartStageDialogueAsync(7);
+    //    await bossTextManager.StartStageDialogueAsync(4);
+    //    await bossTextManager.StartStageDialogueAsync(5);
+    //    await bossTextManager.StartStageDialogueAsync(6);
+    //    await bossTextManager.StartStageDialogueAsync(7);
 
-        await UniTask.Delay(1000);
-        SceneManager.LoadScene("StageSelect");
-    }
+    //    await UniTask.Delay(1000);
+    //    SceneManager.LoadScene("StageSelect");
+    //}
 
     #region("º¸½ººýÄ§")
     void AngryBoss3Pattern()

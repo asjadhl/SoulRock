@@ -107,24 +107,25 @@ public class Stage2BossAttack : MonoBehaviour
         if (normalMusicBox.MusicFin)
         {
             BossState.isBoss1Dead = true;
-            DelayedDialogueCheckAsync().Forget();
+            //SceneManager.LoadScene("StageSelect");
+            //DelayedDialogueCheckAsync().Forget();
         }
     }
-    public async UniTaskVoid DelayedDialogueCheckAsync()
-    {
+    //public async UniTaskVoid DelayedDialogueCheckAsync()
+    //{
 
-        await bossTextManager.StartStageDialogueAsync(1);
+    //    await bossTextManager.StartStageDialogueAsync(1);
 
-        await bossTextManager.StartStageDialogueAsync(2);
+    //    await bossTextManager.StartStageDialogueAsync(2);
 
-        await bossTextManager.StartStageDialogueAsync(3);
-
-
+    //    await bossTextManager.StartStageDialogueAsync(3);
 
 
-        await UniTask.Delay(1000);
-        SceneManager.LoadScene("StageSelect");
-    }
+
+
+    //    await UniTask.Delay(1000);
+    //    SceneManager.LoadScene("StageSelect");
+    //}
     
     private void BossPattern()
     {

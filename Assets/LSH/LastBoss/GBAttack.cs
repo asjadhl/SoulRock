@@ -106,21 +106,21 @@ public class GBAttack : MonoBehaviour
         //StuckWithPlayer();
         if(normalMusicBox.MusicFin)
         {
-            DelayedDialogueCheckAsync().Forget();
+            //DelayedDialogueCheckAsync().Forget();
             
             //여기에 노래끝났을때.
         }
     }
-    public async UniTaskVoid DelayedDialogueCheckAsync()
-    {
+    //public async UniTaskVoid DelayedDialogueCheckAsync()
+    //{
 
-        await bossTextManager.StartStageDialogueAsync(8);
+    //    await bossTextManager.StartStageDialogueAsync(8);
 
 
 
-        await UniTask.Delay(1000);
-        SceneManager.LoadScene("Main");
-    }
+    //    await UniTask.Delay(1000);
+    //    SceneManager.LoadScene("Main");
+    //}
 
     void CheckForthPattern()
     {
