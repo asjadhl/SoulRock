@@ -34,7 +34,8 @@ public class OptionButtonGroup : MonoBehaviour
            if(buttons[i] == null) continue;
            optionButtons.Add(new OptionButton(buttons[i],this, highlightProperty, i < colors.Count ? colors[i] : Color.black, highlightGlowColorProperty, duration));
        }
-    }
+     SetSelected(optionButtons[1]);
+  }
 
     void Update()
     {
@@ -143,12 +144,9 @@ public class OptionButtonGroup : MonoBehaviour
         }
 
         private void OnClick()
-        {   
-            if(this.button.name == group.optionButtons[0].button.name)
-            {
-                group.SetSelected(group.optionButtons[1]);
-                return;
-            }
+        {
+      if (this.button.name == group.optionButtons[0].button.name)
+        return;
             
             // 그룹의 private SetSelected 호출 (중첩 클래스이므로 접근 가능)
             group.SetSelected(this);
