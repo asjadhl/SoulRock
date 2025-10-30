@@ -175,7 +175,7 @@ public class AudioManager : MonoBehaviour
     {
       for (int i = 0; i < MainQuitGhost.Length; i++)
       {
-        MainQuitGhost[i].enabled = false;
+        MainQuitGhost[i].enabled = true;
       }
     }
   }
