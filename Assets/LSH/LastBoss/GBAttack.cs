@@ -301,10 +301,10 @@ public class GBAttack : MonoBehaviour
             obj.SetActive(true);
             Vector3 randomPos = transform.position + new Vector3(Random.Range(-10f, 10f), Random.Range(5f, 15f), 0f);
             obj.transform.position = randomPos;
-            await UniTask.Delay(4000);
+            await UniTask.Delay(2000);
         }
 
-        await UniTask.Delay(cooltime+3000); // 모든 오브젝트가 발사된 후 대기 시간
+        await UniTask.Delay(cooltime+2000); // 모든 오브젝트가 발사된 후 대기 시간
         poltergeist.SetActive(false);
         isAttack = false;
     }

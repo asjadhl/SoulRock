@@ -64,7 +64,7 @@ public class Stage3Boss : MonoBehaviour
     {
         await UniTask.Delay(5000);
         isAttacking = false;
-        ranIndex = Random.Range(0, 3);
+        ranIndex = Random.Range(1, 3);
     }
 
 
