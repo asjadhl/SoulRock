@@ -26,7 +26,6 @@ public class NormalMusicBox : MonoBehaviour
         nextStartTime = AudioSettings.dspTime + delay; // 현재 DSP 시간에 지연 시간 추가
          musicSource.clip = music;
          musicSource.PlayScheduled(nextStartTime); // 예약된 시간에 첫 곡 재생
-        Debug.LogError(musicSource.clip.length);
 
     }
 	private void Update()
