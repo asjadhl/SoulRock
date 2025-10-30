@@ -73,7 +73,7 @@ public class StageSelectGhostMove : MonoBehaviour
     private async UniTaskVoid MoveScene()
     {
         Debug.Log("28초 동안 Ghost 이동 시작");
-        await UniTask.Delay(24000);
+        await UniTask.WaitUntil(() => !DialogueLineTrueORFalse.stage3_1True);
         clownCol.GetComponent<BoxCollider>().enabled = true;
         skull.GetComponent<BoxCollider>().enabled = true;
         await GhostMove(5f);
@@ -84,8 +84,7 @@ public class StageSelectGhostMove : MonoBehaviour
         {
             tm.StartStageDialogueAsync(5);
         }
-
-        await UniTask.Delay(29000);
+        await UniTask.WaitUntil(() => !DialogueLineTrueORFalse.stage3_2True);
         SceneManager.LoadScene("LastStage");
     }
 }

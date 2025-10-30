@@ -36,7 +36,7 @@ public class SelectManager : MonoBehaviour
         {
             clownCol.GetComponent<BoxCollider>().enabled = true;
         }
-        if (BossState.isBoss1Dead == true)
+        if (DialogueLineTrueORFalse.stage2True)
         {
             skullLight.SetActive(true);
             clownLight.SetActive(false);
@@ -47,7 +47,7 @@ public class SelectManager : MonoBehaviour
                 skull.GetComponent<BoxCollider>().enabled = true;
             }
         }
-        if (BossState.isBoss2Dead == true)
+        if (DialogueLineTrueORFalse.stage3_1True)
         {
             isAllCol = true;
             skullLight.SetActive(false);
