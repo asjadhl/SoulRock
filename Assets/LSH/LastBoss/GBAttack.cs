@@ -343,4 +343,15 @@ public class GBAttack : MonoBehaviour
         musicBox.panStereo = stereo;
     }
 
+    public async UniTask SoundSmooth_(float stereo, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            musicBox.panStereo = Mathf.Lerp(stereo, 0, elapsed / duration);
+            await UniTask.Yield();
+        }
+        musicBox.panStereo = stereo;
+    }
 }

@@ -3603,7 +3603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetImage: {fileID: 412345860}
   circleBig: 12
-  bpm: 76
+  bpm: 75
   mindis: 0.01
   maxdis: 45
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
@@ -5804,8 +5804,8 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &740649543
 GameObject:
   m_ObjectHideFlags: 0

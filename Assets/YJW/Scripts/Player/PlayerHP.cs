@@ -14,14 +14,21 @@ public class PlayerHP : MonoBehaviour
     [SerializeField] private GameOverManager gameOverManager;
 
     [SerializeField] float _playerHP;
+    private float maxHP;
     public float playerHP
     {
         get => _playerHP;
-        set => _playerHP = Mathf.Clamp(value, 0, _playerHP);
+        set => _playerHP = Mathf.Clamp(value, 0, maxHP);
     }
 
     [SerializeField] GameObject DamageImage;
     [SerializeField] GameObject gameOver;
+
+    private void Awake()
+    {
+        maxHP = _playerHP;
+    }
+
     private void Start()
     {
         playerDieText = FindObjectOfType<PlayerDieText>();
