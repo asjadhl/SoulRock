@@ -11,27 +11,32 @@ public class NormalMusicBox : MonoBehaviour
 	[SerializeField] Image musicBar;
 	double nextStartTime = 5f;
     public bool MusicFin = false;
-    private void Awake()
+	private PlayerHP playerHPSc;
+	private void Awake()
     {
-    }
+		
+	}
     void Start()
     {
-        //      // 첫 곡 예약
-        //      musicSource.clip = music[i];
-        //musicSource.PlayScheduled(nextStartTime  + CheckRealTime.Instance.startTime);
+		//      // 첫 곡 예약
+		//      musicSource.clip = music[i];
+		//musicSource.PlayScheduled(nextStartTime  + CheckRealTime.Instance.startTime);
 
-        //      // 다음 시작 시간 예약
-        //      nextStartTime += musicSource.clip.length;
-        double delay = 5.5;
+		//      // 다음 시작 시간 예약
+		//      nextStartTime += musicSource.clip.length;
+		playerHPSc = FindAnyObjectByType<PlayerHP>();
+		double delay = 5.5;
         nextStartTime = AudioSettings.dspTime + delay; // 현재 DSP 시간에 지연 시간 추가
          musicSource.clip = music;
          musicSource.PlayScheduled(nextStartTime); // 예약된 시간에 첫 곡 재생
-
-    }
+	}
 	private void Update()
 	{
-        MusicBar();
-        CheckMusicFinished();
+        if (!playerHPSc.isPlayerDead)
+        {
+			MusicBar();
+			CheckMusicFinished();
+		}
 	}
 	public void MusicBar()
 	{

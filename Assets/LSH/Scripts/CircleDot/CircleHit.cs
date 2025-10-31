@@ -69,7 +69,7 @@ public class CircleHit : MonoBehaviour
     
 	void CheckCol()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0)&&!playerHPSc.isPlayerDead)
 		{
 			for (int i = activeCircles.Count - 1; i >= 0; i--)
 			{

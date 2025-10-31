@@ -12,7 +12,6 @@ public class StageSelectGhostMove : MonoBehaviour
     [SerializeField] BoxCollider clownCol;
     [SerializeField] BoxCollider skull;
     bool lastStageOn = false;
-    TextManager TextManager;
     void Awake()
     {
         if (playerPos == null)
@@ -72,7 +71,6 @@ public class StageSelectGhostMove : MonoBehaviour
 
     private async UniTaskVoid MoveScene()
     {
-        Debug.Log("28초 동안 Ghost 이동 시작");
         await UniTask.WaitUntil(() => !DialogueLineTrueORFalse.stage3_1True);
         clownCol.GetComponent<BoxCollider>().enabled = true;
         skull.GetComponent<BoxCollider>().enabled = true;

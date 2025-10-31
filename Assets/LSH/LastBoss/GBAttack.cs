@@ -106,9 +106,7 @@ public class GBAttack : MonoBehaviour
         //StuckWithPlayer();
         if(normalMusicBox.MusicFin)
         {
-            //DelayedDialogueCheckAsync().Forget();
-            SceneManager.LoadScene("Main");
-            //여기에 노래끝났을때.
+			SceneManager.LoadScene("Main");
         }
     }
     //public async UniTaskVoid DelayedDialogueCheckAsync()

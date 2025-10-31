@@ -3,16 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class MainGhostClick : MonoBehaviour
 {
-    [Header("Canvas")]
-    public GameObject targetCanvas; // Å¬¸¯ ½Ã ÄÑÁú Äµ¹ö½º
-
     private Camera mainCam;
 
     void Start()
     {
         mainCam = Camera.main;
-        if (targetCanvas != null)
-            targetCanvas.SetActive(false); // Ã³À½¿£ ²¨µÒ
     }
 
     void Update()
@@ -30,10 +25,21 @@ public class MainGhostClick : MonoBehaviour
                 {
                     Debug.Log("Ghost clicked!");
                     MainPlayState.isClicked1 = true;
-                    SceneManager.LoadScene("StageSelect");
+                    AllReset();
+					SceneManager.LoadScene("StageSelect");
                 }
             }
         }
     }
+
+    void AllReset()
+    {
+		BossState.isBoss1Dead = false;
+        BossState.isBoss2Dead = false;
+        DialogueLineTrueORFalse.stage1True = false;
+	    DialogueLineTrueORFalse.stage2True  =false;
+        DialogueLineTrueORFalse.stage3_1True = false;
+        DialogueLineTrueORFalse.stage3_2True = false;
+	}
 }
 
