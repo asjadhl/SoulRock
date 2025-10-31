@@ -14,7 +14,6 @@ public class NormalMusicBox : MonoBehaviour
 	private PlayerHP playerHPSc;
 	private void Awake()
     {
-		
 	}
     void Start()
     {
