@@ -93,6 +93,7 @@ public class TextManager : MonoBehaviour
     //}
     private async UniTask firstPlayDialogueAsync(DialogueLine[] lines, int stageNum, CancellationToken token)
     {
+        TalkState.isTalking = true;   
         int index = 0;
         bool waitingForClick = false;
 
@@ -121,7 +122,7 @@ public class TextManager : MonoBehaviour
         dialogueUI.ShowDialogueUI(false);
         dialogueUI.speechBubble.SetActive(false);
 
-        
+        TalkState.isTalking = false;
     }
     //private async UniTask stagePlayDialogueAsync(BossLine[] lines, int stageNum, CancellationToken token)
     //{

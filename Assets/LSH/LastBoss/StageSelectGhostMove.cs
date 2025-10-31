@@ -12,6 +12,7 @@ public class StageSelectGhostMove : MonoBehaviour
     [SerializeField] BoxCollider clownCol;
     [SerializeField] BoxCollider skull;
     bool lastStageOn = false;
+    TextManager TextManager;
     void Awake()
     {
         if (playerPos == null)
@@ -32,12 +33,6 @@ public class StageSelectGhostMove : MonoBehaviour
         {
             MapSelected3.start3 = true;
             lastStageOn = true;
-
-            var tm = FindObjectOfType<TextManager>();
-            if (tm != null)
-            {
-                tm.StartStageDialogueAsync(4).Forget();
-            }
 
             MoveScene().Forget();
         }
@@ -71,18 +66,22 @@ public class StageSelectGhostMove : MonoBehaviour
 
     private async UniTaskVoid MoveScene()
     {
-        await UniTask.WaitUntil(() => !DialogueLineTrueORFalse.stage3_1True);
+        var tm = FindObjectOfType<TextManager>();
+        if (tm != null)
+        {
+            tm.StartStageDialogueAsync(4);
+        }
+        Debug.Log("28초 동안 Ghost 이동 시작");
+        await UniTask.WaitUntil(() => !TalkState.isTalking);
         clownCol.GetComponent<BoxCollider>().enabled = true;
         skull.GetComponent<BoxCollider>().enabled = true;
         await GhostMove(5f);
-        MapSelected3.stop3 = true;
-
-        var tm = FindObjectOfType<TextManager>();
+        TalkState.isTalking = true;
         if (tm != null)
         {
             tm.StartStageDialogueAsync(5);
         }
-        await UniTask.WaitUntil(() => !DialogueLineTrueORFalse.stage3_2True);
+        await UniTask.WaitUntil(() => !TalkState.isTalking);
         SceneManager.LoadScene("LastStage");
     }
 }
