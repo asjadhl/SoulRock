@@ -36,10 +36,8 @@ public class MainGhostClick : MonoBehaviour
     {
 		BossState.isBoss1Dead = false;
         BossState.isBoss2Dead = false;
-        DialogueLineTrueORFalse.stage1True = false;
-	    DialogueLineTrueORFalse.stage2True  =false;
-        DialogueLineTrueORFalse.stage3_1True = false;
-        DialogueLineTrueORFalse.stage3_2True = false;
+        TalkState.isTalking = false;
+	   
 	}
 }
 

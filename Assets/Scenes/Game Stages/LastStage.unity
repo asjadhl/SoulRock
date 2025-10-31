@@ -7211,6 +7211,7 @@ MonoBehaviour:
   _playerHP: 100
   DamageImage: {fileID: 1509825898}
   gameOver: {fileID: 320316496}
+  isPlayerDead: 0
 --- !u!114 &1207685872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13311,7 +13312,7 @@ MonoBehaviour:
   circleBig: 11
   bpm: 71
   mindis: 0.001
-  maxdis: 60
+  maxdis: 70
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
   poolSize: 10
   combo: 0
@@ -14936,7 +14937,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 56f8165bc8b0a98419e06f018a808c4c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 886b35c1619175549a5842c4fefa34e3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

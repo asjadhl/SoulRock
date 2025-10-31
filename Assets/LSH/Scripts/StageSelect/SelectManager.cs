@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SelectManager : MonoBehaviour
@@ -16,59 +17,96 @@ public class SelectManager : MonoBehaviour
         skullCol.enabled = false;
         Cursor.visible = true;
     }
+    public enum scenestate
+    {
+        allclear, firststageclearTalk, firststageclearNoTalk, secondStageClearTalk, secondStageClearNoTalk
+    };
+
+    scenestate mystate;
+
 
     // Update is called once per frame
     void Update()
     {
         CheckClearLight();
-    }
-
-    void CheckClearLight()
-    {
-        // 모든 클리어
-        if (BossState.isBoss2Dead && BossState.isBoss2Dead)
+        switch (mystate)
         {
-            Debug.Log("보스2 사망");
-            clownLight.SetActive(false);
-            skullLight.SetActive(false);
-            clownCol.enabled = false;
-            skullCol.enabled = false;
-            return;
-        }
-        // 보스1 사망 + 2보스 대사 중
-        if (BossState.isBoss1Dead && DialogueLineTrueORFalse.stage2True && !BossState.isBoss2Dead)
-        {
-            clownCol.enabled = false;
-            skullCol.enabled = false;
-            clownLight.SetActive(false);
-            skullLight.SetActive(true);
-            return;
-        }
-
-        // 보스1 사망 + 대사 끝
-        if (BossState.isBoss1Dead && !DialogueLineTrueORFalse.stage2True && !BossState.isBoss2Dead)
-        {
-            clownCol.enabled = false;
-            skullCol.enabled = true;
-            clownLight.SetActive(false);
-            skullLight.SetActive(true);
-            return;
+            case scenestate.allclear:
+                Debug.Log("보스2 사망");
+                clownLight.SetActive(false);
+                skullLight.SetActive(false);
+                clownCol.enabled = false;
+                skullCol.enabled = false;
+                break;
+            case scenestate.firststageclearTalk:
+                clownCol.enabled = false;
+                skullCol.enabled = false;
+                break;
+            case scenestate.firststageclearNoTalk:
+                clownCol.enabled = true;
+                skullCol.enabled = false;
+                break;
+            case scenestate.secondStageClearTalk:
+                clownCol.enabled = false;
+                skullCol.enabled = false;
+                clownLight.SetActive(false);
+                skullLight.SetActive(true);
+                break;
+            case scenestate.secondStageClearNoTalk:
+                clownCol.enabled = false;
+                skullCol.enabled = true;
+                clownLight.SetActive(false);
+                skullLight.SetActive(true);
+                break;
+                default: break;
         }
 
-        // 1보스 대사 중
-        if (DialogueLineTrueORFalse.stage1True && !BossState.isBoss1Dead)
+        void CheckClearLight()
         {
-            clownCol.enabled = false;
-            skullCol.enabled = false;
-            return;
-        }
+            // 모든 클리어
+            if (BossState.isBoss2Dead && BossState.isBoss1Dead)
+            {
+				Debug.Log(5);
+				mystate = scenestate.allclear;
+                return;
+            }
+            // 보스1 사망 + 2보스 대사 중
+            if (BossState.isBoss1Dead && TalkState.isTalking && !BossState.isBoss2Dead)
+            {
+				Debug.Log(3);
+				mystate = scenestate.secondStageClearTalk;
 
-        // 1보스 대사 끝
-        if (!DialogueLineTrueORFalse.stage1True && !BossState.isBoss1Dead)
-        {
-            clownCol.enabled = true;
-            skullCol.enabled = false;
-            return;
+                return;
+            }
+
+            // 보스1 사망 + 대사 끝
+            if (BossState.isBoss1Dead && !TalkState.isTalking && !BossState.isBoss2Dead)
+            {
+				Debug.Log(4);
+				mystate = scenestate.secondStageClearNoTalk;
+
+                return;
+            }
+
+            // 1보스 대사 중
+            if (TalkState.isTalking && !BossState.isBoss1Dead && !BossState.isBoss2Dead)
+            {
+                Debug.Log(1);
+                mystate = scenestate.firststageclearTalk;
+                clownCol.enabled = false;
+                skullCol.enabled = false;
+                return;
+            }
+
+            // 1보스 대사 끝
+            if (!TalkState.isTalking && !BossState.isBoss1Dead&&!BossState.isBoss2Dead)
+            {
+				Debug.Log(2);
+				mystate = scenestate.firststageclearNoTalk;
+                clownCol.enabled = true;
+                skullCol.enabled = false;
+                return;
+            }
         }
     }
 }

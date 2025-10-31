@@ -8998,6 +8998,7 @@ MonoBehaviour:
   _playerHP: 100
   DamageImage: {fileID: 1171881392}
   gameOver: {fileID: 5128409}
+  isPlayerDead: 0
 --- !u!114 &1123644679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28839,7 +28840,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3262371427469550191, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
       propertyPath: maxdis
-      value: 60
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 3262371427469550191, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
       propertyPath: mindis
@@ -28876,7 +28877,19 @@ PrefabInstance:
     - target: {fileID: 5381620805214115558, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 56f8165bc8b0a98419e06f018a808c4c, type: 3}
+      objectReference: {fileID: 21300000, guid: 886b35c1619175549a5842c4fefa34e3, type: 3}
+    - target: {fileID: 5381620805214115558, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
+      propertyPath: m_Color.b
+      value: 0.88550186
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381620805214115558, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381620805214115558, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7382107136836745710, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
       propertyPath: m_Name
       value: CircleHit
