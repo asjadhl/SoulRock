@@ -2,43 +2,42 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+public static class TalkState
+{
+       public static bool isTalking = false;
+}
 public class TextManager : MonoBehaviour
 {
+    [SerializeField] private BossTextData bosstextData;
     [SerializeField] private StageDialogueData dialogueData;
     [SerializeField] private DialogueUIManager dialogueUI;
     [SerializeField] private float interval = 3f;
 
     private CancellationTokenSource dialogueCTS;
-
+    private CancellationTokenSource bossCTS;
     private void Start()
     {
-        //_ = DelayedDialogueCheckAsync();
-        if (dialogueUI != null)
+        //if (dialogueUI != null)
+        //{
+        //    dialogueUI.ShowDialogueUI(true);  
+        //}
+    }
+    public async UniTask DelayedDialogueCheckAsync()
+    {
+        if (!BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
-            dialogueUI.ShowDialogueUI(true);  
+            await StartStageDialogueAsync(2);
+        }
+        if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
+        {
+            await StartStageDialogueAsync(3);
         }
     }
 
-    public async UniTaskVoid DelayedDialogueCheckAsync()
+        
+    public async UniTask StartStageDialogueAsync(int stageNum)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
-
-        if (MainGhostTrainingState.isClicked)
-            StartStageDialogueAsync(1).Forget();
-        if (MainPlayState.isClicked1)
-            StartStageDialogueAsync(2).Forget();
-        if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
-            StartStageDialogueAsync(3).Forget();
-        if (MapSelected3.start3)
-            StartStageDialogueAsync(4).Forget();
-        if (MapSelected3.stop3)
-            StartStageDialogueAsync(5).Forget();
-    }
-
-    public async UniTaskVoid StartStageDialogueAsync(int stageNum)
-    {
-        // 기존 대화 취소
         dialogueCTS?.Cancel();
         dialogueCTS = new CancellationTokenSource();
 
@@ -53,21 +52,47 @@ public class TextManager : MonoBehaviour
         };
 
         if (lines != null)
-            await PlayDialogueAsync(lines, stageNum, dialogueCTS.Token);
+            await firstPlayDialogueAsync(lines, stageNum, dialogueCTS.Token);
     }
+    //private async UniTask BossHandleBossDeathAsync(int firstStage, int endStage)
+    //{
+    //    if (firstStage == 1)
+    //        BossState.isBoss1Dead = true;
+    //    else if (firstStage == 4)
+    //        BossState.isBoss2Dead = true;
+    //    else if (firstStage == 8)
+    //        BossState.isBoss3Dead = true;
 
-    private async UniTask PlayDialogueAsync(DialogueLine[] lines, int stageNum, CancellationToken token)
+    //    dialogueUI.ShowDialogueUI(true);
+    //    for (int i = firstStage; i <= endStage; i++)
+    //    {
+    //        await BossStartStageDialogueAsync(i);
+    //    }
+
+    //    dialogueUI.ShowDialogueUI(false);
+    //}
+    //public async UniTask BossStartStageDialogueAsync(int firstStage)
+    //{
+    //    bossCTS?.Cancel();
+    //    bossCTS = new CancellationTokenSource();
+
+    //    BossLine[] lines = firstStage switch
+    //    {
+    //        1 => bosstextData.act1.Bossdialogues,
+    //        2 => bosstextData.act2.Bossdialogues,
+    //        3 => bosstextData.act3.Bossdialogues,
+    //        4 => bosstextData.act4.Bossdialogues,
+    //        5 => bosstextData.act5.Bossdialogues,
+    //        6 => bosstextData.act6.Bossdialogues,
+    //        7 => bosstextData.act7.Bossdialogues,
+    //        8 => bosstextData.act8.Bossdialogues,
+    //        _ => null
+    //    };
+    //    if (lines != null)
+    //        await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
+    //}
+    private async UniTask firstPlayDialogueAsync(DialogueLine[] lines, int stageNum, CancellationToken token)
     {
-        // 대화 시작 플래그 설정
-        switch (stageNum)
-        {
-            case 1: DialogueLineTrueORFalse.TutorialTrue = true; break; //트레이닝 룸 대사
-            case 2: DialogueLineTrueORFalse.stage1True = true; break; //광대 설명
-            case 3: DialogueLineTrueORFalse.stage2True = true; break; //해골 설명
-            case 4: DialogueLineTrueORFalse.stage3_1True = true; break; //박살내기 전
-            case 5: DialogueLineTrueORFalse.stage3_2True = true; break; //박살낸 후
-        }
-
         int index = 0;
         bool waitingForClick = false;
 
@@ -96,14 +121,38 @@ public class TextManager : MonoBehaviour
         dialogueUI.ShowDialogueUI(false);
         dialogueUI.speechBubble.SetActive(false);
 
-        // 대화 종료 플래그 해제
-        switch (stageNum)
-        {
-            case 1: DialogueLineTrueORFalse.TutorialTrue = false; break;
-            case 2: DialogueLineTrueORFalse.stage1True = false; break;
-            case 3: DialogueLineTrueORFalse.stage2True = false; break;
-            case 4: DialogueLineTrueORFalse.stage3_1True = false; break;
-            case 5: DialogueLineTrueORFalse.stage3_2True = false; break;
-        }
+        
     }
+    //private async UniTask stagePlayDialogueAsync(BossLine[] lines, int stageNum, CancellationToken token)
+    //{
+    //    int index = 0;
+    //    bool waitingForClick = false;
+
+    //    System.Action onClick = () => waitingForClick = false;
+    //    dialogueUI.OnDialogueClick += onClick;
+
+    //    dialogueUI.ShowDialogueUI(true);
+    //    dialogueUI.StartImageAnimation(stageNum);
+
+    //    while (index < lines.Length)
+    //    {
+    //        if (token.IsCancellationRequested) break;
+
+    //        BossLine line = lines[index];
+    //        dialogueUI.ShowDialogueText(line.text, line.sound);
+
+    //        waitingForClick = true;
+    //        while (waitingForClick && !token.IsCancellationRequested)
+    //            await UniTask.Yield(PlayerLoopTiming.Update, token);
+
+    //        index++;
+    //    }
+
+    //    dialogueUI.OnDialogueClick -= onClick;
+    //    dialogueUI.StopImageAnimation();
+    //    dialogueUI.ShowDialogueUI(false);
+    //    dialogueUI.speechBubble.SetActive(false);
+
+
+    //}
 }

@@ -11,15 +11,15 @@ public static class ChatState
 public class BossTextManager: MonoBehaviour
 {
     [SerializeField] private BossTextData bosstextData;
-    [SerializeField] private BossTextUI bossUI;
+    [SerializeField] private DialogueUIManager UImanager; 
     [SerializeField] private float interval = 3f;
 
     private CancellationTokenSource bossCTS;
 
     private async UniTask Start()
     {
-        bossUI.ShowDialogueUI(false);
-        bossUI.ShowDialogueUI2(false);
+        UImanager.ShowDialogueUI(false);
+
 
         // 보스 상태 감시 루프
         await CheckBossDeathLoopAsync();
@@ -55,31 +55,19 @@ public class BossTextManager: MonoBehaviour
         else if (startStage == 8)
             BossState.isBoss3Dead = true;
 
-        bossUI.ShowDialogueUI(true);
+        UImanager.ShowDialogueUI(true);
         for (int i = startStage; i <= endStage; i++)
         {
             await StartStageDialogueAsync(i);
         }
 
-        bossUI.ShowDialogueUI(false);
-        bossUI.ShowDialogueUI2(false);
+        UImanager.ShowDialogueUI(false);
 
         await UniTask.Delay(1000);
         SceneManager.LoadScene("StageSelect");
     }
 
-    public async UniTask DelayedDialogueCheckAsync()
-    {
-       
-        await StartStageDialogueAsync(1);
-
-        await StartStageDialogueAsync(2);
-
-        await StartStageDialogueAsync(3);
-
-        SceneManager.LoadScene("Main");
-    }
-
+   
 
 
     public async UniTask StartStageDialogueAsync(int stageNum)
@@ -111,17 +99,16 @@ public class BossTextManager: MonoBehaviour
         bool waitingForClick = false;
 
         System.Action onClick = () => waitingForClick = false;
-        bossUI.OnDialogueClick += onClick;
+        UImanager.OnDialogueClick += onClick;
 
-        bossUI.ShowDialogueUI(true);
-        bossUI.StartImageAnimation(stageNum);
+        UImanager.ShowDialogueUI(true);
+        UImanager.StartImageAnimation(stageNum);
 
         while (index < lines.Length)
         {
             if (token.IsCancellationRequested) break;
 
             BossLine line = lines[index];
-            bossUI.ShowDialogueBySpeaker(line);
 
             waitingForClick = true;
 
@@ -139,10 +126,10 @@ public class BossTextManager: MonoBehaviour
             index++;
         }
 
-        bossUI.OnDialogueClick -= onClick;
-        bossUI.StopImageAnimation();
-        bossUI.ShowDialogueUI(false);
-        bossUI.speechBubble.SetActive(false);
+        UImanager.OnDialogueClick -= onClick;
+        UImanager.StopImageAnimation();
+        UImanager.ShowDialogueUI(false);
+        UImanager.speechBubble.SetActive(false);
     }
 
 

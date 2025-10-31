@@ -106,7 +106,7 @@ public class GBAttack : MonoBehaviour
         //StuckWithPlayer();
         if(normalMusicBox.MusicFin)
         {
-			SceneManager.LoadScene("Main");
+			SceneManager.LoadScene("Ending");
         }
     }
     //public async UniTaskVoid DelayedDialogueCheckAsync()
