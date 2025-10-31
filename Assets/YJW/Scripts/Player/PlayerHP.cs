@@ -12,6 +12,7 @@ public class PlayerHP : MonoBehaviour
      */
     PlayerDieText playerDieText;
     [SerializeField] private GameOverManager gameOverManager;
+    
 
     [SerializeField] float _playerHP;
     private float maxHP;
@@ -23,6 +24,8 @@ public class PlayerHP : MonoBehaviour
 
     [SerializeField] GameObject DamageImage;
     [SerializeField] GameObject gameOver;
+
+    public bool isPlayerDead;
 
     private void Awake()
     {
@@ -82,6 +85,9 @@ public class PlayerHP : MonoBehaviour
 
 
         //SceneManager.LoadScene("Main");
+        isPlayerDead = true;
+        InitializeData();
+
         FindObjectOfType<GameOverManager>()?.TriggerGameOver().Forget();
 
         CanvasGroup cg = gameOver.GetComponent<CanvasGroup>();
@@ -102,6 +108,11 @@ public class PlayerHP : MonoBehaviour
     private void GetDamImageOff()
     {
         DamageImage.SetActive(false);
+    }
+
+    private void InitializeData()
+    {
+        Stage2BossAttack.clubStack = 0;
     }
 
 }
