@@ -12,7 +12,7 @@ public class CircleMove : MonoBehaviour
 	private double startTime;
 	private bool returned = false;
 	private CircleHit circleHit;
-    Image rawImage;
+    public Image rawImage;
     Color originalColor;
     [Tooltip("투명화 걸리는시간")]
     public float fadeDuration = 0.1f;
