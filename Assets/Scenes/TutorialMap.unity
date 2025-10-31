@@ -11011,6 +11011,7 @@ MonoBehaviour:
   _playerHP: 100
   DamageImage: {fileID: 1464931212}
   gameOver: {fileID: 982823636}
+  isPlayerDead: 0
 --- !u!114 &1763589413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12953,6 +12954,8 @@ MonoBehaviour:
   gameOverTextUI: {fileID: 1522244358}
   gameOverPanel: {fileID: 982823636}
   GameOverText: {fileID: 1784960275}
+  musicBox: {fileID: 966790951}
+  gameOverSound: {fileID: 8300000, guid: 87e1f9f9ba1d3d147a687199d9abbd9d, type: 3}
 --- !u!4 &2094305977
 Transform:
   m_ObjectHideFlags: 0

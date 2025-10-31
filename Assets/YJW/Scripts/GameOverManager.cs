@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using System;
+using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 public class GameOverManager : MonoBehaviour
 {
     string currentSceneName;
@@ -9,6 +10,9 @@ public class GameOverManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject GameOverText;
 
+    public MusicBox musicBox;
+    public AudioClip gameOverSound;
+    
     private bool isTriggered = false;
     private async void Awake()
     {
@@ -27,7 +31,10 @@ public class GameOverManager : MonoBehaviour
 
         await UniTask.Delay(5000);
         GameOverText.SetActive(false);
-
+        //audioSource.Stop();
+        //audioSource.PlayOneShot(gameOverSound);
+        int sL = (int)gameOverSound.length * 1000;
+        await UniTask.Delay(sL);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         if (gameOverTextUI != null)
         {
