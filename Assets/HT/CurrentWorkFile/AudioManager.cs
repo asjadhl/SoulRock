@@ -44,18 +44,18 @@ public class AudioManager : MonoBehaviour
   public Image image;
   public Material mat1;
   private static readonly int UnscaledTimeID = Shader.PropertyToID("_UnscaledTime");
-  public bool isSingle = false;
-  public void OnClickSetMaterial(string paremeter)
+  public bool IsToggle = false;
+  public void OnToggle(string paremeter)
   {
 
     if (mat1 != image.material) mat1 = image.material;
 
-    AudioListener.pause = true;
+     
         if (mat1 != null)
         {
-      isSingle = !isSingle;
+      IsToggle = !IsToggle;
     
-      if (isSingle == true)
+      if (IsToggle == true)
         mat1.SetFloat(paremeter, 1);
       else mat1.SetFloat(paremeter, 0);
     }
