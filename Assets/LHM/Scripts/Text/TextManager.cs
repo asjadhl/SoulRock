@@ -10,20 +10,21 @@ public static class TalkState
 public class TextManager : MonoBehaviour
 {
     [SerializeField] private BossTextData bosstextData;
-    [SerializeField] private StageDialogueData dialogueData;
+    [SerializeField] private StageDialogueData dialogueData;//여기 stage1에 대사 입력하시면되요
     [SerializeField] private DialogueUIManager dialogueUI;
-    [SerializeField] private float interval = 3f;
+
 
     private CancellationTokenSource dialogueCTS;
     private CancellationTokenSource bossCTS;
     private void Start()
     {
+        MovieDialogueAsync();
         //if (dialogueUI != null)
         //{
         //    dialogueUI.ShowDialogueUI(true);  
         //}
     }
-    public async UniTask DelayedDialogueCheckAsync()
+    public async UniTask DelayedDialogueCheckAsync()//보스 1,2
     {
         if (!BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
@@ -35,13 +36,21 @@ public class TextManager : MonoBehaviour
         }
     }
 
-        
+    public async UniTask MovieDialogueAsync()//<- 이거 movie씬 대사 처리
+    {
+        dialogueCTS?.Cancel();
+        dialogueCTS = new CancellationTokenSource();//여기까지 기존 대사 취소및 초기화
+        DialogueLine[] lines = dialogueData.stage1.dialogues;// 그 데이터 stage1에 있는 대사 불러옴
+        if (lines != null)
+            await firstPlayDialogueAsync(lines, 0, dialogueCTS.Token);//출력
+    }
+
     public async UniTask StartStageDialogueAsync(int stageNum)
     {
         dialogueCTS?.Cancel();
         dialogueCTS = new CancellationTokenSource();
 
-        DialogueLine[] lines = stageNum switch
+        DialogueLine[] lines = stageNum switch//스테이지별 대사들
         {
             1 => dialogueData.stage1.dialogues,
             2 => dialogueData.stage2.dialogues,
@@ -93,15 +102,15 @@ public class TextManager : MonoBehaviour
     //}
     private async UniTask firstPlayDialogueAsync(DialogueLine[] lines, int stageNum, CancellationToken token)
     {
-        TalkState.isTalking = true;   
+        TalkState.isTalking = true;   //플래그 활성화
         int index = 0;
         bool waitingForClick = false;
 
-        System.Action onClick = () => waitingForClick = false;
+        System.Action onClick = () => waitingForClick = false;//대화창 클릭하는 것들
         dialogueUI.OnDialogueClick += onClick;
 
-        dialogueUI.ShowDialogueUI(true);
-        dialogueUI.StartImageAnimation(stageNum);
+        dialogueUI.ShowDialogueUI(true);//ui 혹시몰라서 켜줌
+        dialogueUI.StartImageAnimation(stageNum);//이미지 깜빡이는거
 
         while (index < lines.Length)
         {
@@ -115,7 +124,7 @@ public class TextManager : MonoBehaviour
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
 
             index++;
-        }
+        }//클릭할때까지 대사 출력
 
         dialogueUI.OnDialogueClick -= onClick;
         dialogueUI.StopImageAnimation();

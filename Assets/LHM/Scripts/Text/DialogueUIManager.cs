@@ -38,6 +38,7 @@ public class DialogueUIManager : MonoBehaviour
     public Texture stage2_img2;
     public Texture stage3_img1;
     public Texture stage3_img2;
+    //3D 유령으로 할거면 여기다가 이미지 하나 추가해서 빈칸만들기
 
     void Start()
     {
@@ -120,7 +121,7 @@ public class DialogueUIManager : MonoBehaviour
             case 1: img1 = stage1_img1; img2 = stage1_img2; break;
             case 2: img1 = stage2_img1; img2 = stage2_img2; break;
             case 3: img1 = stage3_img1; img2 = stage3_img2; break;
-
+                //여기다가 CASE4 추가해서 그냥 빈칸으로 만들어버리세요
         }
 
         _ = ChangeImageLoopAsync(img1, img2, imageCTS.Token);
