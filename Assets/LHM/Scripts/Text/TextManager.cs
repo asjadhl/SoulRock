@@ -18,7 +18,7 @@ public class TextManager : MonoBehaviour
     private CancellationTokenSource bossCTS;
     private void Start()
     {
-        MovieDialogueAsync();
+        MovieDialogueAsync().Forget();
         //if (dialogueUI != null)
         //{
         //    dialogueUI.ShowDialogueUI(true);  
