@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CircleHit : MonoBehaviour
@@ -14,8 +15,9 @@ public class CircleHit : MonoBehaviour
 	public double bpm = 120.0;
 
 	[Header("판정 거리")]
-	[SerializeField] float mindis = 20f;
-	[SerializeField] float maxdis = 60f;
+	[SerializeField] float minDis = 0.01f;
+	[SerializeField] float exDis = 70f;
+	[SerializeField] float maxDis = 120f;
 
 	[Header("원 도트 프리팹")]
 	[SerializeField] GameObject CirclePrefab;
@@ -26,8 +28,10 @@ public class CircleHit : MonoBehaviour
 	[Header("Combo")]
 	public int combo = 0;
 	[SerializeField] GameObject comboText;
+	[SerializeField] TextMeshProUGUI text;
+    [SerializeField] TextMeshProUGUI comboNumText;
 
-	AudioSource a;
+    AudioSource a;
 	[SerializeField] AudioClip clip;
 	[SerializeField] PlayerShoot playerShoot;
 	private PlayerHP playerHPSc;
@@ -37,7 +41,8 @@ public class CircleHit : MonoBehaviour
 	private List<CircleMove> activeCircles = new List<CircleMove>();
 	public bool getDamage = false;
 	CanvasGroup cg;
-	public bool isScale = false;
+    Color randomColor;
+    public bool isScale = false;
     private void Awake()
 	{
 		if (Instance == null) Instance = this;
@@ -76,16 +81,32 @@ public class CircleHit : MonoBehaviour
 				var circle = activeCircles[i];
 				float distance = Vector2.Distance(targetImage.position, circle.hitRect.position);
 
-				if (mindis <= distance && distance <= maxdis)
+				if (minDis <= distance && exDis >= distance)
 				{
-					OnClickSuccess().Forget();
-					ReturnCircle(circle.gameObject);
+					OnClickSuccessEx().Forget();
+                    comboNumText.text = combo.ToString();
+
+                    ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
+				else if(exDis < distance && maxDis >= distance)
+				{
+					OnClickSuccess().Forget();
+                    comboNumText.text = combo.ToString();
+                    ReturnCircle(circle.gameObject);
+					activeCircles.RemoveAt(i);
+                }
+				//else { text.text = "Bad"; }
 			}
 		}
 	}
-	public GameObject GetCircle()
+    private void RanTextColor()
+    {
+        randomColor = new Color(Random.value, Random.value, Random.value);
+        comboNumText.color = randomColor;
+    }
+
+    public GameObject GetCircle()
 	{
 		if (poolCircle.Length == 0)
 		{
@@ -119,18 +140,35 @@ public class CircleHit : MonoBehaviour
 	public async UniTask OnClickSuccess()
 	{
 		combo++;
-		comboText.GetComponent<ComboText>().RanTextColor();
-		isScale = true;
+		RanTextColor();
+        text.text = "Good";
+        isScale = true;
 		cg.alpha = 1;
         a.PlayOneShot(clip);
         playerShoot.PlayerShoot_();
-        playerHPSc.PlayerHPPlus(4);
+        playerHPSc.PlayerHPPlus(2);
 		await UniTask.Delay(150);
 		isScale = false;
 		await UniTask.Delay(350);
 		cg.alpha = 0;
 	}
-	private async UniTask circleGen()
+
+    public async UniTask OnClickSuccessEx()
+    {
+        combo++;
+        RanTextColor();
+		text.text = "Perfect";
+        isScale = true;
+        cg.alpha = 1;
+        a.PlayOneShot(clip);
+        playerShoot.PlayerShoot_();
+        playerHPSc.PlayerHPPlus(4);
+        await UniTask.Delay(150);
+        isScale = false;
+        await UniTask.Delay(350);
+        cg.alpha = 0;
+    }
+    private async UniTask circleGen()
 	{
 		while (true)
 		{

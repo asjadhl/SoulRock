@@ -2536,7 +2536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e6d28f82b0f3a24b89333bab1077d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comboNumText: {fileID: 1319764788}
 --- !u!224 &746077107
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7048,12 +7047,15 @@ MonoBehaviour:
   targetImage: {fileID: 1891864559}
   circleBig: 11
   bpm: 71
-  mindis: 0.001
-  maxdis: 70
+  minDis: 0.01
+  exDis: 70
+  maxDis: 140
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
   poolSize: 10
   combo: 0
   comboText: {fileID: 746077104}
+  text: {fileID: 851092881}
+  comboNumText: {fileID: 1319764788}
   clip: {fileID: 8300000, guid: c0e9c94f84d1f4249aff126f0f8832b9, type: 3}
   playerShoot: {fileID: 0}
   poolCircle: []

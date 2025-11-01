@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,13 +20,14 @@ public class GBAttack : MonoBehaviour
     [SerializeField] GameObject[] cloneTransform;
     [SerializeField] GameObject mosterSpawner;
     [SerializeField] GameObject KillBall;
+    [SerializeField] Animator[] cloneAnime;
     bool isAttack = false;
     float firstxPos;
     float firstyPos;
     float firstzPos;
     float firstclonexPos;
     float firstcloneyPos;
-    int cooltime = 2000;
+    int cooltime = 3000;
     BossMove bossMove;
     [Header("폴터가이스트 현상")]
     [SerializeField] GameObject poltergeist;
@@ -84,6 +86,7 @@ public class GBAttack : MonoBehaviour
         //}
 
         rightBeat.SetActive(false);
+        cloneAnime=new Animator[clone.Length];
         leftBeat.SetActive(false);
         originalRotation = transform.rotation; // 현재 회전 저장
         poltergeist.SetActive(false);
@@ -91,6 +94,7 @@ public class GBAttack : MonoBehaviour
         for (int i = 0; i < clone.Length; i++)
         {
             clone[i].transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            cloneAnime[i] = clone[i].GetComponent<Animator>();
             clone[i].SetActive(false);
         }
         LongBitRoutine().Forget();
@@ -259,7 +263,9 @@ public class GBAttack : MonoBehaviour
         {
             clone[i].SetActive(true);
             clone[i].transform.position = new Vector3(cloneTransform[i].transform.position.x, cloneTransform[i].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
+            cloneAnime[i].SetTrigger("Teleport");
         }
+        animator.SetTrigger("Teleport");
         clone[teleport].SetActive(false);
         transform.position = new Vector3(cloneTransform[teleport].transform.position.x, cloneTransform[teleport].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
         await UniTask.Delay(cooltime + 3000);
@@ -270,7 +276,7 @@ public class GBAttack : MonoBehaviour
 
     public void SuccessFindRealClone()
     {
-		animator.SetTrigger("Teleport");
+		animator.SetTrigger("Polter");
 	}
 
     public void ReturnClone()
@@ -297,7 +303,7 @@ public class GBAttack : MonoBehaviour
             animator.SetTrigger("Polter");
             GameObject obj = poltergeistOB[i];
             obj.SetActive(true);
-            Vector3 randomPos = transform.position + new Vector3(Random.Range(-10f, 10f), Random.Range(5f, 15f), 0f);
+            Vector3 randomPos = transform.position + new Vector3(Random.Range(-9f, 9f), Random.Range(5f, 8f), 0f);
             obj.transform.position = randomPos;
             await UniTask.Delay(2000);
         }
@@ -322,13 +328,13 @@ public class GBAttack : MonoBehaviour
         switch(ranIndex)
         {
             case 0:
-                SoundSmooth(-1f, 2.5f).Forget();
+                SoundSmooth(-1f, 4f).Forget();
                 isBeatOn = true;
 				rightBeat.SetActive(true);
                 await UniTask.Delay(6000);
                 break;
             case 1:
-                SoundSmooth(1f, 2.5f).Forget();
+                SoundSmooth(1f, 4f).Forget();
                 isBeatOn = true;
 				leftBeat.SetActive(true);
 				await UniTask.Delay(6000);

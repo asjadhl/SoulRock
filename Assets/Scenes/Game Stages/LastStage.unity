@@ -2029,7 +2029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnRate
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].SpawnRate
@@ -3787,7 +3787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.87058824}
+  m_Color: {r: 0.1509434, g: 0.071911715, b: 0.111285895, a: 0.87058824}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4678,7 +4678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnRate
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].SpawnRate
@@ -5046,7 +5046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnRate
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].SpawnRate
@@ -7606,7 +7606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.87058824}
+  m_Color: {r: 0.16981131, g: 0.08891064, b: 0.15099059, a: 0.87058824}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9160,7 +9160,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: -0.36197397
+  Pan2D: 0.43500766
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -10155,7 +10155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[0].SpawnRate
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4412068144017469505, guid: 362c92baccc5674499fe36da5b3cda42, type: 3}
       propertyPath: areaSpawns.Array.data[1].SpawnRate
@@ -10823,12 +10823,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790249350}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e6d28f82b0f3a24b89333bab1077d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comboNumText: {fileID: 153837258}
 --- !u!225 &1790249353
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -13313,12 +13312,15 @@ MonoBehaviour:
   targetImage: {fileID: 5881494800113150023}
   circleBig: 11
   bpm: 71
-  mindis: 0.001
-  maxdis: 70
+  minDis: 0.01
+  exDis: 70
+  maxDis: 140
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
   poolSize: 10
   combo: 0
   comboText: {fileID: 1790249350}
+  text: {fileID: 40042987}
+  comboNumText: {fileID: 153837258}
   clip: {fileID: 8300000, guid: c0e9c94f84d1f4249aff126f0f8832b9, type: 3}
   playerShoot: {fileID: 0}
   poolCircle: []
@@ -14785,6 +14787,7 @@ MonoBehaviour:
   - {fileID: 61883177}
   mosterSpawner: {fileID: 1794020559}
   KillBall: {fileID: 4159590017543054205}
+  cloneAnime: []
   poltergeist: {fileID: 82256377}
   poltergeistOB:
   - {fileID: 2860533470862602635}
