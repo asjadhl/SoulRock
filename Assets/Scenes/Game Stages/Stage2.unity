@@ -7064,7 +7064,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 867834502}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7725,6 +7725,8 @@ MonoBehaviour:
   gameOverTextUI: {fileID: 960654668}
   gameOverPanel: {fileID: 735507059}
   GameOverText: {fileID: 1657529231}
+  musicBox: {fileID: 0}
+  gameOverSound: {fileID: 0}
 --- !u!1 &972040650
 GameObject:
   m_ObjectHideFlags: 0

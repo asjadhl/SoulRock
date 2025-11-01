@@ -22,6 +22,7 @@ public class GBAttack : MonoBehaviour
     bool isAttack = false;
     float firstxPos;
     float firstyPos;
+    float firstzPos;
     float firstclonexPos;
     float firstcloneyPos;
     int cooltime = 2000;
@@ -32,7 +33,6 @@ public class GBAttack : MonoBehaviour
     bool cloneMakeGhost = false;
     [Header("타겟 (플레이어)")]
 	public Transform player;
-
     [Header("4번째 패턴")]
     [SerializeField] GameObject rightBeat;
     [SerializeField] GameObject leftBeat;
@@ -63,14 +63,14 @@ public class GBAttack : MonoBehaviour
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         bossMove = GetComponent<BossMove>();
         animator = GetComponent<Animator>();
-		if (player == null)
+        if (player == null)
 			player = GameObject.FindWithTag("Player").transform;
 		teleportIndex = 0;
         patternIndex = 0;
         firstxPos = transform.position.x;
         firstyPos = transform.position.y;
-		//bossPoss = transform.position;
-	}
+        //bossPoss = transform.position;
+    }
     private void Start()
     {
         ////클론만들기~

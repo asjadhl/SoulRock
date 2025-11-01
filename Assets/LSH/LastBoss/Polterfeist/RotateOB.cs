@@ -26,9 +26,11 @@ public class RotateOB : MonoBehaviour
         }
 
     }
-    public async void OBMove()
+    private async void OBMove()
     {
         await UniTask.Delay(5000);
+        if (player == null)
+            return;
         transform.LookAt(player.position);
         transform.Translate(Vector3.forward * OBSpeed * Time.fixedDeltaTime);
     }
@@ -56,7 +58,11 @@ public class RotateOB : MonoBehaviour
     {
         if (!isInitialized) return; //시작 폭발 방지임ㅋㅋ
         Vector3 effectPos = transform.position + new Vector3(0, 1f, 2f);
+        if (effectPos == null)
+            return;
         particleManager.PlayChairBoom(effectPos);
+        if (particleManager == null)
+            return;
         gameObject.SetActive(false);
     }
 }

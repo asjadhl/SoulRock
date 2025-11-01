@@ -41,6 +41,10 @@ public class ReverseRotate : MonoBehaviour
     public async void OBMove()
     {
         await UniTask.Delay(3000);
+        if (player == null)
+        {
+            return;
+        }
         transform.LookAt(player.position);
         transform.Translate(Vector3.forward * OBSpeed * Time.fixedDeltaTime);
        
@@ -58,7 +62,11 @@ public class ReverseRotate : MonoBehaviour
     {
         if (!isInitialized) return; //Ω√¿€ ∆¯πﬂ πÊ¡ˆ¿”§ª§ª ∆„
         Vector3 effectPos = transform.position + new Vector3(0, 1f, 2f);
+        if (effectPos == null)
+            return;
         particleManager.PlayChairBoom(effectPos);
+        if (particleManager == null)
+            return;
         gameObject.SetActive(false);
     }
 }

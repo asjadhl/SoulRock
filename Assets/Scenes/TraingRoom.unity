@@ -277,6 +277,8 @@ MonoBehaviour:
   gameOverTextUI: {fileID: 0}
   gameOverPanel: {fileID: 0}
   GameOverText: {fileID: 0}
+  musicBox: {fileID: 0}
+  gameOverSound: {fileID: 0}
 --- !u!4 &67992671
 Transform:
   m_ObjectHideFlags: 0
@@ -1031,7 +1033,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &365948153
@@ -1350,6 +1352,37 @@ MonoBehaviour:
   isDummyDead: 0
   getDummyHit: 0
   dummyHp: 3
+--- !u!1 &415750981
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 415750982}
+  m_Layer: 0
+  m_Name: GhostPos (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &415750982
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415750981}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -13.53, y: 53.95, z: -11.337}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &426394153
 GameObject:
   m_ObjectHideFlags: 0
@@ -7292,8 +7325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2997a46a2d994d9f6f93a408096d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point1: {fileID: 0}
-  point2: {fileID: 0}
+  point1: {fileID: 2055216556}
+  point2: {fileID: 415750982}
   speed: 5
   rotationSpeed: 8
 --- !u!95 &1932496668
@@ -7548,6 +7581,37 @@ Transform:
   m_Children:
   - {fileID: 1831490012}
   m_Father: {fileID: 312958894}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2055216555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2055216556}
+  m_Layer: 0
+  m_Name: GhostPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2055216556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055216555}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 13.19, y: 55.058, z: -11.337}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2065713030
 GameObject:
@@ -8349,3 +8413,5 @@ SceneRoots:
   - {fileID: 698515444}
   - {fileID: 1285159690}
   - {fileID: 67992671}
+  - {fileID: 2055216556}
+  - {fileID: 415750982}
