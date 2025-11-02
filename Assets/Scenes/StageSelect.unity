@@ -210,9 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0c3e8fa2ffc264380171b7675ded4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bosstextData: {fileID: 0}
   dialogueData: {fileID: 11400000, guid: 05a67809c74572c48ac747ef0e7abd49, type: 2}
   dialogueUI: {fileID: 421366085}
-  interval: 6
 --- !u!4 &49318140
 Transform:
   m_ObjectHideFlags: 0
@@ -608,7 +608,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 717, y: 375}
+  m_AnchoredPosition: {x: 535, y: 340}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &206110109
@@ -625,7 +625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1387,6 +1387,7 @@ MonoBehaviour:
   speechBubble: {fileID: 624378901}
   speakerImage: {fileID: 206110109}
   dialogueText: {fileID: 389860159}
+  TextBox: {fileID: 0}
   sdfFontAsset: {fileID: 11400000, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
   typingSpeed: 0.085
   typingAudio: {fileID: 2059826619}
@@ -1398,10 +1399,7 @@ MonoBehaviour:
   stage2_img2: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
   stage3_img1: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
   stage3_img2: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
-  boss_img1: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
-  boss_img2: {fileID: 2800000, guid: 4827d8b417692974f90b532fd67ab74f, type: 3}
-  boss_img3: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
-  boss_img4: {fileID: 2800000, guid: c538e4a5391d7ef4ca4a9e9f88620524, type: 3}
+  Empty: {fileID: 0}
 --- !u!4 &421366086
 Transform:
   m_ObjectHideFlags: 0
@@ -2065,7 +2063,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 178, y: 352}
+  m_AnchoredPosition: {x: -3.9999733, y: 317.00003}
   m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &624378903
@@ -6640,7 +6638,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 235, y: 622}
+  m_AnchoredPosition: {x: 53.000027, y: 587}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2059826618

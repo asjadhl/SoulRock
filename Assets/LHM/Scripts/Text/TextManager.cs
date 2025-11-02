@@ -18,21 +18,44 @@ public class TextManager : MonoBehaviour
     private CancellationTokenSource bossCTS;
     private void Start()
     {
-        MovieDialogueAsync().Forget();
+        //MovieDialogueAsync().Forget();
         //if (dialogueUI != null)
         //{
         //    dialogueUI.ShowDialogueUI(true);  
         //}
+        
+    }
+    public async UniTask BossDialogueCheackAsync()
+    {
+        if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
+        {
+            await BossHandleBossDeathAsync(1, 3);
+            SceneManager.LoadScene("StageSelect");
+        }
+        if (BossState.isBoss1Dead && BossState.isBoss2Dead)
+        {
+            await BossHandleBossDeathAsync(4, 7);
+            SceneManager.LoadScene("StageSelect");
+        }
+        if (BossState.isBoss3Dead)
+        {
+            await BossHandleBossDeathAsync(8, 8);
+            SceneManager.LoadScene("Main");
+        }
     }
     public async UniTask DelayedDialogueCheckAsync()//보스 1,2
     {
         if (!BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
-            await StartStageDialogueAsync(2);
+            await StartStageDialogueAsync(1);
         }
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
-            await StartStageDialogueAsync(3);
+            await StartStageDialogueAsync(4);
+        }
+        if (!BossState.isBoss3Dead)
+        {
+            await StartStageDialogueAsync(8);
         }
     }
 
@@ -63,43 +86,43 @@ public class TextManager : MonoBehaviour
         if (lines != null)
             await firstPlayDialogueAsync(lines, stageNum, dialogueCTS.Token);
     }
-    //private async UniTask BossHandleBossDeathAsync(int firstStage, int endStage)
-    //{
-    //    if (firstStage == 1)
-    //        BossState.isBoss1Dead = true;
-    //    else if (firstStage == 4)
-    //        BossState.isBoss2Dead = true;
-    //    else if (firstStage == 8)
-    //        BossState.isBoss3Dead = true;
+    private async UniTask BossHandleBossDeathAsync(int firstStage, int endStage)
+    {
+        if (firstStage == 1)
+            BossState.isBoss1Dead = true;
+        else if (firstStage == 4)
+            BossState.isBoss2Dead = true;
+        else if (firstStage == 8)
+            BossState.isBoss3Dead = true;
 
-    //    dialogueUI.ShowDialogueUI(true);
-    //    for (int i = firstStage; i <= endStage; i++)
-    //    {
-    //        await BossStartStageDialogueAsync(i);
-    //    }
+        dialogueUI.ShowDialogueUI(true);
+        for (int i = firstStage; i <= endStage; i++)
+        {
+            await BossStartStageDialogueAsync(i);
+        }
 
-    //    dialogueUI.ShowDialogueUI(false);
-    //}
-    //public async UniTask BossStartStageDialogueAsync(int firstStage)
-    //{
-    //    bossCTS?.Cancel();
-    //    bossCTS = new CancellationTokenSource();
+        
+    }
+    public async UniTask BossStartStageDialogueAsync(int firstStage)
+    {
+        bossCTS?.Cancel();
+        bossCTS = new CancellationTokenSource();
 
-    //    BossLine[] lines = firstStage switch
-    //    {
-    //        1 => bosstextData.act1.Bossdialogues,
-    //        2 => bosstextData.act2.Bossdialogues,
-    //        3 => bosstextData.act3.Bossdialogues,
-    //        4 => bosstextData.act4.Bossdialogues,
-    //        5 => bosstextData.act5.Bossdialogues,
-    //        6 => bosstextData.act6.Bossdialogues,
-    //        7 => bosstextData.act7.Bossdialogues,
-    //        8 => bosstextData.act8.Bossdialogues,
-    //        _ => null
-    //    };
-    //    if (lines != null)
-    //        await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
-    //}
+        BossLine[] lines = firstStage switch
+        {
+            1 => bosstextData.act1.Bossdialogues,
+            2 => bosstextData.act2.Bossdialogues,
+            3 => bosstextData.act3.Bossdialogues,
+            4 => bosstextData.act4.Bossdialogues,
+            5 => bosstextData.act5.Bossdialogues,
+            6 => bosstextData.act6.Bossdialogues,
+            7 => bosstextData.act7.Bossdialogues,
+            8 => bosstextData.act8.Bossdialogues,
+            _ => null
+        };
+        if (lines != null)
+            await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
+    }
     private async UniTask firstPlayDialogueAsync(DialogueLine[] lines, int stageNum, CancellationToken token)
     {
         TalkState.isTalking = true;   //플래그 활성화
@@ -133,36 +156,36 @@ public class TextManager : MonoBehaviour
 
         TalkState.isTalking = false;
     }
-    //private async UniTask stagePlayDialogueAsync(BossLine[] lines, int stageNum, CancellationToken token)
-    //{
-    //    int index = 0;
-    //    bool waitingForClick = false;
+    private async UniTask stagePlayDialogueAsync(BossLine[] lines, int stageNum, CancellationToken token)
+    {
+        int index = 0;
+        bool waitingForClick = false;
 
-    //    System.Action onClick = () => waitingForClick = false;
-    //    dialogueUI.OnDialogueClick += onClick;
+        System.Action onClick = () => waitingForClick = false;
+        dialogueUI.OnDialogueClick += onClick;
 
-    //    dialogueUI.ShowDialogueUI(true);
-    //    dialogueUI.StartImageAnimation(stageNum);
+        dialogueUI.ShowDialogueUI(true);
+        dialogueUI.BossImageAnimation(stageNum);
 
-    //    while (index < lines.Length)
-    //    {
-    //        if (token.IsCancellationRequested) break;
+        while (index < lines.Length)
+        {
+            if (token.IsCancellationRequested) break;
 
-    //        BossLine line = lines[index];
-    //        dialogueUI.ShowDialogueText(line.text, line.sound);
+            BossLine line = lines[index];
+            dialogueUI.ShowDialogueText(line.text, line.sound);
 
-    //        waitingForClick = true;
-    //        while (waitingForClick && !token.IsCancellationRequested)
-    //            await UniTask.Yield(PlayerLoopTiming.Update, token);
+            waitingForClick = true;
+            while (waitingForClick && !token.IsCancellationRequested)
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
 
-    //        index++;
-    //    }
+            index++;
+        }
 
-    //    dialogueUI.OnDialogueClick -= onClick;
-    //    dialogueUI.StopImageAnimation();
-    //    dialogueUI.ShowDialogueUI(false);
-    //    dialogueUI.speechBubble.SetActive(false);
+        dialogueUI.OnDialogueClick -= onClick;
+        dialogueUI.StopImageAnimation();
+        dialogueUI.ShowDialogueUI(false);
+        dialogueUI.speechBubble.SetActive(false);
 
 
-    //}
+    }
 }

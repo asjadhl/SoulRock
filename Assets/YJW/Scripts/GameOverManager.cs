@@ -10,7 +10,6 @@ public class GameOverManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject GameOverText;
 
-    public MusicBox musicBox;
     public AudioClip gameOverSound;
     
     private bool isTriggered = false;

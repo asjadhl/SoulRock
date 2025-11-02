@@ -11,6 +11,7 @@ public class DialogueUIManager : MonoBehaviour
     [SerializeField] public GameObject speechBubble;
     [SerializeField] private RawImage speakerImage;
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private GameObject TextBox;
 
     [Header("폰트 (SDF 폰트 에셋)")]
     [SerializeField] private TMP_FontAsset sdfFontAsset;
@@ -38,6 +39,7 @@ public class DialogueUIManager : MonoBehaviour
     public Texture stage2_img2;
     public Texture stage3_img1;
     public Texture stage3_img2;
+    public Texture Empty;
     //3D 유령으로 할거면 여기다가 이미지 하나 추가해서 빈칸만들기
 
     void Start()
@@ -102,6 +104,8 @@ public class DialogueUIManager : MonoBehaviour
 
     public void ShowDialogueUI(bool isOn)
     {
+        if (TextBox != null)
+            TextBox.SetActive(isOn);
         if (speechBubble != null)
             speechBubble.SetActive(isOn);
         if (speakerImage != null)
@@ -126,7 +130,30 @@ public class DialogueUIManager : MonoBehaviour
 
         _ = ChangeImageLoopAsync(img1, img2, imageCTS.Token);
     }
+    public void BossImageAnimation(int stageNum)
+    {
+        imageCTS?.Cancel();
+        imageCTS = new CancellationTokenSource();
 
+        Texture img1 = null, img2 = null;
+        switch (stageNum)
+        {
+            case 1: img1 = stage1_img1; img2 = stage1_img2; break;
+            case 2: img1 = Empty; img2 = Empty; 
+                break;
+            case 3: img1 = stage2_img1; img2 = stage2_img2; break;
+            case 4: img1 = stage3_img1; img2 = stage3_img2; break;
+            case 5: img1 = Empty; img2 = Empty;
+                break;
+            case 6: img1 = stage3_img1; img2 = stage3_img2; break;
+            case 7: img1 = Empty; img2 = Empty;
+                break;
+            case 8: img1 = stage2_img1; img2 = stage2_img2; break;
+        }
+
+        _ = ChangeImageLoopAsync(img1, img2, imageCTS.Token);
+    }
+   
     private async UniTaskVoid ChangeImageLoopAsync(Texture img1, Texture img2, CancellationToken token)
     {
         if (speakerImage == null || img1 == null || img2 == null)

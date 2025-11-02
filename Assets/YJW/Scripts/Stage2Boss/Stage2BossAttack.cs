@@ -84,18 +84,19 @@ public class Stage2BossAttack : MonoBehaviour
     private int index = 0;
     [SerializeField] GameObject[] clubStackImage;
     NormalMusicBox normalMusicBox;
-    BossTextManager bossTextManager;
-    private bool bossDeadHandled = false;
+    TextManager textManager;
+    private bool bossDialogueTriggered = false;
+    [SerializeField] private DialogueUIManager dialogueUI;
     private void Start()
     {
 
         player = GameObject.FindWithTag("Player");
-        bossTextManager = FindObjectOfType<BossTextManager>();
+        textManager = FindObjectOfType<TextManager>();
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         BossHP = GetComponent<BossHP>();
         if (isDelay == false)
             StartDelay().Forget();
-
+        dialogueUI = FindObjectOfType<DialogueUIManager>();
     }
     private void FixedUpdate()
     {
@@ -105,12 +106,17 @@ public class Stage2BossAttack : MonoBehaviour
         {
             BossPattern();
         }
-        if (normalMusicBox.MusicFin)
+        if (normalMusicBox.MusicFin && !bossDialogueTriggered)
         {
-            bossDeadHandled = true;
+            bossDialogueTriggered = true; 
             BossState.isBoss1Dead = true;
-            SceneManager.LoadScene("StageSelect");
+            dialogueUI.ShowDialogueUI(true);
+            textManager.BossDialogueCheackAsync().Forget();
         }
+    }
+    private async UniTaskVoid PlayBossDialogueAsync()
+    {
+        await textManager.BossDialogueCheackAsync();
     }
     //public async UniTaskVoid DelayedDialogueCheckAsync()
     //{
@@ -127,7 +133,7 @@ public class Stage2BossAttack : MonoBehaviour
     //    await UniTask.Delay(1000);
     //    SceneManager.LoadScene("StageSelect");
     //}
-    
+
     private void BossPattern()
     {
         switch (curShape)
