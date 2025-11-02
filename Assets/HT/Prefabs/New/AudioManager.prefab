@@ -191,10 +191,9 @@ MonoBehaviour:
   SFXSlider: {fileID: 5862383352555558403}
   OurAudioSource: {fileID: 6462449386309342848}
   ListTestMusicClip:
+  - {fileID: 8300000, guid: ed078fbf4f132bb4d80f05e19ca07691, type: 3}
   - {fileID: 8300000, guid: c0da0ab8e94d8624a910e06acdea395d, type: 3}
-  - {fileID: 8300000, guid: e3749d9a0544e1940ba3b6a9f7c4f973, type: 3}
-  - {fileID: 8300000, guid: 47cac4e574795c844927a2646d401940, type: 3}
-  - {fileID: 8300000, guid: 87e1f9f9ba1d3d147a687199d9abbd9d, type: 3}
+  - {fileID: 8300000, guid: 97151c18a3378bf47852879fe4e8100f, type: 3}
   ListTestSFXClip:
   - {fileID: 8300000, guid: c0e9c94f84d1f4249aff126f0f8832b9, type: 3}
   - {fileID: 8300000, guid: dd6516d266cf0a8449e9577115bb920a, type: 3}
@@ -203,7 +202,7 @@ MonoBehaviour:
   main_canvas: {fileID: 6557829209201848181}
   image: {fileID: 4460270161697710045}
   mat1: {fileID: 2100000, guid: b4e8b53d81e0c8f438b30748d7ad97fa, type: 2}
-  isSingle: 0
+  IsToggle: 0
   instance: {fileID: 0}
 --- !u!82 &6462449386309342848
 AudioSource:
@@ -4347,7 +4346,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4591837297039617916}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ButtonHighlight, Assembly-CSharp
         m_MethodName: SetColor
         m_Mode: 2
@@ -4383,7 +4382,7 @@ GameObject:
   - component: {fileID: 1435665941756825902}
   - component: {fileID: 8611729840265533969}
   - component: {fileID: 6424241243751498996}
-  - component: {fileID: 4591837297039617916}
+  - component: {fileID: 253185224295889597}
   m_Layer: 5
   m_Name: ExaltedBtn
   m_TagString: Untagged
@@ -4430,7 +4429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 39a37edb9f5707c48b8eea7f15d5cdd8, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -4438,7 +4437,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: adee6c7168d4e18458643c62889f6dc6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c5c78b6862c61452db21ecde37c58d5b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4467,7 +4466,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -4504,21 +4503,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4591837297039617916
-MonoBehaviour:
+--- !u!95 &253185224295889597
+Animator:
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7239188285464645292}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b18ea45e0d6b8164fa027c0f044c9bfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Rotation: 180
-  MyDirection: 180
-  mystate: 5
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c02765c8bce4541d18ac4ffc0e4d0d87, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7953090998375714238
 GameObject:
   m_ObjectHideFlags: 0
@@ -5292,7 +5298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1286654405011741015
 RectTransform:
   m_ObjectHideFlags: 0
