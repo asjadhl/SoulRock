@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 32bedae23b36d4e9e827288ed7c9ea36
+AssetOrigin:
+  serializedVersion: 1
+  productId: 314143
+  packageName: GUIPack2DFree - Simple Popup System
+  packageVersion: 1.0
+  assetPath: Assets/GuiPack2DFree/Sprites/UI/Popup/Popup.psb
+  uploadId: 749188
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -21,11 +28,13 @@ ScriptedImporter:
     convertToNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
     isReadable: 0
     streamingMipmaps: 1
     streamingMipmapsPriority: 0
     vTOnly: 0
-    ignoreMasterTextureLimit: 0
+    ignoreMipmapLimit: 0
     nPOTScale: 1
     sRGBTexture: 1
     spriteMode: 2
@@ -47,6 +56,7 @@ ScriptedImporter:
     flipbookRows: 0
     flipbookColumns: 0
     ignorePngGamma: 0
+    cookieMode: 0
     filterMode: 1
     aniso: 1
     mipBias: 0
@@ -67,12 +77,13 @@ ScriptedImporter:
     compressionQualitySet: 0
     textureFormatSet: 0
     applyGammaDecoding: 0
-  spriteImportData:
+  singleSpriteImportData:
   - name: 
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 0
@@ -87,15 +98,16 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 0, y: 0}
-  mosaicSpriteImportData: []
-  rigSpriteImportData:
+    spritePosition: {x: 0, y: 0}
+  multiSpriteImportData: []
+  layeredSpriteImportData:
   - name: popup_banner
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 120, y: 0, z: 120, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 310
@@ -110,13 +122,14 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 146, y: 122}
+    uvTransform: {x: 310, y: 515}
+    spritePosition: {x: 164, y: 393}
   - name: popup_content
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 98, y: 98, z: 98, w: 98}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -131,13 +144,14 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -236, y: 548}
+    uvTransform: {x: 4, y: 713}
+    spritePosition: {x: 240, y: 165}
   - name: popup_foot
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 145, y: 0, z: 145, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -152,13 +166,14 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -187, y: 431}
+    uvTransform: {x: 4, y: 515}
+    spritePosition: {x: 191, y: 84}
   - name: popup
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 150, y: 150, z: 150, w: 150}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -173,21 +188,122 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 4, y: 4}
-  characterData:
-    bones: []
-    parts: []
-    dimension: {x: 0, y: 0}
-    characterGroups: []
-    boneReadOnly: 0
+    spritePosition: {x: 0, y: 0}
+  spriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
+  rigSpriteImportData:
+  - name: popup_banner
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 120, y: 0, z: 120, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 310
+      y: 515
+      width: 351
+      height: 137
+    spriteID: 2ca2f4bf9c68c419e94abc9bce492777
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 310, y: 515}
+    spritePosition: {x: 164, y: 393}
+  - name: popup_content
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 98, y: 98, z: 98, w: 98}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 713
+      width: 200
+      height: 200
+    spriteID: f10e3a94dc60848db92e38981fed1b4e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 713}
+    spritePosition: {x: 240, y: 165}
+  - name: popup_foot
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 145, y: 0, z: 145, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 515
+      width: 298
+      height: 190
+    spriteID: 1a2280c109e2146208f428637b48508a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 515}
+    spritePosition: {x: 191, y: 84}
+  - name: popup
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 150, y: 150, z: 150, w: 150}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 680
+      height: 503
+    spriteID: 657e78c369350451484d27617cafbd59
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 0, y: 0}
   sharedRigSpriteImportData: []
-  sharedRigCharacterData:
-    bones: []
-    parts: []
-    dimension: {x: 0, y: 0}
-    characterGroups: []
-    boneReadOnly: 0
+  mosaicSpriteImportData: []
   platformSettings: []
   mosaicLayers: 1
   characterMode: 1
@@ -198,11 +314,55 @@ ScriptedImporter:
   generatePhysicsShape: 0
   paperDollMode: 0
   keepDupilcateSpriteName: 0
+  padding: 4
+  spriteSizeExpand: 0
   skeletonAssetReferenceID: 
-  spriteCategoryList:
-    categories: []
+  pipeline: {instanceID: 0}
+  pipelineVersion: 
   spritePackingTag: 
   resliceFromLayer: 0
+  pSDLayerImportSetting: []
+  psdLayers:
+  - name: popup_banner
+    spriteName: popup_banner
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 2ca2f4bf9c68c419e94abc9bce492777
+    layerID: 2
+    mosaicPosition: {x: 310, y: 515}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: popup_content
+    spriteName: popup_content
+    isGroup: 0
+    parentIndex: -1
+    spriteID: f10e3a94dc60848db92e38981fed1b4e
+    layerID: 5
+    mosaicPosition: {x: 4, y: 713}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: popup_foot
+    spriteName: popup_foot
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 1a2280c109e2146208f428637b48508a
+    layerID: 4
+    mosaicPosition: {x: 4, y: 515}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: popup
+    spriteName: popup
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 657e78c369350451484d27617cafbd59
+    layerID: 6
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
   mosaicPSDLayers: []
   rigPSDLayers:
   - name: popup_banner
@@ -246,17 +406,12 @@ ScriptedImporter:
     isImported: 1
     isVisible: 1
   sharedRigPSDLayers: []
-  pSDLayerImportSetting: []
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  spriteSizeExpandChanged: 0
   generateGOHierarchy: 0
   textureAssetName: Popup Texture
   prefabAssetName: Popup Prefab
   spriteLibAssetName: Popup Sprite Lib
   skeletonAssetName: 
   secondarySpriteTextures: []
-AssetOrigin:
-  serializedVersion: 1
-  productId: 314143
-  packageName: GUIPack2DFree - Simple Popup System
-  packageVersion: 1.0
-  assetPath: Assets/GuiPack2DFree/Sprites/UI/Popup/Popup.psb
-  uploadId: 749188

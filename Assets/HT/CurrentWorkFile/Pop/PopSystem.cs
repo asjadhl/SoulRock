@@ -60,7 +60,7 @@ public class PopSystem : MonoBehaviour
 
         // ✅ Remember panel by hash
         panelMap.Add(key, panel);
-        panel.GetComponentInChildren<Popup>().prefab = panel;
+   
     }
 
     // ✅ Close popup (animate + disable, not destroy)

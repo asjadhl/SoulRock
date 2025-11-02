@@ -285,7 +285,7 @@ public class AudioManager : MonoBehaviour
            child.gameObject.SetActive(false);
         }
 
-    Camera.main.GetUniversalAdditionalCameraData().renderPostProcessing = true;
+   // Camera.main.GetUniversalAdditionalCameraData().renderPostProcessing = true;
   }
 
   public void Update()
