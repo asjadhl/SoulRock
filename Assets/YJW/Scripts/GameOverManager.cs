@@ -165,7 +165,7 @@ public class GameOverManager : MonoBehaviour
 
 		// 씬이 로드될 때마다 오브젝트를 다시 찾습니다. (널 체크는 필요 없습니다. 무조건 갱신합니다.)
 		// 중요한 것은 씬 내에 해당 이름의 오브젝트가 정확히 하나만 존재해야 합니다.
-		gameOverPanel = GameObject.Find("GameOverOB");
+		gameOverPanel = FindObjectIncludingInactive("GameOverOB");
 		GameOverText = GameObject.Find("GameOverText");
 		gameOverTextUI = FindAnyObjectByType<GameOverTextUI>();
 
