@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +19,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject dummyTarget;
     [SerializeField] private Renderer dummyRenderer;
     [SerializeField] private Color highlightColor = Color.yellow;
-    [SerializeField] private float highlightDuration = 0.5f;
+    [SerializeField] private float highlightDuration = 10f;
 
     [Header("Settings")]
     [SerializeField] private float charInterval = 0.085f;
@@ -31,16 +32,21 @@ public class TutorialManager : MonoBehaviour
     private bool skipRequested = false;
     private bool waitingForNext = false;
     private Color originalColor;
+    private void Update()
+    {
+        if (dummySpawner == null)
+            Debug.LogError("dummySpawner가 NULL임!");
+        else
+            Debug.Log($"dummyHp 현재값: {dummySpawner.dummyHp}");
+    }
 
     private void Start()
     {
 
 
-        dummySpawner = dummyTarget?.GetComponentInChildren<DummySpawner>();
-        if (dummySpawner != null)
-            dummySpawner.OnDummyDead += HandleDummyDead;
+        if (dummySpawner == null)
+            dummySpawner = FindObjectOfType<DummySpawner>();
 
-        _ = StartTutorialAsync();
 
         //  시작 시 버튼은 숨김 + 리스너 연결
         if (nextButton != null)
@@ -63,13 +69,22 @@ public class TutorialManager : MonoBehaviour
         _ = StartTutorialAsync();
        
     }
-    private void HandleDummyDead()
+    private async Task HandleDummyDead()
     {
         Debug.Log("더미 사망 감지됨 → 다음 대사 진행");
-        OnDummyDeadSequence().Forget();
+        await OnDummyDeadSequence();
     }
+    private async UniTask AttackDummyDeadSequence()
+    {
 
-    private async UniTaskVoid OnDummyDeadSequence()
+        HighlightDummyAsync().Forget();
+        await ShowDialogueAsync("자.. 이제 저 빛나는 더미를 맞춰봐... \r\n", null);
+        await ShowDialogueAsync("Boo! 딱 2대만 맞춰볼까..", null);
+        if (dummySpawner.dummyHp <= 1)
+            HandleDummyDead();
+        
+    }
+    private async UniTask OnDummyDeadSequence()
     {
         await ShowDialogueAsync("만약 에임점에 원을 못맞추면... 시간이 지나면서.. 체력이 계속 깎이게 돼... 조심해야해... \r\n", null);
         await ShowDialogueAsync("Boo! 공격을 맞거나 시간이 지나서 체력이 0이 되면 게임오버야...", null);
@@ -81,7 +96,7 @@ public class TutorialManager : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(1));
         SceneManager.LoadScene("StageSelect");
     }
-    private async UniTaskVoid StartTutorialAsync()
+    private async UniTask StartTutorialAsync()
     {
         
 
@@ -94,8 +109,15 @@ public class TutorialManager : MonoBehaviour
         TutoUI.StartImageAnimation();
 
         // (필요하면) 추가 대사를 더 출력하려면 여기서 루프 돌리면 됨
-        for (int i = 1; i < tutorialTextLine.tutorialLines.Length; i++)
+        for (int i = 0; i < tutorialTextLine.tutorialLines.Length; i++)
+        {
             await PlayDialogueLineAsync(tutorialTextLine.tutorialLines[i], tutorialCTS.Token);
+            Debug.Log(i);
+        }
+
+
+        await AttackDummyDeadSequence();
+        
         
     }
     private async UniTask PlayDialogueLineAsync(TutorialLine line, CancellationToken token)
