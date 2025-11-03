@@ -1,21 +1,18 @@
-// TutorialManager.cs
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
     [Header("Scriptable Data")]
-    [SerializeField] private TutorialTextLine tutorialTextLine;
-
+    [SerializeField] private TutorialTextData tutorialData;  // ëª¨ë“  ëŒ€ì‚¬ í†µí•©
     [Header("UI")]
     [SerializeField] private TutorialUIManager TutoUI;
     [SerializeField] private GameObject nextButton;
 
-    [Header("Target Dummy")]
+    [Header("Dummy")]
     [SerializeField] private GameObject dummyTarget;
     [SerializeField] private Renderer dummyRenderer;
     [SerializeField] private Color highlightColor = Color.yellow;
@@ -23,109 +20,88 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float charInterval = 0.085f;
-    [SerializeField] private float imageInterval = 0.5f;
 
-    public bool IsGen = false;
-    DummySpawner dummySpawner;
+    private DummySpawner dummySpawner;
     private CancellationTokenSource tutorialCTS;
     private bool isTyping = false;
     private bool skipRequested = false;
     private bool waitingForNext = false;
+    private bool dummyDeadTriggered = false;
     private Color originalColor;
-    private void Update()
-    {
-        if (dummySpawner == null)
-            Debug.LogError("dummySpawner°¡ NULLÀÓ!");
-        else
-            Debug.Log($"dummyHp ÇöÀç°ª: {dummySpawner.dummyHp}");
-    }
 
     private void Start()
     {
-
-
         if (dummySpawner == null)
             dummySpawner = FindObjectOfType<DummySpawner>();
 
-
-        //  ½ÃÀÛ ½Ã ¹öÆ°Àº ¼û±è + ¸®½º³Ê ¿¬°á
         if (nextButton != null)
         {
             var btn = nextButton.GetComponent<UnityEngine.UI.Button>();
             if (btn != null)
             {
                 btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(OnDialogueClicked); // ¹öÆ°µµ ´ëÈ­ Å¬¸¯°ú µ¿ÀÏ Ã³¸®
+                btn.onClick.AddListener(OnDialogueClicked);
             }
         }
 
-        // ÇÏÀÌ¶óÀÌÆ® ¿ø»ö ÀúÀå
         if (dummyRenderer != null)
-        {
-            if (dummyRenderer.material != null) dummyRenderer.material.color = Color.white;
             originalColor = dummyRenderer.material.color;
-        }
 
-        _ = StartTutorialAsync();
-       
+        StartTutorialAsync().Forget();
     }
-    private async Task HandleDummyDead()
-    {
-        Debug.Log("´õ¹Ì »ç¸Á °¨ÁöµÊ ¡æ ´ÙÀ½ ´ë»ç ÁøÇà");
-        await OnDummyDeadSequence();
-    }
-    private async UniTask AttackDummyDeadSequence()
-    {
 
-        HighlightDummyAsync().Forget();
-        await ShowDialogueAsync("ÀÌÁ¦ ÇÑ¹ø.. Àú ºû³ª´Â ´õ¹Ì¸¦ ¸ÂÃçºÁ... \r\n", null);
-        await ShowDialogueAsync("Boo! µü 2´ë¸¸ ¸ÂÃçº¼±î..", null);
-        if (dummySpawner.dummyHp <= 1)
-            HandleDummyDead();
-        
-    }
-    private async UniTask OnDummyDeadSequence()
+    private async UniTaskVoid StartTutorialAsync()
     {
-        await ShowDialogueAsync("ÀßÇß¾î.. ¿ª½Ã ³Í ¹¹µç ÀßÇÏ´Â±¸³ª..", null);
-        await ShowDialogueAsync("¸¸¾à ¿¡ÀÓÁ¡¿¡ ¿øÀ» ¸ø¸ÂÃß¸é... ½Ã°£ÀÌ Áö³ª¸é¼­.. Ã¼·ÂÀÌ °è¼Ó ±ðÀÌ°Ô µÅ... Á¶½ÉÇØ¾ßÇØ... \r\n", null);
-        await ShowDialogueAsync("Boo! °ø°ÝÀ» ¸Â°Å³ª ½Ã°£ÀÌ Áö³ª¼­ Ã¼·ÂÀÌ 0ÀÌ µÇ¸é °ÔÀÓ¿À¹ö¾ß...", null);
-        await ShowDialogueAsync("±×¸®°í... ¸ðµç ½ºÅ×ÀÌÁö´Â º¸½ºÀÇ °ø°ÝÀ» ¹öÅß¾ßÇØ...", null);
-        await ShowDialogueAsync("...", null);
-        await ShowDialogueAsync("±×°Ô´Ù¾ß... ", null);
-        await ShowDialogueAsync("ÀÌÁ¦ ÁØºñ°¡ ´Ù µÈ °Í °°³×... ÀÚ, ±×·³ º»°ÝÀûÀ¸·Î ½ÃÀÛÇØº¼±î? ", null);
-        TutoUI.StopImageAnimation();
-        await UniTask.Delay(TimeSpan.FromSeconds(1));
-        SceneManager.LoadScene("StageSelect");
-    }
-    private async UniTask StartTutorialAsync()
-    {
-        
-
         tutorialCTS?.Cancel();
         tutorialCTS = new CancellationTokenSource();
 
-     
-
-        // 2) À¯·É ÀÌ¹ÌÁö ¾Ö´Ï¸ÞÀÌ¼Ç ½ÃÀÛ
         TutoUI.StartImageAnimation();
 
-        // (ÇÊ¿äÇÏ¸é) Ãß°¡ ´ë»ç¸¦ ´õ Ãâ·ÂÇÏ·Á¸é ¿©±â¼­ ·çÇÁ µ¹¸®¸é µÊ
-        for (int i = 0; i < tutorialTextLine.tutorialLines.Length; i++)
+        // 1ï¸tutline1 ì¶œë ¥
+        await PlayDialogueSetAsync(tutorialData.tutline1, tutorialCTS.Token);
+
+        // 2ï¸ë”ë¯¸ ê´€ë ¨ ì‹œí€€ìŠ¤ ì‹œìž‘
+        HighlightDummyAsync().Forget();
+        await ShowDialogueAsync("ë”ë¯¸ë¥¼ ë§žì¶°ë³´ìž! \n ( Hit the pile twice! )", null);
+
+        // 3ï¸ë”ë¯¸ ì²˜ì¹˜ ëŒ€ê¸°
+        await UniTask.WaitUntil(() => dummySpawner != null && dummySpawner.dummyHp <= 1);
+
+        // 4ï¸ë”ë¯¸ ì£½ìœ¼ë©´ ë‹¤ìŒ ì„¸íŠ¸ ì¶œë ¥
+        await OnDummyDeadSequence();
+    }
+
+    private async UniTask OnDummyDeadSequence()
+    {
+        if (dummyDeadTriggered) return;
+        dummyDeadTriggered = true;
+
+        TutoUI.StopImageAnimation();
+
+        // tutline2 ì¶œë ¥
+        await PlayDialogueSetAsync(tutorialData.tutline2, tutorialCTS.Token);
+
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        SceneManager.LoadScene("StageSelect");
+    }
+
+    private async UniTask PlayDialogueSetAsync(TutorialTextLine lineSet, CancellationToken token)
+    {
+        if (lineSet == null || lineSet.tutorialLines == null)
         {
-            await PlayDialogueLineAsync(tutorialTextLine.tutorialLines[i], tutorialCTS.Token);
-            Debug.Log(i);
+            Debug.LogWarning("TutorialTextLine ì„¸íŠ¸ê°€ ë¹„ì–´ìžˆìŠµë‹ˆë‹¤!");
+            return;
         }
 
-
-        await AttackDummyDeadSequence();
-        
-        
+        foreach (var line in lineSet.tutorialLines)
+        {
+            await PlayDialogueLineAsync(line, token);
+        }
     }
+
     private async UniTask PlayDialogueLineAsync(TutorialLine line, CancellationToken token)
     {
         TutoUI.ShowDialogueUI(true);
-
-        // Å¬¸¯ ÀÌº¥Æ® ¿¬°á (UI ³»ºÎ Å¬¸¯¿ë)
         TutoUI.OnDialogueClick -= OnDialogueClicked;
         TutoUI.OnDialogueClick += OnDialogueClicked;
 
@@ -135,9 +111,9 @@ public class TutorialManager : MonoBehaviour
         if (nextButton != null) nextButton.SetActive(true);
 
         await UniTask.WaitUntil(() => waitingForNext == false, cancellationToken: token);
-
         TutoUI.OnDialogueClick -= OnDialogueClicked;
     }
+
     private async UniTask TypeDialogueAsync(string text, AudioClip clip, CancellationToken token)
     {
         TutoUI.ClearText();
@@ -149,7 +125,6 @@ public class TutorialManager : MonoBehaviour
 
             if (skipRequested)
             {
-                // ½ºÅµ: ³²Àº ±ÛÀÚ Áï½Ã Ãâ·Â
                 TutoUI.AppendText(text.Substring(i));
                 skipRequested = false;
                 break;
@@ -163,34 +138,16 @@ public class TutorialManager : MonoBehaviour
         isTyping = false;
     }
 
-    private void OnDialogueClicked()
-    {
-        if (isTyping)
-        {
-            // Å¸ÀÌÇÎ Áß ¡æ ½ºÅµ
-            skipRequested = true;
-        }
-        else if (waitingForNext)
-        {
-            // ¸ðµÎ Ãâ·ÂµÊ ¡æ ´ÙÀ½À¸·Î ÁøÇà
-            waitingForNext = false;
-        }
-    }
-
     private async UniTask ShowDialogueAsync(string text, AudioClip sound)
     {
-        Debug.Log(dummySpawner == null ? "DummySpawner is NULL" : "DummySpawner ¿¬°áµÊ");
-
         TutoUI.ShowDialogueUI(true);
         skipRequested = false;
         waitingForNext = false;
 
-        // UI ³»ºÎ Å¬¸¯(¸»Ç³¼± µî) ÀÌº¥Æ® ¿¬°á
         TutoUI.OnDialogueClick -= OnDialogueClicked;
         TutoUI.OnDialogueClick += OnDialogueClicked;
 
         await TypeDialogueAsync(text, sound, tutorialCTS.Token);
-        Debug.Log("Token Cancelled? " + tutorialCTS.Token.IsCancellationRequested);
 
         waitingForNext = true;
         if (nextButton != null) nextButton.SetActive(true);
@@ -200,6 +157,14 @@ public class TutorialManager : MonoBehaviour
         TutoUI.OnDialogueClick -= OnDialogueClicked;
     }
 
+    private void OnDialogueClicked()
+    {
+        if (isTyping)
+            skipRequested = true;
+        else if (waitingForNext)
+            waitingForNext = false;
+    }
+
     private async UniTask HighlightDummyAsync()
     {
         if (dummyRenderer == null) return;
@@ -207,8 +172,7 @@ public class TutorialManager : MonoBehaviour
         float timer = 0f;
         while (timer < highlightDuration)
         {
-            dummyRenderer.material.color =
-                Color.Lerp(originalColor, highlightColor, Mathf.PingPong(timer * 4f, 1f));
+            dummyRenderer.material.color = Color.Lerp(originalColor, highlightColor, Mathf.PingPong(timer * 4f, 1f));
             timer += Time.deltaTime;
             await UniTask.Yield();
         }

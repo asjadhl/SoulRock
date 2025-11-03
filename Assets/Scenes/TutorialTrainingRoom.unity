@@ -2061,24 +2061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03076953921d92d4dae336a51c8d3c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialTextLine:
-    tutorialLines:
-    - text: "Boo! \u2026\uC544, \uAE5C\uC9DD \uB180\uB790\uC9C0? \uD5E4\uD5E4\u2026
-        \uBBF8\uC548\u2026"
-      sound: {fileID: 0}
-    - text: "Boo! \uBC18\uAC00\uC6CC\u2026 \uB09C\u2026 \uC74C\u2026 \uB108\uB97C
-        \uB3D5\uB294 \uC720\uB839\uC774\uC57C ...\uC544\uB9C8\uB3C4"
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-    - text: ...
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-    - text: "\uC9C4\uC9DC\uC57C \uBBFF\uC5B4\uB3C4 \uB3FC..."
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-    - text: "Boo! \uBA3C\uC800 \uAC04\uB2E8\uD558\uAC8C \uC870\uC791\uC744 \uC54C\uB824\uC904\uAC8C..."
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-    - text: "\uC5D0\uC784\uC810 \uADFC\uCC98 \uC6D0\uC774 \uC810\uC810 \uC5D0\uC784\uC810\uC5D0
-        \uAC00\uAE4C\uC6CC \uC9C8\uAC70\uC57C.. \uADF8\uB54C \uD074\uB9AD\uC744 \uD558\uBA74..
-        \uCD1D\uC774 \uBC1C\uC0AC\uAC00 \uB420\uAC70\uC57C..."
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
+  tutorialData: {fileID: 11400000, guid: 48c26b77794153043a0ada8ea2d897a1, type: 2}
   TutoUI: {fileID: 1346837321}
   nextButton: {fileID: 1812200573}
   dummyTarget: {fileID: 65030394}
@@ -2086,8 +2069,6 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.16585676, b: 0.015686274, a: 1}
   highlightDuration: 10
   charInterval: 0.085
-  imageInterval: 0.5
-  IsGen: 0
 --- !u!1 &722797107
 GameObject:
   m_ObjectHideFlags: 0
