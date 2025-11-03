@@ -41,14 +41,9 @@ public class GameOverManager : MonoBehaviour
 		await UniTask.Delay(5000);
 		if (GameOverText != null)
 			GameOverText.SetActive(false);
-		//audioSource.Stop();
-		//audioSource.PlayOneShot(gameOverSound);
-		if (gameOverSound != null)
-		{
-			int sL = (int)(gameOverSound.length * 1000);
-			await UniTask.Delay(sL);
-		}
-		await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        //audioSource.Stop();
+        //audioSource.PlayOneShot(gameOverSound);
+
         if (gameOverTextUI != null)
         {
             string[] messages =
@@ -61,6 +56,13 @@ public class GameOverManager : MonoBehaviour
             int randomIndex = UnityEngine.Random.Range(0, messages.Length);
             await gameOverTextUI.ShowGameOverText(messages[randomIndex]);
         }
+        if (gameOverSound != null)
+		{
+			int sL = (int)(gameOverSound.length * 1000);
+			await UniTask.Delay(sL);
+		}
+		await UniTask.Delay(TimeSpan.FromSeconds(1f));
+      
     }
 
 	public void RetryButton()
