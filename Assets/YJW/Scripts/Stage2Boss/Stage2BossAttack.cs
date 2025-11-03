@@ -167,28 +167,51 @@ public class Stage2BossAttack : MonoBehaviour
 
     private void SetCardData()
     {
-        //bossCardImage.sprite = currentCard.icon;
+        bossCardImage.sprite = currentCard.icon;
         curShape = currentCard.shape;
     }
 
     private async UniTask ChangeNextRanCard()
     {
         //await RollCardEffect(rollCount: 12, delay: 80);
+
+        //SetCardData();
+
         await RollCardEffect(rollCount: 12, delay: 80);
 
-        //currentCard = cards[Random.Range(0, cards.Length)];
+        Card nextCard;
+        do
+        {
+            nextCard = cards[Random.Range(0, cards.Length)];
+        }
+        while (nextCard == currentCard);
+
+        currentCard = nextCard;
         SetCardData();
     }
+
+    //private async UniTask RollCardEffect(int rollCount = 10, int delay = 100)
+    //{
+    //    for (int i = 0; i < rollCount; i++)
+    //    {
+    //        var randomCard = cards[Random.Range(0, cards.Length)];
+    //        currentCard = randomCard;
+    //        bossCardImage.sprite = randomCard.icon;
+
+    //        // 살짝 커졌다 줄어드는 효과
+    //        bossCardImage.transform.localScale = Vector3.one * 1.2f;
+    //        await UniTask.Delay(delay / 2);
+    //        bossCardImage.transform.localScale = Vector3.one;
+    //        await UniTask.Delay(delay / 2);
+    //    }
+    //}
 
     private async UniTask RollCardEffect(int rollCount = 10, int delay = 100)
     {
         for (int i = 0; i < rollCount; i++)
         {
             var randomCard = cards[Random.Range(0, cards.Length)];
-            currentCard = randomCard;
-            bossCardImage.sprite = randomCard.icon;
-
-            // 살짝 커졌다 줄어드는 효과
+            bossCardImage.sprite = randomCard.icon; // UI에만 반영
             bossCardImage.transform.localScale = Vector3.one * 1.2f;
             await UniTask.Delay(delay / 2);
             bossCardImage.transform.localScale = Vector3.one;
