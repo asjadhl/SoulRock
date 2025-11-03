@@ -128,18 +128,16 @@ public class TextManager : MonoBehaviour
         bossCTS?.Cancel();
         bossCTS = new CancellationTokenSource();
 
-        BossLine[] lines = firstStage switch
+        var bossSet = System.Array.Find(bosstextData.bossDialogues, x => x.bossName == $"Boss{firstStage}");
+        if (bossSet == null)
         {
-            1 => bosstextData.act1.Bossdialogues,
-            2 => bosstextData.act2.Bossdialogues,
-            3 => bosstextData.act3.Bossdialogues,
-            4 => bosstextData.act4.Bossdialogues,
-            5 => bosstextData.act5.Bossdialogues,
-            6 => bosstextData.act6.Bossdialogues,
-            7 => bosstextData.act7.Bossdialogues,
-            8 => bosstextData.act8.Bossdialogues,
-            _ => null
-        };
+            Debug.LogWarning($"Boss dialogue not found for Boss{firstStage}");
+            return;
+        }
+
+        BossLine[] lines = bossSet.deathLines;
+        if (lines != null)
+            await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
         if (lines != null)
             await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
     }
@@ -195,7 +193,15 @@ public class TextManager : MonoBehaviour
             if (token.IsCancellationRequested) break;
 
             BossLine line = lines[index];
-            dialogueUI.ShowDialogueText(line.text, line.sound);
+
+            string displayText = line.text;
+            if (!string.IsNullOrEmpty(line.localizationTable) && !string.IsNullOrEmpty(line.localizationKey))
+            {
+                var localized = new LocalizedString(line.localizationTable, line.localizationKey);
+                displayText = await localized.GetLocalizedStringAsync();
+            }
+
+            dialogueUI.ShowDialogueText(displayText, line.sound);
 
             waitingForClick = true;
             while (waitingForClick && !token.IsCancellationRequested)
@@ -208,8 +214,6 @@ public class TextManager : MonoBehaviour
         dialogueUI.StopImageAnimation();
         dialogueUI.ShowDialogueUI(false);
         dialogueUI.speechBubble.SetActive(false);
-
-
     }
 
     private async UniTask PlayDeadParteicle()

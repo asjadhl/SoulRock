@@ -12,79 +12,82 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ad1c94e9063274bb2c3948c696847f, type: 3}
   m_Name: BossTextData
   m_EditorClassIdentifier: 
-  act1:
-    Bossdialogues:
-    - text: "\uC65C \uADF8\uB7F0\uC9D3\uC744 \uD558\uB294\uAC70\uC9C0?"
+  bossDialogues:
+  - bossName: Boss1
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss1DeadLine1
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: clown
-    - text: "\uC6B0\uB9AC\uAC00 \uC65C \uC561\uC790\uC18D\uC5D0 \uC788\uB294\uC9C0\uB3C4
-        \uBAA8\uB974\uB294\uAC74\uAC00?"
+  - bossName: Boss1
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss1DeadLine2
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: clown
-  act2:
-    Bossdialogues:
-    - text: "\uADF8\uAC8C \uBB34\uC2A8\uC18C\uB9AC\uC9C0?"
+  - bossName: Boss1
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss1DeadLine3
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Player
-  act3:
-    Bossdialogues:
-    - text: "\uC7AD\uC2A8.. \uAD11\uB300\uB294.. \uC790\uC2E0\uC774 \uC65C \uC774\uB7F0\uC9D3\uC744
-        \uD558\uB294\uC9C0 \uBAA8\uB974\uB294\uAC70\uC57C.."
+  - bossName: Boss1
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss1DeadLine4
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Ghost
-    - text: "\uC544\uB9C8\uB3C4.. \uC561\uC790\uC18D\uC5D0 \uAC07\uD600\uC788\uB294
-        \uC790\uC2E0\uB4E4\uC758 \uC0C1\uD669\uC744 \uC78A\uC5B4\uBC84\uB9B0\uCC44..
-        \uBB34\uC758\uBBF8\uD55C \uD589\uB3D9\uC744 \uACC4\uC18D\uD558\uB294\uAC70\uC57C.."
+  - bossName: Boss1
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss1DeadLine5
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Ghost
-    - text: "\uC6B0\uB9AC\uAC00 \uADF8\uB4E4\uC744 \uAD6C\uD574\uC918\uC57C\uD574..
-        \uC7AD\uC2A8.."
+  - bossName: Boss2
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss2DeadLine1
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Ghost
-  act4:
-    Bossdialogues:
-    - text: "\uB10C \uC815\uB9D0 \uC774\uAE30\uC801\uC774\uAD6C\uB098 \uC783\uB294\uAC83\uC774
-        \uC788\uC73C\uBA74 \uC5BB\uB294\uAC83\uB3C4 \uC788\uB294\uBC95\uC774\uC9C0"
+  - bossName: Boss2
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss2DeadLine2
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: sk
-  act5:
-    Bossdialogues:
-    - text: "\uB3C4\uB300\uCCB4 \uB09C \uBB34\uC5C7\uC744 \uC5BB\uC5C8\uB2E4\uB294\uAC70\uC57C?
-        \uB09C \uB77D\uC744 \uC783\uAE30\uB9CC \uD588\uB2E4\uACE0!"
+  - bossName: Boss2
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss2DeadLine3
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Player
-  act6:
-    Bossdialogues:
-    - text: "\uB10C.. \uC544\uBB34\uAC83\uB3C4 \uBAB0\uB77C.."
+  - bossName: Boss3
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss3DeadLine1
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: sk
-    - text: "\uB2C8 \uC606\uC5D0 \uBB50\uAC00 \uC788\uB294\uC9C0 \uC870\uCC28\uB3C4..."
+  - bossName: Boss3
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss3DeadLine2
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: sk
-  act7:
-    Bossdialogues:
-    - text: "\uB0B4 \uC606\uC5D0\uB294 \uB3C4\uC6B0\uBBF8 \uC720\uB839\uBC16\uC5D0.. "
+  - bossName: Boss3
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss3DeadLine3
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Player
-    - text: "\uC5B4\uB514\uAC14\uC9C0..?"
+  - bossName: Boss3
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss3DeadLine4
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Player
-  act8:
-    Bossdialogues:
-    - text: "\uD798\uC744 \uBAA8\uC73C\uAE30 \uC704\uD574 \uB77D\uC744 \uC783\uAC8C\uD558\uB294
-        \uC7A5\uB09C\uC73C\uB85C \uC2DC\uC791\uB42C\uC9C0\uB9CC"
+  - bossName: Boss3
+    deathLines:
+    - localizationTable: BossDead
+      localizationKey: Boss3DeadLine5
+      text: 
       sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Ghost
-    - text: "\uADF8 \uD798\uC740 \uB0B4 \uC608\uC0C1\uC744 \uB6F0\uC5B4\uB118\uC5C8\uACE0.."
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Ghost
-    - text: "\uB09C \uC774\uC81C \uC9C4\uC815\uD55C \uC655\uC774 \uB41C\uC904 \uC54C\uC558\uC9C0"
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Ghost
-    - text: "\uD558\uC9C0\uB9CC.. \uB77D\uC73C\uB85C \uC778\uD574 \uB0B4 \uBAA8\uB4E0
-        \uD798\uC744 \uC783\uC5C8\uAD6C\uB098.."
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Ghost
-    - text: "\uB77D\uC740 \uC815\uB9D0 \uB300\uB2E8\uD55C \uAC70\uC600\uC5B4.."
-      sound: {fileID: 8300000, guid: ec7384c9a86ee0346830f7e553d74249, type: 3}
-      speaker: Ghost

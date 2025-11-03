@@ -46,7 +46,6 @@ public class Stage3Boss : MonoBehaviour
     bool animeOn = false;
     [SerializeField] GameObject monsterSpawner;
     NormalMusicBox normalMusicBox;
-    BossTextManager bossTextManager;
     private void Awake()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();

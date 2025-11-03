@@ -1,13 +1,15 @@
 using UnityEngine;
+
 [CreateAssetMenu(fileName = "BossTextData", menuName = "SoulRock/BossTextData")]
 public class BossTextData : ScriptableObject
 {
-    public BossText act1;
-    public BossText act2;
-    public BossText act3;
-    public BossText act4;
-    public BossText act5;
-    public BossText act6;
-    public BossText act7;
-    public BossText act8;
+    public BossDialogueSet[] bossDialogues;
 }
+
+[System.Serializable]
+public class BossDialogueSet
+{
+    public string bossName;         // 예: "Boss1", "Boss2"
+    public BossLine[] deathLines;   // 죽었을 때 대사
+}
+

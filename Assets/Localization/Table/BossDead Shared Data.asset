@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: BossDead Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: BossDead
+  m_TableCollectionNameGuidString: df8f4fb56f5db9d408b7bcba5096ace8
+  m_Entries:
+  - m_Id: 91384795136
+    m_Key: Boss1DeadLine1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94035595264
+    m_Key: Boss1DeadLine2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107558031360
+    m_Key: Boss1DeadLine3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 109504188416
+    m_Key: Boss1DeadLine4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 228710502400
+    m_Key: Boss1DeadLine5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 580298035200
+    m_Key: Boss2DeadLine1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 582273552384
+    m_Key: Boss2DeadLine2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 583452151808
+    m_Key: Boss2DeadLine3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 762829950976
+    m_Key: Boss3DeadLine1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 764541227008
+    m_Key: Boss3DeadLine2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 765950513152
+    m_Key: Boss3DeadLine3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 767292690432
+    m_Key: Boss3DeadLine4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 768433541120
+    m_Key: Boss3DeadLine5
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 48830484126367969
+  references:
+    version: 2
+    RefIds:
+    - rid: 48830484126367969
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1762161758058
