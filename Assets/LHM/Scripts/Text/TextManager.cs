@@ -24,7 +24,6 @@ public class TextManager : MonoBehaviour
 
     private void Start()
     {
-        BossClosePanel.SetActive(false);
         //MovieDialogueAsync().Forget();
         //if (dialogueUI != null)
         //{

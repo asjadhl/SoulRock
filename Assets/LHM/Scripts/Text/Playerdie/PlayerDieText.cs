@@ -2,17 +2,18 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Localization;
 
 public class PlayerDieText : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameOverTextUI gameOverUI;
 
-    private CancellationTokenSource dieCTS;
+    [Header("Localization Key")]
+    [SerializeField] private string tableName = "GameOver";
 
     private void Start()
     {
-        dieCTS = new CancellationTokenSource();
         if (gameOverUI != null)
         {
             var textObj = gameOverUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
@@ -29,20 +30,13 @@ public class PlayerDieText : MonoBehaviour
         }
 
         int randomNum = UnityEngine.Random.Range(1, num + 1);
-        Debug.Log("PlayerDieText Random Num: " + randomNum);
+        string entryKey = $"GameOver{randomNum}";
 
-        string message = randomNum switch
-        {
-            1 => "Boo.. 포기하지마.. 잭슨..",
-            2 => "Boo.. 기다릴게.. 다시 도전해줘..",
-            _ => "다시 한번 마음을 가다듬어봐..."
-        };
+        var localizedString = new LocalizedString(tableName, entryKey);
+        string message = await localizedString.GetLocalizedStringAsync();
+
+        Debug.Log($"GameOverText: {entryKey} → {message}");
 
         await gameOverUI.ShowGameOverText(message);
-    }
-
-    private void OnDestroy()
-    {
-        dieCTS?.Cancel();
     }
 }
