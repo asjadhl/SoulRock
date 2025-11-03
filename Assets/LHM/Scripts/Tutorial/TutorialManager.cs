@@ -78,7 +78,7 @@ public class TutorialManager : MonoBehaviour
     {
 
         HighlightDummyAsync().Forget();
-        await ShowDialogueAsync("자.. 이제 저 빛나는 더미를 맞춰봐... \r\n", null);
+        await ShowDialogueAsync("이제 한번.. 저 빛나는 더미를 맞춰봐... \r\n", null);
         await ShowDialogueAsync("Boo! 딱 2대만 맞춰볼까..", null);
         if (dummySpawner.dummyHp <= 1)
             HandleDummyDead();
@@ -86,6 +86,7 @@ public class TutorialManager : MonoBehaviour
     }
     private async UniTask OnDummyDeadSequence()
     {
+        await ShowDialogueAsync("잘했어.. 역시 넌 뭐든 잘하는구나..", null);
         await ShowDialogueAsync("만약 에임점에 원을 못맞추면... 시간이 지나면서.. 체력이 계속 깎이게 돼... 조심해야해... \r\n", null);
         await ShowDialogueAsync("Boo! 공격을 맞거나 시간이 지나서 체력이 0이 되면 게임오버야...", null);
         await ShowDialogueAsync("그리고... 모든 스테이지는 보스의 공격을 버텨야해...", null);

@@ -12,7 +12,7 @@ public class TextManager : MonoBehaviour
     [SerializeField] private BossTextData bosstextData;
     [SerializeField] private StageDialogueData dialogueData;//여기 stage1에 대사 입력하시면되요
     [SerializeField] private DialogueUIManager dialogueUI;
-
+    [SerializeField] private GameObject BossClosePanel;
 
     private CancellationTokenSource dialogueCTS;
     private CancellationTokenSource bossCTS;
@@ -22,6 +22,7 @@ public class TextManager : MonoBehaviour
 
     private void Start()
     {
+        BossClosePanel.SetActive(false);
         //MovieDialogueAsync().Forget();
         //if (dialogueUI != null)
         //{
@@ -33,6 +34,7 @@ public class TextManager : MonoBehaviour
     {
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
+            BossClosePanel.SetActive(true);
             await BossHandleBossDeathAsync(1, 3);
             await PlayDeadParteicle();
             Destroy(boss);
@@ -71,7 +73,11 @@ public class TextManager : MonoBehaviour
             await StartStageDialogueAsync(8);
         }
     }
-
+    public async UniTask ClosePanel()
+    {
+        BossClosePanel.SetActive(true);
+        
+    }
     public async UniTask MovieDialogueAsync()//<- 이거 movie씬 대사 처리
     {
         dialogueCTS?.Cancel();
