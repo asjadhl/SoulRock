@@ -57,11 +57,12 @@ public class DialogueUIManager : MonoBehaviour
         }
     }
 
+    // DialogueUIManager.cs
     private void OnSpeechBubbleClick()
     {
         if (isTyping)
         {
-            typingCTS?.Cancel(); // 타이핑 중단
+            typingCTS?.Cancel();
             dialogueText.text = currentFullText;
             isTyping = false;
         }
@@ -70,6 +71,7 @@ public class DialogueUIManager : MonoBehaviour
             OnDialogueClick?.Invoke();
         }
     }
+
 
     public void ShowDialogueText(string message, AudioClip clip = null)
     {
@@ -104,8 +106,7 @@ public class DialogueUIManager : MonoBehaviour
 
     public void ShowDialogueUI(bool isOn)
     {
-        if (TextBox != null)
-            TextBox.SetActive(isOn);
+  
         if (speechBubble != null)
             speechBubble.SetActive(isOn);
         if (speakerImage != null)

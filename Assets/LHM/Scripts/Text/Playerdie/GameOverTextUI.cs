@@ -29,7 +29,9 @@ public class GameOverTextUI : MonoBehaviour
 
 
         dialogueText.text = "";
+        if (!gameObject.activeSelf) return; // 패널이 켜져 있을 때만 텍스트 시작
         dialogueText.gameObject.SetActive(true);
+
 
         typingCTS?.Cancel();
         typingCTS = new CancellationTokenSource();

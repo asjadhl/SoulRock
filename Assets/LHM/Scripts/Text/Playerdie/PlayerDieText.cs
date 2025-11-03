@@ -29,6 +29,12 @@ public class PlayerDieText : MonoBehaviour
             return;
         }
 
+        // 게임오버 패널이 꺼질 때까지 대기
+        while (gameOverUI.gameObject.activeSelf)
+        {
+            await UniTask.Yield(PlayerLoopTiming.Update);
+        }
+
         int randomNum = UnityEngine.Random.Range(1, num + 1);
         string entryKey = $"GameOver{randomNum}";
 
@@ -39,4 +45,5 @@ public class PlayerDieText : MonoBehaviour
 
         await gameOverUI.ShowGameOverText(message);
     }
+
 }

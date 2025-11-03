@@ -111,7 +111,7 @@ public class Stage2BossAttack : MonoBehaviour
             bossDialogueTriggered = true; 
             BossState.isBoss1Dead = true;
             dialogueUI.ShowDialogueUI(true);
-            textManager.BossDialogueCheackAsync().Forget();
+            PlayBossDialogueAsync().Forget();
         }
     }
     private async UniTaskVoid PlayBossDialogueAsync()

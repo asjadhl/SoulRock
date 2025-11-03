@@ -21,7 +21,7 @@ public class TextManager : MonoBehaviour
 
     [SerializeField] ParticleSystem bossDeadParticle;
     [SerializeField] GameObject boss;
-
+    private bool isBossDialogueStarted = false;
     private void Start()
     {
         //MovieDialogueAsync().Forget();
@@ -31,36 +31,46 @@ public class TextManager : MonoBehaviour
         //}
         
     }
+
     public async UniTask BossDialogueCheackAsync()
     {
+
+        if (isBossDialogueStarted) return;
+        isBossDialogueStarted = true;
+        Debug.Log("¢∫ BossDialogueCheackAsync() »£√‚µ ");
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
+            Debug.Log("¢∫ BossDialogueCheackAsync() »£√‚µ ");
             BossClosePanel.SetActive(true);
-            await BossHandleBossDeathAsync(1, 3);
+            await BossHandleBossDeathAsync(1);
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
             SceneManager.LoadScene("StageSelect");
         }
-        if (BossState.isBoss1Dead && BossState.isBoss2Dead)
+        else if (BossState.isBoss1Dead && BossState.isBoss2Dead && !BossState.isBoss3Dead)
         {
-            await BossHandleBossDeathAsync(4, 7);
+            await BossHandleBossDeathAsync(2);
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
             SceneManager.LoadScene("StageSelect");
         }
-        if (BossState.isBoss3Dead)
+        else if (BossState.isBoss3Dead)
         {
-            await BossHandleBossDeathAsync(8, 8);
+            await BossHandleBossDeathAsync(3);
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
             SceneManager.LoadScene("Main");
         }
+        Debug.Log("BossDialogueCheackAsync Ω««‡µ ");
+
     }
+
     public async UniTask DelayedDialogueCheckAsync()//∫∏Ω∫ 1,2
     {
+
         if (!BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
             await StartStageDialogueAsync(1);
@@ -98,49 +108,45 @@ public class TextManager : MonoBehaviour
             1 => dialogueData.stage1.dialogues,
             2 => dialogueData.stage2.dialogues,
             3 => dialogueData.stage3.dialogues,
-            4 => dialogueData.stage4.dialogues,
-            5 => dialogueData.stage5.dialogues,
             _ => null
         };
 
         if (lines != null)
             await firstPlayDialogueAsync(lines, stageNum, dialogueCTS.Token);
     }
-    private async UniTask BossHandleBossDeathAsync(int firstStage, int endStage)
+    private async UniTask BossHandleBossDeathAsync(int bossStage)
     {
-        if (firstStage == 1)
+        Debug.Log("¢∫ BossHandleBossDeathAsync() »£√‚µ ");
+        if (bossStage == 1)
             BossState.isBoss1Dead = true;
-        else if (firstStage == 4)
+        else if (bossStage ==2)
             BossState.isBoss2Dead = true;
-        else if (firstStage == 8)
+        else if (bossStage ==3)
             BossState.isBoss3Dead = true;
-
         dialogueUI.ShowDialogueUI(true);
-        for (int i = firstStage; i <= endStage; i++)
-        {
-            await BossStartStageDialogueAsync(i);
-        }
-
-        
+        await BossStartStageDialogueAsync(bossStage);
     }
+
     public async UniTask BossStartStageDialogueAsync(int firstStage)
+{
+    bossCTS?.Cancel();
+    bossCTS = new CancellationTokenSource();
+
+    var bossSet = System.Array.Find(bosstextData.bossDialogues, x => x.bossName == $"Boss{firstStage}");
+    if (bossSet == null)
     {
-        bossCTS?.Cancel();
-        bossCTS = new CancellationTokenSource();
-
-        var bossSet = System.Array.Find(bosstextData.bossDialogues, x => x.bossName == $"Boss{firstStage}");
-        if (bossSet == null)
-        {
-            Debug.LogWarning($"Boss dialogue not found for Boss{firstStage}");
-            return;
-        }
-
-        BossLine[] lines = bossSet.deathLines;
-        if (lines != null)
-            await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
-        if (lines != null)
-            await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
+        Debug.LogWarning($"Boss dialogue not found for Boss{firstStage}");
+        return;
     }
+
+    BossLine[] lines = bossSet.deathLines;
+    if (lines != null)
+    {
+        Debug.Log($"∫∏Ω∫ ¥ÎªÁ Ω√¿€: Boss{firstStage}, Line ºˆ: {lines.Length}");
+        await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
+    }
+}
+
     private async UniTask firstPlayDialogueAsync(DialogueLine[] lines, int stageNum, CancellationToken token)
     {
         TalkState.isTalking = true;
@@ -179,6 +185,7 @@ public class TextManager : MonoBehaviour
     }
     private async UniTask stagePlayDialogueAsync(BossLine[] lines, int stageNum, CancellationToken token)
     {
+        Debug.Log(lines);
         int index = 0;
         bool waitingForClick = false;
 
@@ -190,10 +197,11 @@ public class TextManager : MonoBehaviour
 
         while (index < lines.Length)
         {
+
             if (token.IsCancellationRequested) break;
 
             BossLine line = lines[index];
-
+        
             string displayText = line.text;
             if (!string.IsNullOrEmpty(line.localizationTable) && !string.IsNullOrEmpty(line.localizationKey))
             {
