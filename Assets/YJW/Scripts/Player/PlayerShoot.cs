@@ -20,7 +20,7 @@ public class PlayerShoot : MonoBehaviour
 
     void Start()
     {
-        originalPosition = gunTransform.localPosition;
+        originalRotation = gunObject.transform.localRotation;
         bossMove = GameObject.FindAnyObjectByType<BossMove>();
         InitializeTagActions();
     }
@@ -96,14 +96,16 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
+    private Quaternion originalRotation;
+
     private async UniTask Kickback()
     {
         shootParticle.Play();
 
         Vector3 targetPos = originalPosition - gunTransform.forward * kickbackDistance;
-        gunObject.transform.Rotate(-15, 0, 0);
 
-        // 뒤로 밀리는 구간
+        gunObject.transform.localRotation = originalRotation * Quaternion.Euler(-15, 0, 0);
+
         while (Vector3.Distance(gunTransform.localPosition, targetPos) > 0.01f)
         {
             gunTransform.localPosition = Vector3.Lerp(
@@ -113,10 +115,8 @@ public class PlayerShoot : MonoBehaviour
             );
             await UniTask.Yield(PlayerLoopTiming.Update);
         }
+        gunObject.transform.localRotation = originalRotation;
 
-        gunObject.transform.Rotate(15, 0, 0);
-
-        // 원래 자리로 복귀하는 구간
         while (Vector3.Distance(gunTransform.localPosition, originalPosition) > 0.01f)
         {
             gunTransform.localPosition = Vector3.Lerp(
@@ -126,19 +126,20 @@ public class PlayerShoot : MonoBehaviour
             );
             await UniTask.Yield(PlayerLoopTiming.Update);
         }
-
-
-        //private async UniTask GunMove()
-        //{
-        //    shootParticle.Play();
-        //    gunObject.transform.Rotate(-15, 0, 0);
-        //    await UniTask.Delay(100);
-        //    GunOriPos();
-        //}
-
-        //private void GunOriPos()
-        //{
-        //    gunObject.transform.Rotate(15, 0, 0);
-        //}
     }
+
+
+    //private async UniTask GunMove()
+    //{
+    //    shootParticle.Play();
+    //    gunObject.transform.Rotate(-15, 0, 0);
+    //    await UniTask.Delay(100);
+    //    GunOriPos();
+    //}
+
+    //private void GunOriPos()
+    //{
+    //    gunObject.transform.Rotate(15, 0, 0);
+    //}
 }
+
