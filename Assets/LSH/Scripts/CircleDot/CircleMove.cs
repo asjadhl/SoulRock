@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -66,21 +67,52 @@ public class CircleMove : MonoBehaviour
 
     public async UniTask ChangeColorSmooth(Color targetColor, float duration)
     {
-        Color startColor = rawImage.color;
-        float elapsed = 0f;
+		//Color startColor = rawImage.color;
+		//float elapsed = 0f;
 
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            rawImage.color = Color.Lerp(startColor, targetColor, elapsed / duration);
-            await UniTask.Yield();
-        }
-        rawImage.color = targetColor;
-        colorChanging = false;
-    }
+		//while (elapsed < duration)
+		//{
+		//    elapsed += Time.deltaTime;
+		//    rawImage.color = Color.Lerp(startColor, targetColor, elapsed / duration);
+		//    await UniTask.Yield();
+		//}
+		//rawImage.color = targetColor;
+		//colorChanging = false;
+		var token = this.GetCancellationTokenOnDestroy();
+		if (rawImage == null) return;
+
+		Color startColor = rawImage.color;
+		float elapsed = 0f;
+
+		try
+		{
+			while (elapsed < duration)
+			{
+				if (token.IsCancellationRequested || this == null || rawImage == null)
+					return;
+
+				elapsed += Time.deltaTime;
+				rawImage.color = Color.Lerp(startColor, targetColor, elapsed / duration);
+				await UniTask.Yield(cancellationToken: token);
+			}
+
+			if (rawImage != null)
+				rawImage.color = targetColor;
+		}
+		catch (OperationCanceledException)
+		{
+			// 씬 전환 중 중단
+			return;
+		}
+		finally
+		{
+			colorChanging = false;
+		}
+	}
 
     public void SetColor()
     {
-        rawImage.color = originalColor;
+		if (rawImage != null)
+			rawImage.color = originalColor;
     }
 }
