@@ -33,7 +33,7 @@ public class MainGhostClick : MonoBehaviour
                     Debug.Log("Ghost clicked!");
                     MainPlayState.isClicked1 = true;
                     AllReset();
-                    LoadSelectScene().Forget();
+                    LoadSceneToTraning().Forget();
                 }
             }
         }
@@ -46,7 +46,15 @@ public class MainGhostClick : MonoBehaviour
         TalkState.isTalking = false;
 	   
 	}
-
+    private async UniTask LoadSceneToTraning()
+    {
+        ghostAnim.SetTrigger("Clicked");
+        Vector3 ghostPos = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+        ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
+        ghostParticle.Play();
+        await UniTask.Delay(1000);
+        await SceneLoader.Instance.LoadScene("TutorialTrainingRoom");
+    }
     public async UniTask LoadSelectScene()
     {
         ghostAnim.SetTrigger("Clicked");

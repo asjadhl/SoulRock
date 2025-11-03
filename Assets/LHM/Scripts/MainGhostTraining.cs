@@ -29,12 +29,20 @@ public class GhostTrainingLoader : MonoBehaviour
                 {
                     Debug.Log("오브젝트 클릭 감지됨");
                     MainGhostTrainingState.isClicked = true;
-                    LoadTrainingScene().Forget();
+                    LoadSceneToTraning().Forget();
                 }
             }
         }
     }
-
+    private async UniTask LoadSceneToTraning()
+    {
+        ghostAnim.SetTrigger("Clicked");
+        Vector3 ghostPos = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+        ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
+        ghostParticle.Play();
+        await UniTask.Delay(1000);
+        await SceneLoader.Instance.LoadScene("TutorialTrainingRoom");
+    }
     public async UniTask LoadTrainingScene()
     {
         ghostAnim.SetTrigger("Clicked");

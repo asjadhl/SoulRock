@@ -32,8 +32,8 @@ public class SceneLoader : MonoBehaviour
 
     private  void Start()
     {
-		   Canvas.SetActive(false);
-	  }
+	    Canvas.SetActive(false);
+	}
 
     public  UniTask LoadScene(string sceneName)
     {

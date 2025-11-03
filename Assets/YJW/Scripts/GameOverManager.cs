@@ -10,7 +10,7 @@ public class GameOverManager : MonoBehaviour
     public static GameOverManager Instance;
 	string currentSceneName;
     [SerializeField] private GameOverTextUI gameOverTextUI;
-    [SerializeField] GameObject gameOverPanel;
+    [SerializeField] public GameObject gameOverPanel;
     [SerializeField] GameObject GameOverText;
 
     public AudioClip gameOverSound;
@@ -30,7 +30,7 @@ public class GameOverManager : MonoBehaviour
 		}
 		currentSceneName = SceneManager.GetActiveScene().name;
 	}
-    void Start()
+    private void Start()
     {
 		gameOverPanel.SetActive(false);
 	}
@@ -140,12 +140,27 @@ public class GameOverManager : MonoBehaviour
 	}
 	private async UniTask GoMain()
 	{
-		if (SceneLoader.Instance != null)
-			await SceneLoader.Instance.LoadScene("Main");
-
-		// 상태 초기화
-		isTriggered = false;
-	}
+        if (isRetrying) return; // 이중 체크
+        isRetrying = true;
+        try
+        {
+            if (SceneLoader.Instance != null && !string.IsNullOrEmpty("Main"))
+            {
+                // 씬 로드가 완료될 때까지 기다림
+                await SceneLoader.Instance.LoadScene("Main");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"씬 로드 실패: {ex.Message}");
+        }
+        finally
+        {
+            // 씬 로드가 실패했든 성공했든, 플래그와 게임 오버 상태를 리셋
+            isRetrying = false;
+            isTriggered = false; // 게임 오버 상태도 리셋
+        }
+    }
 
 	private void OnEnable()
 	{
@@ -191,19 +206,22 @@ public class GameOverManager : MonoBehaviour
 				// 참고: RetryButton() 함수는 이미 isRetrying 체크 로직을 포함하고 있습니다.
 			}
 		}
+        GameObject mainObject = FindObjectIncludingInactive("Main");
 
-		//// 3. **MainButton 이벤트 재연결 (선택 사항)**
-		//GameObject mainObject = FindObjectIncludingInactive("Main");
-		//if (mainObject != null)
-		//{
-		//	Button mainButton = mainObject.GetComponent<Button>();
-		//	if (mainButton != null)
-		//	{
-		//		mainButton.onClick.RemoveAllListeners();
-		//		// GoMain()을 람다로 래핑하여 연결합니다.
-		//		mainButton.onClick.AddListener(() => GoMain().Forget());
-		//	}
-		//}
-		// isTriggered 플래그는 Retry/GoMain에서 false로 리셋됩니다.
-	}
+        if (mainObject != null)
+        {
+            Button mainButton = mainObject.GetComponent<Button>();
+
+            if (mainButton != null)
+            {
+                // 이전에 연결된 리스너를 모두 제거합니다. (중복 호출 방지)
+                mainButton.onClick.RemoveAllListeners();
+
+                // RetryButton() 함수를 버튼 이벤트에 동적으로 연결합니다.
+                mainButton.onClick.AddListener(MainButton);
+                // 참고: RetryButton() 함수는 이미 isRetrying 체크 로직을 포함하고 있습니다.
+            }
+        }
+
+    }
 }

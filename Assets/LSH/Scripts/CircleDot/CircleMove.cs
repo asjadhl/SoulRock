@@ -52,16 +52,22 @@ public class CircleMove : MonoBehaviour
     }
     public async UniTask ChangeColor()
     {
+        var token = this.GetCancellationTokenOnDestroy();
+        if (rawImage == null) return;
+
         float elapsed = 0f;
         while (elapsed < fadeDuration)
         {
+            if (token.IsCancellationRequested || this == null || rawImage == null)
+                return;
+
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
-            Color newColor = originalColor;
+            var newColor = originalColor;
             newColor.a = alpha;
             rawImage.color = newColor;
 
-            await UniTask.Yield();
+            await UniTask.Yield(cancellationToken: token);
         }
     }
 
