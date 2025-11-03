@@ -1,8 +1,10 @@
 using Cysharp.Threading.Tasks;
-using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
+using UnityEngine.Localization;
+
 public static class TalkState
 {
        public static bool isTalking = false;
@@ -144,29 +146,32 @@ public class TextManager : MonoBehaviour
     }
     private async UniTask firstPlayDialogueAsync(DialogueLine[] lines, int stageNum, CancellationToken token)
     {
-        TalkState.isTalking = true;   //플래그 활성화
+        TalkState.isTalking = true;
         int index = 0;
         bool waitingForClick = false;
 
-        System.Action onClick = () => waitingForClick = false;//대화창 클릭하는 것들
+        System.Action onClick = () => waitingForClick = false;
         dialogueUI.OnDialogueClick += onClick;
 
-        dialogueUI.ShowDialogueUI(true);//ui 혹시몰라서 켜줌
-        dialogueUI.StartImageAnimation(stageNum);//이미지 깜빡이는거
+        dialogueUI.ShowDialogueUI(true);
+        dialogueUI.StartImageAnimation(stageNum);
 
         while (index < lines.Length)
         {
             if (token.IsCancellationRequested) break;
 
             DialogueLine line = lines[index];
-            dialogueUI.ShowDialogueText(line.text, line.sound);
+            var localized = new LocalizedString(line.localizationTable, line.localizationKey);
+            string localizedText = await localized.GetLocalizedStringAsync();
+
+            dialogueUI.ShowDialogueText(localizedText, line.sound);
 
             waitingForClick = true;
             while (waitingForClick && !token.IsCancellationRequested)
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
 
             index++;
-        }//클릭할때까지 대사 출력
+        }
 
         dialogueUI.OnDialogueClick -= onClick;
         dialogueUI.StopImageAnimation();
