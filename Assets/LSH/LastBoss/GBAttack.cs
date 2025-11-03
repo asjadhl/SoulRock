@@ -41,7 +41,6 @@ public class GBAttack : MonoBehaviour
     [SerializeField] GameObject leftBeat;
     [SerializeField] Image rightLongBeat;
     [SerializeField] Image leftLongBeat;
-    BossTextManager bossTextManager;
     float barAmount = 0;
     int ranIndex = 0;
     int ranIndexBefore = 0;
@@ -49,6 +48,7 @@ public class GBAttack : MonoBehaviour
     bool isSuccess = false;
 
     CancellationTokenSource cts;
+    PlayerHP playerhp;
     //[SerializeField] Image leftLongBeat; 
 
     ////분신패턴
@@ -63,7 +63,7 @@ public class GBAttack : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-     
+     playerhp = GameObject.FindWithTag("Player").GetComponent<PlayerHP>();
     cts = new CancellationTokenSource();
 
 		particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
@@ -108,16 +108,23 @@ public class GBAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isAttack && bossMove.canRun)
-        {
-            BossPattern().Forget();
-        }
-        CheckForthPattern();
-        //StuckWithPlayer();
-        if(normalMusicBox.MusicFin)
-        {
-			SceneManager.LoadScene("Ending");
-        }
+
+    if (playerhp.isPlayerDead)
+    {
+      return;
+    }
+          if (!isAttack && bossMove.canRun)
+          {
+        BossPattern().Forget();
+          }
+          CheckForthPattern();  
+      //StuckWithPlayer();
+          if (normalMusicBox.MusicFin)
+           {
+            SceneManager.LoadScene("Ending");
+           }
+       
+        
     }
     //public async UniTaskVoid DelayedDialogueCheckAsync()
     //{
@@ -186,99 +193,127 @@ public class GBAttack : MonoBehaviour
 	//	}
 	//}
 	private async UniTask BossPattern()
-    { 
-        for (int i = 0; ; i++)
+    {
+
+    try
+    {
+      for (int i = 0; ; i++)
+      {
+        patternIndex = Random.Range(0, 3);
+        if (patternIndex != ranIndexBefore)
         {
-            patternIndex = Random.Range(0, 3);
-            if (patternIndex != ranIndexBefore)
-            {
-                ranIndexBefore = patternIndex;
-                break;
-            }
+          ranIndexBefore = patternIndex;
+          break;
         }
-        switch (patternIndex)
-        {
-            case 0:
-                await SoundAttack();
-                break;
-            case 1:
-                await Duplicate(cts.Token);
-                break;
-            case 2:
-                await Poltergeist(cts.Token);
-                break;
-        }
-        
+      }
+      switch (patternIndex)
+      {
+        case 0:
+          await SoundAttack();
+          break;
+        case 1:
+          await Duplicate(cts.Token);
+          break;
+        case 2:
+          await Poltergeist(cts.Token);
+          break;
+      }
     }
+    catch (System.Exception e)
+    { }
+
+    }
+     
+    
     
     private async UniTask SoundAttack()
     {
-        isAttack = true;
-        mosterSpawner.SetActive(true);
-        KillBall.SetActive(true);
-        KillBall.transform.position = new Vector3(transform.position.x, transform.position.y+3f, transform.position.z);
-        musicBox.panStereo = 0f;
-        for (int i = 0; i < 7; i++)
+
+    try
+    {
+      isAttack = true;
+      mosterSpawner.SetActive(true);
+      KillBall.SetActive(true);
+      KillBall.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
+      musicBox.panStereo = 0f;
+      for (int i = 0; i < 7; i++)
+      {
+        teleportIndex = Random.Range(0, 2);
+        animator.SetTrigger("Teleport");
+        switch (teleportIndex)
         {
-            teleportIndex = Random.Range(0, 2);
-            animator.SetTrigger("Teleport");
-            switch (teleportIndex)
-            {
-                case 0:
-                    //musicBox.panStereo = -0.5f;
-                    await SoundAttackVector(0,cts.Token);
-                    break;
-                case 1:
-                    //musicBox.panStereo = 0.5f;
-                    await SoundAttackVector(1,cts.Token);
-                    break;
-                 
-            }
-            //musicBox.panStereo = 0f;
-            if(!bossMove.canRun)
-                break;
+          case 0:
+            //musicBox.panStereo = -0.5f;
+            await SoundAttackVector(0, cts.Token);
+            break;
+          case 1:
+            //musicBox.panStereo = 0.5f;
+            await SoundAttackVector(1, cts.Token);
+            break;
+
         }
-		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-        mosterSpawner.SetActive(false);
-        transform.rotation = originalRotation;
-        KillBall.SetActive(false);
-        await UniTask.Delay(3000);
-        isAttack = false;
+        //musicBox.panStereo = 0f;
+        if (!bossMove.canRun)
+          break;
+      }
+      transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+      mosterSpawner.SetActive(false);
+      transform.rotation = originalRotation;
+      KillBall.SetActive(false);
+      await UniTask.Delay(3000);
+      isAttack = false;
+    }
+    catch (System.Exception ex)
+    { }
     }
     private async UniTask SoundAttackVector(int patternNum,CancellationToken token)
     {
-        switch (patternNum)
-        {
-            case 0:
-                transform.position = new Vector3(transform.position.x - (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
-                break;
-            case 1:
-                transform.position = new Vector3(transform.position.x + (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
-                break;
-        }
-		await UniTask.Delay(cooltime,cancellationToken: token);
-		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+    try
+    {
+      switch (patternNum)
+      {
+        case 0:
+          transform.position = new Vector3(transform.position.x - (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
+          break;
+        case 1:
+          transform.position = new Vector3(transform.position.x + (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
+          break;
+      }
+      await UniTask.Delay(cooltime, cancellationToken: token);
+      transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+
+    }
+    catch (System.Exception e)
+    { 
+          
+    }
 	}
 
     private async UniTask Duplicate(CancellationToken token)
     {
-        isAttack = true;
-        gameObject.tag = "RealClone";
-        int teleport = Random.Range(0, cloneTransform.Length);
-        for (int i = 0; i < clone.Length; i++)
-        {
-            clone[i].SetActive(true);
-            clone[i].transform.position = new Vector3(cloneTransform[i].transform.position.x, cloneTransform[i].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
-            cloneAnime[i].SetTrigger("Teleport");
-        }
-        animator.SetTrigger("Teleport");
-        clone[teleport].SetActive(false);
-        transform.position = new Vector3(cloneTransform[teleport].transform.position.x, cloneTransform[teleport].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
-        await UniTask.Delay(cooltime + 3000, cancellationToken: token);
-        
-        transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-		ReturnClone();
-        isAttack = false;
+    try
+    {
+      isAttack = true;
+      gameObject.tag = "RealClone";
+      int teleport = Random.Range(0, cloneTransform.Length);
+      for (int i = 0; i < clone.Length; i++)
+      {
+        clone[i].SetActive(true);
+        clone[i].transform.position = new Vector3(cloneTransform[i].transform.position.x, cloneTransform[i].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
+        cloneAnime[i].SetTrigger("Teleport");
+      }
+      animator.SetTrigger("Teleport");
+      clone[teleport].SetActive(false);
+      transform.position = new Vector3(cloneTransform[teleport].transform.position.x, cloneTransform[teleport].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
+      await UniTask.Delay(cooltime + 3000, cancellationToken: token);
+
+      transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+      ReturnClone();
+      isAttack = false;
+    }
+    catch (System.Exception e)
+    { }
+
     }
 
     public void SuccessFindRealClone()
@@ -303,24 +338,29 @@ public class GBAttack : MonoBehaviour
 
     private async UniTask Poltergeist(CancellationToken token)
     {
-        isAttack = true;
-        poltergeist.SetActive(true);
-        for (int i = 0; i < poltergeistOB.Length; i++)
-        {
-            animator.SetTrigger("Polter");
-            GameObject obj = poltergeistOB[i];
-            obj.SetActive(true);
-            Vector3 randomPos = transform.position + new Vector3(Random.Range(-9f, 9f), Random.Range(5f, 8f), 0f);
-            obj.transform.position = randomPos;
-            await UniTask.Delay(2000);
-        }
+    try
+    {
+      isAttack = true;
+      poltergeist.SetActive(true);
+      for (int i = 0; i < poltergeistOB.Length; i++)
+      {
+        animator.SetTrigger("Polter");
+        GameObject obj = poltergeistOB[i];
+        obj.SetActive(true);
+        Vector3 randomPos = transform.position + new Vector3(Random.Range(-9f, 9f), Random.Range(5f, 8f), 0f);
+        obj.transform.position = randomPos;
+        await UniTask.Delay(2000);
+      }
 
-        await UniTask.Delay(cooltime+2000, cancellationToken: token); // 모든 오브젝트가 발사된 후 대기 시간
-        poltergeist.SetActive(false);
-        isAttack = false;
+      await UniTask.Delay(cooltime + 2000, cancellationToken: token); // 모든 오브젝트가 발사된 후 대기 시간
+      poltergeist.SetActive(false);
+      isAttack = false;
+    }
+    catch (System.Exception e)
+    { }
     }
     private async UniTaskVoid LongBitRoutine()
-    {
+    {   //a
         while (true)
         {
             int thisran = Random.Range(10, 15);
@@ -330,43 +370,50 @@ public class GBAttack : MonoBehaviour
         }
     }
     public async UniTask LongBit()
+    {  try
     {
-        ranIndex = Random.Range(0, 2);
-        switch(ranIndex)
-        {
-            case 0:
-                SoundSmooth(-1f, 4f,cts.Token).Forget();
-                isBeatOn = true;
-				rightBeat.SetActive(true);
-                await UniTask.Delay(6000);
-                break;
-            case 1:
-                SoundSmooth(1f, 4f,cts.Token).Forget();
-                isBeatOn = true;
-				leftBeat.SetActive(true);
-				await UniTask.Delay(6000);
-				break;
-        }
-        CheckSuccess();
-        isBeatOn = false;
-        rightBeat.SetActive(false);
-        leftBeat.SetActive(false);
-        barAmount = 0f;
-        isSuccess = false;
-        musicBox.panStereo = 0f;
+      ranIndex = Random.Range(0, 2);
+      switch (ranIndex)
+      {
+        case 0:
+          SoundSmooth(-1f, 4f, cts.Token).Forget();
+          isBeatOn = true;
+          rightBeat.SetActive(true);
+          await UniTask.Delay(6000);
+          break;
+        case 1:
+          SoundSmooth(1f, 4f, cts.Token).Forget();
+          isBeatOn = true;
+          leftBeat.SetActive(true);
+          await UniTask.Delay(6000);
+          break;
+      }
+      CheckSuccess();
+      isBeatOn = false;
+      rightBeat.SetActive(false);
+      leftBeat.SetActive(false);
+      barAmount = 0f;
+      isSuccess = false;
+      musicBox.panStereo = 0f;
+    }
+    catch(System.Exception e) { }
 	}
     public async UniTask SoundSmooth(float stereo, float duration,CancellationToken token)
     {
-        float elapsed = 0f;
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            if(musicBox != null)
-            musicBox.panStereo = Mathf.Lerp(0, stereo, elapsed / duration);
-            
-            await UniTask.Yield(cancellationToken: token);
-        }
-        musicBox.panStereo = stereo;
+    try
+    {
+      float elapsed = 0f;
+      while (elapsed < duration)
+      {
+        elapsed += Time.deltaTime;
+        if (musicBox != null)
+          musicBox.panStereo = Mathf.Lerp(0, stereo, elapsed / duration);
+
+        await UniTask.Yield(cancellationToken: token);
+      }
+      musicBox.panStereo = stereo;
+    }
+    catch (System.Exception e) { }  
     }
 
 
@@ -375,6 +422,7 @@ public class GBAttack : MonoBehaviour
     if(cts != null)
     {
       cts.Cancel();
+      cts.Dispose();
     }
   }
   public async UniTask SoundSmooth_(float stereo, float duration)

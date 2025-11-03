@@ -67,19 +67,19 @@ public class GameOverManager : MonoBehaviour
 
 	public void RetryButton()
 	{
-		Retry().Forget();
+		Retry();
 	}
 	public void MainButton()
 	{
 		GoMain().Forget();
 	}
-    private async UniTask Retry()
-    {
-		if (SceneLoader.Instance != null)
-			await SceneLoader.Instance.LoadScene("New Scene");
-	}
+  private void Retry()
+  {
+    if (SceneLoader.Instance != null)
+      SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().name).Forget();
+  }
 
-	private async UniTask GoMain()
+  private async UniTask GoMain()
     {
 		if (SceneLoader.Instance != null)
 			await SceneLoader.Instance.LoadScene("Main");
