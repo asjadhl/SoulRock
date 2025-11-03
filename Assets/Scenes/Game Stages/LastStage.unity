@@ -851,7 +851,7 @@ GameObject:
   - component: {fileID: 114574254}
   - component: {fileID: 114574253}
   m_Layer: 5
-  m_Name: Game Over
+  m_Name: GameOverText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1915,7 +1915,7 @@ GameObject:
   - component: {fileID: 320316499}
   - component: {fileID: 320316498}
   m_Layer: 5
-  m_Name: GameOver
+  m_Name: GameOverOB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3119,6 +3119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverUI: {fileID: 1426130594}
+  tableName: GameOver
 --- !u!4 &570135531
 Transform:
   m_ObjectHideFlags: 0
@@ -5966,7 +5967,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 311924106}
         m_TargetAssemblyTypeName: GameOverManager, Assembly-CSharp
-        m_MethodName: GoMain
+        m_MethodName: MainButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8047,7 +8048,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 311924106}
         m_TargetAssemblyTypeName: GameOverManager, Assembly-CSharp
-        m_MethodName: Retry
+        m_MethodName: RetryButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

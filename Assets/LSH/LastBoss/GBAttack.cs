@@ -35,7 +35,7 @@ public class GBAttack : MonoBehaviour
     [SerializeField] GameObject[] poltergeistOB;
     bool cloneMakeGhost = false;
     [Header("타겟 (플레이어)")]
-	public Transform player;
+    public Transform player;
     [Header("4번째 패턴")]
     [SerializeField] GameObject rightBeat;
     [SerializeField] GameObject leftBeat;
@@ -63,17 +63,17 @@ public class GBAttack : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-     playerhp = GameObject.FindWithTag("Player").GetComponent<PlayerHP>();
-    cts = new CancellationTokenSource();
+        playerhp = GameObject.FindWithTag("Player").GetComponent<PlayerHP>();
+        cts = new CancellationTokenSource();
 
-		particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
-		musicBox = GameObject.FindWithTag("MusicBox").GetComponent<AudioSource>();
+        particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
+        musicBox = GameObject.FindWithTag("MusicBox").GetComponent<AudioSource>();
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         bossMove = GetComponent<BossMove>();
         animator = GetComponent<Animator>();
         if (player == null)
-			player = GameObject.FindWithTag("Player").transform;
-		teleportIndex = 0;
+            player = GameObject.FindWithTag("Player").transform;
+        teleportIndex = 0;
         patternIndex = 0;
         firstxPos = transform.position.x;
         firstyPos = transform.position.y;
@@ -81,18 +81,8 @@ public class GBAttack : MonoBehaviour
     }
     private void Start()
     {
-        ////클론만들기~
-        //clonePool = new GameObject[clonePoolSize];
-        //cloneUsed = new bool[clonePoolSize];
-        //for (int i = 0; i < clonePoolSize; i++)
-        //{
-        //    clonePool[i] = Instantiate(ghostClonePrefab);
-        //    clonePool[i].SetActive(false);
-        //    cloneUsed[i] = false;
-        //}
-
         rightBeat.SetActive(false);
-        cloneAnime=new Animator[clone.Length];
+        cloneAnime = new Animator[clone.Length];
         leftBeat.SetActive(false);
         originalRotation = transform.rotation; // 현재 회전 저장
         poltergeist.SetActive(false);
@@ -103,29 +93,25 @@ public class GBAttack : MonoBehaviour
             cloneAnime[i] = clone[i].GetComponent<Animator>();
             clone[i].SetActive(false);
         }
-        LongBitRoutine().Forget();
+        LongBitRoutine(cts.Token).Forget();
     }
     // Update is called once per frame
     void Update()
     {
+		if (playerhp == null || playerhp.isPlayerDead) return;
+		if (!isAttack && bossMove != null && bossMove.canRun)
+		{
+			BossPattern().Forget();
+		}
+		CheckForthPattern();
 
-    if (playerhp.isPlayerDead)
-    {
-      return;
-    }
-          if (!isAttack && bossMove.canRun)
-          {
-        BossPattern().Forget();
-          }
-          CheckForthPattern();  
-      //StuckWithPlayer();
-          if (normalMusicBox.MusicFin)
-           {
-            SceneManager.LoadScene("Ending");
-           }
-       
-        
-    }
+		if (normalMusicBox != null && normalMusicBox.MusicFin)
+		{
+			// 씬 전환 시 모든 비동기 작업을 안전하게 취소합니다.
+			if (cts != null) cts.Cancel();
+			SceneManager.LoadScene("Ending");
+		}
+	}
     //public async UniTaskVoid DelayedDialogueCheckAsync()
     //{
 
@@ -139,7 +125,7 @@ public class GBAttack : MonoBehaviour
 
     void CheckForthPattern()
     {
-        if (Input.GetMouseButton(2)&&isBeatOn)
+        if (Input.GetMouseButton(2) && isBeatOn)
         {
             barAmount += 0.4f;
             rightLongBeat.fillAmount = barAmount / 100f;
@@ -150,13 +136,13 @@ public class GBAttack : MonoBehaviour
                 rightBeat.SetActive(false);
             }
         }
-       if (Input.GetMouseButtonUp(2))
-       {
+        if (Input.GetMouseButtonUp(2))
+        {
             barAmount = 0;
             rightLongBeat.fillAmount = barAmount / 100f;
-       }
-       if (Input.GetMouseButton(1) && isBeatOn)
-       {
+        }
+        if (Input.GetMouseButton(1) && isBeatOn)
+        {
             barAmount += 0.4f;
             leftLongBeat.fillAmount = barAmount / 100f;
             if (leftLongBeat.fillAmount >= 1f)
@@ -171,7 +157,7 @@ public class GBAttack : MonoBehaviour
             barAmount = 0;
             leftLongBeat.fillAmount = barAmount / 100f;
         }
-        
+
     }
 
     void CheckSuccess()
@@ -181,96 +167,95 @@ public class GBAttack : MonoBehaviour
             GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus().Forget();
         }
     }
-	//void StuckWithPlayer()
-	//{
-	//	float distance = Vector3.Distance(transform.position, player.position);
- //       Debug.LogError(distance);
-	//	if (distance <= disableDistance)
-	//	{
- //           transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-	//		bossMove.canRun = false;
-	//		transform.SetParent(player.transform, true);
-	//	}
-	//}
-	private async UniTask BossPattern()
+    //void StuckWithPlayer()
+    //{
+    //	float distance = Vector3.Distance(transform.position, player.position);
+    //       Debug.LogError(distance);
+    //	if (distance <= disableDistance)
+    //	{
+    //           transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+    //		bossMove.canRun = false;
+    //		transform.SetParent(player.transform, true);
+    //	}
+    //}
+    private async UniTask BossPattern()
     {
 
-    try
-    {
-      for (int i = 0; ; i++)
-      {
-        patternIndex = Random.Range(0, 3);
-        if (patternIndex != ranIndexBefore)
-        {
-          ranIndexBefore = patternIndex;
-          break;
-        }
-      }
-      switch (patternIndex)
-      {
-        case 0:
-          await SoundAttack();
-          break;
-        case 1:
-          await Duplicate(cts.Token);
-          break;
-        case 2:
-          await Poltergeist(cts.Token);
-          break;
-      }
-    }
-    catch (System.Exception e)
-    { }
+            for (int i = 0; ; i++)
+            {
+                patternIndex = Random.Range(0, 3);
+                if (patternIndex != ranIndexBefore)
+                {
+                    ranIndexBefore = patternIndex;
+                    break;
+                }
+            }
+            switch (patternIndex)
+            {
+                case 0:
+                    await SoundAttack();
+                    break;
+                case 1:
+                    await Duplicate(cts.Token);
+                    break;
+                case 2:
+                    await Poltergeist(cts.Token);
+                    break;
+            }
+        
 
     }
-     
-    
-    
+
+
+
     private async UniTask SoundAttack()
     {
-
-    try
-    {
-      isAttack = true;
-      mosterSpawner.SetActive(true);
-      KillBall.SetActive(true);
-      KillBall.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
-      musicBox.panStereo = 0f;
-      for (int i = 0; i < 7; i++)
-      {
-        teleportIndex = Random.Range(0, 2);
-        animator.SetTrigger("Teleport");
-        switch (teleportIndex)
+		if (playerhp == null || musicBox == null || !isActiveAndEnabled)
+		{
+			return; // 객체가 파괴되었거나 비활성화되면 즉시 종료
+		}
+		isAttack = true;
+        mosterSpawner.SetActive(true);
+        KillBall.SetActive(true);
+        KillBall.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
+        musicBox.panStereo = 0f;
+        for (int i = 0; i < 7; i++)
         {
-          case 0:
-            //musicBox.panStereo = -0.5f;
-            await SoundAttackVector(0, cts.Token);
-            break;
-          case 1:
-            //musicBox.panStereo = 0.5f;
-            await SoundAttackVector(1, cts.Token);
-            break;
+            teleportIndex = Random.Range(0, 2);
+            animator.SetTrigger("Teleport");
+            switch (teleportIndex)
+            {
+                case 0:
+                    //musicBox.panStereo = -0.5f;
+                    await SoundAttackVector(0, cts.Token);
+                    break;
+                case 1:
+                    //musicBox.panStereo = 0.5f;
+                    await SoundAttackVector(1, cts.Token);
+                    break;
 
-        }
-        //musicBox.panStereo = 0f;
-        if (!bossMove.canRun)
-          break;
-      }
-      transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-      mosterSpawner.SetActive(false);
-      transform.rotation = originalRotation;
-      KillBall.SetActive(false);
-      await UniTask.Delay(3000);
-      isAttack = false;
+            }
+			//musicBox.panStereo = 0f;
+			if (!bossMove.canRun || cts.IsCancellationRequested) // CancellationToken 체크 추가
+				break;
+		}
+		if (transform == null || mosterSpawner == null || KillBall == null)
+		{
+			return; // 객체가 파괴되었다면 여기서 즉시 종료
+		}
+		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+        mosterSpawner.SetActive(false);
+        transform.rotation = originalRotation;
+        KillBall.SetActive(false);
+        await UniTask.Delay(3000, cancellationToken: cts.Token);
+        isAttack = false;
     }
-    catch (System.Exception ex)
-    { }
-    }
+
+    
     private async UniTask SoundAttackVector(int patternNum,CancellationToken token)
     {
-    try
-    {
-      switch (patternNum)
+		if (transform == null) return;
+		switch (patternNum)
       {
         case 0:
           transform.position = new Vector3(transform.position.x - (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
@@ -280,40 +265,35 @@ public class GBAttack : MonoBehaviour
           break;
       }
       await UniTask.Delay(cooltime, cancellationToken: token);
-      transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+		if (transform == null) return;
+		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
 
     }
-    catch (System.Exception e)
-    { 
-          
-    }
-	}
+	
 
     private async UniTask Duplicate(CancellationToken token)
     {
-    try
-    {
-      isAttack = true;
+		if (transform == null || animator == null || clone == null || cloneTransform == null) return;
+		isAttack = true;
       gameObject.tag = "RealClone";
       int teleport = Random.Range(0, cloneTransform.Length);
       for (int i = 0; i < clone.Length; i++)
       {
-        clone[i].SetActive(true);
+			if (clone[i] == null || cloneTransform[i] == null) continue;
+			clone[i].SetActive(true);
         clone[i].transform.position = new Vector3(cloneTransform[i].transform.position.x, cloneTransform[i].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
         cloneAnime[i].SetTrigger("Teleport");
       }
       animator.SetTrigger("Teleport");
-      clone[teleport].SetActive(false);
+		if (clone[teleport] == null) return;
+		clone[teleport].SetActive(false);
       transform.position = new Vector3(cloneTransform[teleport].transform.position.x, cloneTransform[teleport].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
       await UniTask.Delay(cooltime + 3000, cancellationToken: token);
-
+        if (transform == null) return;
       transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
       ReturnClone();
       isAttack = false;
-    }
-    catch (System.Exception e)
-    { }
-
+    
     }
 
     public void SuccessFindRealClone()
@@ -338,57 +318,57 @@ public class GBAttack : MonoBehaviour
 
     private async UniTask Poltergeist(CancellationToken token)
     {
-    try
-    {
-      isAttack = true;
+		if (poltergeist == null || poltergeistOB == null || animator == null) return;
+		isAttack = true;
       poltergeist.SetActive(true);
       for (int i = 0; i < poltergeistOB.Length; i++)
       {
         animator.SetTrigger("Polter");
         GameObject obj = poltergeistOB[i];
-        obj.SetActive(true);
+			if (obj == null) continue;
+			obj.SetActive(true);
         Vector3 randomPos = transform.position + new Vector3(Random.Range(-9f, 9f), Random.Range(5f, 8f), 0f);
         obj.transform.position = randomPos;
-        await UniTask.Delay(2000);
+        await UniTask.Delay(2000, cancellationToken: token);
       }
 
       await UniTask.Delay(cooltime + 2000, cancellationToken: token); // 모든 오브젝트가 발사된 후 대기 시간
-      poltergeist.SetActive(false);
+		if (poltergeist == null) return;
+		poltergeist.SetActive(false);
       isAttack = false;
+    
     }
-    catch (System.Exception e)
-    { }
-    }
-    private async UniTaskVoid LongBitRoutine()
+    private async UniTaskVoid LongBitRoutine(CancellationToken token)
     {   //a
-        while (true)
+        while (!token.IsCancellationRequested)
         {
             int thisran = Random.Range(10, 15);
-            await UniTask.Delay(1000 * thisran);
+            await UniTask.Delay(1000 * thisran, cancellationToken: token);
             //await UniTask.WaitUntil(() => !isAttack);
-            await LongBit();
+            await LongBit(token);
         }
     }
-    public async UniTask LongBit()
-    {  try
+    public async UniTask LongBit(CancellationToken token)
     {
-      ranIndex = Random.Range(0, 2);
+		if (musicBox == null || rightBeat == null || leftBeat == null) return;
+		ranIndex = Random.Range(0, 2);
       switch (ranIndex)
       {
         case 0:
           SoundSmooth(-1f, 4f, cts.Token).Forget();
           isBeatOn = true;
           rightBeat.SetActive(true);
-          await UniTask.Delay(6000);
+          await UniTask.Delay(6000, cancellationToken: token);
           break;
         case 1:
           SoundSmooth(1f, 4f, cts.Token).Forget();
           isBeatOn = true;
           leftBeat.SetActive(true);
-          await UniTask.Delay(6000);
+          await UniTask.Delay(6000, cancellationToken: token);
           break;
       }
-      CheckSuccess();
+		if (musicBox == null || rightBeat == null || leftBeat == null) return;
+		CheckSuccess();
       isBeatOn = false;
       rightBeat.SetActive(false);
       leftBeat.SetActive(false);
@@ -396,14 +376,12 @@ public class GBAttack : MonoBehaviour
       isSuccess = false;
       musicBox.panStereo = 0f;
     }
-    catch(System.Exception e) { }
-	}
+    
     public async UniTask SoundSmooth(float stereo, float duration,CancellationToken token)
     {
-    try
-    {
-      float elapsed = 0f;
-      while (elapsed < duration)
+		if (musicBox == null) return;
+		float elapsed = 0f;
+      while (elapsed < duration && !token.IsCancellationRequested)
       {
         elapsed += Time.deltaTime;
         if (musicBox != null)
@@ -411,29 +389,33 @@ public class GBAttack : MonoBehaviour
 
         await UniTask.Yield(cancellationToken: token);
       }
-      musicBox.panStereo = stereo;
-    }
-    catch (System.Exception e) { }  
-    }
+		if (musicBox == null) return;
+		if (!token.IsCancellationRequested)
+		{
+			musicBox.panStereo = stereo;
+		}
+	}
 
 
-  private void OnDestroy()
-  {
-    if(cts != null)
-    {
-      cts.Cancel();
-      cts.Dispose();
-    }
-  }
-  public async UniTask SoundSmooth_(float stereo, float duration)
-    {
-        float elapsed = 0f;
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            musicBox.panStereo = Mathf.Lerp(stereo, 0, elapsed / duration);
-            await UniTask.Yield();
-        }
-        musicBox.panStereo = stereo;
-    }
+
+	private void OnDestroy()
+	{
+		// OnDestroy에서 CancellationTokenSource를 잘 처리하고 계십니다.
+		if (cts != null)
+		{
+			cts.Cancel();
+			cts.Dispose();
+		}
+	}
+	//public async UniTask SoundSmooth_(float stereo, float duration)
+	//  {
+	//      float elapsed = 0f;
+	//      while (elapsed < duration)
+	//      {
+	//          elapsed += Time.deltaTime;
+	//          musicBox.panStereo = Mathf.Lerp(stereo, 0, elapsed / duration);
+	//          await UniTask.Yield();
+	//      }
+	//      musicBox.panStereo = stereo;
+	//  }
 }
