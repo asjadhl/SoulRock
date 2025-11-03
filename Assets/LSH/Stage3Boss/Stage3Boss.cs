@@ -288,7 +288,7 @@ public class Stage3Boss : MonoBehaviour
 		for (int i = 0; i<8;  i++)
         {
 			int poolIndex = i % bigLazerBallPool.Length;
-            Vector3 randomPos = bigChargeLazer.transform.position + new Vector3(Random.Range(-6f, 6f), Random.Range(-8f, 0f), 0f);
+            Vector3 randomPos = bigChargeLazer.transform.position + new Vector3(Random.Range(-6f, 6f), Random.Range(-5f, 1f), 0f);
             bigLazerBallPool[poolIndex].transform.localScale = Vector3.zero;
 			anime.SetTrigger("BloodAttackReady");
 			bigLazerBallPool[poolIndex].SetActive(true);
