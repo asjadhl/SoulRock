@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement; // 씬 이동에 필요
 
@@ -5,8 +6,13 @@ public class GhostTrainingLoader : MonoBehaviour
 {
     private Camera mainCam;
 
+    Animator ghostAnim;
+
+    [SerializeField] ParticleSystem ghostSurpParticle;
+
     void Start()
     {
+        ghostAnim = GetComponent<Animator>();
         mainCam = Camera.main;
     }
 
@@ -23,9 +29,20 @@ public class GhostTrainingLoader : MonoBehaviour
                 {
                     Debug.Log("오브젝트 클릭 감지됨");
                     MainGhostTrainingState.isClicked = true;
-                    SceneManager.LoadScene("TraingRoom");
+                    LoadTrainingScene().Forget();
                 }
             }
         }
     }
+
+    public async UniTask LoadTrainingScene()
+    {
+        ghostAnim.SetTrigger("Clicked");
+        Vector3 ghostPos = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+        ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
+        ghostParticle.Play();
+        await UniTask.Delay(1000);
+        SceneManager.LoadScene("TraingRoom");
+    }
+
 }

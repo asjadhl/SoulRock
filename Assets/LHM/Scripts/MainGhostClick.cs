@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,9 +6,15 @@ public class MainGhostClick : MonoBehaviour
 {
     private Camera mainCam;
 
+    Animator ghostAnim;
+
+    [SerializeField] ParticleSystem ghostSurpParticle;
+
+
     void Start()
     {
         mainCam = Camera.main;
+        ghostAnim = GetComponent<Animator>();
     }
 
     void Update()
@@ -26,7 +33,7 @@ public class MainGhostClick : MonoBehaviour
                     Debug.Log("Ghost clicked!");
                     MainPlayState.isClicked1 = true;
                     AllReset();
-					SceneManager.LoadScene("StageSelect");
+                    LoadSelectScene().Forget();
                 }
             }
         }
@@ -39,5 +46,15 @@ public class MainGhostClick : MonoBehaviour
         TalkState.isTalking = false;
 	   
 	}
+
+    public async UniTask LoadSelectScene()
+    {
+        ghostAnim.SetTrigger("Clicked");
+        Vector3 ghostPos = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+        ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
+        ghostParticle.Play();
+        await UniTask.Delay(1000);
+        SceneManager.LoadScene("StageSelect");
+    }
 }
 

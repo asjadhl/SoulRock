@@ -1,11 +1,18 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainQuitGhost : MonoBehaviour
 {
     private Camera mainCam;
 
+    Animator ghostAnim;
+
+    [SerializeField] ParticleSystem ghostSurpParticle;
+
     void Start()
     {
+        ghostAnim = GetComponent<Animator>();
         mainCam = Camera.main;
     }
 
@@ -23,16 +30,20 @@ public class MainQuitGhost : MonoBehaviour
                 {
                     Debug.Log("게임 종료!");
 
-#if UNITY_EDITOR
-                    // 유니티 에디터에서는 플레이모드 종료
-                    UnityEditor.EditorApplication.isPlaying = false;
-#else
-                    // 빌드된 게임에서는 실제 종료
-                    Application.Quit();
-#endif
+                    QuitGame().Forget();
                 }
             }
         }
+    }
+
+    public async UniTask QuitGame()
+    {
+        ghostAnim.SetTrigger("Clicked");
+        Vector3 ghostPos = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+        ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
+        ghostParticle.Play();
+        await UniTask.Delay(1000);
+        Application.Quit();
     }
 }
 
