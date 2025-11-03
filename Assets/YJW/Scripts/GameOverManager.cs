@@ -15,7 +15,6 @@ public class GameOverManager : MonoBehaviour
     private bool isTriggered = false;
     private async void Awake()
     {
-
         currentSceneName = SceneManager.GetActiveScene().name;
     }
     void Start()
@@ -48,13 +47,15 @@ public class GameOverManager : MonoBehaviour
             await gameOverTextUI.ShowGameOverText(messages[randomIndex]);
         }
     }
-    public void Retry()
+    public async void Retry()
     {
-        SceneManager.LoadScene(currentSceneName);
-    }
+        //SceneManager.LoadScene(currentSceneName);
+		await SceneLoader.Instance.LoadScene(currentSceneName);
+	}
 
-    public void GoMain()
+    public async void GoMain()
     {
-        SceneManager.LoadScene("Main");
-    }
+		//SceneManager.LoadScene("Main");
+		await SceneLoader.Instance.LoadScene("Main");
+	}
 }

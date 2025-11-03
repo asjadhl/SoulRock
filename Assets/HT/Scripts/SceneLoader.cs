@@ -12,7 +12,7 @@ public class SceneLoader : MonoBehaviour
   public GameObject Canvas;
   public RectTransform Fill;
   public CancellationTokenSource cts;
-    public string SceneName;
+    //public string SceneName;
   public float m_Animationvalue;
   public float m_LeftValue;
   public float m_RightValue;
@@ -34,9 +34,9 @@ public class SceneLoader : MonoBehaviour
 
     private async void Start()
     {
-        await SceneLoader.Instance.LoadScene(SceneName);
-         
-    }
+		//await SceneLoader.Instance.LoadScene(SceneName);
+		Canvas.SetActive(false);
+	}
 
     public  UniTask LoadScene(string sceneName)
     {
@@ -81,15 +81,15 @@ public class SceneLoader : MonoBehaviour
   public  async UniTask UniLoadSceneAsync()
   {
     await UniTask.Yield();
-    Canvas.SetActive(true);
-    cts = new();
+        Canvas.SetActive(true);
+        cts = new();
     AsyncOperation op = SceneManager.LoadSceneAsync(targetScene);
     op.allowSceneActivation = false;
 
    
     while(op.progress < 0.9f)
-     {
-     await  RenderingFill(op.progress);      
+   {
+      await  RenderingFill(op.progress);      
     }
     
     await RenderingFill(op.progress);

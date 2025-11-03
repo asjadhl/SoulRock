@@ -36,6 +36,10 @@ public class NormalMusicBox : MonoBehaviour
 			MusicBar();
 			CheckMusicFinished();
 		}
+		else
+		{
+			musicSource.Stop();
+		}
 	}
 	public void MusicBar()
 	{

@@ -7,8 +7,8 @@ public class Stage3Boss : MonoBehaviour
 {
     [Header("LazerChargeOB")]
     [SerializeField] GameObject chargeLazer;
-    [Header("LazerOB")]
-    [SerializeField] GameObject lazer;
+    //[Header("LazerOB")]
+    //[SerializeField] GameObject lazer;
     [Header("LazerBallOB")]
     [SerializeField] GameObject lazerBall;
     [Header("BigChargeLazerOB")]
@@ -53,7 +53,7 @@ public class Stage3Boss : MonoBehaviour
         anime = GetComponent<Animator>();
         material.color = Color.white;
         ReadyforLazerBallAttack();
-        ReadyforLazerAttack();
+        //ReadyforLazerAttack();
         ReadyforBigLazerAttack();
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
@@ -69,17 +69,17 @@ public class Stage3Boss : MonoBehaviour
 
 
 
-    void ReadyforLazerAttack()
-    {
-        lazerPool = new GameObject[3];
-        for (int i = 0; i < lazerPool.Length; i++)
-        {
-            GameObject lazerAttack = Instantiate(lazer, transform.position, Quaternion.identity);
-            lazerAttack.transform.parent = transform;
-            lazerAttack.SetActive(false);
-            lazerPool[i] = lazerAttack;
-        }
-	}
+ //   void ReadyforLazerAttack()
+ //   {
+ //       lazerPool = new GameObject[3];
+ //       for (int i = 0; i < lazerPool.Length; i++)
+ //       {
+ //           GameObject lazerAttack = Instantiate(lazer, transform.position, Quaternion.identity);
+ //           lazerAttack.transform.parent = transform;
+ //           lazerAttack.SetActive(false);
+ //           lazerPool[i] = lazerAttack;
+ //       }
+	//}
     void ReadyforLazerBallAttack()
     {
         lazerBallPool = new GameObject[12];
