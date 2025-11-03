@@ -136,29 +136,32 @@ public class Stage2BossAttack : MonoBehaviour
 
     private void BossPattern()
     {
-        switch (curShape)
+        if(BossState.isBoss1Dead == false)
         {
-            case Shape.H:
-                if (!miniBossSpawned && !isHAttacking)
-                {
-                    isHAttacking = true;
-                    HAttack().Forget();
-                }
-                break;
+            switch (curShape)
+            {
+                case Shape.H:
+                    if (!miniBossSpawned && !isHAttacking)
+                    {
+                        isHAttacking = true;
+                        HAttack().Forget();
+                    }
+                    break;
 
-            case Shape.S:
-                  SAttack().Forget();
-                  
-                break;
+                case Shape.S:
+                    SAttack().Forget();
 
-            case Shape.D:
-                teleportTimer += Time.fixedDeltaTime;
-                DAttack().Forget();
-                break;
-            case Shape.C:
-                CAttack().Forget();
-                break;
+                    break;
 
+                case Shape.D:
+                    teleportTimer += Time.fixedDeltaTime;
+                    DAttack().Forget();
+                    break;
+                case Shape.C:
+                    CAttack().Forget();
+                    break;
+
+            }
         }
     }
 

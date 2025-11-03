@@ -39,6 +39,8 @@ public class PlayerHP : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (isPlayerDead == true || BossState.isBoss1Dead == true || BossState.isBoss2Dead == true || BossState.isBoss3Dead == true)
+            return;
         PlayerHPTimer();
 
         if (playerHP <= 0 || Stage2BossAttack.clubStack == 7)
@@ -52,6 +54,8 @@ public class PlayerHP : MonoBehaviour
 
     public void PlayerHPPlus(int recover)
     {
+        if (isPlayerDead == true || BossState.isBoss1Dead == true || BossState.isBoss2Dead == true || BossState.isBoss3Dead == true)
+            return;
         playerHP += recover;
     }
 

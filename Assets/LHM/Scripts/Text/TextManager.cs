@@ -16,6 +16,10 @@ public class TextManager : MonoBehaviour
 
     private CancellationTokenSource dialogueCTS;
     private CancellationTokenSource bossCTS;
+
+    [SerializeField] ParticleSystem bossDeadParticle;
+    [SerializeField] GameObject boss;
+
     private void Start()
     {
         //MovieDialogueAsync().Forget();
@@ -30,16 +34,25 @@ public class TextManager : MonoBehaviour
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
             await BossHandleBossDeathAsync(1, 3);
+            await PlayDeadParteicle();
+            Destroy(boss);
+            await UniTask.Delay(2000);
             SceneManager.LoadScene("StageSelect");
         }
         if (BossState.isBoss1Dead && BossState.isBoss2Dead)
         {
             await BossHandleBossDeathAsync(4, 7);
+            await PlayDeadParteicle();
+            Destroy(boss);
+            await UniTask.Delay(2000);
             SceneManager.LoadScene("StageSelect");
         }
         if (BossState.isBoss3Dead)
         {
             await BossHandleBossDeathAsync(8, 8);
+            await PlayDeadParteicle();
+            Destroy(boss);
+            await UniTask.Delay(2000);
             SceneManager.LoadScene("Main");
         }
     }
@@ -187,5 +200,12 @@ public class TextManager : MonoBehaviour
         dialogueUI.speechBubble.SetActive(false);
 
 
+    }
+
+    private async UniTask PlayDeadParteicle()
+    {
+        Vector3 bossPos = new Vector3(boss.transform.position.x, boss.transform.position.y + 3f, boss.transform.position.z);
+        ParticleSystem deadPartice = Instantiate(bossDeadParticle, bossPos, Quaternion.identity);
+        deadPartice.Play();
     }
 }
