@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Triggers;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -46,6 +47,8 @@ public class GBAttack : MonoBehaviour
     int ranIndexBefore = 0;
     bool isBeatOn = false;
     bool isSuccess = false;
+
+    CancellationTokenSource cts;
     //[SerializeField] Image leftLongBeat; 
 
     ////분신패턴
@@ -60,6 +63,9 @@ public class GBAttack : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+     
+    cts = new CancellationTokenSource();
+
 		particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
 		musicBox = GameObject.FindWithTag("MusicBox").GetComponent<AudioSource>();
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
@@ -196,10 +202,10 @@ public class GBAttack : MonoBehaviour
                 await SoundAttack();
                 break;
             case 1:
-                await Duplicate();
+                await Duplicate(cts.Token);
                 break;
             case 2:
-                await Poltergeist();
+                await Poltergeist(cts.Token);
                 break;
         }
         
@@ -220,11 +226,11 @@ public class GBAttack : MonoBehaviour
             {
                 case 0:
                     //musicBox.panStereo = -0.5f;
-                    await SoundAttackVector(0);
+                    await SoundAttackVector(0,cts.Token);
                     break;
                 case 1:
                     //musicBox.panStereo = 0.5f;
-                    await SoundAttackVector(1);
+                    await SoundAttackVector(1,cts.Token);
                     break;
                  
             }
@@ -239,7 +245,7 @@ public class GBAttack : MonoBehaviour
         await UniTask.Delay(3000);
         isAttack = false;
     }
-    private async UniTask SoundAttackVector(int patternNum)
+    private async UniTask SoundAttackVector(int patternNum,CancellationToken token)
     {
         switch (patternNum)
         {
@@ -250,11 +256,11 @@ public class GBAttack : MonoBehaviour
                 transform.position = new Vector3(transform.position.x + (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
                 break;
         }
-		await UniTask.Delay(cooltime);
+		await UniTask.Delay(cooltime,cancellationToken: token);
 		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
 	}
 
-    private async UniTask Duplicate()
+    private async UniTask Duplicate(CancellationToken token)
     {
         isAttack = true;
         gameObject.tag = "RealClone";
@@ -268,7 +274,8 @@ public class GBAttack : MonoBehaviour
         animator.SetTrigger("Teleport");
         clone[teleport].SetActive(false);
         transform.position = new Vector3(cloneTransform[teleport].transform.position.x, cloneTransform[teleport].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
-        await UniTask.Delay(cooltime + 3000);
+        await UniTask.Delay(cooltime + 3000, cancellationToken: token);
+        
         transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
 		ReturnClone();
         isAttack = false;
@@ -294,7 +301,7 @@ public class GBAttack : MonoBehaviour
 		}
     }
 
-    private async UniTask Poltergeist()
+    private async UniTask Poltergeist(CancellationToken token)
     {
         isAttack = true;
         poltergeist.SetActive(true);
@@ -308,7 +315,7 @@ public class GBAttack : MonoBehaviour
             await UniTask.Delay(2000);
         }
 
-        await UniTask.Delay(cooltime+2000); // 모든 오브젝트가 발사된 후 대기 시간
+        await UniTask.Delay(cooltime+2000, cancellationToken: token); // 모든 오브젝트가 발사된 후 대기 시간
         poltergeist.SetActive(false);
         isAttack = false;
     }
@@ -328,13 +335,13 @@ public class GBAttack : MonoBehaviour
         switch(ranIndex)
         {
             case 0:
-                SoundSmooth(-1f, 4f).Forget();
+                SoundSmooth(-1f, 4f,cts.Token).Forget();
                 isBeatOn = true;
 				rightBeat.SetActive(true);
                 await UniTask.Delay(6000);
                 break;
             case 1:
-                SoundSmooth(1f, 4f).Forget();
+                SoundSmooth(1f, 4f,cts.Token).Forget();
                 isBeatOn = true;
 				leftBeat.SetActive(true);
 				await UniTask.Delay(6000);
@@ -348,19 +355,29 @@ public class GBAttack : MonoBehaviour
         isSuccess = false;
         musicBox.panStereo = 0f;
 	}
-    public async UniTask SoundSmooth(float stereo, float duration)
+    public async UniTask SoundSmooth(float stereo, float duration,CancellationToken token)
     {
         float elapsed = 0f;
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
+            if(musicBox != null)
             musicBox.panStereo = Mathf.Lerp(0, stereo, elapsed / duration);
-            await UniTask.Yield();
+            
+            await UniTask.Yield(cancellationToken: token);
         }
         musicBox.panStereo = stereo;
     }
 
-    public async UniTask SoundSmooth_(float stereo, float duration)
+
+  private void OnDestroy()
+  {
+    if(cts != null)
+    {
+      cts.Cancel();
+    }
+  }
+  public async UniTask SoundSmooth_(float stereo, float duration)
     {
         float elapsed = 0f;
         while (elapsed < duration)

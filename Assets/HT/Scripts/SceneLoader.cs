@@ -1,21 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
 
     private string targetScene;
-  public GameObject Canvas;
-  public RectTransform Fill;
-  public CancellationTokenSource cts;
-    //public string SceneName;
-  public float m_Animationvalue;
-  public float m_LeftValue;
-  public float m_RightValue;
+  
+    public GameObject Canvas;
+    public Image Fill;
+    public CancellationTokenSource cts;
+  
     private void Awake()
     {
         
@@ -32,11 +30,10 @@ public class SceneLoader : MonoBehaviour
 
 
 
-    private async void Start()
+    private  void Start()
     {
-		//await SceneLoader.Instance.LoadScene(SceneName);
-		Canvas.SetActive(false);
-	}
+		   Canvas.SetActive(false);
+	  }
 
     public  UniTask LoadScene(string sceneName)
     {
@@ -44,64 +41,42 @@ public class SceneLoader : MonoBehaviour
        return  UniLoadSceneAsync();
     }
 
-  public async UniTask RenderingFill(float progress)
-  {
-
-   
-    if(cts != null)
-    {
-      cts.Cancel();
-      cts.Dispose();
-      cts = new();
-    }
-    m_LeftValue = m_Animationvalue;
-    
-    m_RightValue = Mathf.Clamp01((progress/0.9f));
-    float timer = 0f;
-   
-    while (timer <= 1f)
-    {
-       
-      timer += (Time.deltaTime/2f);
-      m_Animationvalue = Mathf.Lerp(m_LeftValue,m_RightValue,timer);
-
-      Fill.anchorMax = new Vector2(m_Animationvalue, Fill.anchorMax.y);
-      Fill.offsetMin = Vector2.zero;
-      Fill.offsetMax = Vector2.zero;
-      await UniTask.Yield(cancellationToken: cts.Token);
-
-       
-    }
-
-    
-  }
-
-  
-
   public  async UniTask UniLoadSceneAsync()
-  {
-    await UniTask.Yield();
-        Canvas.SetActive(true);
+  { 
+     Canvas.SetActive(true);
+    
         cts = new();
     AsyncOperation op = SceneManager.LoadSceneAsync(targetScene);
     op.allowSceneActivation = false;
 
    
     while(op.progress < 0.9f)
-   {
-      await  RenderingFill(op.progress);      
+    {
+      Fill.fillAmount = (op.progress / 0.9f);
     }
     
-    await RenderingFill(op.progress);
-    
+   
 
-    op.allowSceneActivation = true; 
-    while (!op.isDone)
-    { 
+    float t = 0;
+    float duration = 3f;
+
+    while (t < 1f)
+    {
+      t+= Time.deltaTime/duration;
+      Fill.fillAmount = Mathf.Lerp(0, 1, t);
       await UniTask.Yield();
- 
+      Debug.Log(t);
     }
-    Canvas.SetActive(false);
+
+    await UniTask.WaitForSeconds(2f);
+    
+    op.allowSceneActivation = true;
+    while (!op.isDone)
+    {
+      await UniTask.Yield();
+
+    }
+    Canvas.SetActive(false);   
 
   }
     

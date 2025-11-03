@@ -43,14 +43,7 @@ public class MusicSetting : MonoBehaviour
  
   }
 
-  public void StopAllAudio()
-  {
-    AudioListener.pause = true;
-  }
-  public void PlayAllAudio()
-  {
-    AudioListener.pause = false;
-  }
+
   private void Start()
   {
 
