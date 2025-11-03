@@ -51,7 +51,6 @@ public class NormalMusicBox : MonoBehaviour
         if(musicBar.fillAmount >= 1)
         {
             MusicFin = true;
-            Debug.LogError("노래끝남");
 		}
     }
 }
