@@ -44,7 +44,11 @@ public class PlayerHP : MonoBehaviour
         PlayerHPTimer();
 
         if (playerHP <= 0 || Stage2BossAttack.clubStack == 7)
-            PlayerDie().Forget();
+        {
+			isPlayerDead = true;
+			PlayerDie().Forget();
+		}
+			
     }
 
     private void PlayerHPTimer()
@@ -89,19 +93,19 @@ public class PlayerHP : MonoBehaviour
 
 
         //SceneManager.LoadScene("Main");
-        isPlayerDead = true;
         InitializeData();
 
-        FindObjectOfType<GameOverManager>()?.TriggerGameOver().Forget();
+        FindAnyObjectByType<GameOverManager>()?.TriggerGameOver().Forget();
 
         CanvasGroup cg = gameOver.GetComponent<CanvasGroup>();
-        while(cg.alpha < 1f)
+        if (gameOver == null) return;
+		Cursor.visible = true;
+		while (cg.alpha < 1f)
         {
-            cg.alpha += Time.deltaTime / 10f;
+            cg.alpha += Time.deltaTime / 5f;
             await UniTask.Yield();
+            if(gameOver == null) break;
         }
-        Cursor.visible = true;
-
     }
 
     private void GetDamImageOn()

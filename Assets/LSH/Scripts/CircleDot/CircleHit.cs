@@ -168,15 +168,40 @@ public class CircleHit : MonoBehaviour
         await UniTask.Delay(350);
         cg.alpha = 0;
     }
-    private async UniTask circleGen()
+
+	private bool isRunning = true;
+
+	//private async UniTask circleGen()
+	//{
+	//	while (true)
+	//	{
+	//		double delayMs = secondsPerBeat * 1000.0;
+	//		await UniTask.Delay((int)delayMs);
+	//           GetCircle().transform.position = transform.position;
+	//       }
+	//}
+	private async UniTask circleGen()
 	{
-		while (true)
+		while (isRunning && this != null && gameObject != null)
 		{
-			double delayMs = secondsPerBeat * 1000.0;
-			await UniTask.Delay((int)delayMs);
-            GetCircle().transform.position = transform.position;
-        }
+			await UniTask.Delay((int)(secondsPerBeat * 1000.0));
+
+			// 씬이 전환되거나 오브젝트가 파괴되면 중단
+			if (!isRunning || this == null || gameObject == null)
+				break;
+
+			var circle = GetCircle();
+			if (circle != null)
+				circle.transform.position = transform.position;
+		}
+	}
+	private void OnDisable()
+	{
+		isRunning = false;
 	}
 
-	
+	private void OnDestroy()
+	{
+		isRunning = false;
+	}
 }

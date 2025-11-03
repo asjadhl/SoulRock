@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -80,7 +81,13 @@ public class ParticleManager : MonoBehaviour
 
     public void PlaySkullEffect(Vector3 pos)
     {
-        if (skullPool.Count == 0)
+		if (this == null || gameObject == null) return;
+		if (skullParticle == null)
+		{
+			return;
+		}
+
+		if (skullPool.Count == 0)
         {
             AddEffectToPool(skullParticle, skullPool, 1);
         }
@@ -94,6 +101,12 @@ public class ParticleManager : MonoBehaviour
 
     public void PlayHitEffect(Vector3 pos)
     {
+        if (this == null || gameObject == null) return;
+        if(hitParticle == null)
+        {
+            return;
+        }
+        
         if (hitPool.Count == 0)
         {
             AddEffectToPool(hitParticle, hitPool, 1);
@@ -109,7 +122,12 @@ public class ParticleManager : MonoBehaviour
 
     public void PlayGhostEffect(Vector3 pos)
     {
-        if (fakeGhostPool.Count == 0)
+		if (this == null || gameObject == null) return;
+		if (fakeGhostParticle == null)
+		{
+			return;
+		}
+		if (fakeGhostPool.Count == 0)
         {
             AddEffectToPool(fakeGhostParticle, fakeGhostPool, 1);
         }
@@ -123,6 +141,11 @@ public class ParticleManager : MonoBehaviour
     }
 	public void PlayRealGhostEffect(Vector3 pos)
 	{
+		if (this == null || gameObject == null) return;
+		if (realGhostParticle == null)
+		{
+			return;
+		}
 		if (realGhostPool.Count == 0)
 		{
 			AddEffectToPool(realGhostParticle, realGhostPool, 1);
@@ -138,7 +161,12 @@ public class ParticleManager : MonoBehaviour
 
     public void PlayChairBoom(Vector3 pos)
     {
-        if (poltergeistPool.Count == 0)
+		if (this == null || gameObject == null) return;
+		if (poltergeistParticle == null)
+		{
+			return;
+		}
+		if (poltergeistPool.Count == 0)
         {
             AddEffectToPool(poltergeistParticle, poltergeistPool, 1);
         }
@@ -182,10 +210,24 @@ public class ParticleManager : MonoBehaviour
     //}
     private async UniTask ReturnToPoolAfter(ParticleSystem effect, Queue<ParticleSystem> pool)
     {
-        await UniTask.Delay((int)(effect.main.duration * 1000)); 
-        effect.Stop();
+		var token = this.GetCancellationTokenOnDestroy();
+
+		try
+		{
+			await UniTask.Delay((int)(effect.main.duration * 1000), cancellationToken: token);
+		}
+		catch (OperationCanceledException)
+		{
+			// 씬 전환 중이면 그냥 종료
+			return;
+		}
+
+		if (effect == null||effect.gameObject == null) return;
+        if(this == null || gameObject == null) return;
+		effect.Stop();
         effect.gameObject.SetActive(false);
-        pool.Enqueue(effect);
+        if(pool != null) 
+            pool.Enqueue(effect);
     }
 
     private void AddEffectToPool(ParticleSystem prefab, Queue<ParticleSystem> pool, int count)

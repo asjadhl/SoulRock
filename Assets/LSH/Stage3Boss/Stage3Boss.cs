@@ -30,6 +30,7 @@ public class Stage3Boss : MonoBehaviour
     Transform player;
     Animator anime;
     BigLazer bigLazerBool;
+    PlayerHP playerHP;
     //BossHP hp;
     [Header("Renderer")]
     [SerializeField] Material material;
@@ -49,7 +50,8 @@ public class Stage3Boss : MonoBehaviour
     private void Awake()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
+        playerHP = GameObject.FindWithTag("Player").GetComponent<PlayerHP>();
+		normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         anime = GetComponent<Animator>();
         material.color = Color.white;
         ReadyforLazerBallAttack();
@@ -113,31 +115,42 @@ public class Stage3Boss : MonoBehaviour
 
     void Update()
     {
-        if ((int)CheckRealTime.inGamerealTime == 40)
+        if(playerHP.isPlayerDead || BossState.isBoss2Dead)
         {
-            //Debug.LogError("개빡침");
-			Phase2();
-			isAngry = true;
-            animeOn = true;
+            return;
         }
-			
-		if (!isAttacking && !isAngry)  
-        {
-            //Debug.Log("일반보스패턴");
-            Boss3Pattern();
-        }
-        if(!isAttacking && isAngry)
-        {
-            //Debug.Log("빡친보스패턴");
-            AngryBoss3Pattern();
-        }
-        if(normalMusicBox.MusicFin) //노래끝 버티기 끝
-        {
-            BossState.isBoss2Dead = true;
-            SceneManager.LoadScene("StageSelect");
-            //DelayedDialogueCheckAsync().Forget();
-        }
+			if ((int)CheckRealTime.inGamerealTime == 40)
+			{
+				//Debug.LogError("개빡침");
+				Phase2();
+				isAngry = true;
+				animeOn = true;
+			}
+
+			if (!isAttacking && !isAngry)
+			{
+				//Debug.Log("일반보스패턴");
+				Boss3Pattern();
+			}
+			if (!isAttacking && isAngry)
+			{
+				//Debug.Log("빡친보스패턴");
+				AngryBoss3Pattern();
+			}
+			if (normalMusicBox.MusicFin) //노래끝 버티기 끝
+			{
+				BossState.isBoss2Dead = true;
+				LoadScene();
+				//SceneManager.LoadScene("StageSelect");
+				//DelayedDialogueCheckAsync().Forget();
+			}
+		
     }
+
+    private async void LoadScene()
+    {
+		await SceneLoader.Instance.LoadScene("StageSelect");
+	}
     //public async UniTaskVoid DelayedDialogueCheckAsync()
     //{
 
@@ -215,14 +228,16 @@ public class Stage3Boss : MonoBehaviour
     private async UniTask AngrysecondPattern()
     {
         isAttacking = true;
-        Debug.Log("레이져볼 공격중");
+		var token = this.GetCancellationTokenOnDestroy();
+		Debug.Log("레이져볼 공격중");
         //if(isAngry)
         for (int i = 0; i < 12; i++)
         {
             int poolIndex = i % lazerBallPool.Length;
             //lazerBallPool[i].transform.position = transform.position + thisPos[i];
             Vector3 randomPos = transform.position + new Vector3(Random.Range(-12f, 12f), Random.Range(5f, 12f), 0f);
-            lazerBallPool[poolIndex].transform.position = randomPos;
+			if (token.IsCancellationRequested) break;
+			lazerBallPool[poolIndex].transform.position = randomPos;
             lazerBallPool[poolIndex].transform.localScale = Vector3.zero;
             lazerBallPool[poolIndex].SetActive(true);
             anime.SetTrigger("SecondPattern");
@@ -233,11 +248,11 @@ public class Stage3Boss : MonoBehaviour
             for (int j = 1; j < 80; j++)
             {
                 lazerBallPool[poolIndex].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
-                await UniTask.Delay(2);
+                await UniTask.Delay(2, cancellationToken: token);
             }
-            await UniTask.Delay(700);
+            await UniTask.Delay(700, cancellationToken: token);
         }
-        await UniTask.Delay(coolTime + 2000);
+        await UniTask.Delay(coolTime + 2000, cancellationToken: token);
         isAttacking = false;
     }
 
@@ -361,14 +376,16 @@ public class Stage3Boss : MonoBehaviour
     private async UniTask secondPattern()
     {
         isAttacking = true;
-        Debug.Log("레이져볼 공격중");
+		var token = this.GetCancellationTokenOnDestroy();
+		Debug.Log("레이져볼 공격중");
         //if(isAngry)
         for (int i = 0; i < 6; i++)
         {
             int poolIndex = i % lazerBallPool.Length;
             //lazerBallPool[i].transform.position = transform.position + thisPos[i];
             Vector3 randomPos = transform.position + new Vector3(Random.Range(-12f, 12f), Random.Range(5f, 12f), 0f);
-            lazerBallPool[poolIndex].transform.position = randomPos;
+			if (token.IsCancellationRequested) break;
+			lazerBallPool[poolIndex].transform.position = randomPos;
             lazerBallPool[poolIndex].transform.localScale = Vector3.zero;
             lazerBallPool[poolIndex].SetActive(true);
             anime.SetTrigger("SecondPattern");
@@ -379,11 +396,11 @@ public class Stage3Boss : MonoBehaviour
             for (int j = 1; j < 80; j++)
             {
                 lazerBallPool[i].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
-                await UniTask.Delay(2);
+                await UniTask.Delay(2, cancellationToken: token);
             }
-			await UniTask.Delay(1000);
+			await UniTask.Delay(1000, cancellationToken: token);
         }
-		await UniTask.Delay(coolTime);
+		await UniTask.Delay(coolTime, cancellationToken: token);
 		isAttacking = false;
 	}
 
@@ -460,6 +477,8 @@ public class Stage3Boss : MonoBehaviour
 
 	private async UniTask RotateCameraX(float targetX, float duration)
 	{
+		var token = this.GetCancellationTokenOnDestroy();
+		if (cinemachineCamera == null) return;
 		float time = 0f;
 		Transform camTransform = cinemachineCamera.transform;
 		Quaternion startRot = camTransform.rotation;
@@ -471,14 +490,18 @@ public class Stage3Boss : MonoBehaviour
 
 		while (time < duration)
 		{
+            if (cinemachineCamera == null) break;
 			time += Time.deltaTime;
 			float t = Mathf.Clamp01(time / duration);
 
 			camTransform.rotation = Quaternion.Slerp(startRot, targetRot, t);
 
-			await UniTask.Yield(PlayerLoopTiming.Update);
+			await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: token);
 		}
 
-		camTransform.rotation = targetRot;
+        if (cinemachineCamera != null)
+        {
+            camTransform.rotation = targetRot;
+        }
 	}
 }
