@@ -26,7 +26,7 @@ public class Popup : MonoBehaviour
 
         if (popSystem.Value == null || prefab == null)
             return;
-        popSystem.Value.PopUp(gameObject,ID);
+        popSystem.Value.PopUp(prefab,ID);
     }
 
     public void Close()

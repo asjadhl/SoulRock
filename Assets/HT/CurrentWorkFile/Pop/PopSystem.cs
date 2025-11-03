@@ -21,7 +21,9 @@ public class PopSystem : MonoBehaviour
         //Create New Canvas
         GameObject canvas = new GameObject("Canvas");
         canvas.AddComponent<RectTransform>();
-        canvas.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            var canvascom = canvas.AddComponent<Canvas>();//.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvascom.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvascom.sortingOrder = 5;
         canvas.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         canvas.AddComponent<GraphicRaycaster>();
         canvasObj = canvas;
