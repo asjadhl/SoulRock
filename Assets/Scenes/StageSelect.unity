@@ -210,9 +210,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0c3e8fa2ffc264380171b7675ded4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bosstextData: {fileID: 0}
+  bosstextData: {fileID: 11400000, guid: b07712b4f7e4dba49930541a01bb66db, type: 2}
   dialogueData: {fileID: 11400000, guid: 05a67809c74572c48ac747ef0e7abd49, type: 2}
   dialogueUI: {fileID: 421366085}
+  BossClosePanel: {fileID: 0}
+  bossDeadParticle: {fileID: 0}
+  boss: {fileID: 0}
 --- !u!4 &49318140
 Transform:
   m_ObjectHideFlags: 0
