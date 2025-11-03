@@ -694,7 +694,7 @@ MonoBehaviour:
   bosstextData: {fileID: 11400000, guid: b07712b4f7e4dba49930541a01bb66db, type: 2}
   dialogueData: {fileID: 11400000, guid: 05a67809c74572c48ac747ef0e7abd49, type: 2}
   dialogueUI: {fileID: 1394377971}
-  BossClosePanel: {fileID: 0}
+  BossClosePanel: {fileID: 331005377}
   bossDeadParticle: {fileID: 9029696638801422975, guid: 8f74d5b7360d3ff48b407650e7f6c661, type: 3}
   boss: {fileID: 1795970295}
 --- !u!4 &71844097
@@ -711,6 +711,38 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &76018935
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 76018936}
+  m_Layer: 0
+  m_Name: p
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &76018936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76018935}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 618285727}
+  m_Father: {fileID: 1310444317}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &82578149
 GameObject:
@@ -5011,13 +5043,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618285726}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.817, y: -0.624, z: 0.49}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.817, y: -0.62400013, z: 0.48999974}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 803951440}
-  m_Father: {fileID: 1310444317}
+  m_Father: {fileID: 76018936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &618285728
 MeshRenderer:
@@ -7064,7 +7096,7 @@ MonoBehaviour:
   gunObject: {fileID: 618285726}
   boss2: {fileID: 1795970295}
   shootParticle: {fileID: 1077774187}
-  gunTransform: {fileID: 618285727}
+  gunTransform: {fileID: 76018936}
   kickbackDistance: 0.1
   kickbackSpeed: 10
 --- !u!136 &867834508
@@ -10384,7 +10416,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 618285727}
+  - {fileID: 76018936}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1310444318
