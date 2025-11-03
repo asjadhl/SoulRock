@@ -178,11 +178,9 @@ public class Stage3Boss : MonoBehaviour
         switch (ranIndex)
         {
             case 1:
-                Debug.Log("레이저볼");
                 AngrysecondPattern().Forget();
                 break;
             case 2:
-                Debug.Log("빅레이저");
                 AngryThirdPattern().Forget();
                 break;
         }
@@ -229,7 +227,6 @@ public class Stage3Boss : MonoBehaviour
     {
         isAttacking = true;
 		var token = this.GetCancellationTokenOnDestroy();
-		Debug.Log("레이져볼 공격중");
         //if(isAngry)
         for (int i = 0; i < 12; i++)
         {
@@ -276,8 +273,9 @@ public class Stage3Boss : MonoBehaviour
         //anime.SetTrigger("BloodAttack");
         await AngryBigLazerAttack();
         await UniTask.Delay(3000);
-		//mirror.SetActive(false);
-		RotateCameraX(0f, 0.5f).Forget();
+        //mirror.SetActive(false);
+        RotateCameraX(0f, 0.5f).Forget();
+		await UniTask.Delay(1000);
 		monsterSpawner.SetActive(true);
 		isAttacking = false;
     }
@@ -288,7 +286,7 @@ public class Stage3Boss : MonoBehaviour
 		for (int i = 0; i<8;  i++)
         {
 			int poolIndex = i % bigLazerBallPool.Length;
-            Vector3 randomPos = bigChargeLazer.transform.position + new Vector3(Random.Range(-6f, 6f), Random.Range(-5f, 1f), 0f);
+            Vector3 randomPos = bigChargeLazer.transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, -1f), 0f);
             bigLazerBallPool[poolIndex].transform.localScale = Vector3.zero;
 			anime.SetTrigger("BloodAttackReady");
 			bigLazerBallPool[poolIndex].SetActive(true);
@@ -324,12 +322,10 @@ public class Stage3Boss : MonoBehaviour
         switch (ranIndex)
         {
             case 1:
-                Debug.Log("레이저볼");
                 secondPattern().Forget();
                 ranIndex = Random.Range(1, 3);
 				break;
             case 2:
-                Debug.Log("빅레이저");
                 ThirdPattern().Forget();
                 ranIndex = Random.Range(1, 3);
                 break;
@@ -377,7 +373,6 @@ public class Stage3Boss : MonoBehaviour
     {
         isAttacking = true;
 		var token = this.GetCancellationTokenOnDestroy();
-		Debug.Log("레이져볼 공격중");
         //if(isAngry)
         for (int i = 0; i < 6; i++)
         {
@@ -441,6 +436,7 @@ public class Stage3Boss : MonoBehaviour
         await BigLazerAttack(); 
 		await UniTask.Delay(4000);
 		RotateCameraX(0f, 0.5f).Forget();
+		await UniTask.Delay(1000);
 		isAttacking = false;
     }
     private async UniTask BigLazerAttack()

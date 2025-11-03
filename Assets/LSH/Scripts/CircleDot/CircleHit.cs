@@ -96,6 +96,13 @@ public class CircleHit : MonoBehaviour
                     ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
                 }
+				else if(minDis > distance || maxDis < distance)
+				{
+					OnClickSuccessBad().Forget();
+					comboNumText.text = combo.ToString();
+					ReturnCircle(circle.gameObject);
+					activeCircles.RemoveAt(i);
+				}
 				//else { text.text = "Bad"; }
 			}
 		}
@@ -169,6 +176,18 @@ public class CircleHit : MonoBehaviour
         cg.alpha = 0;
     }
 
+	public async UniTask OnClickSuccessBad()
+	{
+		combo =  0;
+		RanTextColor();
+		text.text = "Bad";
+		isScale = true;
+		cg.alpha = 1;
+		await UniTask.Delay(150);
+		isScale = false;
+		await UniTask.Delay(350);
+		cg.alpha = 0;
+	}
 	private bool isRunning = true;
 
 	//private async UniTask circleGen()
