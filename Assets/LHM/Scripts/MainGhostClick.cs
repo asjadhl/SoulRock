@@ -54,7 +54,7 @@ public class MainGhostClick : MonoBehaviour
         ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
         ghostParticle.Play();
         await UniTask.Delay(1000);
-        SceneManager.LoadScene("StageSelect");
+        SceneManager.LoadScene("TutorialTrainingRoom");
     }
 }
 
