@@ -15,7 +15,7 @@ public class PopSystem : MonoBehaviour
     private Lazy<Transform> m_canvas = new(() =>
     {
       //  var canvasObj = GameObject.FindAnyObjectByType<Canvas>();
-      var canvasObj = GameObject.FindGameObjectWithTag("Canvas");
+      var canvasObj = GameObject.FindGameObjectWithTag("Hitbox");
         if (canvasObj == null)
         {
         //Create New Canvas
@@ -119,7 +119,7 @@ public class PopSystem : MonoBehaviour
         }
         
     }
-
+   
     private async UniTaskVoid HideAfterAnimation(Animator animator, GameObject panel, CancellationToken token)
     {
         

@@ -13,13 +13,20 @@ public class Popup : MonoBehaviour
         return system;
     });
 
-  
+    public bool isAwake = false;
+    public void Awake()
+    {
+        if (isAwake)
+        {
+            Open();
+        }
+    }
     public void Open()
     {  
 
         if (popSystem.Value == null || prefab == null)
             return;
-        popSystem.Value.PopUp(prefab,ID);
+        popSystem.Value.PopUp(gameObject,ID);
     }
 
     public void Close()

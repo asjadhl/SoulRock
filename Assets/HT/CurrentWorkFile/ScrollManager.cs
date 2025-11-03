@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ScrollManager : MonoBehaviour
@@ -6,50 +6,44 @@ public class ScrollManager : MonoBehaviour
     public ScrollRect _scrollrect;
     public ScrollButton ScrollButtonTop;
     public ScrollButton ScrollButtonBottom;
-    [Range(0f,1f)]
-    public float ScrollSpeed = 0.001f;
 
-    public void ScrollBottom()
-    {
-        if (_scrollrect.verticalNormalizedPosition <= 1)
-        {
+    [Range(0f, 1f)]
+    public float ScrollPerSecond = 0.25f;  
 
-            _scrollrect.verticalNormalizedPosition += ScrollSpeed*Time.unscaledDeltaTime;
-        }
-    }
-    public void ScrollTop()
-    {
-
-        if (_scrollrect.verticalNormalizedPosition >= 0)
-        {
-
-            _scrollrect.verticalNormalizedPosition -= ScrollSpeed * Time.unscaledDeltaTime;
-
-        }
-    }
-
-
+    private float startTime;
+    private float startPos;
+    private bool isScrollingTop = false;
+    private bool isScrollingBottom = false;
 
     private void Update()
     {
-
-        if (ScrollButtonTop != null)
+        
+        if (ScrollButtonTop != null && ScrollButtonTop.IsDown && !isScrollingTop)
         {
-
-            if (ScrollButtonTop.IsDown)
-            {
-                ScrollTop();
-            }
+            isScrollingTop = true;
+            isScrollingBottom = false;
+            startTime = Time.unscaledTime;
+            startPos = _scrollrect.verticalNormalizedPosition;
         }
-        if (ScrollButtonBottom != null)
+        if (ScrollButtonTop != null && !ScrollButtonTop.IsDown)
+            isScrollingTop = false;
+
+        
+        if (ScrollButtonBottom != null && ScrollButtonBottom.IsDown && !isScrollingBottom)
         {
-
-            if (ScrollButtonBottom.IsDown)
-            {
-
-                ScrollBottom();
-            }
-
+            isScrollingBottom = true;
+            isScrollingTop = false;
+            startTime = Time.unscaledTime;
+            startPos = _scrollrect.verticalNormalizedPosition;
         }
+        if (ScrollButtonBottom != null && !ScrollButtonBottom.IsDown)
+            isScrollingBottom = false;
+
+        
+        if (isScrollingTop)
+            _scrollrect.verticalNormalizedPosition = Mathf.Clamp01(startPos - (Time.unscaledTime - startTime) * ScrollPerSecond);
+
+        if (isScrollingBottom)
+            _scrollrect.verticalNormalizedPosition = Mathf.Clamp01(startPos + (Time.unscaledTime - startTime) * ScrollPerSecond);
     }
 }

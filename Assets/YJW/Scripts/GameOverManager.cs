@@ -192,18 +192,18 @@ public class GameOverManager : MonoBehaviour
 			}
 		}
 
-		// 3. **MainButton 이벤트 재연결 (선택 사항)**
-		GameObject mainObject = FindObjectIncludingInactive("Main");
-		if (mainObject != null)
-		{
-			Button mainButton = mainObject.GetComponent<Button>();
-			if (mainButton != null)
-			{
-				mainButton.onClick.RemoveAllListeners();
-				// GoMain()을 람다로 래핑하여 연결합니다.
-				mainButton.onClick.AddListener(() => GoMain().Forget());
-			}
-		}
+		//// 3. **MainButton 이벤트 재연결 (선택 사항)**
+		//GameObject mainObject = FindObjectIncludingInactive("Main");
+		//if (mainObject != null)
+		//{
+		//	Button mainButton = mainObject.GetComponent<Button>();
+		//	if (mainButton != null)
+		//	{
+		//		mainButton.onClick.RemoveAllListeners();
+		//		// GoMain()을 람다로 래핑하여 연결합니다.
+		//		mainButton.onClick.AddListener(() => GoMain().Forget());
+		//	}
+		//}
 		// isTriggered 플래그는 Retry/GoMain에서 false로 리셋됩니다.
 	}
 }
