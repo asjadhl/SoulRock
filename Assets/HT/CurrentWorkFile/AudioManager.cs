@@ -312,7 +312,7 @@ public class AudioManager : MonoBehaviour
   {
        
         masterSlider.value += dir;
-        masterImage.color = Painter(masterSlider.value);
+      //  masterImage.color = Painter(masterSlider.value);
          masterSlider.onValueChanged.Invoke(0);
          masterSlider.onValueChanged.Invoke(1);
         myMixer.SetFloat("Master", Mathf.Log10(masterSlider.value) * 20);
@@ -323,7 +323,7 @@ public class AudioManager : MonoBehaviour
   public void SetMusicVolume(float dir) //slider
   {
     musicSlider.value += dir;
-    musicImage.color = Painter(musicSlider.value);
+    //musicImage.color = Painter(musicSlider.value);
         musicSlider.onValueChanged.Invoke(0);
         musicSlider.onValueChanged.Invoke(1);
         myMixer.SetFloat("Music", Mathf.Log10(musicSlider.value) * 20);
@@ -332,7 +332,7 @@ public class AudioManager : MonoBehaviour
   public void SetSFXVolume(float dir) //slider
   {
         SFXSlider.value += dir;
-        SFXImage.color = Painter(SFXSlider.value);
+       // SFXImage.color = Painter(SFXSlider.value);
         SFXSlider.onValueChanged.Invoke(0);
         SFXSlider.onValueChanged.Invoke(1);
         myMixer.SetFloat("SFX", Mathf.Log10(SFXSlider.value) * 20);

@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PopSystem : MonoBehaviour
 {
     private Lazy<CancellationTokenSource> cts = new(() => new CancellationTokenSource());
 
-    // ✅ Maps prefab hash → panel instance
+  private AudioSource audiosource;
     private Dictionary<string, GameObject> panelMap = new();
 
     private Lazy<Transform> m_canvas = new(() =>
@@ -25,14 +24,19 @@ public class PopSystem : MonoBehaviour
 
     public RuntimeAnimatorController runtimeAnimatorController;
 
-    // ✅ Show popup
-    public void PopUp(GameObject prefab,string key)
+  private void Start()
+  {
+    audiosource =GetComponent<AudioSource>();
+  }
+
+  public void PopUp(GameObject prefab,string key)
     {
+            audiosource.Play();
         if (m_canvas.Value == null) return;
 
      
 
-        // ✅ Panel already exists → just reactivate it
+      
         if (panelMap.TryGetValue(key, out GameObject existingPanel))
         {
             existingPanel.SetActive(true);
@@ -58,17 +62,17 @@ public class PopSystem : MonoBehaviour
         animator.runtimeAnimatorController = runtimeAnimatorController;
         animator.Play("Show", 0, 0f);
 
-        // ✅ Remember panel by hash
+         
         panelMap.Add(key, panel);
    
     }
 
-    // ✅ Close popup (animate + disable, not destroy)
+  
     public void PopDown(string key)
     {
-        
 
-        if (panelMap.TryGetValue(key, out GameObject panel))
+    audiosource.Play();
+    if (panelMap.TryGetValue(key, out GameObject panel))
         {
           var canvasgroup =  panel.GetComponent<CanvasGroup>();
             canvasgroup.interactable = false;
@@ -90,7 +94,7 @@ public class PopSystem : MonoBehaviour
 
     private async UniTaskVoid HideAfterAnimation(Animator animator, GameObject panel, CancellationToken token)
     {
-        Debug.Log("???");
+        
         try
         {
             await UniTask.WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("Close"),
