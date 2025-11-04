@@ -108,14 +108,15 @@ public class GBAttack : MonoBehaviour
 		}
 		CheckForthPattern();
 
-		if (normalMusicBox != null && normalMusicBox.MusicFin)
-		{
-			// 씬 전환 시 모든 비동기 작업을 안전하게 취소합니다.
-			if (cts != null) cts.Cancel();
-			SceneManager.LoadScene("Ending");
-		}
+		//if (normalMusicBox != null && normalMusicBox.MusicFin)
+		//{
+		//	// 씬 전환 시 모든 비동기 작업을 안전하게 취소합니다.
+		//	if (cts != null) cts.Cancel();
+		//	SceneManager.LoadScene("Ending");
+		//}
         if (normalMusicBox.MusicFin) //노래끝 버티기 끝
         {
+            if (cts != null) cts.Cancel();
             BossState.isBoss3Dead = true;
             dialogueUI.ShowDialogueUI(true);
             PlayBossDialojet().Forget();

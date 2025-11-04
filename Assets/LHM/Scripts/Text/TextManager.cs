@@ -60,12 +60,13 @@ public class TextManager : MonoBehaviour
         }
         if (BossState.isBoss3Dead)
         {
+            Debug.Log("¢∫ Boss2DialogueCheackAsync() »£√‚µ ");
             BossClosePanel.SetActive(true);
             await BossHandleBossDeathAsync(3);
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
-            SceneLoader.Instance.LoadScene("Main");
+            SceneLoader.Instance.LoadScene("Ending");
         }
         Debug.Log("BossDialogueCheackAsync Ω««‡µ ");
 
