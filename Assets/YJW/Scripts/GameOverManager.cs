@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Localization;
 public class GameOverManager : MonoBehaviour
 {
     public static GameOverManager Instance;
@@ -16,6 +17,11 @@ public class GameOverManager : MonoBehaviour
     public AudioClip gameOverSound;
 	private bool isTriggered = false;
 	private bool isRetrying = false; // <<< 추가: 재시도 중복 호출 방지 플래그
+
+	[SerializeField] private string tableName = "GameOver";
+
+
+
 	private void Awake()
     {
 		if (Instance == null)
@@ -34,46 +40,81 @@ public class GameOverManager : MonoBehaviour
     {
 		gameOverPanel.SetActive(false);
 	}
-    public async UniTask TriggerGameOver(CancellationToken token = default)
-    {
-		if (this == null) return;
+ //   public async UniTask TriggerGameOver(CancellationToken token = default)
+ //   {
+	//	if (this == null) return;
 
+	//	if (isTriggered) return;
+	//	isTriggered = true;
+	//	if (gameOverPanel != null)
+	//		gameOverPanel.SetActive(true);
+	//	await UniTask.Delay(5000, cancellationToken: token);
+	//	if (this == null || token.IsCancellationRequested) return;
+
+	//	//if (GameOverText != null)
+	//	//	GameOverText.SetActive(false);
+
+	//	if (gameOverTextUI != null)
+	//	{
+	//		string[] messages =
+	//		{
+	//			"Boo.. 포기하지마.. 잭슨..",
+	//			"Boo.. 기다릴게.. 다시 도전해줘..",
+	//			"다시 한번 마음을 가다듬어봐..."
+	//		};
+
+	//		int randomIndex = UnityEngine.Random.Range(0, messages.Length);
+	//		// gameOverTextUI.ShowGameOverText()도 UniTask를 반환한다면 token을 전달해야 합니다.
+	//		// 여기서는 ShowGameOverText가 내부적으로 토큰을 처리한다고 가정하고 호출합니다.
+	//		await gameOverTextUI.ShowGameOverText(messages[randomIndex]);
+	//	}
+
+	//	// 중간 널 체크
+	//	if (this == null || token.IsCancellationRequested) return;
+
+	//	if (gameOverSound != null)
+	//	{
+	//		int sL = (int)(gameOverSound.length * 1000);
+	//		// 2. Delay에 토큰 전달
+	//		await UniTask.Delay(sL, cancellationToken: token); // <<< token 전달
+	//	}
+	//	// 3. Delay에 토큰 전달
+	//	await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token); // <<< token 전달
+	//}
+
+	public async UniTask TriggerGameOver()
+	{
 		if (isTriggered) return;
 		isTriggered = true;
+
 		if (gameOverPanel != null)
 			gameOverPanel.SetActive(true);
-		await UniTask.Delay(5000, cancellationToken: token);
-		if (this == null || token.IsCancellationRequested) return;
 
-		//if (GameOverText != null)
-		//	GameOverText.SetActive(false);
+		await UniTask.Delay(5000);
 
-		if (gameOverTextUI != null)
+		if(GameOverText != null)
+			GameOverText.SetActive(false);
+
+		if(gameOverTextUI != null)
 		{
-			string[] messages =
-			{
-				"Boo.. 포기하지마.. 잭슨..",
-				"Boo.. 기다릴게.. 다시 도전해줘..",
-				"다시 한번 마음을 가다듬어봐..."
-			};
+			int randomNum = UnityEngine.Random.Range(1, 4);
+			string entrykey = $"GameOver{randomNum}";
 
-			int randomIndex = UnityEngine.Random.Range(0, messages.Length);
-			// gameOverTextUI.ShowGameOverText()도 UniTask를 반환한다면 token을 전달해야 합니다.
-			// 여기서는 ShowGameOverText가 내부적으로 토큰을 처리한다고 가정하고 호출합니다.
-			await gameOverTextUI.ShowGameOverText(messages[randomIndex]);
+			var loacalizedString = new LocalizedString(tableName, entrykey);
+			string message = await loacalizedString.GetLocalizedStringAsync();
+
+			Debug.Log($"[GameOver] {entrykey} -> {message}");
+
+			await gameOverTextUI.ShowGameOverText(message);
 		}
 
-		// 중간 널 체크
-		if (this == null || token.IsCancellationRequested) return;
-
-		if (gameOverSound != null)
+		if(gameOverSound != null)
 		{
 			int sL = (int)(gameOverSound.length * 1000);
-			// 2. Delay에 토큰 전달
-			await UniTask.Delay(sL, cancellationToken: token); // <<< token 전달
+			await UniTask.Delay(sL);
 		}
-		// 3. Delay에 토큰 전달
-		await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token); // <<< token 전달
+
+		await UniTask.Delay(TimeSpan.FromSeconds(1f));
 	}
 
 	public void RetryButton()
