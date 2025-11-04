@@ -46,23 +46,26 @@ public class TextManager : MonoBehaviour
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
-            await SceneLoader.Instance.LoadScene("StageSelect");
+            SceneLoader.Instance.LoadScene("StageSelect");
         }
-        else if (BossState.isBoss1Dead && BossState.isBoss2Dead && !BossState.isBoss3Dead)
+        if (BossState.isBoss1Dead && BossState.isBoss2Dead && !BossState.isBoss3Dead)
         {
+            Debug.Log("¢∫ Boss2DialogueCheackAsync() »£√‚µ ");
+            BossClosePanel.SetActive(true);
             await BossHandleBossDeathAsync(2);
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
-            await SceneLoader.Instance.LoadScene("StageSelect");
+            SceneLoader.Instance.LoadScene("StageSelect");
         }
-        else if (BossState.isBoss3Dead)
+        if (BossState.isBoss3Dead)
         {
+            BossClosePanel.SetActive(true);
             await BossHandleBossDeathAsync(3);
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
-            await SceneLoader.Instance.LoadScene("Main");
+            SceneLoader.Instance.LoadScene("Main");
         }
         Debug.Log("BossDialogueCheackAsync Ω««‡µ ");
 

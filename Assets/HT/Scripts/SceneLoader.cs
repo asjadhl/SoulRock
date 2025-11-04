@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class SceneLoader : MonoBehaviour
     public GameObject Canvas;
     public Image Fill;
     public CancellationTokenSource cts;
-  
+    public bool isScene = false;
     private void Awake()
     {
         
@@ -30,19 +31,26 @@ public class SceneLoader : MonoBehaviour
 
 
 
-    private  void Start()
+    private void Start()
     {
 	    Canvas.SetActive(false);
 	}
 
-    public  UniTask LoadScene(string sceneName)
+    public void LoadScene(string sceneName)
     {
-        targetScene = sceneName;
-       return  UniLoadSceneAsync();
+        if (!isScene)
+        {
+            targetScene = sceneName;
+            UniLoadSceneAsync().Forget();
+        }
+        else
+            return;
+            
     }
 
-  public  async UniTask UniLoadSceneAsync()
+  public async UniTask UniLoadSceneAsync()
   { 
+        isScene = true;
      Canvas.SetActive(true);
     
         cts = new();
@@ -77,7 +85,7 @@ public class SceneLoader : MonoBehaviour
 
     }
     Canvas.SetActive(false);   
-
+    isScene = false;
   }
     
    

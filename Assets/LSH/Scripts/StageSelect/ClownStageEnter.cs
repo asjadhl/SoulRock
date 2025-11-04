@@ -24,9 +24,13 @@ public class ClownStageEnter : MonoBehaviour
                 // 클릭된 오브젝트가 이 Ghost라면
                 if (hit.transform.CompareTag("Stage2"))
                 {
-                    SceneManager.LoadScene("Stage2");
+                    LoadScene();
                 }
             }
         }
+    }
+    private async void LoadScene()
+    {
+        SceneLoader.Instance.LoadScene("Stage2");
     }
 }

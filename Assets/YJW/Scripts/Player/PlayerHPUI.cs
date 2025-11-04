@@ -21,6 +21,5 @@ public class PlayerHPUI : MonoBehaviour
     private void UpdatePlayerHPUI()
     {
         playerHPImage.fillAmount = playerHp.playerHP / 100f;
-        Debug.Log(playerHPImage.fillAmount);
     }
 }

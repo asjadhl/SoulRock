@@ -44,10 +44,7 @@ public class MainGhostClick : MonoBehaviour
                     isClickedOnce = true;
 
                     AllReset();
-                    if (isTraining)
-                        LoadSceneToTraning().Forget();
-                    else
-                        LoadSelectScene().Forget();
+                    LoadSceneToTraning().Forget();
                 }
             }
         }
@@ -57,6 +54,7 @@ public class MainGhostClick : MonoBehaviour
     {
 		BossState.isBoss1Dead = false;
         BossState.isBoss2Dead = false;
+        BossState.isBoss3Dead = false;
         TalkState.isTalking = false;
 	   
 	}
@@ -67,7 +65,7 @@ public class MainGhostClick : MonoBehaviour
         ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
         ghostParticle.Play();
         await UniTask.Delay(1000);
-        await SceneLoader.Instance.LoadScene("TutorialTrainingRoom");
+        SceneLoader.Instance.LoadScene("TutorialTrainingRoom");
     }
     public async UniTask LoadSelectScene()
     {

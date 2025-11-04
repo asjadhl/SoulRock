@@ -67,9 +67,7 @@ public class PlayerHP : MonoBehaviour
 	private void PlayerHPTimer()
 	{
 		playerHP -= 0.05f;
-		Debug.Log($"playerHP: {playerHP}");
 	}
-	// ... (이하 함수들은 유지) ...
 
 	public void PlayerHPPlus(int recover)
 	{

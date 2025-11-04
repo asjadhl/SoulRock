@@ -27,12 +27,21 @@ public class GhostTrainingLoader : MonoBehaviour
             {
                 if (hit.transform == transform)
                 {
+                    AllReset();
                     Debug.Log("오브젝트 클릭 감지됨");
                     MainGhostTrainingState.isClicked = true;
-                    LoadSceneToTraning().Forget();
+                    LoadTrainingScene().Forget();
                 }
             }
         }
+    }
+    void AllReset()
+    {
+        BossState.isBoss1Dead = false;
+        BossState.isBoss2Dead = false;
+        BossState.isBoss3Dead = false;
+        TalkState.isTalking = false;
+
     }
     private async UniTask LoadSceneToTraning()
     {
@@ -41,7 +50,7 @@ public class GhostTrainingLoader : MonoBehaviour
         ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
         ghostParticle.Play();
         await UniTask.Delay(1000);
-        await SceneLoader.Instance.LoadScene("TutorialTrainingRoom");
+        SceneLoader.Instance.LoadScene("TutorialTrainingRoom");
     }
     public async UniTask LoadTrainingScene()
     {
@@ -50,7 +59,7 @@ public class GhostTrainingLoader : MonoBehaviour
         ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
         ghostParticle.Play();
         await UniTask.Delay(1000);
-        SceneManager.LoadScene("TraingRoom");
+        SceneLoader.Instance.LoadScene("TraingRoom");
     }
 
 }

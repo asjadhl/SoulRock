@@ -46,7 +46,8 @@ public class GBAttack : MonoBehaviour
     int ranIndexBefore = 0;
     bool isBeatOn = false;
     bool isSuccess = false;
-
+    [SerializeField] private DialogueUIManager dialogueUI;
+    TextManager textManager;
     CancellationTokenSource cts;
     PlayerHP playerhp;
     //[SerializeField] Image leftLongBeat; 
@@ -77,6 +78,8 @@ public class GBAttack : MonoBehaviour
         patternIndex = 0;
         firstxPos = transform.position.x;
         firstyPos = transform.position.y;
+        dialogueUI = FindAnyObjectByType<DialogueUIManager>();
+        textManager = FindAnyObjectByType<TextManager>();
         //bossPoss = transform.position;
     }
     private void Start()
@@ -111,7 +114,20 @@ public class GBAttack : MonoBehaviour
 			if (cts != null) cts.Cancel();
 			SceneManager.LoadScene("Ending");
 		}
-	}
+        if (normalMusicBox.MusicFin) //노래끝 버티기 끝
+        {
+            BossState.isBoss3Dead = true;
+            dialogueUI.ShowDialogueUI(true);
+            PlayBossDialojet().Forget();
+            //LoadScene();
+            //SceneManager.LoadScene("StageSelect");
+            //DelayedDialogueCheckAsync().Forget();
+        }
+    }
+    private async UniTask PlayBossDialojet()
+    {
+        await textManager.BossDialogueCheackAsync();
+    }
     //public async UniTaskVoid DelayedDialogueCheckAsync()
     //{
 

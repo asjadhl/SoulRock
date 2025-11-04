@@ -46,6 +46,11 @@ public class Stage3Boss : MonoBehaviour
     bool animeOn = false;
     [SerializeField] GameObject monsterSpawner;
     NormalMusicBox normalMusicBox;
+    [SerializeField] private DialogueUIManager dialogueUI;
+    TextManager textManager;
+
+    private bool bossDialogueTriggered = false;
+
     private void Awake()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -59,6 +64,8 @@ public class Stage3Boss : MonoBehaviour
         chargeLazer.SetActive(false);
         bigChargeLazer.SetActive(false);
         monsterSpawner.SetActive(false);
+        dialogueUI = FindAnyObjectByType<DialogueUIManager>();
+        textManager = FindAnyObjectByType<TextManager>();
     }
 
     private async void Start()
@@ -136,20 +143,26 @@ public class Stage3Boss : MonoBehaviour
 				//Debug.Log("빡친보스패턴");
 				AngryBoss3Pattern();
 			}
-			if (normalMusicBox.MusicFin) //노래끝 버티기 끝
+			if (normalMusicBox.MusicFin && !bossDialogueTriggered) //노래끝 버티기 끝
 			{
+                bossDialogueTriggered = true;
 				BossState.isBoss2Dead = true;
-				LoadScene();
-				//SceneManager.LoadScene("StageSelect");
-				//DelayedDialogueCheckAsync().Forget();
-			}
+                dialogueUI.ShowDialogueUI(true);
+                PlayBossDialojet().Forget();
+                //LoadScene();
+                //SceneManager.LoadScene("StageSelect");
+                //DelayedDialogueCheckAsync().Forget();
+            }
 		
     }
-
-    private async void LoadScene()
+    private async UniTask PlayBossDialojet()
     {
-		await SceneLoader.Instance.LoadScene("StageSelect");
-	}
+        await textManager.BossDialogueCheackAsync();
+    }
+ //   private async void LoadScene()
+ //   {
+	//	await SceneLoader.Instance.LoadScene("StageSelect");
+	//}
     //public async UniTaskVoid DelayedDialogueCheckAsync()
     //{
 

@@ -64,16 +64,16 @@ public class GameOverManager : MonoBehaviour
 	{
 		if (!isRetrying)
 		{
-			RetryAsync().Forget();
+			RetryAsync();
 		}
 	}
 	public void MainButton()
 	{
-		GoMain().Forget();
+		GoMain();
 	}
 
 	// Retry 함수를 비동기로 변경하고 currentSceneName을 사용하도록 합니다.
-	private async UniTaskVoid RetryAsync()
+	private void RetryAsync()
 	{
 		if (isRetrying) return; // 이중 체크
 		isRetrying = true;
@@ -82,7 +82,7 @@ public class GameOverManager : MonoBehaviour
 			if (SceneLoader.Instance != null && !string.IsNullOrEmpty(currentSceneName))
 			{
 				// 씬 로드가 완료될 때까지 기다림
-				await SceneLoader.Instance.LoadScene(currentSceneName);
+				SceneLoader.Instance.LoadScene(currentSceneName);
 			}
 		}
 		catch (Exception ex)
@@ -122,7 +122,7 @@ public class GameOverManager : MonoBehaviour
 		}
 		return null;
 	}
-	private async UniTask GoMain()
+	private void GoMain()
 	{
         if (isRetrying) return; // 이중 체크
         isRetrying = true;
@@ -131,7 +131,7 @@ public class GameOverManager : MonoBehaviour
             if (SceneLoader.Instance != null && !string.IsNullOrEmpty("Main"))
             {
                 // 씬 로드가 완료될 때까지 기다림
-                await SceneLoader.Instance.LoadScene("Main");
+                SceneLoader.Instance.LoadScene("Main");
             }
         }
         catch (Exception ex)

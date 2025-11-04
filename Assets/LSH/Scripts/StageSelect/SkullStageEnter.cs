@@ -21,10 +21,13 @@ public class SkullStageEnter : MonoBehaviour
             {
                 if (hit.transform == transform)
                 {
-                    Debug.Log("Stage3 오브젝트 클릭됨!");
-                    SceneManager.LoadScene("Stage3");
+                    LoadScene();
                 }
             }
         }
+    }
+    private void LoadScene()
+    {
+        SceneLoader.Instance.LoadScene("stage3");
     }
 }
