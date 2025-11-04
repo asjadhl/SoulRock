@@ -101,6 +101,7 @@ public class GBAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (BossState.isBoss3Dead) return;
 		if (playerhp == null || playerhp.isPlayerDead) return;
 		if (!isAttack && bossMove != null && bossMove.canRun)
 		{
@@ -142,6 +143,7 @@ public class GBAttack : MonoBehaviour
 
     void CheckForthPattern()
     {
+        if (BossState.isBoss3Dead) return;
         if (Input.GetMouseButton(2) && isBeatOn)
         {
             barAmount += 0.4f;
@@ -197,8 +199,8 @@ public class GBAttack : MonoBehaviour
     //}
     private async UniTask BossPattern()
     {
-
-            for (int i = 0; ; i++)
+        if (BossState.isBoss3Dead) return;
+        for (int i = 0; ; i++)
             {
                 patternIndex = Random.Range(0, 3);
                 if (patternIndex != ranIndexBefore)
@@ -227,7 +229,8 @@ public class GBAttack : MonoBehaviour
 
     private async UniTask SoundAttack()
     {
-		if (playerhp == null || musicBox == null || !isActiveAndEnabled)
+        if (BossState.isBoss3Dead) return;
+        if (playerhp == null || musicBox == null || !isActiveAndEnabled)
 		{
 			return; // 객체가 파괴되었거나 비활성화되면 즉시 종료
 		}
@@ -238,6 +241,7 @@ public class GBAttack : MonoBehaviour
         musicBox.panStereo = 0f;
         for (int i = 0; i < 7; i++)
         {
+            if (BossState.isBoss3Dead) return;
             teleportIndex = Random.Range(0, 2);
             animator.SetTrigger("Teleport");
             switch (teleportIndex)
@@ -296,7 +300,8 @@ public class GBAttack : MonoBehaviour
       int teleport = Random.Range(0, cloneTransform.Length);
       for (int i = 0; i < clone.Length; i++)
       {
-			if (clone[i] == null || cloneTransform[i] == null) continue;
+            if (BossState.isBoss3Dead) return;
+            if (clone[i] == null || cloneTransform[i] == null) continue;
 			clone[i].SetActive(true);
         clone[i].transform.position = new Vector3(cloneTransform[i].transform.position.x, cloneTransform[i].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
         cloneAnime[i].SetTrigger("Teleport");
@@ -335,12 +340,14 @@ public class GBAttack : MonoBehaviour
 
     private async UniTask Poltergeist(CancellationToken token)
     {
-		if (poltergeist == null || poltergeistOB == null || animator == null) return;
+        if (BossState.isBoss3Dead) return;
+        if (poltergeist == null || poltergeistOB == null || animator == null) return;
 		isAttack = true;
       poltergeist.SetActive(true);
       for (int i = 0; i < poltergeistOB.Length; i++)
       {
-        animator.SetTrigger("Polter");
+            if (BossState.isBoss3Dead) return;
+            animator.SetTrigger("Polter");
         GameObject obj = poltergeistOB[i];
 			if (obj == null) continue;
 			obj.SetActive(true);
@@ -367,7 +374,8 @@ public class GBAttack : MonoBehaviour
     }
     public async UniTask LongBit(CancellationToken token)
     {
-		if (musicBox == null || rightBeat == null || leftBeat == null) return;
+        if (BossState.isBoss3Dead) return;
+        if (musicBox == null || rightBeat == null || leftBeat == null) return;
 		ranIndex = Random.Range(0, 2);
       switch (ranIndex)
       {

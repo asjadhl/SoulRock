@@ -121,7 +121,7 @@ public class Stage3Boss : MonoBehaviour
 
     void Update()
     {
-        if (playerHP == null || playerHP.isPlayerDead) return;
+        if (playerHP == null || playerHP.isPlayerDead || BossState.isBoss2Dead) return;
 			if ((int)CheckRealTime.inGamerealTime == 40)
 			{
 				//Debug.LogError("개빡침");
@@ -175,6 +175,7 @@ public class Stage3Boss : MonoBehaviour
     #region("보스빡침")
     void AngryBoss3Pattern()
     {
+        if (BossState.isBoss2Dead) return;
         for (int i = 0; ; i++)
         {
             ranIndex = Random.Range(1, 3);
@@ -234,6 +235,7 @@ public class Stage3Boss : MonoBehaviour
 
     private async UniTask AngrysecondPattern()
     {
+        if (BossState.isBoss2Dead) return;
         isAttacking = true;
 		var token = this.GetCancellationTokenOnDestroy();
         //if(isAngry)
@@ -258,6 +260,7 @@ public class Stage3Boss : MonoBehaviour
             }
             await UniTask.Delay(700, cancellationToken: token);
         }
+        if (BossState.isBoss2Dead) return;
         await UniTask.Delay(coolTime + 2000, cancellationToken: token);
         isAttacking = false;
     }
@@ -265,6 +268,7 @@ public class Stage3Boss : MonoBehaviour
 
     private async UniTask AngryThirdPattern()
     {
+        if (BossState.isBoss2Dead) return;
         isAttacking = true;
 		monsterSpawner.SetActive(false);
 		//bigChargeLazer.SetActive(true);
@@ -291,8 +295,9 @@ public class Stage3Boss : MonoBehaviour
 
     private async UniTask AngryBigLazerAttack()
     {
-		//bigChargeLazer.SetActive(false);
-		for (int i = 0; i<8;  i++)
+        if (BossState.isBoss2Dead) return;
+        //bigChargeLazer.SetActive(false);
+        for (int i = 0; i<8;  i++)
         {
 			int poolIndex = i % bigLazerBallPool.Length;
             Vector3 randomPos = bigChargeLazer.transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, -1f), 0f);
@@ -305,7 +310,8 @@ public class Stage3Boss : MonoBehaviour
 				bigLazerBallPool[poolIndex].transform.localScale =
 					new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
 				await UniTask.Delay(10);
-			}
+                if (BossState.isBoss2Dead) return;
+            }
             bigLazerBool = bigLazerBallPool[poolIndex].GetComponent<BigLazer>();
 			//bigLazerBool.isGoing = true;
             //bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
@@ -327,7 +333,7 @@ public class Stage3Boss : MonoBehaviour
     #region(일반보스패턴)
     void Boss3Pattern()
     {
-
+        if (BossState.isBoss2Dead) return;
         switch (ranIndex)
         {
             case 1:
