@@ -19,16 +19,7 @@ public class GameOverManager : MonoBehaviour
 	private bool isRetrying = false; // <<< 추가: 재시도 중복 호출 방지 플래그
 	private void Awake()
     {
-		if (Instance == null)
-		{
-			Instance = this;
-			DontDestroyOnLoad(gameObject);
-		}
-		else
-		{
-			Destroy(gameObject);
-			return;
-		}
+		 
 		currentSceneName = SceneManager.GetActiveScene().name;
 	}
     private void Start()

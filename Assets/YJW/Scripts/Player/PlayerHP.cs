@@ -27,7 +27,7 @@ public class PlayerHP : MonoBehaviour
 	[SerializeField] GameObject DamageImage;
 	[SerializeField] GameObject gameOver;
 
-	public bool isPlayerDead;
+	public bool isPlayerDead = false;
 	private bool isProcessingDeath = false; // <<< 추가: 사망 시퀀스 중복 실행 방지 플래그
 
 	private void Awake()
@@ -39,15 +39,21 @@ public class PlayerHP : MonoBehaviour
 	{
 		playerDieText = FindAnyObjectByType<PlayerDieText>();
 
-	}
+ 
+	 
+			
+    }
 
 	private void FixedUpdate()
 	{
 		// 보스 사망 시에도 isProcessingDeath 상태는 체크할 필요가 없습니다.
-		if (isPlayerDead == true || BossState.isBoss1Dead == true || BossState.isBoss2Dead == true || BossState.isBoss3Dead == true)
-			return;
+		//if (isPlayerDead == true || BossState.isBoss1Dead == true || BossState.isBoss2Dead == true || BossState.isBoss3Dead == true)
+		//	return;
+        if (isPlayerDead == true || BossState.isBoss1Dead == true && BossState.isBoss2Dead == true && BossState.isBoss3Dead == true)
+            return;
 
-		PlayerHPTimer();
+
+        PlayerHPTimer();
 
 		// 사망 조건이 만족되었고, 아직 사망 시퀀스가 시작되지 않았을 때만 진입합니다.
 		if ((playerHP <= 0 || Stage2BossAttack.clubStack == 7) && !isProcessingDeath) // <<< 조건 수정
@@ -61,6 +67,7 @@ public class PlayerHP : MonoBehaviour
 	private void PlayerHPTimer()
 	{
 		playerHP -= 0.05f;
+		Debug.Log($"playerHP: {playerHP}");
 	}
 	// ... (이하 함수들은 유지) ...
 
