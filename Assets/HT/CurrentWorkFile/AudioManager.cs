@@ -209,6 +209,7 @@ public class AudioManager : MonoBehaviour
       }
     }
 
+        
 
     var MainQuitGhost = GameObject.FindObjectsByType<MainQuitGhost>(
         FindObjectsInactive.Include,

@@ -4,17 +4,37 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using static CartoonFX.CFXR_ParticleTextFontAsset;
 
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
 
     private string targetScene;
-  
+
     public GameObject Canvas;
     public Image Fill;
     public CancellationTokenSource cts;
     public bool isScene = false;
+    private System.Lazy<AudioSource[]> audiosources = new System.Lazy<AudioSource[]> (() =>
+    {
+
+
+        var find = GameObject.FindObjectsByType<AudioSource>(
+        FindObjectsInactive.Exclude,
+        FindObjectsSortMode.None
+        );
+        return find;
+         
+    });
+
+    private void Lerping(float t)
+    {
+        for (int i = 0; i < audiosources.Value.Length; i++)
+        {
+            audiosources.Value[i].volume = Mathf.Lerp(1, 0, t);
+        }
+    }
     private void Awake()
     {
         
@@ -33,6 +53,42 @@ public class SceneLoader : MonoBehaviour
 
     private void Start()
     {
+
+
+
+
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	    Canvas.SetActive(false);
 	}
 
@@ -72,6 +128,9 @@ public class SceneLoader : MonoBehaviour
     {
       t+= Time.deltaTime/duration;
       Fill.fillAmount = Mathf.Lerp(0, 1, t);
+
+
+            //Lerping(t);
       await UniTask.Yield();
       Debug.Log(t);
     }
