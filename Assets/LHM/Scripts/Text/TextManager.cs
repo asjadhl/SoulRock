@@ -46,7 +46,7 @@ public class TextManager : MonoBehaviour
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
-            SceneManager.LoadScene("StageSelect");
+            await SceneLoader.Instance.LoadScene("StageSelect");
         }
         else if (BossState.isBoss1Dead && BossState.isBoss2Dead && !BossState.isBoss3Dead)
         {
@@ -54,7 +54,7 @@ public class TextManager : MonoBehaviour
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
-            SceneManager.LoadScene("StageSelect");
+            await SceneLoader.Instance.LoadScene("StageSelect");
         }
         else if (BossState.isBoss3Dead)
         {
@@ -62,7 +62,7 @@ public class TextManager : MonoBehaviour
             await PlayDeadParteicle();
             Destroy(boss);
             await UniTask.Delay(2000);
-            SceneManager.LoadScene("Main");
+            await SceneLoader.Instance.LoadScene("Main");
         }
         Debug.Log("BossDialogueCheackAsync ½ÇÇàµÊ");
 
