@@ -89,6 +89,11 @@ public class Stage2BossAttack : MonoBehaviour
     [SerializeField] private DialogueUIManager dialogueUI;
     private void Start()
     {
+        clubStack = 0;
+
+        for (int i = 0; i < clubStackImage.Length; i++)
+            clubStackImage[i].SetActive(false);
+
 
         player = GameObject.FindWithTag("Player");
         textManager = FindObjectOfType<TextManager>();

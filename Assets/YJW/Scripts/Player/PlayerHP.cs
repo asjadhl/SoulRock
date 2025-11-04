@@ -121,7 +121,6 @@ public class PlayerHP : MonoBehaviour
 	//}
 	private async UniTaskVoid PlayerDie()
 	{
-		InitializeData();
 
 		// 1. GameOverManager 인스턴스를 찾습니다.
 		GameOverManager gameOverManagerInstance = FindAnyObjectByType<GameOverManager>();
@@ -166,11 +165,6 @@ public class PlayerHP : MonoBehaviour
     private void GetDamImageOff()
     {
         DamageImage.SetActive(false);
-    }
-
-    private void InitializeData()
-    {
-        Stage2BossAttack.clubStack = 0;
     }
 
 }
