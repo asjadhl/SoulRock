@@ -10,7 +10,8 @@ public class MainGhostClick : MonoBehaviour
 
     [SerializeField] ParticleSystem ghostSurpParticle;
 
-
+    bool isClickedOnce = false;
+    public bool isTraining = true;
     void Start()
     {
         mainCam = Camera.main;
@@ -18,7 +19,11 @@ public class MainGhostClick : MonoBehaviour
     }
 
     void Update()
-    {
+    {  
+
+        
+
+
         // 마우스 왼쪽 버튼 클릭 시 검사
         if (Input.GetMouseButtonDown(0))
         {
@@ -32,8 +37,17 @@ public class MainGhostClick : MonoBehaviour
                 {
                     Debug.Log("Ghost clicked!");
                     MainPlayState.isClicked1 = true;
+
+                    if (isClickedOnce)
+                        return;
+
+                    isClickedOnce = true;
+
                     AllReset();
-                    LoadSceneToTraning().Forget();
+                    if (isTraining)
+                        LoadSceneToTraning().Forget();
+                    else
+                        LoadSelectScene().Forget();
                 }
             }
         }
@@ -62,7 +76,7 @@ public class MainGhostClick : MonoBehaviour
         ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
         ghostParticle.Play();
         await UniTask.Delay(1000);
-        SceneManager.LoadScene("TutorialTrainingRoom");
+        SceneManager.LoadScene("StageSelect");
     }
 }
 
