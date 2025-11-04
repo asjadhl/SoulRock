@@ -7061,6 +7061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHPImage: {fileID: 623165025}
+  playerHp: {fileID: 0}
 --- !u!114 &867834504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7831,6 +7832,7 @@ MonoBehaviour:
   gameOverTextUI: {fileID: 960654668}
   gameOverPanel: {fileID: 735507059}
   GameOverText: {fileID: 1657529231}
+  tableNmae: GameOver
   gameOverSound: {fileID: 8300000, guid: 87e1f9f9ba1d3d147a687199d9abbd9d, type: 3}
 --- !u!1 &972040650
 GameObject:
@@ -11344,9 +11346,10 @@ MonoBehaviour:
   stage1_img2: {fileID: 2800000, guid: 97f1e9b13fd8766478d7514afa700138, type: 3}
   stage2_img1: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
   stage2_img2: {fileID: 2800000, guid: 4827d8b417692974f90b532fd67ab74f, type: 3}
-  stage3_img1: {fileID: 2800000, guid: 48f81a846c1b9b44daddcf2d4f7fa9fb, type: 3}
-  stage3_img2: {fileID: 2800000, guid: 4ee3c17318ca17141b679e67022c3e1a, type: 3}
+  stage3_img1: {fileID: 2800000, guid: d14b31b38b05e0d42a4dd843cf2f0305, type: 3}
+  stage3_img2: {fileID: 2800000, guid: d14b31b38b05e0d42a4dd843cf2f0305, type: 3}
   Empty: {fileID: 2800000, guid: a7c3c2e830d78a240929efe7d3c6814a, type: 3}
+  boss1_img: {fileID: 0}
 --- !u!4 &1394377972
 Transform:
   m_ObjectHideFlags: 0
@@ -13855,6 +13858,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Canvas: {fileID: 387526683}
   Fill: {fileID: 1630014867}
+  isScene: 0
 --- !u!4 &1684105189
 Transform:
   m_ObjectHideFlags: 0
@@ -16101,7 +16105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 42}
+  m_AnchoredPosition: {x: 0, y: 42.00006}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1001 &2004397232

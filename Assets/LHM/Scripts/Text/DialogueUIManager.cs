@@ -40,6 +40,9 @@ public class DialogueUIManager : MonoBehaviour
     public Texture stage3_img1;
     public Texture stage3_img2;
     public Texture Empty;
+    public Texture boss1_img;
+    public Texture stage4_img1;
+    public Texture stage4_img2;
     //3D 유령으로 할거면 여기다가 이미지 하나 추가해서 빈칸만들기
 
     void Start()
@@ -120,7 +123,7 @@ public class DialogueUIManager : MonoBehaviour
         imageCTS?.Cancel();
         imageCTS = new CancellationTokenSource();
 
-        Texture img1 = null, img2 = null;
+        Texture img1 = null, img2 = null, img3 = null;
         switch (stageNum)
         {
             case 1: img1 = stage1_img1; img2 = stage1_img2; break;
@@ -140,16 +143,9 @@ public class DialogueUIManager : MonoBehaviour
         switch (stageNum)
         {
             case 1: img1 = stage1_img1; img2 = stage1_img2; break;
-            case 2: img1 = Empty; img2 = Empty; 
-                break;
-            case 3: img1 = stage2_img1; img2 = stage2_img2; break;
-            case 4: img1 = stage3_img1; img2 = stage3_img2; break;
-            case 5: img1 = Empty; img2 = Empty;
-                break;
-            case 6: img1 = stage3_img1; img2 = stage3_img2; break;
-            case 7: img1 = Empty; img2 = Empty;
-                break;
-            case 8: img1 = stage2_img1; img2 = stage2_img2; break;
+            case 2: img1 = stage2_img1; img2 = stage2_img2; break;
+            case 3: img1 = stage3_img1; img2 = stage3_img2; break;
+            case 4: img1 = stage4_img1; img2 = stage4_img2; break;
         }
 
         _ = ChangeImageLoopAsync(img1, img2, imageCTS.Token);
