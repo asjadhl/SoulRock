@@ -121,10 +121,7 @@ public class Stage3Boss : MonoBehaviour
 
     void Update()
     {
-        if(playerHP.isPlayerDead || BossState.isBoss2Dead)
-        {
-            return;
-        }
+        if (playerHP == null || playerHP.isPlayerDead) return;
 			if ((int)CheckRealTime.inGamerealTime == 40)
 			{
 				//Debug.LogError("°³ºýÄ§");

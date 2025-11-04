@@ -26,8 +26,8 @@ public class PlayerHP : MonoBehaviour
 
 	[SerializeField] GameObject DamageImage;
 	[SerializeField] GameObject gameOver;
-
-	public bool isPlayerDead = false;
+    NormalMusicBox normalMusicBox;
+    public bool isPlayerDead = false;
 	private bool isProcessingDeath = false; // <<< 추가: 사망 시퀀스 중복 실행 방지 플래그
 
 	private void Awake()
@@ -39,9 +39,9 @@ public class PlayerHP : MonoBehaviour
 	{
 		playerDieText = FindAnyObjectByType<PlayerDieText>();
 
- 
-	 
-			
+        normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
+
+
     }
 
 	private void FixedUpdate()
@@ -49,7 +49,7 @@ public class PlayerHP : MonoBehaviour
 		// 보스 사망 시에도 isProcessingDeath 상태는 체크할 필요가 없습니다.
 		//if (isPlayerDead == true || BossState.isBoss1Dead == true || BossState.isBoss2Dead == true || BossState.isBoss3Dead == true)
 		//	return;
-        if (isPlayerDead == true || BossState.isBoss1Dead == true && BossState.isBoss2Dead == true && BossState.isBoss3Dead == true)
+        if (isPlayerDead == true || normalMusicBox.MusicFin)
             return;
 
 
@@ -71,7 +71,7 @@ public class PlayerHP : MonoBehaviour
 
 	public void PlayerHPPlus(int recover)
 	{
-		if (isPlayerDead == true || BossState.isBoss1Dead == true || BossState.isBoss2Dead == true || BossState.isBoss3Dead == true)
+		if (isPlayerDead == true)
 			return;
 		playerHP += recover;
 	}
