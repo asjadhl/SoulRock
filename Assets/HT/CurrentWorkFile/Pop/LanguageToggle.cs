@@ -41,7 +41,7 @@ public class LanguageToggle : MonoBehaviour
 
 
         // Load saved language, default = English (0)
-        int savedLang = PlayerPrefs.GetInt("LocalKey", 0);
+        int savedLang = PlayerPrefs.GetInt("LocalKey", 1);
 
         // Apply language on start
         SetLocal((Language)savedLang).Forget();
