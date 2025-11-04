@@ -54,7 +54,7 @@ public class LanguageToggle : MonoBehaviour
         englishToggle.onValueChanged.AddListener(isOn =>
         {
             audiosource.Play();
-            Debug.Log("AAA");
+             
             if (isOn && !active)
             {
                 koreanToggle.SetIsOnWithoutNotify(false);
@@ -65,7 +65,7 @@ public class LanguageToggle : MonoBehaviour
         koreanToggle.onValueChanged.AddListener(isOn =>
         {
             audiosource.Play();
-            Debug.Log("BBB");
+            
             if (isOn && !active)
             {
                 englishToggle.SetIsOnWithoutNotify(false);
