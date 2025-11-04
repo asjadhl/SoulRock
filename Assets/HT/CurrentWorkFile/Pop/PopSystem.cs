@@ -9,7 +9,7 @@ public class PopSystem : MonoBehaviour
 {
     private Lazy<CancellationTokenSource> cts = new(() => new CancellationTokenSource());
 
-  private AudioSource audiosource;
+    private AudioSource audiosource;
     private Dictionary<string, GameObject> panelMap = new();
 
     private Lazy<Transform> m_canvas = new(() =>
@@ -144,7 +144,10 @@ public class PopSystem : MonoBehaviour
             
         }
     }
-
+    public AudioSource GetAudioSource()
+    {
+        return audiosource;
+    }
     private void OnDestroy()
     {
         if (cts.IsValueCreated)

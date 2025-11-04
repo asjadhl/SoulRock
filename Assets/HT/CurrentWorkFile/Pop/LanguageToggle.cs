@@ -2,12 +2,22 @@
 using UnityEngine.UI;
 using UnityEngine.Localization.Settings;
 using Cysharp.Threading.Tasks;
+using System;
+using UnityEngine.Audio;
 
 public class LanguageToggle : MonoBehaviour
 {
     public Toggle englishToggle;
     public Toggle koreanToggle;
-
+    public AudioSource audiosource;
+    public AudioMixerGroup SFXGroup;
+    Lazy<PopSystem> popSystem = new Lazy<PopSystem>(() =>
+    {
+        PopSystem system = GameObject.FindAnyObjectByType<PopSystem>();
+        if (system == null)
+            Debug.LogError("PopSystem not found in the scene!");
+        return system;
+    });
     public enum Language
     {
         en = 0,
@@ -17,7 +27,19 @@ public class LanguageToggle : MonoBehaviour
     private bool active = false;
 
     private void Start()
-    {
+    {    
+
+       
+
+        if(GetComponent<AudioSource>() == null)
+             audiosource = gameObject.AddComponent<AudioSource>();
+             audiosource.playOnAwake = false;
+        audiosource.ignoreListenerPause = true;
+        audiosource.outputAudioMixerGroup = SFXGroup;
+        audiosource.clip = popSystem.Value.GetAudioSource().clip;
+        
+
+
         // Load saved language, default = English (0)
         int savedLang = PlayerPrefs.GetInt("LocalKey", 0);
 
@@ -31,6 +53,8 @@ public class LanguageToggle : MonoBehaviour
         // Add Toggle Event Listeners
         englishToggle.onValueChanged.AddListener(isOn =>
         {
+            audiosource.Play();
+            Debug.Log("AAA");
             if (isOn && !active)
             {
                 koreanToggle.SetIsOnWithoutNotify(false);
@@ -40,6 +64,8 @@ public class LanguageToggle : MonoBehaviour
 
         koreanToggle.onValueChanged.AddListener(isOn =>
         {
+            audiosource.Play();
+            Debug.Log("BBB");
             if (isOn && !active)
             {
                 englishToggle.SetIsOnWithoutNotify(false);
