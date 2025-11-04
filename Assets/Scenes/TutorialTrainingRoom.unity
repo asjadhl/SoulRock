@@ -270,7 +270,7 @@ Transform:
   m_GameObject: {fileID: 74596859}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.01, y: 48.758, z: -36.957}
+  m_LocalPosition: {x: -11.01, y: 53.23, z: -36.957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -822,7 +822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 337124155}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: p
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1135,7 +1135,7 @@ Transform:
   m_GameObject: {fileID: 415750981}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -13.53, y: 53.95, z: -11.337}
+  m_LocalPosition: {x: -13.53, y: 58.422, z: -11.337}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4606,7 +4606,7 @@ MonoBehaviour:
   gunObject: {fileID: 644520782}
   boss2: {fileID: 0}
   shootParticle: {fileID: 2068673021}
-  gunTransform: {fileID: 644520783}
+  gunTransform: {fileID: 337124155}
   kickbackDistance: 0.1
   kickbackSpeed: 10
 --- !u!136 &1285159687
@@ -5983,7 +5983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 42}
+  m_AnchoredPosition: {x: 0, y: 42.000122}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1707369759
@@ -7246,7 +7246,7 @@ Transform:
   m_GameObject: {fileID: 2055216555}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 13.19, y: 55.058, z: -11.337}
+  m_LocalPosition: {x: 13.19, y: 59.53, z: -11.337}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
