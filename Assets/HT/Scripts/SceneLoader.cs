@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine.UI;
-using Unity.VisualScripting;
-using static CartoonFX.CFXR_ParticleTextFontAsset;
+using UnityEngine.Audio;
+
 
 public class SceneLoader : MonoBehaviour
 {
@@ -16,25 +16,16 @@ public class SceneLoader : MonoBehaviour
     public Image Fill;
     public CancellationTokenSource cts;
     public bool isScene = false;
-    private System.Lazy<AudioSource[]> audiosources = new System.Lazy<AudioSource[]> (() =>
-    {
-
-
-        var find = GameObject.FindObjectsByType<AudioSource>(
-        FindObjectsInactive.Exclude,
-        FindObjectsSortMode.None
-        );
-        return find;
-         
-    });
-
+    public AudioMixer audiomixer;
+    private float realvolume;
     private void Lerping(float t)
     {
-        for (int i = 0; i < audiosources.Value.Length; i++)
-        {
-            audiosources.Value[i].volume = Mathf.Lerp(1, 0, t);
-        }
-    }
+        if (audiomixer == null)
+            return;
+
+        audiomixer.SetFloat("Master", Mathf.Log10(Mathf.Lerp(1, 0.0001f, Mathf.Clamp01(t))) * 20);
+    }     
+       
     private void Awake()
     {
         
@@ -53,44 +44,11 @@ public class SceneLoader : MonoBehaviour
 
     private void Start()
     {
-
-
-
-
-
-
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	    Canvas.SetActive(false);
-	}
+      audiomixer.GetFloat("Master",out float output);
+        realvolume = output;
+
+    }
 
     public void LoadScene(string sceneName)
     {
@@ -122,15 +80,17 @@ public class SceneLoader : MonoBehaviour
    
 
     float t = 0;
+        float timer = 0;
     float duration = 3f;
-
+    
     while (t < 1f)
     {
       t+= Time.deltaTime/duration;
+      timer += Time.deltaTime/2f;
       Fill.fillAmount = Mathf.Lerp(0, 1, t);
 
 
-            //Lerping(t);
+      Lerping(timer);
       await UniTask.Yield();
       Debug.Log(t);
     }
@@ -145,6 +105,7 @@ public class SceneLoader : MonoBehaviour
     }
     Canvas.SetActive(false);   
     isScene = false;
+    audiomixer.SetFloat("Master", realvolume);  
   }
     
    
