@@ -49,12 +49,13 @@ public class MiniSkullMove : MonoBehaviour
     }
     void Update()
 	{
-		SkullMove().Forget(); 
+        if (BossState.isBoss2Dead) spawner.ReturnSkull(gameObject);
+        SkullMove().Forget(); 
 	}
 
 	private async UniTask SkullMove()
 	{
-		if (skullScanner == null || hasExploded) return;
+		if (skullScanner == null || hasExploded || BossState.isBoss2Dead) return;
 
 		float distance = Vector3.Distance(transform.position, skullScanner.position);
 
