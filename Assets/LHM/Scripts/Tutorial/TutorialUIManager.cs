@@ -57,7 +57,7 @@ public class TutorialUIManager : MonoBehaviour
     {
         typingCTS?.Cancel();
         typingCTS = new CancellationTokenSource();
-        _ = TypeTextAsync(message, clip, typingCTS.Token);
+        TypeTextAsync(message, clip, typingCTS.Token).Forget();
     }
     // 텍스트 추가
     public void AppendText(string letter)
