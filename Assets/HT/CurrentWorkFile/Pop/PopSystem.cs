@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class PopSystem : MonoBehaviour
 {
+    public AudioMixer myMixer;
     private Lazy<CancellationTokenSource> cts = new(() => new CancellationTokenSource());
 
     private AudioSource audiosource;
@@ -35,11 +37,43 @@ public class PopSystem : MonoBehaviour
     private int currentActiveCount = 0;
   private void Start()
   {
+        Initialization();
     audiosource =GetComponent<AudioSource>();
     audiosource.ignoreListenerPause = true;
+
   }
 
-  public void PopUp(GameObject prefab,string key)
+
+   private void Initialization()
+    {
+        if (PlayerPrefs.HasKey("MasterVolume"))
+        {
+            LoadMasterVolume();
+            Debug.Log("AA");
+        }
+        else
+            SetMasterVolume();
+
+        if (PlayerPrefs.HasKey("MusicVolume"))
+            LoadMusicVolume();
+        else
+            SetMusicVolume();
+
+        if (PlayerPrefs.HasKey("SFXVolume"))
+            LoadSFXVolume();
+        else
+            SetSFXVolume();
+
+    }
+    public void SetMasterVolume() => myMixer.SetFloat("Master", Mathf.Log10(1) * 20);
+    public void SetMusicVolume() => myMixer.SetFloat("Music", Mathf.Log10(1) * 20);
+    public void SetSFXVolume() => myMixer.SetFloat("SFX", Mathf.Log10(1) * 20);
+    private void LoadMasterVolume() => myMixer.SetFloat("Master", Mathf.Log10(PlayerPrefs.GetFloat("MasterVolume")) * 20);
+    private void LoadMusicVolume() => myMixer.SetFloat("Music", Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume")) * 20);
+    private void LoadSFXVolume() => myMixer.SetFloat("SFX", Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume")) * 20);
+
+
+    public void PopUp(GameObject prefab,string key)
     {     
             audiosource.Play();
         if (m_canvas.Value == null) return;

@@ -23,7 +23,7 @@ public class SceneLoader : MonoBehaviour
         if (audiomixer == null)
             return;
 
-        audiomixer.SetFloat("Master", Mathf.Log10(Mathf.Lerp(1, 0.0001f, Mathf.Clamp01(t))) * 20);
+        audiomixer.SetFloat("Master", Mathf.Log10(Mathf.Lerp(realvolume, 0.0001f, Mathf.Clamp01(t))) * 20);
     }     
        
     private void Awake()
@@ -45,9 +45,10 @@ public class SceneLoader : MonoBehaviour
     private void Start()
     {
 	    Canvas.SetActive(false);
-      audiomixer.GetFloat("Master",out float output);
-        realvolume = output;
-
+        if (PlayerPrefs.HasKey("MasterVolume"))
+            realvolume = (Mathf.Log10(PlayerPrefs.GetFloat("MasterVolume")) * 20);
+        else
+            realvolume = 0;
     }
 
     public void LoadScene(string sceneName)
@@ -63,7 +64,8 @@ public class SceneLoader : MonoBehaviour
     }
 
   public async UniTask UniLoadSceneAsync()
-  { 
+  {
+        
         isScene = true;
      Canvas.SetActive(true);
     
