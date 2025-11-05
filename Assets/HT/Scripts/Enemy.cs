@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using System;
 
 
 public enum Behavior
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour
     //protected LockOnDodgeEnemy lockOnDodgeEnemy;
     protected  EnemyGraphics EnemyGhostGraphics;
 
+    Func<bool> IsBossDead;
 
     protected Vector3 Save_Scale;
     
@@ -47,6 +49,33 @@ public class Enemy : MonoBehaviour
     Save_Scale = transform.localScale;
     MyBehavior = Behavior.Wondering;
                  FactoryReset();
+
+
+      string currentname =  UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+        switch (currentname)
+        {
+            case"Stage2":
+                IsBossDead = () => BossState.isBoss1Dead;
+                break;
+            case "Stage3":
+                IsBossDead = () => BossState.isBoss2Dead;
+                break;
+            case "LastStage":
+                IsBossDead = () => BossState.isBoss3Dead;
+                break;
+        }
+      
+        CheckBossExist();
+    }
+
+    private void CheckBossExist()
+    {
+        if(IsBossDead != null && IsBossDead())
+        {
+            ActiveParticales(0);
+            Destroy(gameObject);
+        }
        
     }
     private void Awake()
@@ -61,7 +90,6 @@ public class Enemy : MonoBehaviour
     private void Init()
     {
     PlayerTransform = GameObject.FindWithTag("Player").transform;
-    //lockOnDodgeEnemy = GetComponent<LockOnDodgeEnemy>();
     EnemyGhostGraphics = GetComponent<EnemyGraphics>();
   }
     private void Start()
@@ -74,11 +102,11 @@ public class Enemy : MonoBehaviour
     { }
     private void Update()
     {
-       
+           
             m_Update();
             DestroyWhenBehind();
-        
-         
+            CheckBossExist();
+
     }
     public virtual void m_Update()
     { }

@@ -12,11 +12,7 @@ public class Hostile : Enemy
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master).Forget();
     transform.SetParent(PlayerTransform);
     }
-  public void FixedUpdate()
-  {  
-    //if(MyBehavior != Behavior.Attack)
-    //  FixedTransform = 4f * Time.fixedDeltaTime * Vector3.forward;
-  }
+ 
   public override void m_Update()
     {
         switch (MyBehavior)
