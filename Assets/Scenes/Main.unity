@@ -6374,7 +6374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1145401074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6389,6 +6389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Canvas: {fileID: 1856251361}
   Fill: {fileID: 1309113040}
+  isScene: 0
+  audiomixer: {fileID: 0}
 --- !u!4 &1145401075
 Transform:
   m_ObjectHideFlags: 0
