@@ -55,10 +55,10 @@ public class CardMove : MonoBehaviour
         {
             Debug.Log("플레이어한테 닿음");
             if (gameObject.tag == "RedCard")
-                _=player.GetComponent<PlayerHP>().PlayerHPMinus();
+                player.GetComponent<PlayerHP>().PlayerHPMinus().Forget();
             else if(gameObject.tag == "GoldCard")
             {
-                _=dotBoxTrans();
+                dotBoxTrans().Forget();
             }
             ReturnOriPos();
         }

@@ -24,7 +24,7 @@ public class RotateOB : MonoBehaviour
         {
             OBMove();
         }
-
+        if (BossState.isBoss3Dead) gameObject.SetActive(false);
     }
     private async void OBMove()
     {
