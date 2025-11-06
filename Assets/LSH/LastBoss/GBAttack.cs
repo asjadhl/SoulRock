@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks.Triggers;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Splines.ExtrusionShapes;
 using UnityEngine.UI;
 public class GBAttack : MonoBehaviour
 {
@@ -19,7 +20,8 @@ public class GBAttack : MonoBehaviour
     int patternIndex;
     [SerializeField] GameObject[] clone;
     [SerializeField] GameObject[] cloneTransform;
-    [SerializeField] GameObject mosterSpawner;
+    [SerializeField] GameObject monsterSpawner;
+    [SerializeField] GameObject feverMonsterSpawner;
     [SerializeField] GameObject KillBall;
     [SerializeField] Animator[] cloneAnime;
     bool isAttack = false;
@@ -89,7 +91,7 @@ public class GBAttack : MonoBehaviour
         leftBeat.SetActive(false);
         originalRotation = transform.rotation; // 현재 회전 저장
         poltergeist.SetActive(false);
-        mosterSpawner.SetActive(false);
+        monsterSpawner.SetActive(false);
         for (int i = 0; i < clone.Length; i++)
         {
             clone[i].transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
@@ -124,6 +126,39 @@ public class GBAttack : MonoBehaviour
             //LoadScene();
             //SceneManager.LoadScene("StageSelect");
             //DelayedDialogueCheckAsync().Forget();
+        }
+        switch ((int)CheckRealTime.inGamerealTime)
+        {
+            case 74:
+                Debug.LogError("true로 바뀜");
+                CircleHit.Instance.isHighLight = true;
+                Debug.LogError(CircleHit.Instance.isHighLight);
+                break;
+
+            case 90:
+                Debug.LogError("false 바뀜");
+                CircleHit.Instance.isHighLight = false;
+                Debug.LogError(CircleHit.Instance.isHighLight);
+                break;
+
+            case 148:
+                Debug.LogError("true로 바뀜");
+                CircleHit.Instance.isHighLight = true;
+                Debug.LogError(CircleHit.Instance.isHighLight);
+                break;
+            case 170:
+                Debug.LogError("true로 바뀜");
+                CircleHit.Instance.isHighLight = false;
+                Debug.LogError(CircleHit.Instance.isHighLight);
+                break;
+                //case int n when (n >= 90 && n < 100):
+                //    Debug.Log(CircleHit.Instance.bpm);
+                //    isAngry =false;
+                //    isHighLight = true;
+                //    break;
+                //case >100:
+                //    isHighLight = true;
+                //    break;
         }
     }
     private async UniTask PlayBossDialojet()
@@ -186,17 +221,6 @@ public class GBAttack : MonoBehaviour
             GameObject.FindWithTag("Player").GetComponent<PlayerHP>().PlayerHPMinus().Forget();
         }
     }
-    //void StuckWithPlayer()
-    //{
-    //	float distance = Vector3.Distance(transform.position, player.position);
-    //       Debug.LogError(distance);
-    //	if (distance <= disableDistance)
-    //	{
-    //           transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-    //		bossMove.canRun = false;
-    //		transform.SetParent(player.transform, true);
-    //	}
-    //}
     private async UniTask BossPattern()
     {
         if (BossState.isBoss3Dead) return;
@@ -209,6 +233,8 @@ public class GBAttack : MonoBehaviour
                     break;
                 }
             }
+        if (!CircleHit.Instance.isHighLight)
+        {
             switch (patternIndex)
             {
                 case 0:
@@ -221,12 +247,75 @@ public class GBAttack : MonoBehaviour
                     await Poltergeist(cts.Token);
                     break;
             }
+        }
+        if(CircleHit.Instance.isHighLight)
+        {
+            await FeverTime();
+        }
         
 
     }
+    #region("피버타임")
+    private async UniTask FeverTime()
+    {
+        if (BossState.isBoss3Dead || !CircleHit.Instance.isHighLight) return;
+        if (playerhp == null || musicBox == null || !isActiveAndEnabled)
+        {
+            return; // 객체가 파괴되었거나 비활성화되면 즉시 종료
+        }
+        isAttack = true;
+        feverMonsterSpawner.SetActive(true);
+        for (int i = 0; i < 20; i++)
+        {
+            if (BossState.isBoss3Dead ||!CircleHit.Instance.isHighLight) return;
+            teleportIndex = Random.Range(0, 2);
+            animator.SetTrigger("Teleport");
+            switch (teleportIndex)
+            {
+                case 0:
+                    //musicBox.panStereo = -0.5f;
+                    await FeverAttackVector(0, cts.Token);
+                    break;
+                case 1:
+                    //musicBox.panStereo = 0.5f;
+                    await FeverAttackVector(1, cts.Token);
+                    break;
+
+            }
+            //musicBox.panStereo = 0f;
+            if (!bossMove.canRun || cts.IsCancellationRequested) // CancellationToken 체크 추가
+                break;
+        }
+        if (transform == null || monsterSpawner == null || KillBall == null)
+        {
+            return; // 객체가 파괴되었다면 여기서 즉시 종료
+        }
+        transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+        feverMonsterSpawner.SetActive(false);
+        transform.rotation = originalRotation;
+        await UniTask.Delay(2000, cancellationToken: cts.Token);
+        isAttack = false;
+    }
+    private async UniTask FeverAttackVector(int patternNum, CancellationToken token)
+    {
+        if (transform == null) return;
+        switch (patternNum)
+        {
+            case 0:
+                transform.position = new Vector3(transform.position.x - (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 7), transform.position.z);
+                break;
+            case 1:
+                transform.position = new Vector3(transform.position.x + (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 7), transform.position.z);
+                break;
+        }
+        await UniTask.Delay(200, cancellationToken: token);
+        if (transform == null) return;
+        transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
+    }
+    #endregion
 
 
-
+    #region("일반 패턴")
     private async UniTask SoundAttack()
     {
         if (BossState.isBoss3Dead) return;
@@ -235,7 +324,7 @@ public class GBAttack : MonoBehaviour
 			return; // 객체가 파괴되었거나 비활성화되면 즉시 종료
 		}
 		isAttack = true;
-        mosterSpawner.SetActive(true);
+        monsterSpawner.SetActive(true);
         KillBall.SetActive(true);
         KillBall.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
         musicBox.panStereo = 0f;
@@ -260,15 +349,22 @@ public class GBAttack : MonoBehaviour
 			if (!bossMove.canRun || cts.IsCancellationRequested) // CancellationToken 체크 추가
 				break;
 		}
-		if (transform == null || mosterSpawner == null || KillBall == null)
+		if (transform == null || monsterSpawner == null || KillBall == null)
 		{
 			return; // 객체가 파괴되었다면 여기서 즉시 종료
 		}
 		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-        mosterSpawner.SetActive(false);
+        if(CircleHit.Instance.isHighLight)
+        {
+            monsterSpawner.SetActive(false);
+            transform.rotation = originalRotation;
+            KillBall.SetActive(false);
+            isAttack = false;
+        }
+        monsterSpawner.SetActive(false);
         transform.rotation = originalRotation;
         KillBall.SetActive(false);
-        await UniTask.Delay(3000, cancellationToken: cts.Token);
+        await UniTask.Delay(2000, cancellationToken: cts.Token);
         isAttack = false;
     }
 
@@ -288,19 +384,18 @@ public class GBAttack : MonoBehaviour
       await UniTask.Delay(cooltime, cancellationToken: token);
 		if (transform == null) return;
 		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-
     }
 	
 
     private async UniTask Duplicate(CancellationToken token)
     {
-		if (transform == null || animator == null || clone == null || cloneTransform == null) return;
+		if (transform == null || animator == null || clone == null || cloneTransform == null || CircleHit.Instance.isHighLight) return;
 		isAttack = true;
       gameObject.tag = "RealClone";
       int teleport = Random.Range(0, cloneTransform.Length);
       for (int i = 0; i < clone.Length; i++)
       {
-            if (BossState.isBoss3Dead) return;
+            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) { ReturnClone(); return; }
             if (clone[i] == null || cloneTransform[i] == null) continue;
 			clone[i].SetActive(true);
         clone[i].transform.position = new Vector3(cloneTransform[i].transform.position.x, cloneTransform[i].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
@@ -311,7 +406,8 @@ public class GBAttack : MonoBehaviour
 		clone[teleport].SetActive(false);
       transform.position = new Vector3(cloneTransform[teleport].transform.position.x, cloneTransform[teleport].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
       await UniTask.Delay(cooltime + 3000, cancellationToken: token);
-        if (transform == null) return;
+        if (transform == null)
+            return; 
       transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
       ReturnClone();
       isAttack = false;
@@ -340,13 +436,14 @@ public class GBAttack : MonoBehaviour
 
     private async UniTask Poltergeist(CancellationToken token)
     {
-        if (BossState.isBoss3Dead) return;
+        if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) return;
         if (poltergeist == null || poltergeistOB == null || animator == null) return;
 		isAttack = true;
       poltergeist.SetActive(true);
       for (int i = 0; i < poltergeistOB.Length; i++)
       {
-            if (BossState.isBoss3Dead) return;
+
+            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) return;
             animator.SetTrigger("Polter");
         GameObject obj = poltergeistOB[i];
 			if (obj == null) continue;
@@ -432,15 +529,5 @@ public class GBAttack : MonoBehaviour
 			cts.Dispose();
 		}
 	}
-	//public async UniTask SoundSmooth_(float stereo, float duration)
-	//  {
-	//      float elapsed = 0f;
-	//      while (elapsed < duration)
-	//      {
-	//          elapsed += Time.deltaTime;
-	//          musicBox.panStereo = Mathf.Lerp(stereo, 0, elapsed / duration);
-	//          await UniTask.Yield();
-	//      }
-	//      musicBox.panStereo = stereo;
-	//  }
+    #endregion
 }

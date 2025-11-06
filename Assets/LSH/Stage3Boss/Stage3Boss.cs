@@ -109,7 +109,7 @@ public class Stage3Boss : MonoBehaviour
     }
     void ReadyforBigLazerAttack()
     {
-        bigLazerBallPool = new GameObject[10];
+        bigLazerBallPool = new GameObject[15];
         for(int i = 0;i<bigLazerBallPool.Length;i++)
         {
             GameObject biglazerAttack = Instantiate(bigLazer, bigChargeLazer.transform.position, Quaternion.identity);
@@ -142,7 +142,7 @@ public class Stage3Boss : MonoBehaviour
 				Debug.LogError(CircleHit.Instance.isHighLight);
 				break;
 
-            case 130:
+            case 129:
 				Debug.LogError("true로 바뀜");
 				CircleHit.Instance.isHighLight = true;
 				Debug.LogError(CircleHit.Instance.isHighLight);
@@ -344,7 +344,7 @@ public class Stage3Boss : MonoBehaviour
 		Debug.LogError("하이라이트!");
 		if (BossState.isBoss2Dead) return;
         //bigChargeLazer.SetActive(false);
-        for (int i = 0; i<13;  i++)
+        for (int i = 0; i<20;  i++)
         {
             if (!CircleHit.Instance.isHighLight)
                 break;
