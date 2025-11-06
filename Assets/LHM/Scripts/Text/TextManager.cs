@@ -18,7 +18,7 @@ public class TextManager : MonoBehaviour
 
     private CancellationTokenSource dialogueCTS;
     private CancellationTokenSource bossCTS;
-
+    bool skipAll = false;
     [SerializeField] ParticleSystem bossDeadParticle;
     [SerializeField] GameObject boss;
     private bool isBossDialogueStarted = false;
@@ -156,16 +156,19 @@ public class TextManager : MonoBehaviour
         TalkState.isTalking = true;
         int index = 0;
         bool waitingForClick = false;
-
+        bool skipAll = false;
         System.Action onClick = () => waitingForClick = false;
+        System.Action onSkipAll = () => skipAll = true;
+
         dialogueUI.OnDialogueClick += onClick;
+        dialogueUI.OnSkipAll += onSkipAll;
 
         dialogueUI.ShowDialogueUI(true);
         dialogueUI.StartImageAnimation(stageNum);
 
         while (index < lines.Length)
         {
-            if (token.IsCancellationRequested) break;
+            if (token.IsCancellationRequested || skipAll) break; 
 
             DialogueLine line = lines[index];
             var localized = new LocalizedString(line.localizationTable, line.localizationKey);
@@ -174,13 +177,14 @@ public class TextManager : MonoBehaviour
             dialogueUI.ShowDialogueText(localizedText, line.sound);
 
             waitingForClick = true;
-            while (waitingForClick && !token.IsCancellationRequested)
+            while (waitingForClick && !token.IsCancellationRequested && !skipAll)
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
 
             index++;
         }
 
         dialogueUI.OnDialogueClick -= onClick;
+        dialogueUI.OnSkipAll -= onSkipAll;
         dialogueUI.StopImageAnimation();
         dialogueUI.ShowDialogueUI(false);
         dialogueUI.speechBubble.SetActive(false);

@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class DialogueUIManager : MonoBehaviour
@@ -12,6 +13,9 @@ public class DialogueUIManager : MonoBehaviour
     [SerializeField] private RawImage speakerImage;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private GameObject TextBox;
+    public Image ClickCircle;
+    public float fillHoldSeconds = 3f;
+    public bool onRelease;
 
     [Header("font")]
     [SerializeField] private TMP_FontAsset sdfFontAsset;
@@ -24,8 +28,13 @@ public class DialogueUIManager : MonoBehaviour
     [SerializeField] private bool randomPitch = true;
     [SerializeField] private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
 
+
+    private float holdTime = 0f;
+    private bool isHolding = false;
+    public UnityEvent onCompleted;
     private CancellationTokenSource typingCTS;
     private CancellationTokenSource imageCTS;
+    public event Action OnSkipAll;
 
     private bool isTyping = false;
     private string currentFullText = "";
@@ -59,7 +68,8 @@ public class DialogueUIManager : MonoBehaviour
         }
     }
 
- 
+
+  
     private void OnSpeechBubbleClick()
     {
         if (isTyping)
@@ -74,20 +84,57 @@ public class DialogueUIManager : MonoBehaviour
         }
     }
 
-
+    void Update()
+    {
+        SkipClickAsync(currentFullText, null);
+    }
     public void ShowDialogueText(string message, AudioClip clip = null)
     {
         typingCTS?.Cancel();
         typingCTS = new CancellationTokenSource();
         _ = TypeTextAsync(message, clip, typingCTS.Token);
     }
+    private async UniTask SkipClickAsync(string message, AudioClip clip = null)
+    {
+        bool holding = Input.GetMouseButton(0);
+        if (holding)
+        {
+            holdTime += Time.deltaTime;
+            if(!isHolding && holdTime >= fillHoldSeconds)
+            {
 
+   
+                isHolding = true;
+                onCompleted?.Invoke();
+                OnSkipAll?.Invoke();
+            }
+        }
+        else
+        {
+            if(!holding)
+            {
+                holdTime = 0f;
+                isHolding = false;
+                if (ClickCircle) ClickCircle.fillAmount = 0f;
+            }
+
+           
+        }
+        float t = Mathf.Clamp01(holdTime / fillHoldSeconds);
+        if (ClickCircle) ClickCircle.fillAmount = t;
+
+    }
+    public void ResetProgress()
+    {
+        holdTime = 0f;
+        isHolding = false;
+       
+    }
     private async UniTask TypeTextAsync(string message, AudioClip clip, CancellationToken token)
     {
         isTyping = true;
         currentFullText = message;
         dialogueText.text = "";
-
         foreach (char c in message)
         {
             if (token.IsCancellationRequested) break;
