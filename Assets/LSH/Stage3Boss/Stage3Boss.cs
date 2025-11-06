@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -90,7 +91,7 @@ public class Stage3Boss : MonoBehaviour
 	//}
     void ReadyforLazerBallAttack()
     {
-        lazerBallPool = new GameObject[12];
+        lazerBallPool = new GameObject[20];
         //thisPos = new Vector3[7];
         //thisPos[0] =  new Vector3(-5f , 6f, transform.position.z);
         //thisPos[1] = new Vector3(5f, 6f, transform.position.z);
@@ -109,7 +110,7 @@ public class Stage3Boss : MonoBehaviour
     }
     void ReadyforBigLazerAttack()
     {
-        bigLazerBallPool = new GameObject[5];
+        bigLazerBallPool = new GameObject[20];
         for(int i = 0;i<bigLazerBallPool.Length;i++)
         {
             GameObject biglazerAttack = Instantiate(bigLazer, bigChargeLazer.transform.position, Quaternion.identity);
@@ -122,20 +123,37 @@ public class Stage3Boss : MonoBehaviour
     void Update()
     {
         if (playerHP == null || playerHP.isPlayerDead || BossState.isBoss2Dead) return;
-			if ((int)CheckRealTime.inGamerealTime == 40)
-			{
-				//Debug.LogError("개빡침");
-				Phase2();
-				isAngry = true;
-				animeOn = true;
-			}
+        switch((int)CheckRealTime.inGamerealTime)
+        {
+            case 40:
+                Phase2();
+                isAngry = true;
+                animeOn = true;
+                break;
 
-			if (!isAttacking && !isAngry)
+            //case int n when (n >= 90 && n < 100):
+            //    Debug.Log(CircleHit.Instance.bpm);
+            //    isAngry =false;
+            //    isHighLight = true;
+            //    break;
+            case >100:
+                isHighLight = true;
+                break;
+        }
+			//if ((int)CheckRealTime.inGamerealTime == 40)
+			//{
+   //         //Debug.LogError("개빡침");
+   //         Phase2();
+   //         isAngry = true;
+   //         animeOn = true;
+   //     }
+
+			if (!isAttacking && !isAngry && !CircleHit.Instance.isHighLight)
 			{
 				//Debug.Log("일반보스패턴");
 				Boss3Pattern();
 			}
-			if (!isAttacking && isAngry)
+			if (!isAttacking && isAngry && !CircleHit.Instance.isHighLight)
 			{
 				//Debug.Log("빡친보스패턴");
 				AngryBoss3Pattern();
@@ -150,16 +168,20 @@ public class Stage3Boss : MonoBehaviour
                 //SceneManager.LoadScene("StageSelect");
                 //DelayedDialogueCheckAsync().Forget();
             }
+            if(!isAttacking && CircleHit.Instance.isHighLight)
+            {
+                 HighLightBoss3Pattern();
+            }
 		
     }
     private async UniTask PlayBossDialojet()
     {
         await textManager.BossDialogueCheackAsync();
     }
- //   private async void LoadScene()
- //   {
-	//	await SceneLoader.Instance.LoadScene("StageSelect");
-	//}
+    //   private async void LoadScene()
+    //   {
+    //	await SceneLoader.Instance.LoadScene("StageSelect");
+    //}
     //public async UniTaskVoid DelayedDialogueCheckAsync()
     //{
 
@@ -171,6 +193,122 @@ public class Stage3Boss : MonoBehaviour
     //    await UniTask.Delay(1000);
     //    SceneManager.LoadScene("StageSelect");
     //}
+    #region("하이라이트")
+    void HighLightBoss3Pattern()
+    {
+        Debug.LogError("큰거 온다 큰거");
+        if (BossState.isBoss2Dead) return;
+        for (int i = 0; ; i++)
+        {
+            ranIndex = Random.Range(1, 3);
+            if (ranIndex != ranIndexBefore)
+            {
+                ranIndexBefore = ranIndex;
+                break;
+            }
+        }
+        switch (ranIndex)
+        {
+            case 1:
+                HsecondPattern().Forget();
+                break;
+            case 2:
+                HThirdPattern().Forget();
+                break;
+        }
+    }
+
+    private async UniTask HsecondPattern()
+    {
+        if (BossState.isBoss2Dead) return;
+        isAttacking = true;
+        var token = this.GetCancellationTokenOnDestroy();
+        //if(isAngry)
+        for (int i = 0; i < 20; i++)
+        {
+            if (BossState.isBoss2Dead) return;
+            int poolIndex = i % lazerBallPool.Length;
+            //lazerBallPool[i].transform.position = transform.position + thisPos[i];
+            Vector3 randomPos = transform.position + new Vector3(Random.Range(-12f, 12f), Random.Range(5f, 12f), 0f);
+            if (token.IsCancellationRequested) break;
+            lazerBallPool[poolIndex].transform.position = randomPos;
+            lazerBallPool[poolIndex].transform.localScale = Vector3.zero;
+            lazerBallPool[poolIndex].SetActive(true);
+            anime.SetTrigger("SecondPattern");
+            if (!lazerBallPool[poolIndex].activeSelf)
+            {
+                break;
+            }
+            for (int j = 1; j < 80; j++)
+            {
+                lazerBallPool[poolIndex].transform.localScale = new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
+                await UniTask.Delay(2, cancellationToken: token);
+            }
+            await UniTask.Delay(300, cancellationToken: token);
+        }
+        if (BossState.isBoss2Dead) return;
+        await UniTask.Delay(coolTime, cancellationToken: token);
+        isAttacking = false;
+    }
+
+
+    private async UniTask HThirdPattern()
+    {
+        if (BossState.isBoss2Dead) return;
+        isAttacking = true;
+        monsterSpawner.SetActive(false);
+        //bigChargeLazer.SetActive(true);
+        RotateCameraX(-30f, 1.2f).Forget();
+        //mirror.SetActive(true);
+        //mirror.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+
+        //for (int i = 1; i < 250; i++)
+        //{
+
+        //    bigChargeLazer.transform.localScale =
+        //        new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * i;
+        //    await UniTask.Delay(10);
+        //}
+        //anime.SetTrigger("BloodAttack");
+        await HBigLazerAttack();
+        await UniTask.Delay(3000);
+        //mirror.SetActive(false);
+        RotateCameraX(0f, 0.5f).Forget();
+        await UniTask.Delay(1000);
+        monsterSpawner.SetActive(true);
+        isAttacking = false;
+    }
+
+    private async UniTask HBigLazerAttack()
+    {
+        if (BossState.isBoss2Dead) return;
+        //bigChargeLazer.SetActive(false);
+        for (int i = 0; i < 10; i++)
+        {
+            int poolIndex = i % bigLazerBallPool.Length;
+            Vector3 randomPos = bigChargeLazer.transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, -1f), 0f);
+            bigLazerBallPool[poolIndex].transform.localScale = Vector3.zero;
+            anime.SetTrigger("BloodAttackReady");
+            bigLazerBallPool[poolIndex].SetActive(true);
+            bigLazerBallPool[poolIndex].transform.position = randomPos;
+            for (int j = 0; j < 125; j++)
+            {
+                bigLazerBallPool[poolIndex].transform.localScale =
+                    new Vector3(firstOfLazerSize, firstOfLazerSize, firstOfLazerSize) * j;
+                await UniTask.Delay(5);
+                if (BossState.isBoss2Dead) return;
+            }
+            bigLazerBool = bigLazerBallPool[poolIndex].GetComponent<BigLazer>();
+            //bigLazerBool.isGoing = true;
+            //bigLazerBallPool[poolBigLazer].transform.position = bigChargeLazer.transform.position;
+            Vector3 targetPos = new Vector3(player.position.x, player.position.y - 1.5f, player.position.z);
+            bigLazerBallPool[poolIndex].transform.LookAt(targetPos);
+
+            //await UniTask.WaitWhile(() => bigLazerBallPool[poolIndex].activeSelf);
+            await UniTask.Delay(300);
+        }
+    }
+    #endregion
 
     #region("보스빡침")
     void AngryBoss3Pattern()

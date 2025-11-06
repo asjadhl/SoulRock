@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CircleHit : MonoBehaviour
@@ -15,9 +16,9 @@ public class CircleHit : MonoBehaviour
 	public double bpm = 120.0;
 
 	[Header("판정 거리")]
-	[SerializeField] float minDis = 0.01f;
-	[SerializeField] float exDis = 70f;
-	[SerializeField] float maxDis = 120f;
+	[SerializeField] public float minDis = 0.01f;
+	[SerializeField] public float exDis = 70f;
+	[SerializeField] public float maxDis = 120f;
 
 	[Header("원 도트 프리팹")]
 	[SerializeField] GameObject CirclePrefab;
@@ -43,6 +44,7 @@ public class CircleHit : MonoBehaviour
 	CanvasGroup cg;
     Color randomColor;
     public bool isScale = false;
+	public bool isHighLight = false;
 	//public bool changeSound = false;
     private void Awake()
 	{
