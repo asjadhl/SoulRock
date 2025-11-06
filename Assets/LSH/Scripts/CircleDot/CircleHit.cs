@@ -27,7 +27,7 @@ public class CircleHit : MonoBehaviour
 	[SerializeField] int poolSize = 15;
 
 	[Header("Combo")]
-	public int combo = 0;
+	public static int combo = 0;
 	[SerializeField] GameObject comboText;
 	[SerializeField] TextMeshProUGUI text;
     [SerializeField] TextMeshProUGUI comboNumText;
@@ -106,15 +106,18 @@ public class CircleHit : MonoBehaviour
 					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
-				else if(distance < exDis && isHighLight)
+				if(isHighLight)
 				{
-					OnClickSuccessEx().Forget();
-                    comboNumText.text = combo.ToString();
-
-                    ReturnCircle(circle.gameObject);
-					activeCircles.RemoveAt(i);
+					maxDis = exDis;
+					if(maxDis < distance)
+					{
+						bpm = 350;
+						OnClickSuccessEx().Forget();
+						comboNumText.text = combo.ToString();
+						ReturnCircle(circle.gameObject);
+						activeCircles.RemoveAt(i);
+					}
 				}
-				//else { text.text = "Bad"; }
 			}
 		}
 	}
