@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,24 +20,25 @@ public class PopSystem : MonoBehaviour
     private bool active = false;
     private Lazy<Transform> m_canvas = new(() =>
     {
-      //  var canvasObj = GameObject.FindAnyObjectByType<Canvas>();
-      var canvasObj = GameObject.FindGameObjectWithTag("Hitbox");
-        if (canvasObj == null)
+
+      var unknown = GameObject.FindObjectsByType<CanvasScaler>(FindObjectsSortMode.None);
+      var result = unknown.Where(p => p.uiScaleMode == CanvasScaler.ScaleMode.ScaleWithScreenSize).FirstOrDefault().transform;
+      if (result == null)
         {
         //Create New Canvas
-        GameObject canvas = new GameObject("Canvas");
-        canvas.AddComponent<RectTransform>();
-            var canvascom = canvas.AddComponent<Canvas>();//.renderMode = RenderMode.ScreenSpaceOverlay;
+        GameObject auto_canvas =  new GameObject("AutoCanvas");
+        auto_canvas.AddComponent<RectTransform>();
+            var canvascom = auto_canvas.AddComponent<Canvas>();//.renderMode = RenderMode.ScreenSpaceOverlay;
             canvascom.renderMode = RenderMode.ScreenSpaceOverlay;
             canvascom.sortingOrder = 5;
-        canvas.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        canvas.AddComponent<GraphicRaycaster>();
-        canvasObj = canvas;
+        auto_canvas.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        auto_canvas.AddComponent<GraphicRaycaster>();
+        result = auto_canvas.transform;
         }
-        return canvasObj.transform;
+        return result;
     });
-
-    public RuntimeAnimatorController runtimeAnimatorController;
+ 
+  public RuntimeAnimatorController runtimeAnimatorController;
     private int currentActiveCount = 0;
   private void Start()
   {
