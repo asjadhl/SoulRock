@@ -3,13 +3,11 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Localization;
 
 public class TutorialManager : MonoBehaviour
 {
     [Header("Scriptable Data")]
-    [SerializeField] private BossTextData tutorialData;  // 재탕!
-
+    [SerializeField] private TutorialTextData tutorialData;  // 모든 대사 통합
     [Header("UI")]
     [SerializeField] private TutorialUIManager TutoUI;
     [SerializeField] private GameObject nextButton;
@@ -59,17 +57,17 @@ public class TutorialManager : MonoBehaviour
 
         TutoUI.StartImageAnimation();
 
-        // 1️⃣ tutline1 출력 (tutorialData.bossDialogues[0] 기준)
-        if (tutorialData.bossDialogues.Length > 0)
-            await PlayDialogueSetAsync(tutorialData.bossDialogues[0].deathLines, tutorialCTS.Token);
+        // 1️tutline1 출력
+        await PlayDialogueSetAsync(tutorialData.tutline1, tutorialCTS.Token);
 
-        // 2️⃣ 더미 관련 시퀀스
+        // 2️더미 관련 시퀀스 시작
         HighlightDummyAsync().Forget();
+        await ShowDialogueAsync("더미를 맞춰보자! \n ( Hit the pile twice! )", null);
 
-        // 3️⃣ 더미 처치 대기
+        // 3️더미 처치 대기
         await UniTask.WaitUntil(() => dummySpawner != null && dummySpawner.dummyHp <= 1);
 
-        // 4️⃣ 다음 세트 출력
+        // 4️더미 죽으면 다음 세트 출력
         await OnDummyDeadSequence();
     }
 
@@ -80,34 +78,34 @@ public class TutorialManager : MonoBehaviour
 
         TutoUI.StopImageAnimation();
 
-        if (tutorialData.bossDialogues.Length > 1)
-            await PlayDialogueSetAsync(tutorialData.bossDialogues[1].deathLines, tutorialCTS.Token);
+        // tutline2 출력
+        await PlayDialogueSetAsync(tutorialData.tutline2, tutorialCTS.Token);
 
         await UniTask.Delay(TimeSpan.FromSeconds(1));
         SceneLoader.Instance.LoadScene("StageSelect");
     }
 
-    private async UniTask PlayDialogueSetAsync(BossLine[] lineSet, CancellationToken token)
+    private async UniTask PlayDialogueSetAsync(TutorialTextLine lineSet, CancellationToken token)
     {
-        if (lineSet == null || lineSet.Length == 0)
+        if (lineSet == null || lineSet.tutorialLines == null)
         {
-            Debug.LogWarning("대사 세트가 비어있습니다!");
+            Debug.LogWarning("TutorialTextLine 세트가 비어있습니다!");
             return;
         }
 
-        foreach (var line in lineSet)
+        foreach (var line in lineSet.tutorialLines)
         {
             await PlayDialogueLineAsync(line, token);
         }
     }
 
-    private async UniTask PlayDialogueLineAsync(BossLine line, CancellationToken token)
+    private async UniTask PlayDialogueLineAsync(TutorialLine line, CancellationToken token)
     {
         TutoUI.ShowDialogueUI(true);
         TutoUI.OnDialogueClick -= OnDialogueClicked;
         TutoUI.OnDialogueClick += OnDialogueClicked;
 
-        await TypeLocalizedDialogueAsync(line.localizationTable, line.localizationKey, line.sound, token);
+        await TypeDialogueAsync(line.text, line.sound, token);
 
         waitingForNext = true;
         if (nextButton != null) nextButton.SetActive(true);
@@ -116,20 +114,10 @@ public class TutorialManager : MonoBehaviour
         TutoUI.OnDialogueClick -= OnDialogueClicked;
     }
 
-    // ✅ Localization 기반 문자열 출력
-    private async UniTask TypeLocalizedDialogueAsync(string table, string key, AudioClip clip, CancellationToken token)
+    private async UniTask TypeDialogueAsync(string text, AudioClip clip, CancellationToken token)
     {
         TutoUI.ClearText();
         isTyping = true;
-
-        var localizedString = new LocalizedString(table, key);
-        string text = await localizedString.GetLocalizedStringAsync();
-
-        if (string.IsNullOrEmpty(text))
-        {
-            Debug.LogWarning($"Localized text not found for {table}:{key}, using fallback.");
-            text = key; // fallback to key
-        }
 
         for (int i = 0; i < text.Length; i++)
         {
@@ -150,8 +138,7 @@ public class TutorialManager : MonoBehaviour
         isTyping = false;
     }
 
-    // 튜토리얼 전용 단일 문자열 호출 (보스라인 외)
-    private async UniTask ShowLocalizedDialogueAsync(string table, string key, AudioClip clip)
+    private async UniTask ShowDialogueAsync(string text, AudioClip sound)
     {
         TutoUI.ShowDialogueUI(true);
         skipRequested = false;
@@ -160,7 +147,7 @@ public class TutorialManager : MonoBehaviour
         TutoUI.OnDialogueClick -= OnDialogueClicked;
         TutoUI.OnDialogueClick += OnDialogueClicked;
 
-        await TypeLocalizedDialogueAsync(table, key, clip, tutorialCTS.Token);
+        await TypeDialogueAsync(text, sound, tutorialCTS.Token);
 
         waitingForNext = true;
         if (nextButton != null) nextButton.SetActive(true);
