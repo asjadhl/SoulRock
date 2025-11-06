@@ -3,11 +3,10 @@ using System.Collections;
 
 public class PressTrap : MonoBehaviour
 {
-    [Header("속도 설정")]
-    public float downSpeed = 10f;   // 내려가는 속도
-    public float upSpeed = 5f;      // 올라가는 속도
-    public float waitTime = 1f;     // 바닥에서 대기 시간
-    public float downDistance = 5f; // 내려가는 거리
+    public float downSpeed = 10f;   
+    public float upSpeed = 5f;    
+    public float waitTime = 1f;     
+    public float downDistance = 5f;
     public float firstSpeed = 10f;
     public float firstdownDistace = 5f;
 
@@ -38,17 +37,14 @@ public class PressTrap : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, firstdownPos, firstSpeed * Time.deltaTime);
                 yield return null;
             }
-            // 1. 빠르게 내려찍기
             while (Vector3.Distance(transform.position, downPos) > 0.01f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, downPos, downSpeed * Time.deltaTime);
                 yield return null;
             }
-
-            // 2. 바닥에서 잠시 대기
             yield return new WaitForSeconds(0.2f);
 
-            // 3. 천천히 올라가기
+
             while (Vector3.Distance(transform.position, startPos) > 0.01f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, startPos, upSpeed * Time.deltaTime);
@@ -71,7 +67,7 @@ public class PressTrap : MonoBehaviour
         }
     }
 
-    // 플레이어와 충돌 시 데미지 처리
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

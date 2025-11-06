@@ -9,7 +9,7 @@ public class PlayerDieText : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameOverTextUI gameOverUI;
 
-    [Header("Localization Key")]
+    [Header("Localization")]
     [SerializeField] private string tableName = "GameOver";
 
     private void Start()
@@ -29,7 +29,6 @@ public class PlayerDieText : MonoBehaviour
             return;
         }
 
-        // 게임오버 패널이 꺼질 때까지 대기
         while (gameOverUI.gameObject.activeSelf)
         {
             await UniTask.Yield(PlayerLoopTiming.Update);

@@ -54,29 +54,24 @@ public class LazerTrap : MonoBehaviour
     }
     public void OnHit()
     {
-        // Raycast로 맞은 대상 감지
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100f))
         {
-            // 맞은 오브젝트가 lazerObject 배열 중 하나인지 확인
             for (int i = 0; i < lazerObject.Length; i++)
             {
                 if (hit.collider.gameObject == lazerObject[i])
                 {
-                    // HP 감소
                     CurrentHealth--;
 
-                    // 만약 해당 수정 구슬이 체력 0이 되면 비활성화
+
                     if (CurrentHealth <= 0)
                     {
                         lazerObject[i].SetActive(false);
-
-                        // 연결된 레이저도 함께 비활성화
                         if (i < lazers.Length && lazers[i] != null)
                         {
                             lazers[i].SetActive(false);
                         }
                     }
-                    break; // 맞은 구슬 찾았으니 반복문 종료
+                    break;
                 }
             }
         }

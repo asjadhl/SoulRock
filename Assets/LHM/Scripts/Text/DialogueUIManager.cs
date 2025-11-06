@@ -7,19 +7,19 @@ using UnityEngine.UI;
 
 public class DialogueUIManager : MonoBehaviour
 {
-    [Header("UI 오브젝트 연결")]
+    [Header("UI")]
     [SerializeField] public GameObject speechBubble;
     [SerializeField] private RawImage speakerImage;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private GameObject TextBox;
 
-    [Header("폰트 (SDF 폰트 에셋)")]
+    [Header("font")]
     [SerializeField] private TMP_FontAsset sdfFontAsset;
 
-    [Header("타이핑 설정")]
+    [Header("typing")]
     [SerializeField] private float typingSpeed = 0.04f;
 
-    [Header("사운드 설정")]
+    [Header("sound")]
     [SerializeField] private AudioSource typingAudio;
     [SerializeField] private bool randomPitch = true;
     [SerializeField] private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
@@ -40,7 +40,6 @@ public class DialogueUIManager : MonoBehaviour
     public Texture stage3_img1;
     public Texture stage3_img2;
     public Texture Empty;
-    public Texture boss1_img;
     public Texture stage4_img1;
     public Texture stage4_img2;
     //3D 유령으로 할거면 여기다가 이미지 하나 추가해서 빈칸만들기
@@ -60,7 +59,7 @@ public class DialogueUIManager : MonoBehaviour
         }
     }
 
-    // DialogueUIManager.cs
+ 
     private void OnSpeechBubbleClick()
     {
         if (isTyping)

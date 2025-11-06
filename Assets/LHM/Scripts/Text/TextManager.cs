@@ -37,10 +37,10 @@ public class TextManager : MonoBehaviour
 
         if (isBossDialogueStarted) return;
         isBossDialogueStarted = true;
-        Debug.Log("¢º BossDialogueCheackAsync() È£ÃâµÊ");
+        Debug.Log("BossDialogueCheackAsync() È£ÃâµÊ");
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
-            Debug.Log("¢º BossDialogueCheackAsync() È£ÃâµÊ");
+            Debug.Log("BossDialogueCheackAsync() È£ÃâµÊ");
             BossClosePanel.SetActive(true);
             await BossHandleBossDeathAsync(1);
             await PlayDeadParteicle();
@@ -50,7 +50,7 @@ public class TextManager : MonoBehaviour
         }
         if (BossState.isBoss1Dead && BossState.isBoss2Dead && !BossState.isBoss3Dead)
         {
-            Debug.Log("¢º Boss2DialogueCheackAsync() È£ÃâµÊ");
+            Debug.Log("Boss2DialogueCheackAsync() È£ÃâµÊ");
             BossClosePanel.SetActive(true);
             await BossHandleBossDeathAsync(2);
             await PlayDeadParteicle();
@@ -60,7 +60,7 @@ public class TextManager : MonoBehaviour
         }
         if (BossState.isBoss3Dead)
         {
-            Debug.Log("¢º Boss2DialogueCheackAsync() È£ÃâµÊ");
+            Debug.Log("Boss2DialogueCheackAsync() È£ÃâµÊ");
             BossClosePanel.SetActive(true);
             await BossHandleBossDeathAsync(3);
             await PlayDeadParteicle();
@@ -122,7 +122,7 @@ public class TextManager : MonoBehaviour
     }
     private async UniTask BossHandleBossDeathAsync(int bossStage)
     {
-        Debug.Log("¢º BossHandleBossDeathAsync() È£ÃâµÊ");
+        Debug.Log("BossHandleBossDeathAsync() È£ÃâµÊ");
         if (bossStage == 1)
             BossState.isBoss1Dead = true;
         else if (bossStage ==2)
@@ -141,14 +141,12 @@ public class TextManager : MonoBehaviour
     var bossSet = System.Array.Find(bosstextData.bossDialogues, x => x.bossName == $"Boss{firstStage}");
     if (bossSet == null)
     {
-        Debug.LogWarning($"Boss dialogue not found for Boss{firstStage}");
         return;
     }
 
     BossLine[] lines = bossSet.deathLines;
     if (lines != null)
     {
-        Debug.Log($"º¸½º ´ë»ç ½ÃÀÛ: Boss{firstStage}, Line ¼ö: {lines.Length}");
         await stagePlayDialogueAsync(lines, firstStage, bossCTS.Token);
     }
 }
