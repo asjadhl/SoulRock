@@ -241,6 +241,7 @@ public class Stage3Boss : MonoBehaviour
         //if(isAngry)
         for (int i = 0; i < 12; i++)
         {
+            if (BossState.isBoss2Dead) return;
             int poolIndex = i % lazerBallPool.Length;
             //lazerBallPool[i].transform.position = transform.position + thisPos[i];
             Vector3 randomPos = transform.position + new Vector3(Random.Range(-12f, 12f), Random.Range(5f, 12f), 0f);

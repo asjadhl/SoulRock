@@ -43,6 +43,7 @@ public class CircleHit : MonoBehaviour
 	CanvasGroup cg;
     Color randomColor;
     public bool isScale = false;
+	//public bool changeSound = false;
     private void Awake()
 	{
 		if (Instance == null) Instance = this;
@@ -58,7 +59,7 @@ public class CircleHit : MonoBehaviour
 		secondsPerBeat = 60.0 / bpm;
 		cg = comboText.GetComponent<CanvasGroup>();
 	}
-
+	
 	private void Start()
 	{
 		a = GetComponent<AudioSource>();
@@ -150,8 +151,8 @@ public class CircleHit : MonoBehaviour
         text.text = "Good";
         isScale = true;
 		cg.alpha = 1;
-        a.PlayOneShot(clip);
         playerShoot.PlayerShoot_();
+        a.PlayOneShot(clip);
         playerHPSc.PlayerHPPlus(2);
 		await UniTask.Delay(100);
 		isScale = false;
