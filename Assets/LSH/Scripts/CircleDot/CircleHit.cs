@@ -84,7 +84,7 @@ public class CircleHit : MonoBehaviour
 				var circle = activeCircles[i];
 				float distance = Vector2.Distance(targetImage.position, circle.hitRect.position);
 
-				if (minDis <= distance && exDis >= distance)
+				if (minDis <= distance && exDis >= distance && !isHighLight)
 				{
 					OnClickSuccessEx().Forget();
                     comboNumText.text = combo.ToString();
@@ -92,18 +92,26 @@ public class CircleHit : MonoBehaviour
                     ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
-				else if(exDis < distance && maxDis >= distance)
+				else if(exDis < distance && maxDis >= distance && !isHighLight)
 				{
 					OnClickSuccess().Forget();
                     comboNumText.text = combo.ToString();
                     ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
                 }
-				else if(minDis > distance || maxDis < distance)
+				else if(minDis > distance || maxDis < distance && !isHighLight)
 				{
 					OnClickSuccessBad().Forget();
 					comboNumText.text = combo.ToString();
 					ReturnCircle(circle.gameObject);
+					activeCircles.RemoveAt(i);
+				}
+				else if(distance < exDis && isHighLight)
+				{
+					OnClickSuccessEx().Forget();
+                    comboNumText.text = combo.ToString();
+
+                    ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
 				//else { text.text = "Bad"; }
