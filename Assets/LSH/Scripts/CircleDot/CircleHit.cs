@@ -117,7 +117,6 @@ public class CircleHit : MonoBehaviour
 	{
 		if (poolCircle.Length == 0)
 		{
-			Debug.LogError("풀에 오브젝트가 없음!");
 			return null;
 		}
 
@@ -154,9 +153,9 @@ public class CircleHit : MonoBehaviour
         a.PlayOneShot(clip);
         playerShoot.PlayerShoot_();
         playerHPSc.PlayerHPPlus(2);
-		await UniTask.Delay(150);
+		await UniTask.Delay(100);
 		isScale = false;
-		await UniTask.Delay(350);
+		await UniTask.Delay(300);
 		cg.alpha = 0;
 	}
 

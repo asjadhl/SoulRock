@@ -49,7 +49,7 @@ public class LazerBall : MonoBehaviour
         {
             lazerMove();
         }
-
+        if (BossState.isBoss2Dead) gameObject.SetActive(false);
     }
 
     void lazerMove()

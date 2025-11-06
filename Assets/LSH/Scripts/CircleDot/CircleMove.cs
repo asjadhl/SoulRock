@@ -22,7 +22,8 @@ public class CircleMove : MonoBehaviour
     private void Awake()
     { 
 		rawImage = GetComponent<Image>();
-        originalColor = rawImage.color;
+        rawImage.color = cirlceColor;
+		originalColor = rawImage.color;
     }
     public void Initialize(CircleHit hit)
 	{
@@ -47,7 +48,7 @@ public class CircleMove : MonoBehaviour
         if (transform.localScale.x <= 10 && !colorChanging)
         {
             colorChanging = true;
-            ChangeColorSmooth(cirlceColor, 0.5f).Forget();
+            //ChangeColorSmooth(cirlceColor, 0.5f).Forget();
         }
     }
     public async UniTask ChangeColor()
@@ -71,50 +72,29 @@ public class CircleMove : MonoBehaviour
         }
     }
 
-    public async UniTask ChangeColorSmooth(Color targetColor, float duration)
-    {
-		//Color startColor = rawImage.color;
-		//float elapsed = 0f;
+ //   public async UniTask ChangeColorSmooth(Color targetColor, float duration)
+ //   {
+	//	var token = this.GetCancellationTokenOnDestroy();
+	//	if (rawImage == null) return;
 
-		//while (elapsed < duration)
-		//{
-		//    elapsed += Time.deltaTime;
-		//    rawImage.color = Color.Lerp(startColor, targetColor, elapsed / duration);
-		//    await UniTask.Yield();
-		//}
-		//rawImage.color = targetColor;
-		//colorChanging = false;
-		var token = this.GetCancellationTokenOnDestroy();
-		if (rawImage == null) return;
+	//	Color startColor = rawImage.color;
+	//	float elapsed = 0f;
+        
+	//		while (elapsed < duration)
+	//		{
+	//			if (token.IsCancellationRequested || this == null || rawImage == null)
+	//				return;
 
-		Color startColor = rawImage.color;
-		float elapsed = 0f;
-
-		try
-		{
-			while (elapsed < duration)
-			{
-				if (token.IsCancellationRequested || this == null || rawImage == null)
-					return;
-
-				elapsed += Time.deltaTime;
-				rawImage.color = Color.Lerp(startColor, targetColor, elapsed / duration);
-				await UniTask.Yield(cancellationToken: token);
-			}
-
-			if (rawImage != null)
-				rawImage.color = targetColor;
-		}
-		catch (OperationCanceledException)
-		{
-			// 씬 전환 중 중단
-			return;
-		}
-		finally
-		{
-			colorChanging = false;
-		}
-	}
+	//			elapsed += Time.deltaTime;
+	//			rawImage.color = Color.Lerp(startColor, targetColor, elapsed / duration);
+	//			await UniTask.Yield(cancellationToken: token);
+	//		}
+ //       if (rawImage == null) return;
+        
+ //       else rawImage.color = targetColor;
+	//    colorChanging = false;
+		
+	//}
 
     public void SetColor()
     {

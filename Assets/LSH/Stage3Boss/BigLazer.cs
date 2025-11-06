@@ -35,7 +35,8 @@ public class BigLazer : MonoBehaviour
         {
 			transform.Translate(Vector3.forward * 5 * Time.deltaTime);
 		}
-        
+        if (BossState.isBoss2Dead) gameObject.SetActive(false);
+
     }
     private void OnTriggerEnter(Collider col)
     {   

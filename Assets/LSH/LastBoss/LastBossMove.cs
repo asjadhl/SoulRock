@@ -18,6 +18,7 @@ public class LastBossMove : MonoBehaviour
     {
         if (temp.canRun)
             UpdateBossRun();
+        if (BossState.isBoss3Dead) gameObject.SetActive(false);
     }
 
     public async UniTask HitGhostBoss()

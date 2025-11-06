@@ -25,6 +25,7 @@ public class ReverseRotate : MonoBehaviour
         {
             OBMove();
         }
+        if (BossState.isBoss3Dead) gameObject.SetActive(false);
 
     }
     private void OnEnable()
