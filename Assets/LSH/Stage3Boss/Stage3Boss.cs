@@ -136,9 +136,9 @@ public class Stage3Boss : MonoBehaviour
             //    isAngry =false;
             //    isHighLight = true;
             //    break;
-            case >100:
-                isHighLight = true;
-                break;
+            //case >100:
+            //    isHighLight = true;
+            //    break;
         }
 			//if ((int)CheckRealTime.inGamerealTime == 40)
 			//{
