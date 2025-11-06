@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

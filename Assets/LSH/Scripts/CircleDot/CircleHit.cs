@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CircleHit : MonoBehaviour
 {
@@ -43,9 +44,13 @@ public class CircleHit : MonoBehaviour
 	public bool getDamage = false;
 	CanvasGroup cg;
     Color randomColor;
+	public Color feverColor;
     public bool isScale = false;
 	public bool isHighLight = false;
 	double firstBpm = 0;
+	Image image;
+	Color originalColor; //피버 끝날떄
+
 	//public bool changeSound = false;
     private void Awake()
 	{
@@ -62,6 +67,8 @@ public class CircleHit : MonoBehaviour
 		secondsPerBeat = 60.0 / bpm;
 		firstBpm = secondsPerBeat;
 		cg = comboText.GetComponent<CanvasGroup>();
+		image = GetComponent<Image>();
+		originalColor = image.color;
 	}
 	
 	private void Start()
@@ -69,7 +76,7 @@ public class CircleHit : MonoBehaviour
 		a = GetComponent<AudioSource>();
 		playerShoot = FindAnyObjectByType<PlayerShoot>();
         playerHPSc = FindAnyObjectByType<PlayerHP>();
-        circleGen().Forget();
+        CircleGen().Forget();
 	}
 
 	private void Update()
@@ -113,7 +120,7 @@ public class CircleHit : MonoBehaviour
 					maxDis = 80;
 					if(maxDis > distance)
 					{
-						bpm = 140;
+						bpm = 170;
 						secondsPerBeat = 60.0 / bpm;
 						OnClickSuccessEx().Forget();
 						comboNumText.text = combo.ToString();
@@ -150,7 +157,17 @@ public class CircleHit : MonoBehaviour
 			circleDot.GetComponent<CircleMove>().ChangeColor().Forget();
 		else
 			circleDot.GetComponent<CircleMove>().SetColor();
-
+		if (isHighLight)
+		{
+			image.color = feverColor;
+			circleDot.GetComponent<CircleMove>().FeverTime();
+		}
+		else
+		{
+			image.color = originalColor;
+			circleDot.GetComponent<CircleMove>().FeverTimeFIn();
+		}
+			
 		circleDot.SetActive(true); 
 
 		activeCircles.Add(circleDot.GetComponent<CircleMove>());
@@ -219,7 +236,7 @@ public class CircleHit : MonoBehaviour
 	//           GetCircle().transform.position = transform.position;
 	//       }
 	//}
-	private async UniTask circleGen()
+	private async UniTask CircleGen()
 	{
 		while (isRunning && this != null && gameObject != null)
 		{

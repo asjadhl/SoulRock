@@ -19,7 +19,6 @@ public class CircleMove : MonoBehaviour
     public float fadeDuration = 0.1f;
     private bool colorChanging = false;
     public Color cirlceColor;
-    public Color feverColor;
     private void Awake()
     { 
 		rawImage = GetComponent<Image>();
@@ -77,11 +76,19 @@ public class CircleMove : MonoBehaviour
 	{
 		if (rawImage == null) return;
 			float alpha = 0f;
-			var newColor = feverColor;
+			var newColor = originalColor;
 			newColor.a = alpha;
 			rawImage.color = newColor;
 	}
 
+	public void FeverTimeFIn()
+	{
+		if (rawImage == null) return;
+		float alpha = 1f;
+		var newColor = originalColor;
+		newColor.a = alpha;
+		rawImage.color = newColor;
+	}
 	//   public async UniTask ChangeColorSmooth(Color targetColor, float duration)
 	//   {
 	//	var token = this.GetCancellationTokenOnDestroy();
