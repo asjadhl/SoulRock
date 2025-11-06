@@ -62,17 +62,21 @@ public class LanguageToggle : MonoBehaviour
                 koreanToggle.SetIsOnWithoutNotify(false);
                 SetLocal(Language.en).Forget();
             }
+          else if (!isOn)
+            englishToggle.SetIsOnWithoutNotify(true);
         });
 
         koreanToggle.onValueChanged.AddListener(isOn =>
         {
             audiosource.Play();
-            
-            if (isOn && !active)
-            {
-                englishToggle.SetIsOnWithoutNotify(false);
-                SetLocal(Language.ko).Forget();
-            }
+
+          if (isOn && !active)
+          {
+            englishToggle.SetIsOnWithoutNotify(false);
+            SetLocal(Language.ko).Forget();
+          }
+          else if (!isOn)
+            koreanToggle.SetIsOnWithoutNotify(true);
         });
     }
 

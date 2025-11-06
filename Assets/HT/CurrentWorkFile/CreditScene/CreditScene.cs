@@ -10,9 +10,14 @@ public class CreditScene : MonoBehaviour
     public Vector2 startPos;
     public Vector2 endPos;
     public float duration = 10f;
+#if UNITY_EDITOR
+  [Range(0, 10f)]
+#endif
+  public float PlayedStart;
     public void Start()
     {
-        if (animator == null)
+   
+    if (animator == null)
         {
 #if UNITY_EDITOR
             Debug.LogWarning($"{this.name}: Animator is Null");
@@ -53,7 +58,14 @@ public class CreditScene : MonoBehaviour
         aoc["CreditSceneClip"] = clip;
         aoc.name = "overridecontroller";
         animator.runtimeAnimatorController = aoc;
-
-        animator.Play("CreditSceneClip", 0, 0f);
+        animator.speed = 0;
+         Invoke(nameof(Play), PlayedStart);
+       
     }
+
+  private void Play()
+  {
+    animator.speed = 1;
+    animator.Play("CreditSceneClip", 0, 0f);
+  }
 }
