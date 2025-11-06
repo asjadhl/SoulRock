@@ -8,7 +8,7 @@ using UnityEngine.Localization;
 public class TutorialManager : MonoBehaviour
 {
     [Header("Scriptable Data")]
-    [SerializeField] private BossTextData tutorialData;  // 재탕!
+    [SerializeField] private BossTextData tutorialData;
 
     [Header("UI")]
     [SerializeField] private TutorialUIManager TutoUI;
@@ -59,17 +59,13 @@ public class TutorialManager : MonoBehaviour
 
         TutoUI.StartImageAnimation();
 
-        // 1️⃣ tutline1 출력 (tutorialData.bossDialogues[0] 기준)
         if (tutorialData.bossDialogues.Length > 0)
             await PlayDialogueSetAsync(tutorialData.bossDialogues[0].deathLines, tutorialCTS.Token);
 
-        // 2️⃣ 더미 관련 시퀀스
         HighlightDummyAsync().Forget();
 
-        // 3️⃣ 더미 처치 대기
         await UniTask.WaitUntil(() => dummySpawner != null && dummySpawner.dummyHp <= 1);
 
-        // 4️⃣ 다음 세트 출력
         await OnDummyDeadSequence();
     }
 
@@ -116,7 +112,6 @@ public class TutorialManager : MonoBehaviour
         TutoUI.OnDialogueClick -= OnDialogueClicked;
     }
 
-    // ✅ Localization 기반 문자열 출력
     private async UniTask TypeLocalizedDialogueAsync(string table, string key, AudioClip clip, CancellationToken token)
     {
         TutoUI.ClearText();
@@ -128,7 +123,7 @@ public class TutorialManager : MonoBehaviour
         if (string.IsNullOrEmpty(text))
         {
             Debug.LogWarning($"Localized text not found for {table}:{key}, using fallback.");
-            text = key; // fallback to key
+            text = key; 
         }
 
         for (int i = 0; i < text.Length; i++)
