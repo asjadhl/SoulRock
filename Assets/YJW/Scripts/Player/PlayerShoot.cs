@@ -39,7 +39,7 @@ public class PlayerShoot : MonoBehaviour
                 dummy.getDummyHit = true;
                 dummy.getDummyDamage();
             }},
-            { "SuperBigBall", col => col.GetComponent<BigLazer>().BallHpMin () },
+            { "SuperBigBall", col => col.GetComponent<BigLazer>().BallHpMin() },
             { "LazerBall", col => col.gameObject.SetActive(false) },
             { "Skull", col => col.GetComponent<MiniSkullMove>().ShootReturnSkull() },
             { "Stage2Boss", col => {
