@@ -1278,11 +1278,17 @@ MonoBehaviour:
   speakerImage: {fileID: 786101797}
   dialogueText: {fileID: 1651424559}
   TextBox: {fileID: 960758788}
+  ClickCircle: {fileID: 0}
+  fillHoldSeconds: 3
+  onRelease: 0
   sdfFontAsset: {fileID: 11400000, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
   typingSpeed: 0.04
   typingAudio: {fileID: 1663647198}
   randomPitch: 1
   pitchRange: {x: 0.95, y: 1.05}
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
   stage1_img1: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
   stage1_img2: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
   stage2_img1: {fileID: 2800000, guid: d14b31b38b05e0d42a4dd843cf2f0305, type: 3}
@@ -6416,7 +6422,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680291385}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 6.92, z: 2.32}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1

@@ -27,7 +27,7 @@ public class CircleHit : MonoBehaviour
 	[SerializeField] int poolSize = 15;
 
 	[Header("Combo")]
-	public static int combo = 0;
+	public int combo = 0;
 	[SerializeField] GameObject comboText;
 	[SerializeField] TextMeshProUGUI text;
     [SerializeField] TextMeshProUGUI comboNumText;
@@ -45,6 +45,7 @@ public class CircleHit : MonoBehaviour
     Color randomColor;
     public bool isScale = false;
 	public bool isHighLight = false;
+	double firstBpm = 0;
 	//public bool changeSound = false;
     private void Awake()
 	{
@@ -59,6 +60,7 @@ public class CircleHit : MonoBehaviour
 			poolCircle[i] = circleDot;
 		}
 		secondsPerBeat = 60.0 / bpm;
+		firstBpm = secondsPerBeat;
 		cg = comboText.GetComponent<CanvasGroup>();
 	}
 	
@@ -108,15 +110,20 @@ public class CircleHit : MonoBehaviour
 				}
 				if(isHighLight)
 				{
-					maxDis = exDis;
-					if(maxDis < distance)
+					maxDis = 80;
+					if(maxDis > distance)
 					{
-						bpm = 350;
+						bpm = 140;
+						secondsPerBeat = 60.0 / bpm;
 						OnClickSuccessEx().Forget();
 						comboNumText.text = combo.ToString();
 						ReturnCircle(circle.gameObject);
 						activeCircles.RemoveAt(i);
 					}
+				}
+				else
+				{
+					secondsPerBeat = firstBpm;
 				}
 			}
 		}
@@ -217,7 +224,7 @@ public class CircleHit : MonoBehaviour
 		while (isRunning && this != null && gameObject != null)
 		{
 			await UniTask.Delay((int)(secondsPerBeat * 1000.0));
-
+			Debug.Log((int)(secondsPerBeat * 1000.0));
 			// 씬이 전환되거나 오브젝트가 파괴되면 중단
 			if (!isRunning || this == null || gameObject == null)
 				break;

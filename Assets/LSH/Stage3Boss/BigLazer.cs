@@ -48,15 +48,18 @@ public class BigLazer : MonoBehaviour
         }
        
     }
+	private void OnEnable()
+	{
+		transform.LookAt(player.position);
+	}
+	//private void OnDisable()
+	//{
+	//    Vector3 effectPos = transform.position;
+	//    var explosion = Instantiate(explosionEffect, effectPos, Quaternion.identity);
+	//    explosion.Play();
+	//}
 
-    //private void OnDisable()
-    //{
-    //    Vector3 effectPos = transform.position;
-    //    var explosion = Instantiate(explosionEffect, effectPos, Quaternion.identity);
-    //    explosion.Play();
-    //}
-
-    private void OnDisable()
+	private void OnDisable()
     {
         //isGoing = false;
         if (!isInitialized) return;
