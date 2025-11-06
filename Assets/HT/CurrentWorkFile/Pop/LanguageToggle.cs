@@ -5,6 +5,12 @@ using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine.Audio;
 
+
+public enum Language
+{
+    en = 0,
+    ko = 1
+}
 public class LanguageToggle : MonoBehaviour
 {
     public Toggle englishToggle;
@@ -18,11 +24,7 @@ public class LanguageToggle : MonoBehaviour
             Debug.LogError("PopSystem not found in the scene!");
         return system;
     });
-    public enum Language
-    {
-        en = 0,
-        ko = 1
-    }
+    
 
     private bool active = false;
 

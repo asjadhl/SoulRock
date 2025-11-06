@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class PopSystem : MonoBehaviour
@@ -14,6 +16,7 @@ public class PopSystem : MonoBehaviour
     private AudioSource audiosource;
     private Dictionary<string, GameObject> panelMap = new();
 
+    private bool active = false;
     private Lazy<Transform> m_canvas = new(() =>
     {
       //  var canvasObj = GameObject.FindAnyObjectByType<Canvas>();
@@ -48,8 +51,7 @@ public class PopSystem : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("MasterVolume"))
         {
-            LoadMasterVolume();
-            Debug.Log("AA");
+            LoadMasterVolume(); 
         }
         else
             SetMasterVolume();
@@ -63,7 +65,8 @@ public class PopSystem : MonoBehaviour
             LoadSFXVolume();
         else
             SetSFXVolume();
-
+        if(!active)
+        SetLocal((Language)PlayerPrefs.GetInt("LocalKey", 1)).Forget();
     }
     public void SetMasterVolume() => myMixer.SetFloat("Master", Mathf.Log10(1) * 20);
     public void SetMusicVolume() => myMixer.SetFloat("Music", Mathf.Log10(1) * 20);
@@ -71,7 +74,22 @@ public class PopSystem : MonoBehaviour
     private void LoadMasterVolume() => myMixer.SetFloat("Master", Mathf.Log10(PlayerPrefs.GetFloat("MasterVolume")) * 20);
     private void LoadMusicVolume() => myMixer.SetFloat("Music", Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume")) * 20);
     private void LoadSFXVolume() => myMixer.SetFloat("SFX", Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume")) * 20);
+    private async UniTaskVoid SetLocal(Language lang)
+    {
+        active = true;
 
+        // Make sure Localization System has finished loading
+        await LocalizationSettings.InitializationOperation.Task;
+
+        // Apply language
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[(int)lang];
+
+        // Save to PlayerPrefs
+        PlayerPrefs.SetInt("LocalKey", (int)lang);
+        PlayerPrefs.Save();
+
+        active = false;
+    }
 
     public void PopUp(GameObject prefab,string key)
     {     
