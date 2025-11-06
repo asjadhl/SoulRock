@@ -107,6 +107,8 @@ public class SceneLoader : MonoBehaviour
     }
     Canvas.SetActive(false);   
     isScene = false;
+     
+        if(audiomixer != null) 
     audiomixer.SetFloat("Master", realvolume);  
   }
     

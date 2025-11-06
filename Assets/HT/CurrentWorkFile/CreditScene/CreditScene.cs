@@ -12,8 +12,24 @@ public class CreditScene : MonoBehaviour
     public float duration = 10f;
     public void Start()
     {
+        if (animator == null)
+        {
+#if UNITY_EDITOR
+            Debug.LogWarning($"{this.name}: Animator is Null");
+#endif
+            return;
+        }
         var unknown = GameObject.FindObjectsByType<CanvasScaler>(FindObjectsSortMode.None);
         var result = unknown.Where(p => p.uiScaleMode == CanvasScaler.ScaleMode.ScaleWithScreenSize).FirstOrDefault();
+
+        if(result == null)
+        {
+#if UNITY_EDITOR
+            Debug.LogWarning($"{this.name}: Canvas is Null With ScaleMode.ScaleWithScreenSize");
+#endif
+            return;
+        }
+
         CanvasRect = result.GetComponent<RectTransform>();
         myrectransform = GetComponent<RectTransform>();
 
@@ -22,7 +38,7 @@ public class CreditScene : MonoBehaviour
         endPos.y =     (myrectransform.sizeDelta.y/2f);
         
         endPos.y -= CanvasRect.sizeDelta.y;
-        AnimationClip clip = new AnimationClip();
+        AnimationClip clip = new();
         clip.legacy = false;   
 
         AnimationCurve curveX = AnimationCurve.Linear(0, startPos.x, duration, endPos.x);
