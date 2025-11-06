@@ -62,11 +62,11 @@ public class TutorialManager : MonoBehaviour
         if (tutorialData.bossDialogues.Length > 0)
             await PlayDialogueSetAsync(tutorialData.bossDialogues[0].deathLines, tutorialCTS.Token);
 
-       
+        HighlightDummyAsync().Forget();
 
         await UniTask.WaitUntil(() => dummySpawner != null && dummySpawner.dummyHp <= 1);
 
-        HighlightDummyAsync().Forget();
+
 
         await OnDummyDeadSequence();
     }
