@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using UnityEngine;
 
@@ -50,3 +51,5 @@ public class ParticlesAdjuster : MonoBehaviour
     }
   }
 }
+
+#endif  
