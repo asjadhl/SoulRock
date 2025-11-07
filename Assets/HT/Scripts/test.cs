@@ -74,39 +74,15 @@ public class test : MonoBehaviour
 {
 
 
-
-  public GameObject prefab;
-  public GameObject current;
-  public void Start()
-  {
-    current = Instantiate(prefab,new Vector3(Random.Range(-5f,5f),0,Random.Range(-5f,5f)),Quaternion.identity);
-
-    Pop().Forget();
-  }
+    public AudioSource audioSource;
+    public float scaleMultiplier = 50f;
+    float[] spectrum = new float[64];
  
   public void Update()
   {
-     if(current == null)
-     {
-
-     }
-  }
-
-  public async UniTaskVoid Pop()
-  {
-   var token = current.GetCancellationTokenOnDestroy();
-    var token2 = transform.GetCancellationTokenOnDestroy();
-    while(!token.IsCancellationRequested && !token2.IsCancellationRequested)
-    {   
-     
-      current.transform.LookAt(transform.position);
-      current.transform.position += current.transform.forward * Time.deltaTime * 3f;
-      await UniTask.Yield();
+      
     }
-
-    if (token.IsCancellationRequested || token2.IsCancellationRequested)
-      Debug.Log("SAFE");
-  }
+ 
 }
 
 //public class test : MonoBehaviour
