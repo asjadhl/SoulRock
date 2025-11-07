@@ -236,16 +236,20 @@ public class GBAttack : MonoBehaviour
             }
         if (!CircleHit.Instance.isHighLight)
         {
+            Debug.LogError("패턴시작");
             switch (patternIndex)
             {
                 case 0:
-                    await SoundAttack();
+					Debug.LogError("패턴시작1");
+					await SoundAttack();
                     break;
                 case 1:
-                    await Duplicate(cts.Token);
+					Debug.LogError("패턴시작2");
+					await Duplicate(cts.Token);
                     break;
                 case 2:
-                    await Poltergeist(cts.Token);
+					Debug.LogError("패턴시작3");
+					await Poltergeist(cts.Token);
                     break;
             }
         }
@@ -254,91 +258,36 @@ public class GBAttack : MonoBehaviour
             await FeverTime();
         }
 	}
-    #region("피버타임")
-    //private async UniTask FeverTime()
-    //{
-    //    if (BossState.isBoss3Dead || !CircleHit.Instance.isHighLight) return;
-    //    if (playerhp == null || musicBox == null || !isActiveAndEnabled)
-    //    {
-    //        return; // 객체가 파괴되었거나 비활성화되면 즉시 종료
-    //    }
-    //    isAttack = true;
-    //    feverMonsterSpawner.SetActive(true);
-    //    for (int i = 0; i < 20; i++)
-    //    {
-    //        if (BossState.isBoss3Dead ||!CircleHit.Instance.isHighLight) return;
-    //        teleportIndex = Random.Range(0, 2);
-    //        animator.SetTrigger("Teleport");
-    //        switch (teleportIndex)
-    //        {
-    //            case 0:
-    //                //musicBox.panStereo = -0.5f;
-    //                await FeverAttackVector(0, cts.Token);
-    //                break;
-    //            case 1:
-    //                //musicBox.panStereo = 0.5f;
-    //                await FeverAttackVector(1, cts.Token);
-    //                break;
-
-    //        }
-    //        //musicBox.panStereo = 0f;
-    //        if (!bossMove.canRun || cts.IsCancellationRequested) // CancellationToken 체크 추가
-    //            break;
-    //    }
-    //    if (transform == null || monsterSpawner == null || KillBall == null)
-    //    {
-    //        return; // 객체가 파괴되었다면 여기서 즉시 종료
-    //    }
-    //    transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-    //    feverMonsterSpawner.SetActive(false);
-    //    transform.rotation = originalRotation;
-    //    await UniTask.Delay(2000, cancellationToken: cts.Token);
-    //    isAttack = false;
-    //}
-    //private async UniTask FeverAttackVector(int patternNum, CancellationToken token)
-    //{
-    //    if (transform == null) return;
-    //    switch (patternNum)
-    //    {
-    //        case 0:
-    //            transform.position = new Vector3(transform.position.x - (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 7), transform.position.z);
-    //            break;
-    //        case 1:
-    //            transform.position = new Vector3(transform.position.x + (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 7), transform.position.z);
-    //            break;
-    //    }
-    //    await UniTask.Delay(200, cancellationToken: token);
-    //    if (transform == null) return;
-    //    transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
-    //}
-    #endregion
-    private async UniTask FeverTime()
-    {
-        Debug.LogError("FeverTime시작");
-        isAttack = true;
-        if (BossState.isBoss3Dead || playerhp == null || musicBox == null) return;
-        for(int i = 0; i < feverMonsterSpawner.Length; i++)
-        {
+	#region("피버타임")
+	private async UniTask FeverTime()
+	{
+		Debug.LogError("FeverTime시작");
+		isAttack = true;
+		if (BossState.isBoss3Dead || playerhp == null || musicBox == null) return;
+		for (int i = 0; i < feverMonsterSpawner.Length; i++)
+		{
 			Debug.LogError("스포너 켜지는중");
 			feverMonsterSpawner[i].SetActive(true);
-        }
-        while(CircleHit.Instance.isHighLight)
-        {
-			if (!CircleHit.Instance.isHighLight)
-			{
-				for (int i = 0; i < feverMonsterSpawner.Length; i++)
-				{
-					Debug.LogError("스포너 꺼지는중");
-					feverMonsterSpawner[i].SetActive(false);
-				}
-			}
-            await UniTask.Delay(1000);
-        }
-		isAttack = false;   
-    }
+		}
+		while (CircleHit.Instance.isHighLight)
+		{
+			//if (!CircleHit.Instance.isHighLight)
+			//{
+			//	for (int i = 0; i < feverMonsterSpawner.Length; i++)
+			//	{
+			//		Debug.LogError("스포너 꺼지는중");
+			//		feverMonsterSpawner[i].SetActive(false);
+			//	}
+			//}
+			await UniTask.Delay(1000);
+		}
+		isAttack = false;
+	}
+	#endregion
 
-    #region("일반 패턴")
-    private async UniTask SoundAttack()
+
+	#region("일반 패턴")
+	private async UniTask SoundAttack()
     {
         if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) return;
         if (playerhp == null || musicBox == null || !isActiveAndEnabled)
@@ -419,7 +368,7 @@ public class GBAttack : MonoBehaviour
       for (int i = 0; i < clone.Length; i++)
       {
 
-            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) { ReturnClone(); isAttack = false;  return; }
+            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) {isAttack = false;  return; }
             if (clone[i] == null || cloneTransform[i] == null) continue;
 			clone[i].SetActive(true);
         clone[i].transform.position = new Vector3(cloneTransform[i].transform.position.x, cloneTransform[i].transform.position.y + (float)Random.Range(0, 1), transform.position.z);
@@ -467,7 +416,7 @@ public class GBAttack : MonoBehaviour
       for (int i = 0; i < poltergeistOB.Length; i++)
       {
 
-            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) isAttack = false; return;
+            if (BossState.isBoss3Dead)return;
             animator.SetTrigger("Polter");
          GameObject obj = poltergeistOB[i];
 			if (obj == null) continue;
