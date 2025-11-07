@@ -20,15 +20,23 @@ public class Datamanager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
+#if UNITY_EDITOR
+        string folder = Path.Combine(Application.dataPath, "Json");
+#else
+        string folder = Path.Combine(Application.dataPath, "../Json");
+#endif
 
-        path = Application.persistentDataPath;
+        if (!Directory.Exists(folder))
+            Directory.CreateDirectory(folder);
+
+        path = Path.Combine(folder, "PlayerData.json");
     }
 
     public void SaveToJson()
     {
-        // 1. 기존 데이터 불러오기
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -39,18 +47,15 @@ public class Datamanager : MonoBehaviour
             allData = new PlayerDataList();
         }
 
-        // 2. 새로운 플레이어 데이터 추가
         allData.players.Add(curPlayerData);
 
-        // 3. JSON으로 저장 (덮어쓰기)
         string newJson = JsonUtility.ToJson(allData, true);
         File.WriteAllText(path, newJson);
-    }
 
+    }
 
     public void LoadFromJson()
     {
-
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
