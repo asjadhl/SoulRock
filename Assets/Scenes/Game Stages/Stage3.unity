@@ -1278,11 +1278,17 @@ MonoBehaviour:
   speakerImage: {fileID: 786101797}
   dialogueText: {fileID: 1651424559}
   TextBox: {fileID: 960758788}
+  ClickCircle: {fileID: 0}
+  fillHoldSeconds: 3
+  onRelease: 0
   sdfFontAsset: {fileID: 11400000, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
   typingSpeed: 0.04
   typingAudio: {fileID: 1663647198}
   randomPitch: 1
   pitchRange: {x: 0.95, y: 1.05}
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
   stage1_img1: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
   stage1_img2: {fileID: 2800000, guid: c174fe9a4f43ce240b758d38c282ce2c, type: 3}
   stage2_img1: {fileID: 2800000, guid: d14b31b38b05e0d42a4dd843cf2f0305, type: 3}
@@ -8235,6 +8241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2079032590}
   - component: {fileID: 2079032589}
+  - component: {fileID: 2079032591}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -8260,6 +8267,8 @@ MonoBehaviour:
   BossClosePanel: {fileID: 960758788}
   bossDeadParticle: {fileID: 9029696638801422975, guid: 8f74d5b7360d3ff48b407650e7f6c661, type: 3}
   boss: {fileID: 1510681583}
+  inputField: {fileID: 0}
+  inputPanel: {fileID: 0}
 --- !u!4 &2079032590
 Transform:
   m_ObjectHideFlags: 0
@@ -8275,6 +8284,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2079032591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079032588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b240824d9de6df47a0157b1006f5ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxComboData: {fileID: 11400000, guid: caf33197f4c48dd4bb43f7945735d3be, type: 2}
 --- !u!1 &2108329995
 GameObject:
   m_ObjectHideFlags: 0

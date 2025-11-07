@@ -672,6 +672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 71844097}
   - component: {fileID: 71844096}
+  - component: {fileID: 71844098}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -697,6 +698,8 @@ MonoBehaviour:
   BossClosePanel: {fileID: 331005377}
   bossDeadParticle: {fileID: 9029696638801422975, guid: 8f74d5b7360d3ff48b407650e7f6c661, type: 3}
   boss: {fileID: 1795970295}
+  inputField: {fileID: 0}
+  inputPanel: {fileID: 0}
 --- !u!4 &71844097
 Transform:
   m_ObjectHideFlags: 0
@@ -712,6 +715,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &71844098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71844095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b240824d9de6df47a0157b1006f5ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxComboData: {fileID: 11400000, guid: caf33197f4c48dd4bb43f7945735d3be, type: 2}
 --- !u!1 &76018935
 GameObject:
   m_ObjectHideFlags: 0
@@ -3915,7 +3931,9 @@ MonoBehaviour:
   playerShoot: {fileID: 0}
   poolCircle: []
   getDamage: 0
+  feverColor: {r: 0, g: 0, b: 0, a: 0}
   isScale: 0
+  isHighLight: 0
 --- !u!58 &446180109
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -11337,11 +11355,17 @@ MonoBehaviour:
   speakerImage: {fileID: 1089743322}
   dialogueText: {fileID: 1279663365}
   TextBox: {fileID: 331005377}
+  ClickCircle: {fileID: 0}
+  fillHoldSeconds: 3
+  onRelease: 0
   sdfFontAsset: {fileID: 11400000, guid: 6dfefad733a3c6c4a88906c8daec26f3, type: 2}
   typingSpeed: 0.04
   typingAudio: {fileID: 1794801877}
   randomPitch: 1
   pitchRange: {x: 0.95, y: 1.05}
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
   stage1_img1: {fileID: 2800000, guid: 97f1e9b13fd8766478d7514afa700138, type: 3}
   stage1_img2: {fileID: 2800000, guid: 97f1e9b13fd8766478d7514afa700138, type: 3}
   stage2_img1: {fileID: 2800000, guid: a13d84e7e3442c04d8fe1d78ae6667ea, type: 3}
@@ -11349,7 +11373,8 @@ MonoBehaviour:
   stage3_img1: {fileID: 2800000, guid: d14b31b38b05e0d42a4dd843cf2f0305, type: 3}
   stage3_img2: {fileID: 2800000, guid: d14b31b38b05e0d42a4dd843cf2f0305, type: 3}
   Empty: {fileID: 2800000, guid: a7c3c2e830d78a240929efe7d3c6814a, type: 3}
-  boss1_img: {fileID: 0}
+  stage4_img1: {fileID: 0}
+  stage4_img2: {fileID: 0}
 --- !u!4 &1394377972
 Transform:
   m_ObjectHideFlags: 0
@@ -13859,6 +13884,7 @@ MonoBehaviour:
   Canvas: {fileID: 387526683}
   Fill: {fileID: 1630014867}
   isScene: 0
+  audiomixer: {fileID: 0}
 --- !u!4 &1684105189
 Transform:
   m_ObjectHideFlags: 0
