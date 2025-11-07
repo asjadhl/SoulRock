@@ -236,19 +236,15 @@ public class GBAttack : MonoBehaviour
             }
         if (!CircleHit.Instance.isHighLight)
         {
-            Debug.LogError("패턴시작");
             switch (patternIndex)
             {
                 case 0:
-					Debug.LogError("패턴시작1");
 					await SoundAttack();
                     break;
                 case 1:
-					Debug.LogError("패턴시작2");
 					await Duplicate(cts.Token);
                     break;
                 case 2:
-					Debug.LogError("패턴시작3");
 					await Poltergeist(cts.Token);
                     break;
             }
@@ -261,12 +257,10 @@ public class GBAttack : MonoBehaviour
 	#region("피버타임")
 	private async UniTask FeverTime()
 	{
-		Debug.LogError("FeverTime시작");
 		isAttack = true;
 		if (BossState.isBoss3Dead || playerhp == null || musicBox == null) return;
 		for (int i = 0; i < feverMonsterSpawner.Length; i++)
 		{
-			Debug.LogError("스포너 켜지는중");
 			feverMonsterSpawner[i].SetActive(true);
 		}
 		while (CircleHit.Instance.isHighLight)
@@ -301,7 +295,7 @@ public class GBAttack : MonoBehaviour
         musicBox.panStereo = 0f;
         for (int i = 0; i < 7; i++)
         {
-            if (BossState.isBoss3Dead) return;
+            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) { isAttack = false; return; }
             teleportIndex = Random.Range(0, 2);
             animator.SetTrigger("Teleport");
             switch (teleportIndex)
