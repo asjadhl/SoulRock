@@ -343,8 +343,9 @@ public class Stage3Boss : MonoBehaviour
     {
 		Debug.LogError("하이라이트!");
 		if (BossState.isBoss2Dead) return;
+        int i = 0;
         //bigChargeLazer.SetActive(false);
-        for (int i = 0; i<20;  i++)
+        while (CircleHit.Instance.isHighLight)
         {
             if (!CircleHit.Instance.isHighLight)
                 break;
@@ -364,6 +365,7 @@ public class Stage3Boss : MonoBehaviour
             }
             Vector3 targetPos = new Vector3(player.position.x, player.position.y -1f , player.position.z);
 			bigLazerBallPool[poolIndex].transform.LookAt(targetPos);
+            i++;
 		}
     }
     #endregion

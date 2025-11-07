@@ -1455,7 +1455,7 @@ GameObject:
   - component: {fileID: 643749539}
   m_Layer: 0
   m_Name: MusicBox
-  m_TagString: Untagged
+  m_TagString: MusicBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6055,11 +6055,14 @@ MonoBehaviour:
   comboText: {fileID: 746077104}
   text: {fileID: 851092881}
   comboNumText: {fileID: 1319764788}
+  feverImage: []
   clip: {fileID: 8300000, guid: c0e9c94f84d1f4249aff126f0f8832b9, type: 3}
   playerShoot: {fileID: 0}
   poolCircle: []
   getDamage: 0
+  feverColor: {r: 0, g: 0, b: 0, a: 0}
   isScale: 0
+  isHighLight: 0
 --- !u!58 &1891864563
 CircleCollider2D:
   m_ObjectHideFlags: 0

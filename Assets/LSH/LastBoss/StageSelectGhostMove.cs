@@ -80,7 +80,7 @@ public class StageSelectGhostMove : MonoBehaviour
 		{
 			tm.StartStageDialogueAsync(5);
 		}
-		await TextManager.OnBossImage(4, true);
+		//await TextManager.OnBossImage(4, true);
 		await UniTask.WaitUntil(() => !TalkState.isTalking);
 		SceneManager.LoadScene("LastStage");
 	}
