@@ -41,9 +41,9 @@ public class ScrollManager : MonoBehaviour
 
         
         if (isScrollingTop)
-            _scrollrect.verticalNormalizedPosition = Mathf.Clamp01(startPos - (Time.unscaledTime - startTime) * ScrollPerSecond);
+            _scrollrect.verticalNormalizedPosition = Mathf.Clamp01(startPos + (Time.unscaledTime - startTime) * ScrollPerSecond);
 
         if (isScrollingBottom)
-            _scrollrect.verticalNormalizedPosition = Mathf.Clamp01(startPos + (Time.unscaledTime - startTime) * ScrollPerSecond);
+            _scrollrect.verticalNormalizedPosition = Mathf.Clamp01(startPos - (Time.unscaledTime - startTime) * ScrollPerSecond);
     }
 }

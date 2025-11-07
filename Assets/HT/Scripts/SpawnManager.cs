@@ -216,7 +216,18 @@ public class SpawnManager : MonoBehaviour
             spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x + SpawnAreaOffset.x,
                                     areaspawn.SpawnerPosition.transform.position.y + SpawnAreaOffset.y,
                                     areaspawn.SpawnerPosition.transform.position.z + z + SpawnAreaOffset.z);
-             Instantiate(areaspawn.EntityList[0].EntityObj, spawnPos, Quaternion.identity).GetComponent<Enemy>().SetMode(MyMode);
+            var obj = Instantiate(areaspawn.EntityList[0].EntityObj, spawnPos, Quaternion.identity);
+            Enemy enemycomponent = obj.GetComponent<Enemy>();
+            if (enemycomponent != null)
+            {
+              enemycomponent.SetMode(MyMode);
+            }
+#if UNITY_EDITOR
+            else
+            {
+              Debug.LogWarning("Enemy Component NULL SetMode Fail");
+            }
+#endif
 
             areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
 
@@ -242,9 +253,20 @@ public class SpawnManager : MonoBehaviour
               spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x + SpawnAreaOffset.x,
                                       areaspawn.SpawnerPosition.transform.position.y+ SpawnAreaOffset.y,
                                       areaspawn.SpawnerPosition.transform.position.z + z + SpawnAreaOffset.z);
-              Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity).GetComponent<Enemy>().SetMode(MyMode);
-              //
-              //Instantiate(areaspawn.EntityList[randomindex].EntityObj, areaspawn.SpawnerPosition.transform.position, Quaternion.identity);
+              var obj = Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
+              Enemy enemycomponent =   obj.GetComponent<Enemy>();
+              if(enemycomponent != null)
+              {
+                enemycomponent.SetMode(MyMode);
+              }
+#if UNITY_EDITOR
+              else
+              {
+                Debug.LogWarning("Enemy Component NULL SetMode Fail");
+              }
+#endif
+
+
 
               areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
 
@@ -286,7 +308,7 @@ public class SpawnManager : MonoBehaviour
       {
         IsSpawning = true;
         SpawnNow(areaSpawns[0], cts).Forget();
-        //areaSpawns.Remove(areaSpawns[0]);
+         
 
       }
     }
@@ -311,29 +333,21 @@ public class SpawnManager : MonoBehaviour
   }
 
 
+
+
+
+
+
+  public string GetSelectedTag() => selectedTag;
+  
+
+  public void SetSelectedTag(string _tags) => selectedTag = _tags;
  
-
-
-
-
-  public string GetSelectedTag()
-  {
-    return selectedTag;
-  }
-
-  public void SetSelectedTag(string _tags)
-  {
-
-    selectedTag = _tags;
-  }
-
 }
 
 
 
 #if UNITY_EDITOR
- 
- 
 [CustomEditor(typeof(SpawnManager))]
 public class ShowScanners : Editor
 {
@@ -529,11 +543,6 @@ public class AreaSpawnDrawer : PropertyDrawer
     return height;
   }
 }
-
-
-
-
- 
 #endif
 
 

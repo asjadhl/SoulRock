@@ -8,9 +8,14 @@ public class Popup : MonoBehaviour
     Lazy<PopSystem> popSystem = new Lazy<PopSystem>(() =>
     {
         PopSystem system = GameObject.FindAnyObjectByType<PopSystem>();
-        if (system == null)
-            Debug.LogError("PopSystem not found in the scene!");
-        return system;
+#if UNITY_EDITOR
+      if (system == null)
+      {
+        Debug.LogError("PopSystem not found in the scene!");
+        Debug.LogError("File At:  Asset/HT/CurrentWorkFile/Pop/PopUpSystem");
+      }
+#endif
+      return system;
     });
 
     public bool isAwake = false;

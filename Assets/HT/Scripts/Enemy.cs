@@ -72,14 +72,16 @@ public class Enemy : MonoBehaviour
     }
     public void SetMode(Mode _mode)
     {
-    mymode = _mode;
+             mymode = _mode;
     }
     private void CheckBossExist()
     {
         if(IsBossDead != null && IsBossDead())
         {
-      Debug.Log("Destroy");
-            ActiveParticales(0);
+#if UNITY_EDITOR
+      Debug.Log("CheckBossExist-Destroy");
+#endif
+      ActiveParticales(0);
             Destroy(gameObject);
         }
        
@@ -116,11 +118,10 @@ public class Enemy : MonoBehaviour
 
 
         switch(mymode)
-    {
+        {
       case Mode.NormalMode:
         if (CircleHit.Instance.isHighLight)
         {
-          Debug.Log(mymode);
           ActiveParticales(0);
           Destroy(gameObject);
         }
@@ -133,7 +134,7 @@ public class Enemy : MonoBehaviour
           Destroy(gameObject);
         }
         break;
-    }
+        }
        
      
     }

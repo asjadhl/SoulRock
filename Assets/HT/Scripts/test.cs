@@ -69,62 +69,45 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-
+using Cysharp.Threading.Tasks;
 public class test : MonoBehaviour
 {
 
 
 
-  public System.Action sub;
-  public bool _boolean = false;
-  public bool boolean { get { return _boolean; }
-    set { _boolean = value;
-              if(_boolean)
-              {
-        sub?.Invoke();
-        sub = null;
-      }
-    } }
-
-  public  GameObject prefab;
-  public int Count = 5;
+  public GameObject prefab;
+  public GameObject current;
   public void Start()
   {
-    if (prefab != null)
-    {
-      for (int i = 0; i < Count; i++)
-      {
-        Vector3 r = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
-        sub += Instantiate(prefab,r,Quaternion.identity).GetComponent<test2>().Destroy;
-      }
-    }
+    current = Instantiate(prefab,new Vector3(Random.Range(-5f,5f),0,Random.Range(-5f,5f)),Quaternion.identity);
 
+    Pop().Forget();
   }
  
   public void Update()
   {
-    if (Input.GetKeyDown(KeyCode.Space))
-    {
-      boolean = true;
-    }
-    else if (Input.GetKeyDown(KeyCode.F))
-    {
-      boolean = false;
-    }
-    else if (Input.GetKeyDown(KeyCode.R))
-    {
-      if (prefab != null)
-      {
-        for (int i = 0; i < Count; i++)
-        {
-          Vector3 r = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
-          sub += Instantiate(prefab, r, Quaternion.identity).GetComponent<test2>().Destroy;
-        }
-      }
-    }
+     if(current == null)
+     {
+
+     }
   }
 
+  public async UniTaskVoid Pop()
+  {
+   var token = current.GetCancellationTokenOnDestroy();
 
+    while(!token.IsCancellationRequested)
+    {
+      Destroy(current);
+      Debug.Log(current.name);
+      current.transform.position = Vector3.zero;
+      Debug.Log(current.transform);
+      await UniTask.Yield();
+    }
+
+    if (token.IsCancellationRequested)
+      Debug.Log("SAFE");
+  }
 }
 
 //public class test : MonoBehaviour
