@@ -59,6 +59,11 @@ public class AreaSpawn
 
 }
 
+public enum Mode
+{
+  NormalMode,FeverMode
+}
+
 public class SpawnManager : MonoBehaviour
 {
 
@@ -66,7 +71,7 @@ public class SpawnManager : MonoBehaviour
   [SerializeField]
   Transform m_targetTransform;
   [SerializeField] Vector3 SpawnAreaOffset;
-
+  public Mode MyMode;
   [Space(5)]
   public List<AreaSpawn> areaSpawns;
           List<AreaSpawn> Save_areaSpawns;
@@ -211,7 +216,7 @@ public class SpawnManager : MonoBehaviour
             spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x + SpawnAreaOffset.x,
                                     areaspawn.SpawnerPosition.transform.position.y + SpawnAreaOffset.y,
                                     areaspawn.SpawnerPosition.transform.position.z + z + SpawnAreaOffset.z);
-            Instantiate(areaspawn.EntityList[0].EntityObj, spawnPos, Quaternion.identity);
+             Instantiate(areaspawn.EntityList[0].EntityObj, spawnPos, Quaternion.identity).GetComponent<Enemy>().SetMode(MyMode);
 
             areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
 
