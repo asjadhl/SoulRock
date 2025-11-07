@@ -23,7 +23,7 @@ public class Datamanager : MonoBehaviour
         }
 
 
-        path = Application.dataPath + "/Json/PlayerData.json";
+        path = Application.persistentDataPath;
     }
 
     public void SaveToJson()
