@@ -117,11 +117,11 @@ public class CircleHit : MonoBehaviour
 				}
 				if(isHighLight)
 				{
-					maxDis = 80;
-					if(maxDis > distance)
+					maxDis = 80f;
+					bpm = 170;
+					secondsPerBeat = 60.0 / bpm;
+					if (maxDis > distance)
 					{
-						bpm = 170;
-						secondsPerBeat = 60.0 / bpm;
 						OnClickSuccessEx().Forget();
 						comboNumText.text = combo.ToString();
 						ReturnCircle(circle.gameObject);
@@ -130,6 +130,7 @@ public class CircleHit : MonoBehaviour
 				}
 				else
 				{
+					maxDis = 120f;
 					secondsPerBeat = firstBpm;
 				}
 			}
