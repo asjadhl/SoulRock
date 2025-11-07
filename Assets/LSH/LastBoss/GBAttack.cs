@@ -131,24 +131,20 @@ public class GBAttack : MonoBehaviour
         switch ((int)CheckRealTime.inGamerealTime)
         {
             case 74:
-                Debug.LogError("true·Î ¹Ù²ñ");
                 CircleHit.Instance.isHighLight = true;
                 Debug.LogError(CircleHit.Instance.isHighLight);
                 break;
 
-            case 90:
-                Debug.LogError("false ¹Ù²ñ");
+            case 100:
                 CircleHit.Instance.isHighLight = false;
                 Debug.LogError(CircleHit.Instance.isHighLight);
                 break;
 
             case 148:
-                Debug.LogError("true·Î ¹Ù²ñ");
                 CircleHit.Instance.isHighLight = true;
                 Debug.LogError(CircleHit.Instance.isHighLight);
                 break;
-            case 170:
-                Debug.LogError("true·Î ¹Ù²ñ");
+            case 159:
                 CircleHit.Instance.isHighLight = false;
                 Debug.LogError(CircleHit.Instance.isHighLight);
                 break;
@@ -265,15 +261,15 @@ public class GBAttack : MonoBehaviour
 		}
 		while (CircleHit.Instance.isHighLight)
 		{
-			//if (!CircleHit.Instance.isHighLight)
-			//{
-			//	for (int i = 0; i < feverMonsterSpawner.Length; i++)
-			//	{
-			//		Debug.LogError("½ºÆ÷³Ê ²¨Áö´ÂÁß");
-			//		feverMonsterSpawner[i].SetActive(false);
-			//	}
-			//}
-			await UniTask.Delay(1000);
+            
+            await UniTask.Delay(1000);
+		}
+		if (!CircleHit.Instance.isHighLight)
+		{
+			for (int i = 0; i < feverMonsterSpawner.Length; i++)
+			{
+				feverMonsterSpawner[i].SetActive(false);
+			}
 		}
 		isAttack = false;
 	}
@@ -295,7 +291,7 @@ public class GBAttack : MonoBehaviour
         musicBox.panStereo = 0f;
         for (int i = 0; i < 7; i++)
         {
-            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) { isAttack = false; return; }
+            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight) { isAttack = false; KillBall.SetActive(false); return; }
             teleportIndex = Random.Range(0, 2);
             animator.SetTrigger("Teleport");
             switch (teleportIndex)

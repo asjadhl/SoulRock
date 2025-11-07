@@ -82,7 +82,18 @@ public class CircleHit : MonoBehaviour
 	private void Update()
 	{
 		CheckCol();
-    }
+		if (isHighLight)
+		{
+			maxDis = 80f;
+			bpm = 170;
+			secondsPerBeat = 60.0 / bpm;
+		}
+		else
+		{
+			maxDis = 140f;
+			secondsPerBeat = firstBpm;
+		}
+	}
     
 	void CheckCol()
 	{
@@ -115,24 +126,14 @@ public class CircleHit : MonoBehaviour
 					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
-				if(isHighLight)
-				{
-					maxDis = 80f;
-					bpm = 170;
-					secondsPerBeat = 60.0 / bpm;
-					if (maxDis > distance)
+					else if (maxDis > distance && isHighLight)
 					{
 						OnClickSuccessEx().Forget();
 						comboNumText.text = combo.ToString();
 						ReturnCircle(circle.gameObject);
 						activeCircles.RemoveAt(i);
 					}
-				}
-				else
-				{
-					maxDis = 120f;
-					secondsPerBeat = firstBpm;
-				}
+				
 			}
 		}
 	}
