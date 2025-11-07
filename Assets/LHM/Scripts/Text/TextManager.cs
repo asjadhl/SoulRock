@@ -1,13 +1,14 @@
-using Debug = UnityEngine.Debug;
 using Cysharp.Threading.Tasks;
-using System.Threading;
-using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.SceneManagement;
-using UnityEngine.Localization;
 using System.Diagnostics;
+using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 public static class TalkState
 {
@@ -19,6 +20,10 @@ public class TextManager : MonoBehaviour
     [SerializeField] private StageDialogueData dialogueData;//여기 stage1에 대사 입력하시면되요
     [SerializeField] private DialogueUIManager dialogueUI;
     [SerializeField] private GameObject BossClosePanel;
+    [SerializeField] private RawImage Boss1DataImage;
+    [SerializeField] private RawImage Boss2DataImage;
+    [SerializeField] private RawImage Boss3DataImage;
+
 
     private CancellationTokenSource dialogueCTS;
     private CancellationTokenSource bossCTS;
@@ -45,20 +50,22 @@ public class TextManager : MonoBehaviour
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
             Debug.Log("BossDialogueCheackAsync() 호출됨");
-            BossClosePanel.SetActive(true);
-            await BossHandleBossDeathAsync(1);
+            //BossClosePanel.SetActive(true);
+            //await BossHandleBossDeathAsync(1);
             await PlayDeadParteicle();
             Destroy(boss);
+            ComboSave.Instance.MaxcomboSaveScr();
             await UniTask.Delay(2000);
             SceneLoader.Instance.LoadScene("StageSelect");
         }
         if (BossState.isBoss1Dead && BossState.isBoss2Dead && !BossState.isBoss3Dead)
         {
             Debug.Log("Boss2DialogueCheackAsync() 호출됨");
-            BossClosePanel.SetActive(true);
-            await BossHandleBossDeathAsync(2);
+            //BossClosePanel.SetActive(true);
+            //await BossHandleBossDeathAsync(2);
             await PlayDeadParteicle();
             Destroy(boss);
+            ComboSave.Instance.MaxcomboSaveScr();
             await UniTask.Delay(2000);
             SceneLoader.Instance.LoadScene("StageSelect");
         }
@@ -252,7 +259,25 @@ public class TextManager : MonoBehaviour
     {
         EnterPressed().Forget();
     }
+    public async UniTask OnBossImage(int stageNum, bool active)
+    {
+        switch (stageNum)
+        {
+            case 2:
+                Boss1DataImage.gameObject.SetActive(active);
+                break;
+            case 3:
+                Boss2DataImage.gameObject.SetActive(active);
+                break;
+            case 4:
+                Boss3DataImage.gameObject.SetActive(active);
+                break;
+        }
+    }
 
+    
+        
+    
     public async UniTask EnterPressed()
     {
         if (string.IsNullOrEmpty(inputField.text))
@@ -260,6 +285,7 @@ public class TextManager : MonoBehaviour
 
         Datamanager.instance.curPlayerData.playerName = inputField.text;
         Datamanager.instance.curPlayerData.combo = ComboSave.Instance.maxComboData.maxComboValue;
+
         Datamanager.instance.SaveToJson();
 
         inputPanel.SetActive(false);
