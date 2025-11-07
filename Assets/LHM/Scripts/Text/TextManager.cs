@@ -23,6 +23,7 @@ public class TextManager : MonoBehaviour
     [SerializeField] private RawImage Boss1DataImage;
     [SerializeField] private RawImage Boss2DataImage;
     [SerializeField] private RawImage Boss3DataImage;
+    [SerializeField] public GameObject BossButton;
 
 
     private CancellationTokenSource dialogueCTS;
@@ -265,19 +266,28 @@ public class TextManager : MonoBehaviour
         {
             case 2:
                 Boss1DataImage.gameObject.SetActive(active);
+                BossButton.gameObject.SetActive(active);
                 break;
             case 3:
                 Boss2DataImage.gameObject.SetActive(active);
+                BossButton.gameObject.SetActive(active);
                 break;
             case 4:
                 Boss3DataImage.gameObject.SetActive(active);
+                BossButton.gameObject.SetActive(active);
                 break;
         }
     }
 
-    
-        
-    
+    public void OnBossImageClick()
+    {
+        OnBossImage(2, false).Forget();
+        OnBossImage(3, false).Forget();
+        OnBossImage(4, false).Forget();
+    }
+
+
+
     public async UniTask EnterPressed()
     {
         if (string.IsNullOrEmpty(inputField.text))

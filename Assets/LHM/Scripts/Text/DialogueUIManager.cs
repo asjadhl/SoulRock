@@ -35,6 +35,7 @@ public class DialogueUIManager : MonoBehaviour
     private CancellationTokenSource typingCTS;
     private CancellationTokenSource imageCTS;
     public event Action OnSkipAll;
+    TextManager textManager;    
 
     private bool isTyping = false;
     private string currentFullText = "";
@@ -68,8 +69,8 @@ public class DialogueUIManager : MonoBehaviour
         }
     }
 
+   
 
-  
     private void OnSpeechBubbleClick()
     {
         if (isTyping)
