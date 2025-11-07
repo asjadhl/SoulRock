@@ -27,10 +27,26 @@ public class Popup : MonoBehaviour
         }
     }
     public void Open()
-    {  
-
-        if (popSystem.Value == null || prefab == null)
+    {
+    if (popSystem.Value == null && popSystem.IsValueCreated)
+    {
+      popSystem = new Lazy<PopSystem>(() =>
+        {
+          PopSystem system = GameObject.FindAnyObjectByType<PopSystem>();
+                   #if UNITY_EDITOR
+          if (system == null)
+          {
+            Debug.LogError("PopSystem not found in the scene!");
+            Debug.LogError("File At:  Asset/HT/CurrentWorkFile/Pop/PopUpSystem");
+          }
+                    #endif
+          return system;
+        });
+    }
+    if (popSystem.Value == null  || prefab == null)
             return;
+
+
         popSystem.Value.PopUp(prefab,ID);
     }
 

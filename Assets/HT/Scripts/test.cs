@@ -95,17 +95,16 @@ public class test : MonoBehaviour
   public async UniTaskVoid Pop()
   {
    var token = current.GetCancellationTokenOnDestroy();
-
-    while(!token.IsCancellationRequested)
-    {
-      Destroy(current);
-      Debug.Log(current.name);
-      current.transform.position = Vector3.zero;
-      Debug.Log(current.transform);
+    var token2 = transform.GetCancellationTokenOnDestroy();
+    while(!token.IsCancellationRequested && !token2.IsCancellationRequested)
+    {   
+     
+      current.transform.LookAt(transform.position);
+      current.transform.position += current.transform.forward * Time.deltaTime * 3f;
       await UniTask.Yield();
     }
 
-    if (token.IsCancellationRequested)
+    if (token.IsCancellationRequested || token2.IsCancellationRequested)
       Debug.Log("SAFE");
   }
 }
