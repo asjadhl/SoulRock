@@ -74,22 +74,56 @@ public class test : MonoBehaviour
 {
 
 
-    //List<GameObject> listgame = new List<GameObject> ();
-    public GameObject tar;
- 
-  
-  public void Start()
-    {
-       
-     
 
+  public System.Action sub;
+  public bool _boolean = false;
+  public bool boolean { get { return _boolean; }
+    set { _boolean = value;
+              if(_boolean)
+              {
+        sub?.Invoke();
+        sub = null;
+      }
+    } }
+
+  public  GameObject prefab;
+  public int Count = 5;
+  public void Start()
+  {
+    if (prefab != null)
+    {
+      for (int i = 0; i < Count; i++)
+      {
+        Vector3 r = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+        sub += Instantiate(prefab,r,Quaternion.identity).GetComponent<test2>().Destroy;
+      }
     }
 
-    public void Update()
-    {
-    Debug.Log($"Screen.width: {Screen.width}");
-    Debug.Log($"Screen.height: {Screen.height}");
   }
+ 
+  public void Update()
+  {
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+      boolean = true;
+    }
+    else if (Input.GetKeyDown(KeyCode.F))
+    {
+      boolean = false;
+    }
+    else if (Input.GetKeyDown(KeyCode.R))
+    {
+      if (prefab != null)
+      {
+        for (int i = 0; i < Count; i++)
+        {
+          Vector3 r = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+          sub += Instantiate(prefab, r, Quaternion.identity).GetComponent<test2>().Destroy;
+        }
+      }
+    }
+  }
+
 
 }
 

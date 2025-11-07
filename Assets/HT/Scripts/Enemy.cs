@@ -72,12 +72,13 @@ public class Enemy : MonoBehaviour
     }
     public void SetMode(Mode _mode)
     {
-             mymode = _mode;
+    mymode = _mode;
     }
     private void CheckBossExist()
     {
         if(IsBossDead != null && IsBossDead())
         {
+      Debug.Log("Destroy");
             ActiveParticales(0);
             Destroy(gameObject);
         }
@@ -111,14 +112,7 @@ public class Enemy : MonoBehaviour
             m_Update();
             DestroyWhenBehind();
             CheckBossExist();
-        if(mymode == Mode.NormalMode)
-        { 
-             if(CircleHit.Instance.isHighLight)
-              {
-              ActiveParticales(0);
-              Destroy(gameObject);
-              }
-        }
+    
 
 
         switch(mymode)
@@ -126,6 +120,7 @@ public class Enemy : MonoBehaviour
       case Mode.NormalMode:
         if (CircleHit.Instance.isHighLight)
         {
+          Debug.Log(mymode);
           ActiveParticales(0);
           Destroy(gameObject);
         }
@@ -133,6 +128,7 @@ public class Enemy : MonoBehaviour
       case Mode.FeverMode:
         if (!CircleHit.Instance.isHighLight)
         {
+          Debug.Log($"FeverMode -!CircleHit.Instance.isHighLight{!CircleHit.Instance.isHighLight}");
           ActiveParticales(0);
           Destroy(gameObject);
         }

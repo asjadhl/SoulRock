@@ -242,7 +242,7 @@ public class SpawnManager : MonoBehaviour
               spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x + SpawnAreaOffset.x,
                                       areaspawn.SpawnerPosition.transform.position.y+ SpawnAreaOffset.y,
                                       areaspawn.SpawnerPosition.transform.position.z + z + SpawnAreaOffset.z);
-              Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
+              Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity).GetComponent<Enemy>().SetMode(MyMode);
               //
               //Instantiate(areaspawn.EntityList[randomindex].EntityObj, areaspawn.SpawnerPosition.transform.position, Quaternion.identity);
 
