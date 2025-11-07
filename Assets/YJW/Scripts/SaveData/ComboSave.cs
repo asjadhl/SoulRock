@@ -8,8 +8,6 @@ public class ComboSave : MonoBehaviour
 
     private void Awake()
     {
-        maxComboData.maxComboValue = 0;
-
         if (Instance == null) Instance = this;
         else if (Instance != this) Destroy(gameObject);
     }
@@ -18,4 +16,5 @@ public class ComboSave : MonoBehaviour
     {
         maxComboData.maxComboValue = CircleHit.Instance.combo;
     }
+
 }

@@ -285,8 +285,9 @@ public class TextManager : MonoBehaviour
 
         Datamanager.instance.curPlayerData.playerName = inputField.text;
         Datamanager.instance.curPlayerData.combo = ComboSave.Instance.maxComboData.maxComboValue;
-
         Datamanager.instance.SaveToJson();
+
+        ComboSave.Instance.maxComboData.maxCombo = 0;
 
         inputPanel.SetActive(false);
         await PlayDeadParteicle();
