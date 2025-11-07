@@ -32,7 +32,8 @@ public class Enemy : MonoBehaviour
     protected  EnemyGraphics EnemyGhostGraphics;
 
     Func<bool> IsBossDead;
-
+    public Func<bool> IsMode;
+    private  Mode mymode;   
     protected Vector3 Save_Scale;
     
     [Space(10)]
@@ -67,8 +68,12 @@ public class Enemy : MonoBehaviour
         }
       
         CheckBossExist();
+   
     }
-
+    public void SetMode(Mode _mode)
+    {
+             mymode = _mode;
+    }
     private void CheckBossExist()
     {
         if(IsBossDead != null && IsBossDead())
@@ -106,7 +111,16 @@ public class Enemy : MonoBehaviour
             m_Update();
             DestroyWhenBehind();
             CheckBossExist();
-
+        if(mymode == Mode.NormalMode)
+        { 
+             if(CircleHit.Instance.isHighLight)
+              {
+              ActiveParticales(0);
+              Destroy(gameObject);
+              }
+        }
+       
+     
     }
     public virtual void m_Update()
     { }
