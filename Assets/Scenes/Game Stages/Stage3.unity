@@ -2577,7 +2577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &694753575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8265,6 +8265,10 @@ MonoBehaviour:
   dialogueData: {fileID: 11400000, guid: 05a67809c74572c48ac747ef0e7abd49, type: 2}
   dialogueUI: {fileID: 272860168}
   BossClosePanel: {fileID: 960758788}
+  Boss1DataImage: {fileID: 0}
+  Boss2DataImage: {fileID: 0}
+  Boss3DataImage: {fileID: 0}
+  BossButton: {fileID: 0}
   bossDeadParticle: {fileID: 9029696638801422975, guid: 8f74d5b7360d3ff48b407650e7f6c661, type: 3}
   boss: {fileID: 1510681583}
   inputField: {fileID: 0}
@@ -9277,7 +9281,7 @@ PrefabInstance:
     - target: {fileID: 3262371427469550191, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
       propertyPath: clip
       value: 
-      objectReference: {fileID: 8300000, guid: 82789a9e2300e9e48877a39e50f0a4b3, type: 3}
+      objectReference: {fileID: 8300000, guid: c0e9c94f84d1f4249aff126f0f8832b9, type: 3}
     - target: {fileID: 3262371427469550191, guid: 7364573ad17401149b4639ab6cf1585b, type: 3}
       propertyPath: text
       value: 
@@ -9964,7 +9968,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!54 &7551938293812059870
 Rigidbody:
   m_ObjectHideFlags: 0

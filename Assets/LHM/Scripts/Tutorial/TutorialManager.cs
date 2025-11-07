@@ -82,7 +82,7 @@ public class TutorialManager : MonoBehaviour
             await PlayDialogueSetAsync(tutorialData.bossDialogues[1].deathLines, tutorialCTS.Token);
 
         await UniTask.Delay(TimeSpan.FromSeconds(1));
-        SceneManager.LoadScene("StageSelect");
+        SceneLoader.Instance.LoadScene("StageSelect");
     }
 
     private async UniTask PlayDialogueSetAsync(BossLine[] lineSet, CancellationToken token)
