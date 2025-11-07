@@ -31,9 +31,9 @@ public class CircleHit : MonoBehaviour
 	public int combo = 0;
 	[SerializeField] GameObject comboText;
 	[SerializeField] TextMeshProUGUI text;
-    [SerializeField] TextMeshProUGUI comboNumText;
-
-    AudioSource a;
+	[SerializeField] TextMeshProUGUI comboNumText;
+	[SerializeField] GameObject[] feverImage;
+	AudioSource a;
 	[SerializeField] AudioClip clip;
 	[SerializeField] PlayerShoot playerShoot;
 	private PlayerHP playerHPSc;
@@ -43,16 +43,16 @@ public class CircleHit : MonoBehaviour
 	private List<CircleMove> activeCircles = new List<CircleMove>();
 	public bool getDamage = false;
 	CanvasGroup cg;
-    Color randomColor;
+	Color randomColor;
 	public Color feverColor;
-    public bool isScale = false;
+	public bool isScale = false;
 	public bool isHighLight = false;
 	double firstBpm = 0;
 	Image image;
 	Color originalColor; //피버 끝날떄
 
 	//public bool changeSound = false;
-    private void Awake()
+	private void Awake()
 	{
 		if (Instance == null) Instance = this;
 		else if (Instance != this) Destroy(gameObject);
@@ -64,19 +64,23 @@ public class CircleHit : MonoBehaviour
 			circleDot.SetActive(false);
 			poolCircle[i] = circleDot;
 		}
+		for (int i = 0; i < feverImage.Length; i++)
+		{
+			feverImage[i].SetActive(false);
+		}
 		secondsPerBeat = 60.0 / bpm;
 		firstBpm = secondsPerBeat;
 		cg = comboText.GetComponent<CanvasGroup>();
 		image = GetComponent<Image>();
 		originalColor = image.color;
 	}
-	
+
 	private void Start()
 	{
 		a = GetComponent<AudioSource>();
 		playerShoot = FindAnyObjectByType<PlayerShoot>();
-        playerHPSc = FindAnyObjectByType<PlayerHP>();
-        CircleGen().Forget();
+		playerHPSc = FindAnyObjectByType<PlayerHP>();
+		CircleGen().Forget();
 	}
 
 	private void Update()
@@ -87,17 +91,25 @@ public class CircleHit : MonoBehaviour
 			maxDis = 80f;
 			bpm = 170;
 			secondsPerBeat = 60.0 / bpm;
+			for (int i = 0; i < feverImage.Length; i++)
+			{
+				feverImage[i].SetActive(true);
+			}
 		}
 		else
 		{
 			maxDis = 140f;
 			secondsPerBeat = firstBpm;
+			for (int i = 0; i < feverImage.Length; i++)
+			{
+				feverImage[i].SetActive(false);
+			}
 		}
 	}
-    
+
 	void CheckCol()
 	{
-		if (Input.GetMouseButtonDown(0)&&!playerHPSc.isPlayerDead)
+		if (Input.GetMouseButtonDown(0) && !playerHPSc.isPlayerDead)
 		{
 			for (int i = activeCircles.Count - 1; i >= 0; i--)
 			{
@@ -107,43 +119,43 @@ public class CircleHit : MonoBehaviour
 				if (minDis <= distance && exDis >= distance && !isHighLight)
 				{
 					OnClickSuccessEx().Forget();
-                    comboNumText.text = combo.ToString();
+					comboNumText.text = combo.ToString();
 
-                    ReturnCircle(circle.gameObject);
+					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
-				else if(exDis < distance && maxDis >= distance && !isHighLight)
+				else if (exDis < distance && maxDis >= distance && !isHighLight)
 				{
 					OnClickSuccess().Forget();
-                    comboNumText.text = combo.ToString();
-                    ReturnCircle(circle.gameObject);
+					comboNumText.text = combo.ToString();
+					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
-                }
-				else if(minDis > distance || maxDis < distance && !isHighLight)
+				}
+				else if (minDis > distance || maxDis < distance && !isHighLight)
 				{
 					OnClickSuccessBad().Forget();
 					comboNumText.text = combo.ToString();
 					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
-					else if (maxDis > distance && isHighLight)
-					{
-						OnClickSuccessEx().Forget();
-						comboNumText.text = combo.ToString();
-						ReturnCircle(circle.gameObject);
-						activeCircles.RemoveAt(i);
-					}
-				
+				else if (maxDis > distance && isHighLight)
+				{
+					OnClickSuccessEx().Forget();
+					comboNumText.text = combo.ToString();
+					ReturnCircle(circle.gameObject);
+					activeCircles.RemoveAt(i);
+				}
+
 			}
 		}
 	}
-    private void RanTextColor()
-    {
-        randomColor = new Color(Random.value, Random.value, Random.value);
-        comboNumText.color = randomColor;
-    }
+	private void RanTextColor()
+	{
+		randomColor = new Color(Random.value, Random.value, Random.value);
+		comboNumText.color = randomColor;
+	}
 
-    public GameObject GetCircle()
+	public GameObject GetCircle()
 	{
 		if (poolCircle.Length == 0)
 		{
@@ -169,8 +181,8 @@ public class CircleHit : MonoBehaviour
 			image.color = originalColor;
 			circleDot.GetComponent<CircleMove>().FeverTimeFIn();
 		}
-			
-		circleDot.SetActive(true); 
+
+		circleDot.SetActive(true);
 
 		activeCircles.Add(circleDot.GetComponent<CircleMove>());
 		pivot = (pivot + 1) % poolCircle.Length;
@@ -187,37 +199,37 @@ public class CircleHit : MonoBehaviour
 	{
 		combo++;
 		RanTextColor();
-        text.text = "Good";
-        isScale = true;
+		text.text = "Good";
+		isScale = true;
 		cg.alpha = 1;
-        playerShoot.PlayerShoot_();
-        a.PlayOneShot(clip);
-        playerHPSc.PlayerHPPlus(2);
+		playerShoot.PlayerShoot_();
+		a.PlayOneShot(clip);
+		playerHPSc.PlayerHPPlus(2);
 		await UniTask.Delay(100);
 		isScale = false;
 		await UniTask.Delay(300);
 		cg.alpha = 0;
 	}
 
-    public async UniTask OnClickSuccessEx()
-    {
-        combo++;
-        RanTextColor();
+	public async UniTask OnClickSuccessEx()
+	{
+		combo++;
+		RanTextColor();
 		text.text = "Perfect";
-        isScale = true;
-        cg.alpha = 1;
-        a.PlayOneShot(clip);
-        playerShoot.PlayerShoot_();
-        playerHPSc.PlayerHPPlus(4);
-        await UniTask.Delay(150);
-        isScale = false;
-        await UniTask.Delay(350);
-        cg.alpha = 0;
-    }
+		isScale = true;
+		cg.alpha = 1;
+		a.PlayOneShot(clip);
+		playerShoot.PlayerShoot_();
+		playerHPSc.PlayerHPPlus(4);
+		await UniTask.Delay(150);
+		isScale = false;
+		await UniTask.Delay(350);
+		cg.alpha = 0;
+	}
 
 	public async UniTask OnClickSuccessBad()
 	{
-		combo =  0;
+		combo = 0;
 		RanTextColor();
 		text.text = "Bad";
 		isScale = true;

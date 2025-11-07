@@ -9,79 +9,79 @@ public class StageSelectGhostMove : MonoBehaviour
 	[SerializeField] Transform playerPos;
 	public float chaseStartDistance = 10f;
 	public float disableDistance = 1f;
-    [SerializeField] BoxCollider clownCol;
-    [SerializeField] BoxCollider skull;
-    bool lastStageOn = false;
-    TextManager TextManager;
-    void Awake()
-    {
-        if (playerPos == null)
-            playerPos = GameObject.FindWithTag("Player")?.transform; //물음표 붙이면 null이면 null로 반환 개꿀임.
-    }
+	[SerializeField] BoxCollider clownCol;
+	[SerializeField] BoxCollider skull;
+	bool lastStageOn = false;
+	TextManager TextManager;
+	void Awake()
+	{
+		if (playerPos == null)
+			playerPos = GameObject.FindWithTag("Player")?.transform; //물음표 붙이면 null이면 null로 반환 개꿀임.
+	}
 
-    // Update is called once per frame
-    private void Update()
-    {
-        // 테스트용 입력
-        if (Input.GetKeyDown(KeyCode.R))
-            BossState.isBoss1Dead = true;
-        if (Input.GetKeyDown(KeyCode.T))
-            BossState.isBoss2Dead = true;
+	// Update is called once per frame
+	private void Update()
+	{
+		// 테스트용 입력
+		if (Input.GetKeyDown(KeyCode.R))
+			BossState.isBoss1Dead = true;
+		if (Input.GetKeyDown(KeyCode.T))
+			BossState.isBoss2Dead = true;
 
-        // 두 보스가 모두 죽었을 때 한 번만 실행
-        if (BossState.isBoss1Dead && BossState.isBoss2Dead && !lastStageOn)
-        {
-            MapSelected3.start3 = true;
-            lastStageOn = true;
+		// 두 보스가 모두 죽었을 때 한 번만 실행
+		if (BossState.isBoss1Dead && BossState.isBoss2Dead && !lastStageOn)
+		{
+			MapSelected3.start3 = true;
+			lastStageOn = true;
 
-            MoveScene().Forget();
-        }
-    }
-    private async UniTask GhostMove(float durationSeconds)
-    {
-        float elapsed = 0f;
+			MoveScene().Forget();
+		}
+	}
+	private async UniTask GhostMove(float durationSeconds)
+	{
+		float elapsed = 0f;
 
-        while (elapsed < durationSeconds)
-        {
-            if (playerPos == null) break;
+		while (elapsed < durationSeconds)
+		{
+			if (playerPos == null) break;
 
-            float distance = Vector3.Distance(transform.position, playerPos.position);
+			float distance = Vector3.Distance(transform.position, playerPos.position);
 
-            if (distance > disableDistance)
-            {
-                Vector3 dir = (playerPos.position - transform.position).normalized;
-                transform.position += dir * moveSpeed * Time.deltaTime;
-            }
-            else if (distance <= disableDistance)
-            {
-                transform.SetParent(playerPos.transform, true);
-                break;
-            }
+			if (distance > disableDistance)
+			{
+				Vector3 dir = (playerPos.position - transform.position).normalized;
+				transform.position += dir * moveSpeed * Time.deltaTime;
+			}
+			else if (distance <= disableDistance)
+			{
+				transform.SetParent(playerPos.transform, true);
+				break;
+			}
 
-            elapsed += Time.deltaTime;
-            await UniTask.Yield(PlayerLoopTiming.Update); //다음 Update 루프 타이밍 때 다시 실행
-        }
-    }
+			elapsed += Time.deltaTime;
+			await UniTask.Yield(PlayerLoopTiming.Update); //다음 Update 루프 타이밍 때 다시 실행
+		}
+	}
 
 
-    private async UniTaskVoid MoveScene()
-    {
-        var tm = FindObjectOfType<TextManager>();
-        if (tm != null)
-        {
-            tm.StartStageDialogueAsync(4);
-        }
-        Debug.Log("28초 동안 Ghost 이동 시작");
-        await UniTask.WaitUntil(() => !TalkState.isTalking);
-        clownCol.GetComponent<BoxCollider>().enabled = true;
-        skull.GetComponent<BoxCollider>().enabled = true;
-        await GhostMove(5f);
-        TalkState.isTalking = true;
-        if (tm != null)
-        {
-            tm.StartStageDialogueAsync(5);
-        }
-        await UniTask.WaitUntil(() => !TalkState.isTalking);
-        SceneManager.LoadScene("LastStage");
-    }
+	private async UniTaskVoid MoveScene()
+	{
+		var tm = FindObjectOfType<TextManager>();
+		if (tm != null)
+		{
+			tm.StartStageDialogueAsync(4);
+		}
+		await UniTask.WaitUntil(() => !TalkState.isTalking);
+		clownCol.GetComponent<BoxCollider>().enabled = true;
+		skull.GetComponent<BoxCollider>().enabled = true;
+		await GhostMove(5f);
+		TalkState.isTalking = true;
+		if (tm != null)
+		{
+			tm.StartStageDialogueAsync(5);
+		}
+		await TextManager.OnBossImage(4, true);
+		await UniTask.WaitUntil(() => !TalkState.isTalking);
+		SceneManager.LoadScene("LastStage");
+	}
 }
