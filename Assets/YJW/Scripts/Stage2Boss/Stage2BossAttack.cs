@@ -90,6 +90,7 @@ public class Stage2BossAttack : MonoBehaviour
     private void Start()
     {
         clubStack = 0;
+        ComboSave.Instance.maxComboData.maxCombo = 0;
 
         for (int i = 0; i < clubStackImage.Length; i++)
             clubStackImage[i].SetActive(false);

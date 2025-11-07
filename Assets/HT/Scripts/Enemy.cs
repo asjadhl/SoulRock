@@ -119,6 +119,25 @@ public class Enemy : MonoBehaviour
               Destroy(gameObject);
               }
         }
+
+
+        switch(mymode)
+    {
+      case Mode.NormalMode:
+        if (CircleHit.Instance.isHighLight)
+        {
+          ActiveParticales(0);
+          Destroy(gameObject);
+        }
+        break;
+      case Mode.FeverMode:
+        if (!CircleHit.Instance.isHighLight)
+        {
+          ActiveParticales(0);
+          Destroy(gameObject);
+        }
+        break;
+    }
        
      
     }
