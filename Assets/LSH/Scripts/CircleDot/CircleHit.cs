@@ -138,7 +138,7 @@ public class CircleHit : MonoBehaviour
 					ReturnCircle(circle.gameObject);
 					activeCircles.RemoveAt(i);
 				}
-				else if (maxDis > distance && isHighLight)
+				else if (isHighLight)
 				{
 					OnClickSuccessEx().Forget();
 					comboNumText.text = combo.ToString();
