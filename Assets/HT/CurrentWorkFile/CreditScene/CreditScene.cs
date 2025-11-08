@@ -38,9 +38,10 @@ public class CreditScene : MonoBehaviour
         CanvasRect = result.GetComponent<RectTransform>();
         myrectransform = GetComponent<RectTransform>();
 
-        myrectransform.sizeDelta = new Vector2(CanvasRect.sizeDelta.x, myrectransform.sizeDelta.y);
-        startPos.y =  -(myrectransform.sizeDelta.y/2f);
-        endPos.y =     (myrectransform.sizeDelta.y/2f);
+      //  myrectransform.sizeDelta = new Vector2(CanvasRect.sizeDelta.x, myrectransform.sizeDelta.y);
+          myrectransform.sizeDelta = new Vector2(CanvasRect.rect.width, myrectransform.rect.height);
+        startPos.y =  -(myrectransform.rect.height/2f);
+        endPos.y =     (myrectransform.rect.height/2f);
         
         endPos.y -= CanvasRect.sizeDelta.y;
         AnimationClip clip = new();
