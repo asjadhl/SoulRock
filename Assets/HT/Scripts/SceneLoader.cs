@@ -7,7 +7,8 @@ using UnityEngine.Audio;
 
 
 public class SceneLoader : MonoBehaviour
-{
+{  
+   
     public static SceneLoader Instance;
 
     private string targetScene;
@@ -17,6 +18,7 @@ public class SceneLoader : MonoBehaviour
     public CancellationTokenSource cts;
     public bool isScene = false;
     public AudioMixer audiomixer;
+    public float MusicSoundFadeDuration = 2f;
     private float realvolume;
     private void Lerping(float t)
     {
@@ -41,23 +43,24 @@ public class SceneLoader : MonoBehaviour
     }
 
 
-
-    private void Start()
+    private void FindAudioMixer()
     {
-	    Canvas.SetActive(false);
-
         var popsystem = FindAnyObjectByType<PopSystem>();
         if (popsystem != null)
         {
             audiomixer = popsystem.myMixer;
         }
+    }
+    private void Start()
+    {
+	    Canvas.SetActive(false);
+
+        FindAudioMixer();
+
         if (PlayerPrefs.HasKey("MasterVolume"))
             realvolume = PlayerPrefs.GetFloat("MasterVolume");
         else
-        {
             realvolume = 1;
-
-        }
     }
 
     public void LoadScene(string sceneName)
@@ -90,20 +93,20 @@ public class SceneLoader : MonoBehaviour
     
    
 
-    float t = 0;
-        float timer = 0;
-    float duration = 3f;
+    float Tlerp = 0;
+    float timer = 0;
+     
     
-    while (t < 1f)
+    while (timer < 1f)
     {
-      t+= Time.deltaTime/duration;
-      timer += Time.deltaTime/2f;
+      Tlerp+= Time.deltaTime/MusicSoundFadeDuration;
+      timer += Time.deltaTime/3f;
       Fill.fillAmount = Mathf.Lerp(0, 1, timer);
 
 
-      Lerping(t);
+      Lerping(Tlerp);
       await UniTask.Yield();
-      Debug.Log(t);
+     
     }
 
     await UniTask.WaitForSeconds(2f);
@@ -118,8 +121,42 @@ public class SceneLoader : MonoBehaviour
     isScene = false;
      
         if(audiomixer != null) 
-    audiomixer.SetFloat("Master", realvolume);  
+    audiomixer.SetFloat("Master", realvolume);
+        
+        FindMusicBox();
   }
     
+
+    private void FindMusicBox()
+    {
+        var audiosources = FindObjectsByType<AudioSource>(FindObjectsInactive.Exclude,FindObjectsSortMode.None);
+
+        if(audiosources != null)
+        {
+            if (audiosources.Length > 0)
+            {     
+               for(int i=0;i<audiosources.Length;i++)
+                {
+                    if (audiosources[i].outputAudioMixerGroup != null) //Ignored if they have it
+                               continue;
+
+                    switch (audiosources[i].name)
+                    {
+                        case "MusicBox":
+                            audiosources[i].outputAudioMixerGroup = audiomixer.FindMatchingGroups("Master")[0];//Music
+                            break;
+                        case "CircleHit":
+                            audiosources[i].outputAudioMixerGroup = audiomixer.FindMatchingGroups("Master")[1];//SFX
+                            break;
+                        default:
+                            Debug.Log($"audiosource.name:  {audiosources[i].name}");
+                            break;
+                    }
+                }
+               
+                    
+            }
+        }
+    }
    
 }
