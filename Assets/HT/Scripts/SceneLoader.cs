@@ -22,7 +22,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (audiomixer == null)
             return;
-
+       
         audiomixer.SetFloat("Master", Mathf.Log10(Mathf.Lerp(realvolume, 0.0001f, Mathf.Clamp01(t))) * 20);
     }     
        
@@ -45,10 +45,19 @@ public class SceneLoader : MonoBehaviour
     private void Start()
     {
 	    Canvas.SetActive(false);
+
+        var popsystem = FindAnyObjectByType<PopSystem>();
+        if (popsystem != null)
+        {
+            audiomixer = popsystem.myMixer;
+        }
         if (PlayerPrefs.HasKey("MasterVolume"))
-            realvolume = (Mathf.Log10(PlayerPrefs.GetFloat("MasterVolume")) * 20);
+            realvolume = PlayerPrefs.GetFloat("MasterVolume");
         else
-            realvolume = 0;
+        {
+            realvolume = 1;
+
+        }
     }
 
     public void LoadScene(string sceneName)
@@ -89,10 +98,10 @@ public class SceneLoader : MonoBehaviour
     {
       t+= Time.deltaTime/duration;
       timer += Time.deltaTime/2f;
-      Fill.fillAmount = Mathf.Lerp(0, 1, t);
+      Fill.fillAmount = Mathf.Lerp(0, 1, timer);
 
 
-      Lerping(timer);
+      Lerping(t);
       await UniTask.Yield();
       Debug.Log(t);
     }
