@@ -66,22 +66,23 @@ public class StageSelectGhostMove : MonoBehaviour
 
 	private async UniTaskVoid MoveScene()
 	{
+
 		var tm = FindObjectOfType<TextManager>();
-		if (tm != null)
+		if(tm == null)
 		{
-			tm.StartStageDialogueAsync(4);
+			return;
 		}
+
+		await tm.StartStageDialogueAsync(4);
 		await UniTask.WaitUntil(() => !TalkState.isTalking);
 		clownCol.GetComponent<BoxCollider>().enabled = true;
 		skull.GetComponent<BoxCollider>().enabled = true;
 		await GhostMove(5f);
 		TalkState.isTalking = true;
-		if (tm != null)
-		{
-			tm.StartStageDialogueAsync(5);
-		}
-		//await TextManager.OnBossImage(4, true);
-		await UniTask.WaitUntil(() => !TalkState.isTalking);
-		SceneManager.LoadScene("LastStage");
+		await tm.StartStageDialogueAsync(5);
+        await UniTask.WaitUntil(() => !TalkState.isTalking);
+        await tm.OnBossImage(4, true);
+        await UniTask.WaitUntil(() => TextManager.BossButtonClicked);
+        SceneManager.LoadScene("LastStage");
 	}
 }

@@ -24,7 +24,7 @@ public class TextManager : MonoBehaviour
     [SerializeField] private RawImage Boss2DataImage;
     [SerializeField] private RawImage Boss3DataImage;
     [SerializeField] public GameObject BossButton;
-
+    public static bool BossButtonClicked = false;
 
     private CancellationTokenSource dialogueCTS;
     private CancellationTokenSource bossCTS;
@@ -283,7 +283,10 @@ public class TextManager : MonoBehaviour
     {
         OnBossImage(2, false).Forget();
         OnBossImage(3, false).Forget();
+
+
         OnBossImage(4, false).Forget();
+        BossButtonClicked = true;
     }
 
 
