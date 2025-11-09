@@ -8,6 +8,10 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] GameObject gunObject;
     [SerializeField] GameObject boss2;
 
+    private bool isRecoilPlaying = false;
+    [SerializeField] private bool isFever = false; 
+    [SerializeField] private float feverRecoilMultiplier = 0.3f; 
+    [SerializeField] private float feverRecoverMultiplier = 3f;
     [SerializeField] ParticleSystem shootParticle;
     public Transform gunTransform;
     public float kickbackDistance = 0.1f;
@@ -98,23 +102,63 @@ public class PlayerShoot : MonoBehaviour
 
     private Quaternion originalRotation;
 
+    //private async UniTask Kickback()
+    //{
+    //    if (isRecoilPlaying) return;
+    //    shootParticle.Play();
+
+    //    Vector3 targetPos = originalPosition - gunTransform.forward * kickbackDistance;
+
+    //    gunObject.transform.localRotation = originalRotation * Quaternion.Euler(-15, 0, 0);
+
+    //    while (Vector3.Distance(gunTransform.localPosition, targetPos) > 0.01f)
+    //    {
+    //        gunTransform.localPosition = Vector3.Lerp(
+    //            gunTransform.localPosition,
+    //            targetPos,
+    //            kickbackSpeed * Time.deltaTime
+    //        );
+    //        await UniTask.Yield(PlayerLoopTiming.Update);
+    //    }
+    //    gunObject.transform.localRotation = originalRotation;
+
+    //    while (Vector3.Distance(gunTransform.localPosition, originalPosition) > 0.01f)
+    //    {
+    //        gunTransform.localPosition = Vector3.Lerp(
+    //            gunTransform.localPosition,
+    //            originalPosition,
+    //            kickbackSpeed * Time.deltaTime
+    //        );
+    //        await UniTask.Yield(PlayerLoopTiming.Update);
+    //    }
+    //}
+
+
     private async UniTask Kickback()
     {
+        if (isRecoilPlaying) return;
+        isRecoilPlaying = true;
+
         shootParticle.Play();
 
-        Vector3 targetPos = originalPosition - gunTransform.forward * kickbackDistance;
+        float appliedKickback = kickbackDistance * (isFever ? feverRecoilMultiplier : 1f);
+        float appliedSpeed = kickbackSpeed * (isFever ? feverRecoverMultiplier : 1f);
+
+        Vector3 targetPos = originalPosition - gunTransform.forward * appliedKickback;
 
         gunObject.transform.localRotation = originalRotation * Quaternion.Euler(-15, 0, 0);
+
 
         while (Vector3.Distance(gunTransform.localPosition, targetPos) > 0.01f)
         {
             gunTransform.localPosition = Vector3.Lerp(
                 gunTransform.localPosition,
                 targetPos,
-                kickbackSpeed * Time.deltaTime
+                appliedSpeed * Time.deltaTime
             );
             await UniTask.Yield(PlayerLoopTiming.Update);
         }
+
         gunObject.transform.localRotation = originalRotation;
 
         while (Vector3.Distance(gunTransform.localPosition, originalPosition) > 0.01f)
@@ -122,10 +166,12 @@ public class PlayerShoot : MonoBehaviour
             gunTransform.localPosition = Vector3.Lerp(
                 gunTransform.localPosition,
                 originalPosition,
-                kickbackSpeed * Time.deltaTime
+                appliedSpeed * Time.deltaTime
             );
             await UniTask.Yield(PlayerLoopTiming.Update);
         }
+
+        isRecoilPlaying = false;
     }
 
 
