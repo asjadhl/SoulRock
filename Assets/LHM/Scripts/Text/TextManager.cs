@@ -23,6 +23,13 @@ public class TextManager : MonoBehaviour
     [SerializeField] private RawImage Boss1DataImage;
     [SerializeField] private RawImage Boss2DataImage;
     [SerializeField] private RawImage Boss3DataImage;
+    [SerializeField] private Texture Boss1DataImage_KO;
+    [SerializeField] private Texture Boss1DataImage_EN;
+    [SerializeField] private Texture Boss2DataImage_KO;
+    [SerializeField] private Texture Boss2DataImage_EN;
+    [SerializeField] private Texture Boss3DataImage_KO;
+    [SerializeField] private Texture Boss3DataImage_EN;
+
     [SerializeField] public GameObject BossButton;
     public static bool BossButtonClicked = false;
 
@@ -262,22 +269,34 @@ public class TextManager : MonoBehaviour
     }
     public async UniTask OnBossImage(int stageNum, bool active)
     {
+        // 현재 설정된 언어 가져오기 (0 = en, 1 = ko)
+        int lang = PlayerPrefs.GetInt("LocalKey", 1);
+
         switch (stageNum)
         {
             case 2:
                 Boss1DataImage.gameObject.SetActive(active);
+                if (active)
+                    Boss1DataImage.texture = (lang == (int)Language.en) ? Boss1DataImage_EN : Boss1DataImage_KO;
                 BossButton.gameObject.SetActive(active);
                 break;
+
             case 3:
                 Boss2DataImage.gameObject.SetActive(active);
+                if (active)
+                    Boss2DataImage.texture = (lang == (int)Language.en) ? Boss2DataImage_EN : Boss2DataImage_KO;
                 BossButton.gameObject.SetActive(active);
                 break;
+
             case 4:
                 Boss3DataImage.gameObject.SetActive(active);
+                if (active)
+                    Boss3DataImage.texture = (lang == (int)Language.en) ? Boss3DataImage_EN : Boss3DataImage_KO;
                 BossButton.gameObject.SetActive(active);
                 break;
         }
     }
+
 
     public void OnBossImageClick()
     {
@@ -291,9 +310,11 @@ public class TextManager : MonoBehaviour
             OnBossImage(3, false).Forget();
             SceneManager.LoadScene("Stage3");
         }
-  
-        OnBossImage(4, false).Forget();
-        BossButtonClicked = true;
+        if (BossState.isBoss1Dead && BossState.isBoss2Dead)
+        {
+            OnBossImage(4, false).Forget();
+            SceneManager.LoadScene("LastStage");
+        }
     }
  
 
