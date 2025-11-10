@@ -53,11 +53,16 @@ public class PlayerMove : MonoBehaviour
       var res =  StartPos.Where(p => p != null).ToArray();
 
         if (res.Length < StartPos.Length)
+        {
+#if UNITY_EDITOR
+            Debug.LogError("StartPos Null result: return");
+#endif
             return;
+        }
 #if UNITY_EDITOR
         else
         {
-            Debug.LogError("StartPos Null result: return");
+            Debug.LogError("StartPos Positive result: flow");
         }
 #endif
 
@@ -82,10 +87,10 @@ public class PlayerMove : MonoBehaviour
         }
    }
     
-    private void PlayerJumpButtonClick()
-    {
+    //private void PlayerJumpButtonClick()
+    //{
 
-    }
+    //}
     
     //public void PlayerJump()
     //{
@@ -94,13 +99,13 @@ public class PlayerMove : MonoBehaviour
     //    playerRb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
     //}
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //if (collision.gameObject.CompareTag("Ground"))
-        //{
-        //    isGrounded = true;
-        //}
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    //if (collision.gameObject.CompareTag("Ground"))
+    //    //{
+    //    //    isGrounded = true;
+    //    //}
+    //}
 
     Vector3 QuadraticBezier(Vector3 p0, Vector3 p1, Vector3 p2, float t)
     {

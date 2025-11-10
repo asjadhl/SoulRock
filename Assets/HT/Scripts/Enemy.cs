@@ -129,8 +129,10 @@ public class Enemy : MonoBehaviour
       case Mode.FeverMode:
         if (!CircleHit.Instance.isHighLight)
         {
-          Debug.Log($"FeverMode -!CircleHit.Instance.isHighLight{!CircleHit.Instance.isHighLight}");
-          ActiveParticales(0);
+#if UNITY_EDITOR
+                    Debug.Log($"FeverMode -!CircleHit.Instance.isHighLight{!CircleHit.Instance.isHighLight}");
+#endif
+                    ActiveParticales(0);
           Destroy(gameObject);
         }
         break;
@@ -168,10 +170,7 @@ public class Enemy : MonoBehaviour
   }
   public void Attack()
   {
-    //if (PlayerTransform.TryGetComponent<IDamagable>(out var damagable))
-    //{
-    //  damagable?.TakeHit(m_damage);
-    //}
+ 
 
     var PlayerHP = PlayerTransform.GetComponent<PlayerHP>();
     if (PlayerHP != null)
