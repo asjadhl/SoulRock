@@ -478,8 +478,14 @@ MonoBehaviour:
   dialogueData: {fileID: 11400000, guid: 05a67809c74572c48ac747ef0e7abd49, type: 2}
   dialogueUI: {fileID: 154126323}
   BossClosePanel: {fileID: 0}
+  Boss1DataImage: {fileID: 0}
+  Boss2DataImage: {fileID: 0}
+  Boss3DataImage: {fileID: 0}
+  BossButton: {fileID: 0}
   bossDeadParticle: {fileID: 0}
   boss: {fileID: 0}
+  inputField: {fileID: 0}
+  inputPanel: {fileID: 0}
 --- !u!4 &154110202
 Transform:
   m_ObjectHideFlags: 0
@@ -4530,11 +4536,14 @@ MonoBehaviour:
   comboText: {fileID: 80208953}
   text: {fileID: 0}
   comboNumText: {fileID: 0}
+  feverImage: []
   clip: {fileID: 8300000, guid: c0e9c94f84d1f4249aff126f0f8832b9, type: 3}
   playerShoot: {fileID: 0}
   poolCircle: []
   getDamage: 0
+  feverColor: {r: 0, g: 0, b: 0, a: 0}
   isScale: 0
+  isHighLight: 0
 --- !u!58 &704449246
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -9432,8 +9441,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: -0.9}
+  m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1533571602
 MonoBehaviour:
@@ -9448,14 +9457,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300002, guid: b27bcf37600cca24196520251965a496, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a5c6402234c0c5641ab644a6ce5d911d, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11053,6 +11062,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunObject: {fileID: 1752396041}
   boss2: {fileID: 0}
+  isFever: 0
+  feverRecoilMultiplier: 0.3
+  feverRecoverMultiplier: 3
   shootParticle: {fileID: 1723813851}
   gunTransform: {fileID: 1752396042}
   kickbackDistance: 0.1
@@ -12263,8 +12275,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 688, y: 198}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 682.1, y: 213.9}
+  m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1931206855
 MonoBehaviour:
@@ -12286,8 +12298,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300002, guid: b27bcf37600cca24196520251965a496, type: 3}
-  m_Type: 3
+  m_Sprite: {fileID: -2413806693520163455, guid: 002aa144287aef144ad807f9297c9ece, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

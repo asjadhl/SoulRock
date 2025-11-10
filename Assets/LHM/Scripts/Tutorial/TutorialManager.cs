@@ -48,6 +48,7 @@ public class TutorialManager : MonoBehaviour
 
         if (dummyRenderer != null)
             originalColor = dummyRenderer.material.color;
+        originalColor = Color.white;
 
         StartTutorialAsync().Forget();
     }

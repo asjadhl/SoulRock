@@ -281,15 +281,21 @@ public class TextManager : MonoBehaviour
 
     public void OnBossImageClick()
     {
-        OnBossImage(2, false).Forget();
-        OnBossImage(3, false).Forget();
-
-
+        if (!BossState.isBoss1Dead && !BossState.isBoss2Dead)
+        {
+            OnBossImage(2, false).Forget();
+            SceneManager.LoadScene("Stage2");
+        }
+        if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
+        {
+            OnBossImage(3, false).Forget();
+            SceneManager.LoadScene("Stage3");
+        }
+  
         OnBossImage(4, false).Forget();
         BossButtonClicked = true;
     }
-
-
+ 
 
     public async UniTask EnterPressed()
     {
