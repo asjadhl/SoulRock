@@ -130,8 +130,12 @@ public class SceneLoader : MonoBehaviour
         
         FindMusicBox();
   }
-    
 
+    private void OnApplicationQuit()
+    {
+        Debug.Log("Application is quitting!");
+        PlayerPrefs.SetInt("IsTutorial", 0);
+    }
     private void FindMusicBox()
     {
         var audiosources = FindObjectsByType<AudioSource>(FindObjectsInactive.Exclude,FindObjectsSortMode.None);

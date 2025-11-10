@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -46,25 +47,28 @@ public class MainGhostClick : MonoBehaviour
                     AllReset();
                     if(PlayerPrefs.HasKey("IsTutorial"))
                     {
-                    var temp =  PlayerPrefs.GetInt("IsTutorial");
-                        if(temp == 0)
+                       
+
+
+                        switch(PlayerPrefs.GetInt("IsTutorial"))
                         {
-                            LoadSceneToTraning().Forget();
-                            PlayerPrefs.SetInt("IsTutorial", temp++);
+                            case 0:
+                                LoadSceneToTraining();
+                                break;
+                            case 1:
+                                LoadSelectedScene();
+                                break;
                         }
-                        else  if(temp >= 1)
-                        {
-                            LoadSelectScene().Forget();
-                            PlayerPrefs.SetInt("IsTutorial", temp++);
-                        }
+                        
                     }
                     else
                     {
-                        LoadSceneToTraning().Forget();
-                        PlayerPrefs.SetInt("IsTutorial", 1);
+                        
+                        
+                        
                     }
 
-                    //LoadSceneToTraning().Forget();
+                     
 
                 }
             }
@@ -79,6 +83,33 @@ public class MainGhostClick : MonoBehaviour
         TalkState.isTalking = false;
 	   
 	}
+
+
+    private void LoadSceneToTraining()
+    {
+        ghostAnim.SetTrigger("Clicked");
+        Vector3 ghostPos = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+        ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
+        ghostParticle.Play();
+        Invoke("LoadTheSceneLoaderTutorial", 1f);
+    }
+    private void LoadSelectedScene()
+    {
+        ghostAnim.SetTrigger("Clicked");
+        Vector3 ghostPos = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+        ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
+        ghostParticle.Play();
+        Invoke("LoadTheSceneLoaderSelectScene", 1f);
+    }
+    private void LoadTheSceneLoaderTutorial()
+    {
+        SceneLoader.Instance.LoadScene("TutorialTrainingRoom");
+    }
+    private void LoadTheSceneLoaderSelectScene()
+    {
+        SceneLoader.Instance.LoadScene("StageSelect");
+    }
+    [Obsolete]
     private async UniTask LoadSceneToTraning()
     {
         ghostAnim.SetTrigger("Clicked");
@@ -88,6 +119,7 @@ public class MainGhostClick : MonoBehaviour
         await UniTask.Delay(1000);
         SceneLoader.Instance.LoadScene("TutorialTrainingRoom");
     }
+    [Obsolete]
     public async UniTask LoadSelectScene()
     {
         ghostAnim.SetTrigger("Clicked");

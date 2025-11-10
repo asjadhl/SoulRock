@@ -83,6 +83,7 @@ public class TutorialManager : MonoBehaviour
             await PlayDialogueSetAsync(tutorialData.bossDialogues[1].deathLines, tutorialCTS.Token);
 
         await UniTask.Delay(TimeSpan.FromSeconds(1));
+        PlayerPrefs.SetInt("IsTutorial",1); //Declare No More Tutorial till the game is Application Quit
         SceneLoader.Instance.LoadScene("StageSelect");
     }
 
