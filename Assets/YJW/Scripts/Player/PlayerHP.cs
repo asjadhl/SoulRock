@@ -30,9 +30,12 @@ public class PlayerHP : MonoBehaviour
     public bool isPlayerDead = false;
 	private bool isProcessingDeath = false; // <<< 추가: 사망 시퀀스 중복 실행 방지 플래그
 
+	private string sceneName;
+
 	private void Awake()
 	{
 		maxHP = _playerHP;
+		sceneName = SceneManager.GetActiveScene().name;
 	}
 
 	private void Start()
@@ -66,6 +69,8 @@ public class PlayerHP : MonoBehaviour
 
 	private void PlayerHPTimer()
 	{
+		if (sceneName == "TutorialTrainingRoom")
+			return;
 		playerHP -= 0.05f;
 	}
 
