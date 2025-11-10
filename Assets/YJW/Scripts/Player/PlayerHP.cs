@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Triggers; // GetCancellationTokenOnDestroy() 사용을 위한 추가
 using System.Threading; // CancellationToken 타입을 위한 추가 (권장)
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI; // CanvasGroup을 사용하려면 이 using이 필요할 수 있습니다. (현재 코드에는 없지만 Unity UI 사용 시 필수)
 
@@ -42,8 +43,9 @@ public class PlayerHP : MonoBehaviour
 	{
 		playerDieText = FindAnyObjectByType<PlayerDieText>();
 
-        normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
+        //normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
 
+		normalMusicBox = FindMusicBox();
 
     }
 
@@ -83,7 +85,7 @@ public class PlayerHP : MonoBehaviour
 
 	public async UniTask PlayerHPMinus()
 	{
-		playerHP -= 10;
+		playerHP -= 15;
 		GetDamImageOn();
 		await UniTask.Delay(300, cancellationToken: this.GetCancellationTokenOnDestroy());
 		GetDamImageOff();
@@ -175,6 +177,27 @@ public class PlayerHP : MonoBehaviour
     private void GetDamImageOff()
     {
         DamageImage.SetActive(false);
+    }
+
+
+
+
+
+
+
+
+
+
+    private NormalMusicBox FindMusicBox()
+    {
+        var normalboxs = FindObjectsByType<NormalMusicBox>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+        if (normalboxs != null)
+            if (normalboxs.Length > 0)
+                for (int i = 0; i < normalboxs.Length; i++)
+                    if (normalboxs[i].name == "MusicBox")
+                             return normalboxs[i];
+		return null;
     }
 
 }

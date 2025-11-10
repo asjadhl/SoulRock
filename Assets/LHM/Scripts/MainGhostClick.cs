@@ -44,7 +44,28 @@ public class MainGhostClick : MonoBehaviour
                     isClickedOnce = true;
 
                     AllReset();
-                    LoadSceneToTraning().Forget();
+                    if(PlayerPrefs.HasKey("IsTutorial"))
+                    {
+                    var temp =  PlayerPrefs.GetInt("IsTutorial");
+                        if(temp == 0)
+                        {
+                            LoadSceneToTraning().Forget();
+                            PlayerPrefs.SetInt("IsTutorial", temp++);
+                        }
+                        else  if(temp >= 1)
+                        {
+                            LoadSelectScene().Forget();
+                            PlayerPrefs.SetInt("IsTutorial", temp++);
+                        }
+                    }
+                    else
+                    {
+                        LoadSceneToTraning().Forget();
+                        PlayerPrefs.SetInt("IsTutorial", 1);
+                    }
+
+                    //LoadSceneToTraning().Forget();
+
                 }
             }
         }

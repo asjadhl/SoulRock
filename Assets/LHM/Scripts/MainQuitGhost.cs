@@ -43,6 +43,10 @@ public class MainQuitGhost : MonoBehaviour
         ParticleSystem ghostParticle = Instantiate(ghostSurpParticle, ghostPos, Quaternion.identity);
         ghostParticle.Play();
         await UniTask.Delay(1000);
+
+        if(PlayerPrefs.HasKey("IsTutorial"))
+          PlayerPrefs.SetInt("IsTutorial", 0);
+
         Application.Quit();
     }
 }

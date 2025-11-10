@@ -183,6 +183,8 @@ public class Stage2BossAttack : MonoBehaviour
 
         //SetCardData();
 
+        var token = this.GetCancellationTokenOnDestroy();
+
         await RollCardEffect(rollCount: 12, delay: 80);
 
         Card nextCard;
@@ -190,10 +192,19 @@ public class Stage2BossAttack : MonoBehaviour
         {
             nextCard = cards[Random.Range(0, cards.Length)];
         }
-        while (nextCard == currentCard);
+        while (nextCard == currentCard && !token.IsCancellationRequested);
 
-        currentCard = nextCard;
-        SetCardData();
+        if (!token.IsCancellationRequested)
+        {
+            currentCard = nextCard;
+            SetCardData();
+        }
+#if UNITY_EDITOR
+        else if (token.IsCancellationRequested)
+        {
+            Debug.LogError("ChangeNextRanCard() safe");
+        }
+#endif
     }
 
     //private async UniTask RollCardEffect(int rollCount = 10, int delay = 100)
@@ -213,16 +224,31 @@ public class Stage2BossAttack : MonoBehaviour
     //}
 
     private async UniTask RollCardEffect(int rollCount = 10, int delay = 100)
-    {
+    {    
+        var token = this.GetCancellationTokenOnDestroy();
         for (int i = 0; i < rollCount; i++)
         {
-            var randomCard = cards[Random.Range(0, cards.Length)];
-            bossCardImage.sprite = randomCard.icon; // UI에만 반영
-            bossCardImage.transform.localScale = Vector3.one * 1.2f;
-            await UniTask.Delay(delay / 2);
-            bossCardImage.transform.localScale = Vector3.one;
-            await UniTask.Delay(delay / 2);
+            if (!token.IsCancellationRequested)
+            {
+                var randomCard = cards[Random.Range(0, cards.Length)];
+                bossCardImage.sprite = randomCard.icon; // UI에만 반영
+                bossCardImage.transform.localScale = Vector3.one * 1.2f;
+                await UniTask.Delay(delay / 2);
+                bossCardImage.transform.localScale = Vector3.one;
+                await UniTask.Delay(delay / 2);
+            }
+            else
+            {
+                break;
+            }
         }
+#if UNITY_EDITOR
+        if (token.IsCancellationRequested)
+        {
+            Debug.LogError("Stage2BossAttack: safe");
+        }
+
+#endif
     }
 
     private async UniTask HAttack()

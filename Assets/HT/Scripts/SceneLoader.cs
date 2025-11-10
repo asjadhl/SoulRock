@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using Unity.VisualScripting;
 
 
 public class SceneLoader : MonoBehaviour
@@ -75,7 +76,11 @@ public class SceneLoader : MonoBehaviour
             
     }
 
-  public async UniTask UniLoadSceneAsync()
+ 
+
+
+
+    public async UniTask UniLoadSceneAsync()
   {
         
         isScene = true;

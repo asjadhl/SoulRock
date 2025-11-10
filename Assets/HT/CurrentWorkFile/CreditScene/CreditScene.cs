@@ -6,7 +6,7 @@ public class CreditScene : MonoBehaviour
 {
      public Animator animator;
     public RectTransform CanvasRect;
-    private RectTransform myrectransform;
+    private RectTransform ContentRectTransform;
     public Vector2 startPos;
     public Vector2 endPos;
     public float duration = 10f;
@@ -14,9 +14,31 @@ public class CreditScene : MonoBehaviour
   [Range(0, 10f)]
 #endif
   public float PlayedStart;
+
+
+
+    public bool HideGuide;
+    public Image OurImage;
+    public Image ContentImage;
+#if UNITY_EDITOR
+    [Range(0, 1f)]
+
+    public float alpha;
+    private float prevalpha;
+    private Color black = new Color(0f, 0f, 0f, 1f);
+    private Color White = new Color(0f, 0f, 0f, 0f);
+#endif
     public void Start()
-    {
-   
+    {   
+
+        OurImage = GetComponent<Image>();
+
+        ContentImage = transform.GetChild(0).GetComponent<Image>();
+        if (HideGuide)
+        {
+            ContentImage.enabled = false;
+        }
+
     if (animator == null)
         {
 #if UNITY_EDITOR
@@ -24,26 +46,17 @@ public class CreditScene : MonoBehaviour
 #endif
             return;
         }
-        var unknown = GameObject.FindObjectsByType<CanvasScaler>(FindObjectsSortMode.None);
-        var result = unknown.Where(p => p.uiScaleMode == CanvasScaler.ScaleMode.ScaleWithScreenSize).FirstOrDefault();
-
-        if(result == null)
-        {
-#if UNITY_EDITOR
-            Debug.LogWarning($"{this.name}: Canvas is Null With ScaleMode.ScaleWithScreenSize");
-#endif
-            return;
-        }
-
-        CanvasRect = result.GetComponent<RectTransform>();
-        myrectransform = GetComponent<RectTransform>();
-
-      //  myrectransform.sizeDelta = new Vector2(CanvasRect.sizeDelta.x, myrectransform.sizeDelta.y);
-          myrectransform.sizeDelta = new Vector2(CanvasRect.rect.width, myrectransform.rect.height);
-        startPos.y =  -(myrectransform.rect.height/2f);
-        endPos.y =     (myrectransform.rect.height/2f);
         
-        endPos.y -= CanvasRect.sizeDelta.y;
+
+        CanvasRect = transform.parent.GetComponent<RectTransform>();
+        ContentRectTransform =transform.GetChild(0).GetComponent<RectTransform>();
+
+           
+        ContentRectTransform.sizeDelta = new Vector2(CanvasRect.rect.width, ContentRectTransform.rect.height);   
+
+        startPos.y =  -(ContentRectTransform.rect.height/2f);
+        endPos.y =     (ContentRectTransform.rect.height / 2f);//- CanvasRect.rect.height;
+    
         AnimationClip clip = new();
         clip.legacy = false;   
 
@@ -64,9 +77,28 @@ public class CreditScene : MonoBehaviour
        
     }
 
+
   private void Play()
   {
     animator.speed = 1;
     animator.Play("CreditSceneClip", 0, 0f);
   }
+
+
+#if UNITY_EDITOR
+    public void UpdateImageAlpha()
+    {
+        if (prevalpha != alpha)
+        {
+            ContentImage.color = Color.Lerp(black, White, alpha);
+            prevalpha = alpha;
+        }
+    }
+#endif 
+    private  void Update()
+    {
+#if UNITY_EDITOR
+        UpdateImageAlpha();
+#endif
+    }
 }
