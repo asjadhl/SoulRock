@@ -140,8 +140,8 @@ public class CircleHit : MonoBehaviour
 				{
 					OnClickSuccessEx().Forget();
 					comboNumText.text = combo.ToString();
-					ReturnCircle(circle.gameObject);
-					activeCircles.RemoveAt(i);
+					//ReturnCircle(circle.gameObject);
+					//activeCircles.RemoveAt(i);
 				}
 
 			}
@@ -195,7 +195,10 @@ public class CircleHit : MonoBehaviour
 	}
 	public async UniTask OnClickSuccess()
 	{
-		combo++;
+		if(!isHighLight)
+		{
+			combo++;
+		}
 		RanTextColor();
 		text.text = "Good";
 		isScale = true;

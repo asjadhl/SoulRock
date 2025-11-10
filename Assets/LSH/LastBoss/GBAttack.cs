@@ -261,7 +261,6 @@ public class GBAttack : MonoBehaviour
 		}
 		while (CircleHit.Instance.isHighLight)
 		{
-            
             await UniTask.Delay(1000);
 		}
 		if (!CircleHit.Instance.isHighLight)
@@ -343,7 +342,11 @@ public class GBAttack : MonoBehaviour
           transform.position = new Vector3(transform.position.x + (float)Random.Range(3, 20), transform.position.y + (float)Random.Range(0, 4), transform.position.z);
           break;
       }
-      await UniTask.Delay(cooltime, cancellationToken: token);
+        if (CircleHit.Instance.isHighLight)
+        {
+            transform.position = new Vector3(firstxPos, firstyPos, transform.position.z); return;
+        }
+			await UniTask.Delay(cooltime, cancellationToken: token);
 		if (transform == null) return;
 		transform.position = new Vector3(firstxPos, firstyPos, transform.position.z);
     }
@@ -405,8 +408,12 @@ public class GBAttack : MonoBehaviour
       poltergeist.SetActive(true);
       for (int i = 0; i < poltergeistOB.Length; i++)
       {
-
-            if (BossState.isBoss3Dead)return;
+            if (BossState.isBoss3Dead || CircleHit.Instance.isHighLight)
+            {
+                poltergeist.SetActive(false); 
+                isAttack = false; 
+                return;
+            }
             animator.SetTrigger("Polter");
          GameObject obj = poltergeistOB[i];
 			if (obj == null) continue;

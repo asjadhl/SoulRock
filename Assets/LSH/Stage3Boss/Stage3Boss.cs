@@ -131,19 +131,16 @@ public class Stage3Boss : MonoBehaviour
                 break;
 
             case 53:
-                Debug.LogError("true∑Œ πŸ≤Ò");
 				CircleHit.Instance.isHighLight = true;
 				Debug.LogError(CircleHit.Instance.isHighLight);
 				break;
 
             case 75:
-				Debug.LogError("false πŸ≤Ò");
 				CircleHit.Instance.isHighLight = false;
 				Debug.LogError(CircleHit.Instance.isHighLight);
 				break;
 
             case 129:
-				Debug.LogError("true∑Œ πŸ≤Ò");
 				CircleHit.Instance.isHighLight = true;
 				Debug.LogError(CircleHit.Instance.isHighLight);
 				break;
@@ -267,7 +264,6 @@ public class Stage3Boss : MonoBehaviour
 
     private async UniTask AngrysecondPattern()
     {
-		Debug.LogError("«œ¿Ã∂Û¿Ã∆Æ æ∆¥‘!");
 		if (BossState.isBoss2Dead) return;
         isAttacking = true;
 		var token = this.GetCancellationTokenOnDestroy();
@@ -374,16 +370,15 @@ public class Stage3Boss : MonoBehaviour
     void Boss3Pattern()
     {
         if (BossState.isBoss2Dead) return;
-        switch (ranIndex)
+        switch (1)
         {
             case 1:
                 secondPattern().Forget();
-                ranIndex = Random.Range(1, 3);
 				break;
-            case 2:
-                ThirdPattern().Forget();
-                ranIndex = Random.Range(1, 3);
-                break;
+            //case 2:
+            //    ThirdPattern().Forget();
+            //    ranIndex = Random.Range(1, 3);
+            //    break;
         }
     }
   //  private async UniTask ChargeLazerAttack()

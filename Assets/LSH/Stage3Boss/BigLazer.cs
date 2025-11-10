@@ -22,6 +22,7 @@ public class BigLazer : MonoBehaviour
 		//mirror = FindAnyObjectByType<MatarialAlpha>();
         //explosionEffect = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>().hitParticle;
         particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
+        
     }
     private void Start()
     {
@@ -36,8 +37,8 @@ public class BigLazer : MonoBehaviour
 			transform.Translate(Vector3.forward * 5 * Time.deltaTime);
 		}
         if (BossState.isBoss2Dead) gameObject.SetActive(false);
-
-    }
+		if (!CircleHit.Instance.isHighLight) gameObject.SetActive(false);
+	}
     private void OnTriggerEnter(Collider col)
     {   
         if(col.CompareTag("Player"))
