@@ -54,9 +54,6 @@ public class SpawnTimer : MonoBehaviour
                 calones = true;
                 doubleDotSpeed = false;
                 i++;
-                //dotBoxGenL.dotboxTime = normalSpeed;
-                //dotBoxGenR.dotboxTime = normalSpeed;
-                //Debug.Log(dotBoxGenL.dotboxTime);
             }
         }
         if(j < lastTimerSlow.Length)
@@ -71,9 +68,6 @@ public class SpawnTimer : MonoBehaviour
                 calones = true;
                 lowDoubleDotSpeed = false;
                 j++;
-                //dotBoxGenL.dotboxTime = normalSpeed;
-                //dotBoxGenR.dotboxTime = normalSpeed;
-                //Debug.Log(dotBoxGenL.dotboxTime);
             }
         }
         

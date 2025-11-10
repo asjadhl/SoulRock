@@ -41,18 +41,6 @@ public class DotBoxGeneratorR: MonoBehaviour
 
     void Start()
     {
-        //    // 钱 积己
-        //    poolR = new GameObject[poolSize];
-        //    for (int i = 0; i < poolR.Length; i++)
-        //    {
-        //        GameObject dot = Instantiate(dotboxPrefabR, transform);
-        //        dot.SetActive(false);
-        //        poolR[i] = dot;
-        //    }
-
-        //    secondsPerBeat = 60.0 / bpm;
-
-        // DotBox 积己 矫累
         DotBoxGen().Forget();
     }
 

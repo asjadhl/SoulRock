@@ -18,8 +18,6 @@ public class UiCursor : MonoBehaviour
 
 	void Start()
 	{
-		if (cursorRect == null)
-			Debug.LogError("Cursor RectTransform이 할당되지 않음!");
 		circleHit = GetComponent<CircleHit>();
 		Cursor.visible = false; 
 		targetScale = normalScale;
@@ -32,17 +30,6 @@ public class UiCursor : MonoBehaviour
 		{
 			cursorRect.position = Input.mousePosition;
 		}
-		//else // Screen Space - Camera
-		//{
-		//	Vector2 pos;
-		//	RectTransformUtility.ScreenPointToLocalPointInRectangle(
-		//		canvas.transform as RectTransform,
-		//		Input.mousePosition,
-		//		canvas.worldCamera,
-		//		out pos
-		//	);
-		//	cursorRect.localPosition = pos;
-		//}
 		if (circleHit.isScale)
 			targetScale = clickScale;
 		if (!circleHit.isScale)
@@ -60,7 +47,4 @@ public class UiCursor : MonoBehaviour
 	{
 		targetScale = newScale;
 	}
-	// 클릭 이벤트와 연동
-	//UICursor uiCursor = FindObjectOfType<UICursor>();
-	//uiCursor.SetScale(Vector2.one* 2f);
 }

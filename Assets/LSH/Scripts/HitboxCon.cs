@@ -18,13 +18,9 @@ public class HitBoxCon: MonoBehaviour
     public RawImage dotL;
     public RawImage dotR;
 
-    //Combo 상승
     [Header("Combo")]
     public int combo = 0;
     public GameObject[] comboImage;
-    //public Color color;
-
-    //실험용 Bool값
     public bool test = false;
     AudioSource a;
     [SerializeField] AudioClip clip;
@@ -34,7 +30,6 @@ public class HitBoxCon: MonoBehaviour
 
     private void Start()
     {
-        //color = new Color(colorValue[0], colorValue[1], colorValue[2], colorValue[3]);
         a = GetComponent<AudioSource>();
         for(int i = 0; i <comboImage.Length; i++)
         {
@@ -83,9 +78,6 @@ public class HitBoxCon: MonoBehaviour
         combo++;
         a.PlayOneShot(clip);
         player.PlayerShoot_();
-        //Debug.Log("클릭성공!");
-        // 클릭 성공 시 처리할 로직
-        // 예: 좌/우 도트 비활성화, 점수 증가 등
         switch(combo)
         {
             case <10:

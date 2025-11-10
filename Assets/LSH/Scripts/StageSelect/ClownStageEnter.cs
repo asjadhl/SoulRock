@@ -29,7 +29,7 @@ public class ClownStageEnter : MonoBehaviour
             }
         }
     }
-    private async void LoadScene()
+    private void LoadScene()
     {
         SceneLoader.Instance.LoadScene("Stage2");
     }

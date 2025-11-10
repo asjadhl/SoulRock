@@ -45,20 +45,4 @@ public class EffectSoundManager : MonoBehaviour
         source.gameObject.SetActive(false);
         pool.Enqueue(source);
     }
-    //public async UniTask PlaySound(string clipName)
-    //{
-    //    if (string.IsNullOrEmpty(clipName)) return;
-
-    //    if (!clipCache.TryGetValue(clipName, out AudioClip clip))
-    //    {
-    //        clip = Resources.Load<AudioClip>(clipName);
-    //        if (clip == null)
-    //        {
-    //            Debug.LogWarning($"[EffectSoundManager] '{clipName}' 클립을 찾을 수 없습니다.");
-    //            return;
-    //        }
-    //        clipCache[clipName] = clip;
-    //    }
-    //    await PlaySound(clip);
-    //}
 }

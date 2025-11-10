@@ -49,9 +49,7 @@ public class CircleHit : MonoBehaviour
 	public bool isHighLight = false;
 	double firstBpm = 0;
 	Image image;
-	Color originalColor; //피버 끝날떄
-
-	//public bool changeSound = false;
+	Color originalColor; 
 	private void Awake()
 	{
 		if (Instance == null) Instance = this;
@@ -240,23 +238,12 @@ public class CircleHit : MonoBehaviour
 		cg.alpha = 0;
 	}
 	private bool isRunning = true;
-
-	//private async UniTask circleGen()
-	//{
-	//	while (true)
-	//	{
-	//		double delayMs = secondsPerBeat * 1000.0;
-	//		await UniTask.Delay((int)delayMs);
-	//           GetCircle().transform.position = transform.position;
-	//       }
-	//}
 	private async UniTask CircleGen()
 	{
 		while (isRunning && this != null && gameObject != null)
 		{
 			await UniTask.Delay((int)(secondsPerBeat * 1000.0));
 			Debug.Log((int)(secondsPerBeat * 1000.0));
-			// 씬이 전환되거나 오브젝트가 파괴되면 중단
 			if (!isRunning || this == null || gameObject == null)
 				break;
 
