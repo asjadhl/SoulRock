@@ -449,7 +449,7 @@ public class Stage2BossAttack : MonoBehaviour
 
     private async UniTask StartDelay()
     {
-        await UniTask.Delay(3000);
+        await UniTask.Delay(3500);
         isDelay = true;
         await ChangeNextRanCard();
         //currentCard = cards[3];
