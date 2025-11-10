@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -49,14 +50,36 @@ public class PlayerMove : MonoBehaviour
 
    private async UniTaskVoid WaitToRun()
    {
-      while(t <=1f)
+      var res =  StartPos.Where(p => p != null).ToArray();
+
+        if (res.Length < StartPos.Length)
+            return;
+#if UNITY_EDITOR
+        else
+        {
+            Debug.LogError("StartPos Null result: return");
+        }
+#endif
+
+        var token = this.GetCancellationTokenOnDestroy();
+      while(t <=1f && !token.IsCancellationRequested)
       {
       StartMove(t+=Time.deltaTime* QuadraticBezierRate);
       await UniTask.WaitForFixedUpdate();
       }
-      await UniTask.Delay(3000);
-      canRun = true;
-      temp.canRun = true;
+
+        if (!token.IsCancellationRequested)
+        {
+            await UniTask.Delay(3000);
+            canRun = true;
+            temp.canRun = true;
+        }
+        else
+        {
+#if UNITY_EDITOR
+            Debug.LogError("PlayerMove Safe 50");
+#endif
+        }
    }
     
     private void PlayerJumpButtonClick()
@@ -89,6 +112,7 @@ public class PlayerMove : MonoBehaviour
     private void StartMove(float t)
     {        
              // if(t<1) t+= Time.deltatime* speed ???
+             
             transform.position = QuadraticBezier(StartPos[0].position, StartPos[1].position, StartPos[2].position, t);
             
     }
