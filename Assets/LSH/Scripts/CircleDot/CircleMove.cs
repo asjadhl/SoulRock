@@ -40,8 +40,8 @@ public class CircleMove : MonoBehaviour
 
         if (t >= 1f && !returned)
         {
-			//ComboSave.Instance.MaxcomboSaveScr();
-            circleHit.combo = 0;
+			ComboSave.Instance.MaxcomboSaveScr();
+			circleHit.combo = 0;
             returned = true;
             circleHit.ReturnCircle(this.gameObject);
         }
