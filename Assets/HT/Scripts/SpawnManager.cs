@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine; 
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using System.Linq;
+
 
 
 #if UNITY_EDITOR
@@ -64,10 +66,13 @@ public enum Mode
   NormalMode,FeverMode
 }
 
+
+
 public class SpawnManager : MonoBehaviour
 {
 
-  [Header("SpawnManager(0.v5)")]
+    public static List<GameObject> poolghosts;
+    [Header("SpawnManager(0.v5)")]
   [SerializeField]
   Transform m_targetTransform;
   [SerializeField] Vector3 SpawnAreaOffset;
@@ -157,7 +162,9 @@ public class SpawnManager : MonoBehaviour
   
   private void Start()
   {
-         
+
+        if (poolghosts == null)
+            poolghosts = new List<GameObject>();
     m_targetTransform = FindPlayer();
         
     Save_areaSpawns = new();
@@ -216,20 +223,39 @@ public class SpawnManager : MonoBehaviour
             spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x + SpawnAreaOffset.x,
                                     areaspawn.SpawnerPosition.transform.position.y + SpawnAreaOffset.y,
                                     areaspawn.SpawnerPosition.transform.position.z + z + SpawnAreaOffset.z);
-            var obj = Instantiate(areaspawn.EntityList[0].EntityObj, spawnPos, Quaternion.identity);
-            Enemy enemycomponent = obj.GetComponent<Enemy>();
-            if (enemycomponent != null)
-            {
-              enemycomponent.SetMode(MyMode);
-            }
-#if UNITY_EDITOR
-            else
-            {
-              Debug.LogWarning("Enemy Component NULL SetMode Fail");
-            }
-#endif
+                        var temp = poolghosts.Where(p => !p.activeSelf).FirstOrDefault();
 
-            areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
+                        if (temp != null)
+                        {
+                            temp.transform.position = spawnPos;
+                            Enemy enemy = temp.GetComponent<Enemy>();
+                            if (enemy != null)
+                            {
+                                enemy.SetMode(MyMode);
+                            }
+                            temp.SetActive(true);
+                        }
+                        else
+                        {
+                            var obj = Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
+                            Enemy enemycomponent = obj.GetComponent<Enemy>();
+                            if (enemycomponent != null)
+                            {
+                                enemycomponent.SetMode(MyMode);
+                                poolghosts.Add(obj);
+                            }
+#if UNITY_EDITOR
+                            else
+                            {
+                                Debug.LogWarning("Enemy Component NULL SetMode Fail");
+                            }
+#endif
+                        }
+
+
+
+
+                        areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
 
             if (areaspawn.EntityList[randomindex].EntitySpawnCount <= 0)
               areaspawn.EntityList.Remove(areaspawn.EntityList[randomindex]);
@@ -253,22 +279,40 @@ public class SpawnManager : MonoBehaviour
               spawnPos = new Vector3(areaspawn.SpawnerPosition.transform.position.x + x + SpawnAreaOffset.x,
                                       areaspawn.SpawnerPosition.transform.position.y+ SpawnAreaOffset.y,
                                       areaspawn.SpawnerPosition.transform.position.z + z + SpawnAreaOffset.z);
-              var obj = Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
-              Enemy enemycomponent =   obj.GetComponent<Enemy>();
-              if(enemycomponent != null)
-              {
-                enemycomponent.SetMode(MyMode);
-              }
+
+                       var temp =     poolghosts.Where(p => !p.activeSelf).FirstOrDefault();
+               
+                            if(temp != null)
+                            {
+                                temp.transform.position = spawnPos;
+                                Enemy enemy = temp.GetComponent<Enemy>();
+                                if (enemy != null)
+                                {
+                                    enemy.SetMode(MyMode);
+                                }
+                                temp.SetActive(true);
+                            }
+                            else
+                            {
+                                var obj = Instantiate(areaspawn.EntityList[randomindex].EntityObj, spawnPos, Quaternion.identity);
+                                Enemy enemycomponent = obj.GetComponent<Enemy>();
+                                if (enemycomponent != null)
+                                {
+                                    enemycomponent.SetMode(MyMode);
+                                    poolghosts.Add(obj);
+                                }
 #if UNITY_EDITOR
-              else
-              {
-                Debug.LogWarning("Enemy Component NULL SetMode Fail");
-              }
+                                else
+                                {
+                                    Debug.LogWarning("Enemy Component NULL SetMode Fail");
+                                }
 #endif
+                            }
 
 
 
-              areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
+
+                            areaspawn.EntityList[randomindex].EntitySpawnCount -= 1;
 
               if (areaspawn.EntityList[randomindex].EntitySpawnCount <= 0)
                 areaspawn.EntityList.Remove(areaspawn.EntityList[randomindex]);
@@ -332,13 +376,24 @@ public class SpawnManager : MonoBehaviour
     }
   }
 
+    private void OnDestroy()
+    {
+        if(poolghosts != null)
+        {  
+            for(int i=0;i<poolghosts.Count;i++)
+            {
+                Destroy(poolghosts[i]);
+            }
+            poolghosts.Clear();
+            poolghosts = null;
+        }
+    }
 
 
 
 
 
-
-  public string GetSelectedTag() => selectedTag;
+    public string GetSelectedTag() => selectedTag;
   
 
   public void SetSelectedTag(string _tags) => selectedTag = _tags;

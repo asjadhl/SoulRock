@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour
       Debug.Log("CheckBossExist-Destroy");
 #endif
       ActiveParticales(0);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
        
     }
@@ -123,7 +123,7 @@ public class Enemy : MonoBehaviour
         if (CircleHit.Instance.isHighLight)
         {
           ActiveParticales(0);
-          Destroy(gameObject);
+          gameObject.SetActive(false);
         }
         break;
       case Mode.FeverMode:
@@ -133,8 +133,8 @@ public class Enemy : MonoBehaviour
                     Debug.Log($"FeverMode -!CircleHit.Instance.isHighLight{!CircleHit.Instance.isHighLight}");
 #endif
                     ActiveParticales(0);
-          Destroy(gameObject);
-        }
+                    gameObject.SetActive(false);
+                }
         break;
         }
        
@@ -165,9 +165,9 @@ public class Enemy : MonoBehaviour
   public void Die()
   {
           if(gameObject  != null)
-            Destroy(gameObject);
-      
-  }
+            gameObject.SetActive(false);
+
+    }
   public void Attack()
   {
  

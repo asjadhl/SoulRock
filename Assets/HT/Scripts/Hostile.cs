@@ -10,7 +10,7 @@ public class Hostile : Enemy
         //lockOnDodgeEnemy.StopDodging();
          
         EnemyGhostGraphics.AnimationManager(AnimationState.Idle, Cts.master).Forget();
-    transform.SetParent(PlayerTransform);
+       transform.SetParent(PlayerTransform);
     }
  
   public override void m_Update()
@@ -79,7 +79,7 @@ public class Hostile : Enemy
         
         //lockOnDodgeEnemy.StopDodging();
         MyBehavior = Behavior.Null;
-        transform.SetParent(null);
+        //transform.SetParent(null);
         if (TryGetComponent<Collider>(out var c))
             c.enabled = false;
         else
