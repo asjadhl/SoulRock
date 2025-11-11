@@ -87,6 +87,9 @@ public class Stage2BossAttack : MonoBehaviour
     TextManager textManager;
     private bool bossDialogueTriggered = false;
     [SerializeField] private DialogueUIManager dialogueUI;
+
+    public bool isDAttacking = false;
+
     private void Start()
     {
         clubStack = 0;
@@ -312,12 +315,14 @@ public class Stage2BossAttack : MonoBehaviour
     private async UniTask DAttack()
     {
         isAttack = true;
-        if(teleportCount < 5)
+        isDAttacking = true;
+        if (teleportCount < 5)
         {
             if (teleportTimer >= 2)
             {
                 MoveToRanPos();
                 teleportTimer = 0;
+                isDAttacking = false;
             }
         }
         else
@@ -337,6 +342,7 @@ public class Stage2BossAttack : MonoBehaviour
                 playerHitCount = 0;
                 teleportTimer = 0;
                 teleportCount = 0;
+                isDAttacking = false;
             }
 
         }
@@ -401,6 +407,7 @@ public class Stage2BossAttack : MonoBehaviour
             teleportCount = 0;
             playerHitCount = 0;
             teleportTimer = 0;
+            isDAttacking = false;
             //cardChanged = false;
 
         }

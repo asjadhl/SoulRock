@@ -14,6 +14,8 @@ public class Stage1ParticleManager : MonoBehaviour
     [SerializeField] private ParticleSystem cardParticle;
     [Header("카드 파티클")]
     [SerializeField] private ParticleSystem CParticle;
+    [Header("다이아 파티클")]
+    [SerializeField] private ParticleSystem DParticle;
     [Header("풀 사이즈")]
     [SerializeField] private int poolSize = 10;
 
@@ -21,6 +23,7 @@ public class Stage1ParticleManager : MonoBehaviour
     private Queue<ParticleSystem> boxPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> cardPool = new Queue<ParticleSystem>();
     private Queue<ParticleSystem> CPool = new Queue<ParticleSystem>();
+    private Queue<ParticleSystem> DPool = new Queue<ParticleSystem>();
 
 
     void Awake()
@@ -51,6 +54,12 @@ public class Stage1ParticleManager : MonoBehaviour
             ParticleSystem effect = Instantiate(CParticle, transform);
             effect.gameObject.SetActive(false);
             CPool.Enqueue(effect);
+        }
+        for (int i = 0; i < 1; i++)
+        {
+            ParticleSystem effect = Instantiate(DParticle, transform);
+            effect.gameObject.SetActive(false);
+            DPool.Enqueue(effect);
         }
     }
 
@@ -112,6 +121,21 @@ public class Stage1ParticleManager : MonoBehaviour
         effect.Play();
 
         ReturnToPoolAfter(effect, CPool).Forget();
+    }
+
+    public void PlayDEffect(Vector3 pos)
+    {
+        if (DPool.Count == 0)
+        {
+            AddEffectToPool(DParticle, DPool, 1);
+        }
+
+        ParticleSystem effect = DPool.Dequeue();
+        effect.transform.position = pos;
+        effect.gameObject.SetActive(true);
+        effect.Play();
+
+        ReturnToPoolAfter(effect, DPool).Forget();
     }
 
     private async UniTask ReturnToPoolAfter(ParticleSystem effect, Queue<ParticleSystem> pool)

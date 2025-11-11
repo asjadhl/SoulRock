@@ -49,7 +49,11 @@ public class PlayerShoot : MonoBehaviour
             { "Stage2Boss", col => {
                 var bossAttack = boss2.GetComponent<Stage2BossAttack>();
                 if (bossAttack.curShape == Shape.D)
+                {
                     bossAttack.playerHitCount++;
+                    Vector3 bossPos = new Vector3(col.transform.position.x, col.transform.position.y + 7f, col.transform.position.z);
+                    Stage1ParticleManager.Instance.PlayDEffect(bossPos);
+                }
             }},
             { "RedCard", col => col.GetComponent<CardMove>().CardGetDam() },
             { "GoldCard", col => col.GetComponent<CardMove>().CardGetDam() },

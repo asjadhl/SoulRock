@@ -700,6 +700,12 @@ MonoBehaviour:
   Boss1DataImage: {fileID: 0}
   Boss2DataImage: {fileID: 0}
   Boss3DataImage: {fileID: 0}
+  Boss1DataImage_KO: {fileID: 0}
+  Boss1DataImage_EN: {fileID: 0}
+  Boss2DataImage_KO: {fileID: 0}
+  Boss2DataImage_EN: {fileID: 0}
+  Boss3DataImage_KO: {fileID: 0}
+  Boss3DataImage_EN: {fileID: 0}
   BossButton: {fileID: 0}
   bossDeadParticle: {fileID: 9029696638801422975, guid: 8f74d5b7360d3ff48b407650e7f6c661, type: 3}
   boss: {fileID: 1795970295}
@@ -7164,6 +7170,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunObject: {fileID: 618285726}
   boss2: {fileID: 1795970295}
+  isFever: 0
+  feverRecoilMultiplier: 0.3
+  feverRecoverMultiplier: 3
   shootParticle: {fileID: 1077774187}
   gunTransform: {fileID: 76018936}
   kickbackDistance: 0.1
@@ -9868,6 +9877,7 @@ MonoBehaviour:
   boxParticle: {fileID: 3758570629970209504, guid: 976ac80f742860042ac7a37ea6664f1b, type: 3}
   cardParticle: {fileID: 5361169002996120495, guid: abb2880ac8c9ab149ac721a65a6b48cf, type: 3}
   CParticle: {fileID: 4160924759327128226, guid: 95d5c96e61a74c44d8525be1adcd5486, type: 3}
+  DParticle: {fileID: 4652647719766394833, guid: 2eb74152522cd4d46a4526d385270437, type: 3}
   poolSize: 10
 --- !u!1 &1210838192
 GameObject:
@@ -23716,7 +23726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1684105188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23733,6 +23743,7 @@ MonoBehaviour:
   Fill: {fileID: 1630014867}
   isScene: 0
   audiomixer: {fileID: 0}
+  MusicSoundFadeDuration: 2
 --- !u!4 &1684105189
 Transform:
   m_ObjectHideFlags: 0
@@ -24512,6 +24523,7 @@ MonoBehaviour:
   - {fileID: 768808576}
   - {fileID: 203814476}
   dialogueUI: {fileID: 0}
+  isDAttacking: 0
 --- !u!136 &1795970301
 CapsuleCollider:
   m_ObjectHideFlags: 0
