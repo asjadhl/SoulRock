@@ -54,17 +54,9 @@ public class PlayerMove : MonoBehaviour
 
         if (res.Length < StartPos.Length)
         {
-#if UNITY_EDITOR
-            Debug.LogError("StartPos Null result: return");
-#endif
-            return;
+                return;
         }
-#if UNITY_EDITOR
-        else
-        {
-            Debug.LogError("StartPos Positive result: flow");
-        }
-#endif
+ 
 
         var token = this.GetCancellationTokenOnDestroy();
       while(t <=1f && !token.IsCancellationRequested)
@@ -79,12 +71,7 @@ public class PlayerMove : MonoBehaviour
             canRun = true;
             temp.canRun = true;
         }
-        else
-        {
-#if UNITY_EDITOR
-            Debug.LogError("PlayerMove Safe 50");
-#endif
-        }
+  
    }
     
     //private void PlayerJumpButtonClick()
