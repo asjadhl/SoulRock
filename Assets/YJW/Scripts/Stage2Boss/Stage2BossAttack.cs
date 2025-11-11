@@ -202,12 +202,7 @@ public class Stage2BossAttack : MonoBehaviour
             currentCard = nextCard;
             SetCardData();
         }
-#if UNITY_EDITOR
-        else if (token.IsCancellationRequested)
-        {
-            Debug.LogError("ChangeNextRanCard() safe");
-        }
-#endif
+ 
     }
 
     //private async UniTask RollCardEffect(int rollCount = 10, int delay = 100)
@@ -245,13 +240,9 @@ public class Stage2BossAttack : MonoBehaviour
                 break;
             }
         }
-#if UNITY_EDITOR
-        if (token.IsCancellationRequested)
-        {
-            Debug.LogError("Stage2BossAttack: safe");
-        }
+ 
 
-#endif
+ 
     }
 
     private async UniTask HAttack()

@@ -83,7 +83,11 @@ public class SceneLoader : MonoBehaviour
     public async UniTask UniLoadSceneAsync()
   {
         
+
+
         isScene = true;
+
+        await UniTask.WaitForSeconds(1f);
      Canvas.SetActive(true);
     
         cts = new();

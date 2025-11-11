@@ -267,7 +267,7 @@ public class TextManager : MonoBehaviour
     {
         EnterPressed().Forget();
     }
-    public async UniTask OnBossImage(int stageNum, bool active)
+    public async UniTask OnBossImage(int stageNum, bool active = true)
     {
         // 현재 설정된 언어 가져오기 (0 = en, 1 = ko)
         int lang = PlayerPrefs.GetInt("LocalKey", 1);
@@ -302,18 +302,21 @@ public class TextManager : MonoBehaviour
     {
         if (!BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
-            OnBossImage(2, false).Forget();
-            SceneManager.LoadScene("Stage2");
+            OnBossImage(2).Forget();
+            SceneLoader.Instance.LoadScene("Stage2");
+            //SceneManager.LoadScene("Stage2");
         }
         if (BossState.isBoss1Dead && !BossState.isBoss2Dead)
         {
-            OnBossImage(3, false).Forget();
-            SceneManager.LoadScene("Stage3");
+            OnBossImage(3).Forget();
+            SceneLoader.Instance.LoadScene("Stage3");
+            //SceneManager.LoadScene("Stage3");
         }
         if (BossState.isBoss1Dead && BossState.isBoss2Dead)
         {
-            OnBossImage(4, false).Forget();
-            SceneManager.LoadScene("LastStage");
+            OnBossImage(4).Forget();
+            SceneLoader.Instance.LoadScene("LastStage");
+           // SceneManager.LoadScene("LastStage");
         }
     }
  
