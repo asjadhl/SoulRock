@@ -138,7 +138,7 @@ public class CircleHit : MonoBehaviour
 				}
 				else if (isHighLight)
 				{
-					OnClickSuccessEx().Forget();
+                    OnClickFever().Forget();
 					comboNumText.text = combo.ToString();
 					//ReturnCircle(circle.gameObject);
 					//activeCircles.RemoveAt(i);
@@ -240,7 +240,21 @@ public class CircleHit : MonoBehaviour
 		await UniTask.Delay(350);
 		cg.alpha = 0;
 	}
-	private bool isRunning = true;
+    public async UniTask OnClickFever()
+    {
+        RanTextColor();
+        text.text = "Fever!!";
+        isScale = true;
+        cg.alpha = 0;
+        a.PlayOneShot(clip);
+        playerShoot.PlayerShoot_();
+        playerHPSc.PlayerHPPlus(1);
+        await UniTask.Delay(150);
+        isScale = false;
+        await UniTask.Delay(350);
+        cg.alpha = 0;
+    }
+    private bool isRunning = true;
 	private async UniTask CircleGen()
 	{
 		while (isRunning && this != null && gameObject != null)
