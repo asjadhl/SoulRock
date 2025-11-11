@@ -6126,6 +6126,63 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1001 &246857502
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
+      propertyPath: m_Name
+      value: sk10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ee8abbd29a7a3c544b71cacda8c72366, type: 3}
 --- !u!1 &272860167
 GameObject:
   m_ObjectHideFlags: 0
@@ -7475,6 +7532,7 @@ MonoBehaviour:
   Fill: {fileID: 969620456}
   isScene: 0
   audiomixer: {fileID: 0}
+  MusicSoundFadeDuration: 2
 --- !u!4 &694753576
 Transform:
   m_ObjectHideFlags: 0
@@ -8967,6 +9025,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunObject: {fileID: 2055530382}
   boss2: {fileID: 1146332545}
+  isFever: 0
+  feverRecoilMultiplier: 0.3
+  feverRecoverMultiplier: 3
   shootParticle: {fileID: 1179920125}
   gunTransform: {fileID: 1146332546}
   kickbackDistance: 0.1
@@ -18016,6 +18077,12 @@ MonoBehaviour:
   Boss1DataImage: {fileID: 0}
   Boss2DataImage: {fileID: 0}
   Boss3DataImage: {fileID: 0}
+  Boss1DataImage_KO: {fileID: 0}
+  Boss1DataImage_EN: {fileID: 0}
+  Boss2DataImage_KO: {fileID: 0}
+  Boss2DataImage_EN: {fileID: 0}
+  Boss3DataImage_KO: {fileID: 0}
+  Boss3DataImage_EN: {fileID: 0}
   BossButton: {fileID: 0}
   bossDeadParticle: {fileID: 9029696638801422975, guid: 8f74d5b7360d3ff48b407650e7f6c661, type: 3}
   boss: {fileID: 1510681583}
@@ -18439,3 +18506,4 @@ SceneRoots:
   - {fileID: 272860169}
   - {fileID: 2079032590}
   - {fileID: 694753576}
+  - {fileID: 246857502}
