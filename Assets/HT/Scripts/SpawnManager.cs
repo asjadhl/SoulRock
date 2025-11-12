@@ -164,7 +164,10 @@ public class SpawnManager : MonoBehaviour
   {
 
         if (poolghosts == null)
+        {
             poolghosts = new List<GameObject>();
+            SlowlyCreateGhostPrepare().Forget();
+        }
     m_targetTransform = FindPlayer();
         
     Save_areaSpawns = new();
@@ -397,9 +400,30 @@ public class SpawnManager : MonoBehaviour
   
 
   public void SetSelectedTag(string _tags) => selectedTag = _tags;
- 
-}
 
+
+private async UniTaskVoid SlowlyCreateGhostPrepare()
+    {
+
+        var obj = areaSpawns[0].EntityList[0].EntityObj;
+        int count = 0;
+        while(poolghosts != null && count < 10)
+        {
+           var createdobj = Instantiate(obj);
+            poolghosts.Add(createdobj);
+            createdobj.SetActive(false);
+            count++;
+            await UniTask.WaitForSeconds(1f);
+        }
+#if UNITY_EDITOR
+        if(poolghosts == null)
+        {
+            Debug.LogError("STOP MAKING");
+        }
+
+#endif 
+    }
+}
 
 
 #if UNITY_EDITOR
