@@ -82,7 +82,8 @@ public class TextManager : MonoBehaviour
             Debug.Log("Boss2DialogueCheackAsync() 호출됨");
             BossClosePanel.SetActive(true);
             await BossHandleBossDeathAsync(3);
-            InputName();
+            //InputName();  // 이름 입력받아서 순위 띄우기
+            SceneLoader.Instance.LoadScene("Ending");
 
         }
         Debug.Log("BossDialogueCheackAsync 실행됨");

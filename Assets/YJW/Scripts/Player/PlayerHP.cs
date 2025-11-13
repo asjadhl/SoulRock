@@ -61,7 +61,7 @@ public class PlayerHP : MonoBehaviour
         PlayerHPTimer();
 
 		// 사망 조건이 만족되었고, 아직 사망 시퀀스가 시작되지 않았을 때만 진입합니다.
-		if ((playerHP <= 0 || Stage2BossAttack.clubStack == 7) && !isProcessingDeath) // <<< 조건 수정
+		if ((playerHP <= 0 ) && !isProcessingDeath) // <<< 조건 수정
 		{
 			isPlayerDead = true;
 			isProcessingDeath = true; // <<< 플래그 설정
@@ -71,7 +71,7 @@ public class PlayerHP : MonoBehaviour
 
 	private void PlayerHPTimer()
 	{
-		if (sceneName == "TutorialTrainingRoom")
+		if (sceneName == "TutorialTrainingRoom"  || sceneName == "TraingRoom")
 			return;
 		playerHP -= 0.05f;
 	}

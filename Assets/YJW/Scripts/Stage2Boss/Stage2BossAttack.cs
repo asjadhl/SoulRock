@@ -264,7 +264,7 @@ public class Stage2BossAttack : MonoBehaviour
 
         checkFindTure();
 
-        for (int i = 0; i <= clubStack + 4; i++)
+        for (int i = 0; i < clubStack + 4; i++)
         {
             if(miniBoss[i].activeSelf == true)
             {
