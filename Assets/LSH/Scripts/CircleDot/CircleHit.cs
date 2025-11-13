@@ -35,6 +35,7 @@ public class CircleHit : MonoBehaviour
     [SerializeField] GameObject[] feverImage;
     //AudioSource a;
 
+    private const int AudioArraySize = 8;
     List<AudioSource> listaudio = new List<AudioSource>();
     int writeIndex_ = -1;
     int writeIndex
@@ -42,7 +43,7 @@ public class CircleHit : MonoBehaviour
         get
         {
 
-            writeIndex_ = ((writeIndex_ + 1) % 8);
+            writeIndex_ = ((writeIndex_ + 1) % AudioArraySize);
 
             return writeIndex_;
 
@@ -52,9 +53,8 @@ public class CircleHit : MonoBehaviour
     }
     public void StartCreatingAudio()
     {
-
         var SFXMixerGroup = GetComponent<AudioSource>().outputAudioMixerGroup;
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < AudioArraySize; i++)
         {
             var src = gameObject.AddComponent<AudioSource>();
             src.playOnAwake = false;

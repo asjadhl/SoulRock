@@ -45,30 +45,7 @@ public class MainGhostClick : MonoBehaviour
                     isClickedOnce = true;
 
                     AllReset();
-                    if(PlayerPrefs.HasKey("IsTutorial"))
-                    {
-                       
-
-
-                        switch(PlayerPrefs.GetInt("IsTutorial"))
-                        {
-                            case 0:
-                                LoadSceneToTraining();
-                                break;
-                            case 1:
-                                LoadSelectedScene();
-                                break;
-                        }
-                        
-                    }
-                    else
-                    {
-                        
-                        
-                        
-                    }
-
-                     
+                    LoadSceneToTraining();
 
                 }
             }
