@@ -22,6 +22,7 @@ public class CreditScene : MonoBehaviour
     public Image OurImage;
     public Image ContentImage;
     public TextMeshProUGUI textMeshProUGUI;
+    public Animator anim;
 #if UNITY_EDITOR
     [Range(0, 1f)]
 
@@ -32,11 +33,15 @@ public class CreditScene : MonoBehaviour
 #endif
 
     public void Start()
-    {
+    {   
+        
         CanvasRect = transform.parent.GetComponent<RectTransform>();
         ContentImage = transform.GetChild(0).GetComponent<Image>();
         ContentImage.rectTransform.sizeDelta = new Vector2(CanvasRect.rect.width,ContentImage.rectTransform.rect.height);
     }
+    
+
+ 
 
     //    public void Start()
     //    {
