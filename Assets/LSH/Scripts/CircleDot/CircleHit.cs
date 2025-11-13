@@ -161,6 +161,7 @@ public class CircleHit : MonoBehaviour
 
                     ReturnCircle(circle.gameObject);
                     activeCircles.RemoveAt(i);
+                    break;
                 }
                 else if (exDis < distance && maxDis >= distance && !isHighLight)
                 {
@@ -168,13 +169,15 @@ public class CircleHit : MonoBehaviour
                     comboNumText.text = combo.ToString();
                     ReturnCircle(circle.gameObject);
                     activeCircles.RemoveAt(i);
+                    break;
                 }
-                else if (minDis > distance || maxDis < distance && !isHighLight)
+                else if ((minDis > distance || maxDis < distance) && !isHighLight)
                 {
                     OnClickSuccessBad().Forget();
                     comboNumText.text = combo.ToString();
                     ReturnCircle(circle.gameObject);
                     activeCircles.RemoveAt(i);
+                    break;
                 }
                 else if (isHighLight)
                 {
@@ -182,8 +185,8 @@ public class CircleHit : MonoBehaviour
                     comboNumText.text = combo.ToString();
                     //ReturnCircle(circle.gameObject);
                     //activeCircles.RemoveAt(i);
+                    break;
                 }
-
             }
         }
     }
@@ -246,8 +249,7 @@ public class CircleHit : MonoBehaviour
         playerShoot.PlayerShoot_();
         //a.PlayOneShot(clip);
         DynamicPlayClip(clip);
-
-        playerHPSc.PlayerHPPlus(2);
+        playerHPSc.PlayerHPPlus(4);
         await UniTask.Delay(100);
         isScale = false;
         await UniTask.Delay(300);
@@ -263,9 +265,8 @@ public class CircleHit : MonoBehaviour
         cg.alpha = 1;
         //a.PlayOneShot(clip);
         DynamicPlayClip(clip);
-
         playerShoot.PlayerShoot_();
-        playerHPSc.PlayerHPPlus(4);
+        playerHPSc.PlayerHPPlus(7);
         await UniTask.Delay(150);
         isScale = false;
         await UniTask.Delay(350);
@@ -293,7 +294,7 @@ public class CircleHit : MonoBehaviour
         // a.PlayOneShot(clip);
         DynamicPlayClip(clip);
         playerShoot.PlayerShoot_();
-        playerHPSc.PlayerHPPlus(1);
+        playerHPSc.PlayerHPPlus(2);
         await UniTask.Delay(150);
         isScale = false;
         await UniTask.Delay(350);
