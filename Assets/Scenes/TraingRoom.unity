@@ -3824,6 +3824,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunObject: {fileID: 644520782}
   boss2: {fileID: 0}
+  isFever: 0
+  feverRecoilMultiplier: 0.3
+  feverRecoverMultiplier: 3
   shootParticle: {fileID: 2068673021}
   gunTransform: {fileID: 1392726364}
   kickbackDistance: 0.1
@@ -4162,6 +4165,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunObject: {fileID: 644520782}
   boss2: {fileID: 0}
+  isFever: 0
+  feverRecoilMultiplier: 0.3
+  feverRecoverMultiplier: 3
   shootParticle: {fileID: 2068673021}
   gunTransform: {fileID: 1392726364}
   kickbackDistance: 0.1
@@ -6048,7 +6054,7 @@ MonoBehaviour:
   bpm: 71
   minDis: 0.01
   exDis: 70
-  maxDis: 140
+  maxDis: 160
   CirclePrefab: {fileID: 5236812095522328679, guid: ba15db9dc2486564cbc5f87ffeff2ba2, type: 3}
   poolSize: 10
   combo: 0
