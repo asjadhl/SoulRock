@@ -36,7 +36,7 @@ public class Stage2BossAttack : MonoBehaviour
     /// 3. 하트 패턴 실패 시 상호작용
     /// </summary>
 
-    private static int _clubStack = 0;
+    private static int _clubStack = 6;
     public static int clubStack
     {
         get => _clubStack;
@@ -90,6 +90,8 @@ public class Stage2BossAttack : MonoBehaviour
 
     public bool isDAttacking = false;
 
+    PlayerHP playerHP;
+
     private void Start()
     {
         clubStack = 0;
@@ -103,6 +105,7 @@ public class Stage2BossAttack : MonoBehaviour
         textManager = FindObjectOfType<TextManager>();
         normalMusicBox = GameObject.FindWithTag("MusicBox").GetComponent<NormalMusicBox>();
         BossHP = GetComponent<BossHP>();
+        playerHP = player.GetComponent<PlayerHP>();
         if (isDelay == false)
             StartDelay().Forget();
         dialogueUI = FindObjectOfType<DialogueUIManager>();
@@ -350,6 +353,11 @@ public class Stage2BossAttack : MonoBehaviour
         int result = spinWheel.GetComponentInChildren<Roulette>().GetNum();
         Debug.Log(result);
         clubStack += result;
+        if(clubStack >= 7)
+        {
+            playerHP.PlayerHPMinus().Forget();
+            clubStack = 0;
+        }
 
         //await UniTask.Delay(7000);
         //if(cardChanged == false)
