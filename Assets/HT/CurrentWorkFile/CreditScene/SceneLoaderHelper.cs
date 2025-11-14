@@ -1,14 +1,25 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SceneLoaderHelper : MonoBehaviour
 {
     public string SceneName;
 
+    [SerializeField] private GameObject scorePanel;
+
     public void LoadScene()
     {
-        if(SceneLoader.Instance != null)
+            scorePanel.SetActive(true);
+
+        
+    }
+
+    public void LoadsCene()
+    {
+        if (SceneLoader.Instance != null)
         {
             SceneLoader.Instance.LoadScene(SceneName);
         }
     }
 }
+
