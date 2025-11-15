@@ -1,9 +1,6 @@
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Splines.ExtrusionShapes;
 using UnityEngine.UI;
 public class GBAttack : MonoBehaviour
 {

@@ -1,12 +1,8 @@
 using Cysharp.Threading.Tasks;
-using System.Diagnostics;
 using System.Threading;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization;
-using UnityEngine.Localization;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 

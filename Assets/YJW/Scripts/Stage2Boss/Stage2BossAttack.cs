@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -375,7 +373,7 @@ public class Stage2BossAttack : MonoBehaviour
         wheelStop = true;
     }
 
-    // 다이이 패턴
+    // 다이이 
     private void MoveToRanPos()
     {
         Vector3 currentPos = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
@@ -400,9 +398,9 @@ public class Stage2BossAttack : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             player.GetComponent<PlayerHP>().PlayerHPMinus().Forget();
+            ChangeNextRanCard().Forget();
             transform.rotation = Quaternion.Euler(0,180,0);
             transform.position = new Vector3(0, 0, player.transform.position.z + 17);
-            ChangeNextRanCard().Forget();
             teleportCount = 0;
             playerHitCount = 0;
             teleportTimer = 0;
