@@ -83,7 +83,7 @@ public class TutorialManager : MonoBehaviour
             await PlayDialogueSetAsync(tutorialData.bossDialogues[1].deathLines, tutorialCTS.Token);
 
         await UniTask.Delay(TimeSpan.FromSeconds(1));
-        PlayerPrefs.SetInt("IsTutorial",1); //Declare No More Tutorial till the game is Application Quit
+        PlayerPrefs.SetInt("IsTutorial",1); 
         SceneLoader.Instance.LoadScene("StageSelect");
     }
 
@@ -147,7 +147,7 @@ public class TutorialManager : MonoBehaviour
         isTyping = false;
     }
 
-    // 튜토리얼 전용 단일 문자열 호출 (보스라인 외)
+    // 튜토리얼 전용 단일 문자열 호출
     private async UniTask ShowLocalizedDialogueAsync(string table, string key, AudioClip clip)
     {
         TutoUI.ShowDialogueUI(true);

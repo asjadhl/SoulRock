@@ -95,7 +95,7 @@ public class DialogueUIManager : MonoBehaviour
         typingCTS = new CancellationTokenSource();
         _ = TypeTextAsync(message, clip, typingCTS.Token);
     }
-    private async UniTask SkipClickAsync(string message, AudioClip clip = null)
+    private async UniTask SkipClickAsync(string message, AudioClip clip = null)//스킵 클릭 함수
     {
         bool holding = Input.GetMouseButton(0);
         if (holding)
@@ -103,8 +103,6 @@ public class DialogueUIManager : MonoBehaviour
             holdTime += Time.deltaTime;
             if(!isHolding && holdTime >= fillHoldSeconds)
             {
-
-   
                 isHolding = true;
                 onCompleted?.Invoke();
                 OnSkipAll?.Invoke();
