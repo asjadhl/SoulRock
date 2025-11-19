@@ -474,6 +474,9 @@ public class Stage2BossAttack : MonoBehaviour
     private void ClubStackUIUpdate()
     {
         for (int i = 0; i < clubStackImage.Length; i++)
+
+
+
             clubStackImage[i].SetActive(i < Stage2BossAttack.clubStack);
     }
 
