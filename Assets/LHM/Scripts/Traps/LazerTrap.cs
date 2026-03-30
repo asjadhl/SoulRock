@@ -54,27 +54,27 @@ public class LazerTrap : MonoBehaviour
     }
     public void OnHit()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100f))
-        {
-            for (int i = 0; i < lazerObject.Length; i++)
-            {
-                if (hit.collider.gameObject == lazerObject[i])
-                {
-                    CurrentHealth--;
+        //if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100f))
+        //{
+        //    for (int i = 0; i < lazerObject.Length; i++)
+        //    {
+        //        if (hit.collider.gameObject == lazerObject[i])
+        //        {
+        //            CurrentHealth--;
 
 
-                    if (CurrentHealth <= 0)
-                    {
-                        lazerObject[i].SetActive(false);
-                        if (i < lazers.Length && lazers[i] != null)
-                        {
-                            lazers[i].SetActive(false);
-                        }
-                    }
-                    break;
-                }
-            }
-        }
+        //            if (CurrentHealth <= 0)
+        //            {
+        //                lazerObject[i].SetActive(false);
+        //                if (i < lazers.Length && lazers[i] != null)
+        //                {
+        //                    lazers[i].SetActive(false);
+        //                }
+        //            }
+        //            break;
+        //        }
+        //    }
+        //}
     }
     private void OnTriggerEnter(Collider other)
     {
